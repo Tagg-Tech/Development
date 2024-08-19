@@ -1,0 +1,91 @@
+body {
+    margin: 0%;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+.header {
+    background: #FF914C;
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    width: 160vh;
+    height: 12vh;
+    justify-content: space-between;
+}
+
+
+.espaco1 {
+    width: 350px;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+}   
+
+.espaco1 li, .espaco2 li{
+    background-color: white; 
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.espaco2 {
+    width: 250px;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+}
+
+
+.tag-tech {
+    padding: 20px;
+    background-color: #ffffff; 
+    position: relative;
+    top: 15vh;  
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: "Poppins";
+}
+
+@font-face {
+    font-family: "Poppins";
+    src: url('Poppins-SemiBold.otf')
+}
+
+.nome {
+    border-left: 4px solid black; 
+    padding-left: 10px;
+    height: 300px;
+    margin-left: 20vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.LetraT{
+    font-size: 300px; 
+}
+
+.texto_pequeno{
+    display: flex;
+    flex-direction: column;
+    margin-top: 140px;
+    font-size: 50px; 
+}
+
+.TAG, .TECH {
+    margin: 0; 
+}
+
+.TECH {
+    margin-top: 0; 
+}
+
+.TECH {
+    margin-top: -20px; 
+}
