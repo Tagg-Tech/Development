@@ -53,6 +53,10 @@ body {
     color: black;
 }
 
+.espaco2 .atual {
+    background-color: rgb(255, 255, 127);
+}
+
 .tagTech {
     padding: 30px;
     background-color: #ffffff; 
@@ -99,4 +103,66 @@ body {
 .TECH {
     display: flex;
     margin-bottom: 80px;
+}
+
+/*Cadastro*/
+.background {
+    background-image: url(Imagens/Background.png);
+}
+
+.cadastro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.caixa {
+    width: 35rem;
+    height: 30rem;
+    background-color: rgb(83, 83, 83);
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.caixa .conteudo {
+    width: 30rem;
+    height: 25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.conteudo div {
+    display: flex;
+    flex-direction: column;
+}
+
+.conteudo div #inp {
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 2rem;
+    font-weight: bolder;
+}
+
+::placeholder {
+    color: black;
+}
+
+.btn_cadastro {
+    font-size: 1.5rem;
+    background-color: #FF914C;
+    border-radius: 2rem;
+    font-weight: bold;
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+}
+
+button:hover {
+    transition-duration: 0.5s;
+    transform: scale(110%);
 }
