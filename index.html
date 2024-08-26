@@ -1,45 +1,215 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="indexCSS.css">
+    <title>Tag Tech</title>
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
+        integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- favIcon -->
+    <link rel="shortcut icon" href="logo1.png" type="image/x-icon">
+    <!-- meuCSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="banner">
-        <div class="header">
-            <div class="img1">
-                <img src="CarroNavBar.png" alt="">
-            </div>
-            <div class="espaco1">
-                <li><a href="">HOME</a></li>
-                <li><a href="">SOBRE NÓS</a></li>
-                <li><a href="">EQUIPE</a></li>
-            </div>
-            <div class="espaco2">
-                <li><a href="">CADASTRAR</a></li>
-                <li><a href="">ENTRAR</a></li>
-            </div>
-        </div>
+
+    <div class="container">
+        <header>
+            <nav>
+                <div class="menu">
+                    <a href="#home"><img src="CarroNavBar.png" alt="logo" id="logo"></a>
+
+                    <ul class="navbar">
+                        <li><a href="#home"><strong>Home</strong></a></li>
+                        <li><a href="#sobre"><strong>Sobre Nós</strong></a></li>
+                        <li><a href="#empresas"><strong>Empresas</strong></a></li>
+                        <li><a href="#equipe"><strong>Equipe</strong></a></li>
+                        <li style="color:black;"><strong>|</strong></li>
+                        <li><a href="cadastro_func.html"><strong>Cadastre-se</strong></a></li>
+                        <li><a href=""><strong>Login</strong></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <!-- Home -->
+            <section id="home">
+                <div class="home-container">
+                    <div class="home-inner">
+                        <div class="home-inner-left">
+                            <img src="tag-tech-1.png" alt="Tag-Tech">
+                        </div>
+                        <div class="home-inner-right">
+                            <img src="logo-home.png" alt="Logo">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sobre Nós -->
+            <section id="sobre">
+                <div class="sobre-conatiner">
+                    <div class="sobre-inner">
+                        <div class="sobre-inner-left">
+                            <h1>SOBRE NÓS</h1>
+                            <br>
+                            <p>
+                                A Tag Tech é uma empresa especializada na área de monitoramento de servidores de
+                                cobrança automática, com foco na utilização da tecnologia RFID. Nosso compromisso é
+                                proporcionar uma solução eficiente para a segurança dos servidores de nossos clientes.
+                                Através da integração de tecnologias utilizadas para uma melhor segurança e
+                                confiabilidade, garantimos a proteção e integridade dos sistemas, assegurando que seus
+                                processos de cobrança automática operem com máxima confiabilidade e segurança. Na Tag
+                                Tech, nossa missão é oferecer soluções que atendam às necessidades específicas de cada
+                                cliente, promovendo um ambiente seguro e otimizado para suas operações.
+                            </p>
+                        </div>
+                        <div class="sobre-inner-right">
+                            <img src="banner-sobre.png" alt="banner1" class="banner1">
+                            <img src="carro-banner.png" alt="banner2" class="banner2">
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cards -->
+            <section id="cards">
+                <div class="cards-container">
+                    <div class="cards-inner">
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Empresas -->
+            <section id="empresas">
+                <div class="empresas-container">
+                    <div class="empresas-inner">
+                        <div class="empresas-inner-top">
+
+                        </div>
+                        <div class="empresas-inner-middle">
+                        </div>
+                        <div class="empresas-inner-bottom">
+                            <ul>
+                                <li><a href=""></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Equipe -->
+            <section id="equipe">
+                <div class="equipe-container equipe-inner swiper">
+                    <h1>Equipe</h1>
+                    <div class="swiper-wrapper equipe-base">
+                        <!-- card1 -->
+                        <div class="card swiper-slide">
+                            <ul>
+                                <li>
+                                    <img src="CarroNavBar.png" alt="desenvolvedor">
+                                </li>
+                                <li class="card-titulo">
+                                    <h4>Bruna Reginato</h4>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- card2 -->
+                        <div class="card swiper-slide">
+                            <ul>
+                                <li>
+                                    <img src="CarroNavBar.png" alt="desenvolvedor">
+                                </li>
+                                <li class="card-titulo">
+                                    <h4>Bruna Reginato</h4>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- card3 -->
+                        <div class="card swiper-slide">
+                            <ul>
+                                <li>
+                                    <img src="CarroNavBar.png" alt="desenvolvedor">
+                                </li>
+                                <li class="card-titulo">
+                                    <h4>Bruna Reginato</h4>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- card4 -->
+                        <div class="card swiper-slide">
+                            <ul>
+                                <li>
+                                    <img src="CarroNavBar.png" alt="desenvolvedor">
+                                </li>
+                                <li class="card-titulo">
+                                    <h4>Bruna Reginato</h4>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- card5 -->
+                        <div class="card swiper-slide">
+                            <ul>
+                                <li>
+                                    <img src="CarroNavBar.png" alt="desenvolvedor">
+                                </li>
+                                <li class="card-titulo">
+                                    <h4>Bruna Reginato</h4>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- card6 -->
+                        <div class="card swiper-slide">
+                            <ul>
+                                <li>
+                                    <img src="CarroNavBar.png" alt="desenvolvedor">
+                                </li>
+                                <li class="card-titulo">
+                                    <h4>Bruna Reginato</h4>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
     </div>
 
-    
-
-    <div class="tagTech">
-        <div class="nome">
-            <span class="LetraT">T</span>
-            <div class="texto_pequeno">
-                <span class="TAG">ag</span>
-                <span class="TECH">ech</span>
-            </div>
-        </div>
-    </div>
-
-
+    <!-- Swiper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.js"
+        integrity="sha512-QwpsxtdZRih55GaU/Ce2Baqoy2tEv9GltjAG8yuTy2k9lHqK7VHHp3wWWe+yITYKZlsT3AaCj49ZxMYPp46iJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </body>
 
 </html>
+
+<script>
+
+    //cards
+
+    var swiper = new Swiper(".equipe-inner", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        slidePerGroup: 3,
+        loop: true,
+        loopFillGroupWidthBlank: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+    ;
+
+</script>
