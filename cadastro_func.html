@@ -4,29 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de funcionário</title>
+    <title>TagTech | Cadastro</title>
+     <!-- favIcon -->
+     <link rel="shortcut icon" href="img/logo1.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="background">
     <div class="banner">
         <div class="header">
-            <div class="img1">
-                <img src="CarroNavBar.png" alt="">
-            </div>
-            <div class="espaco1">
-                <li><a href="index.html">HOME</a></li>
-                <li><a href="">SOBRE NÓS</a></li>
-                <li><a href="">EQUIPE</a></li>
-            </div>
-            <div class="espaco2">
-                <li class="atual"><a href="cadastro_func.html">CADASTRAR</a></li>
-                <li><a href="">ENTRAR</a></li>
-            </div>
+            <nav>
+                <div class="menu">
+                    <a href="#home"><img src="img/CarroNavBar.png" alt="logo" id="logo"></a>
+
+                    <ul class="navbar">
+                        <li><a href="index.html #home"><strong>Home</strong></a></li>
+                        <li><a href="#sobre"><strong>Sobre Nós</strong></a></li>
+                        <li><a href="#empresas"><strong>Empresas</strong></a></li>
+                        <li><a href="#equipe"><strong>Equipe</strong></a></li>
+                        <li style="color:black;"><strong>|</strong></li>
+                        <li ><a style="background-color: #fff178;" href="cadastro_func.html"><strong>Cadastre-se</strong></a></li>
+                        <li><a href=""><strong>Login</strong></a></li>
+                    </ul>
+                </div>
+            </nav>
         </div>
     </div>
     <div class="cadastro">
         <div class="caixa">
+            <h3>Cadastre seu funcionário aqui!</h3>
             <div class="conteudo">
                 <div>
                     <input id="inp" type="text" placeholder="Nome:">

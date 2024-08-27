@@ -302,7 +302,9 @@ body {
 /* #region cadFuncionario */
 
 .background {
-    background-image: url(Imagens/Background.png);
+    background-image: url(img/fundo-cadastro.png);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .cadastro {
@@ -315,12 +317,17 @@ body {
 
 .caixa {
     width: 35rem;
-    height: 30rem;
+    height: 35Srem;
     background-color: rgb(83, 83, 83);
     border-radius: 1.5rem;
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+.caixa h3{
+    margin-top: 3%;
+    color: #ffffff;
 }
 
 .caixa .conteudo {
@@ -340,7 +347,7 @@ body {
 .conteudo div #inp {
     padding: 1rem;
     margin: 1rem;
-    border-radius: 2rem;
+    border-radius: 5px;
     font-weight: bolder;
 }
 
@@ -351,10 +358,11 @@ body {
 .btn_cadastro {
     font-size: 1.5rem;
     background-color: #FF914C;
-    border-radius: 2rem;
+    border-radius: 5px;
     font-weight: bold;
     padding: 0.5rem 2rem;
     cursor: pointer;
+    margin-bottom: 10%;
 }
 
 button:hover {
