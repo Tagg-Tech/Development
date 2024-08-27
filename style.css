@@ -16,6 +16,7 @@
 body {
     background-color: var(--color-default);
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 :root {
@@ -37,6 +38,7 @@ body {
     width: 100vw;
     height: auto;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 /* #endregion */
@@ -280,20 +282,20 @@ body {
 }
 
 .campo input {
-    height: 35px;
+    padding: 1rem;
+    margin: 1rem;
     border-radius: 5px;
-    border: 1px;
+    font-weight: bolder;
 }
 
 .botao_cadastrar {
-    color: rgb(0, 0, 0);
-    align-items: center;
+    font-size: 1.5rem;
     background-color: #FF914C;
-    height: 35px;
-    width: 120px;
-    margin-top: 20px;
     border-radius: 5px;
-    border: 1px solid black;
+    font-weight: bold;
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+    margin-top: 2%;
 }
 
 
