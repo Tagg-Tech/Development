@@ -42,7 +42,7 @@
                     <div id="erro_telefone" class="error"></div>
                     <input id="input_codigo" type="text" placeholder="Código da empresa:">
                     <div id="erro_codigo" class="error"></div>
-                    <input id="input_senha" type="text" placeholder="Senha:">
+                    <input id="input_senha" type="password" placeholder="Senha:">
                     <div id="erro_senha" class="error"></div>
                 </div>
                 <div>
@@ -56,7 +56,7 @@
                     <div id="erro_cargo" class="error"></div>
                     <input id="input_cpf" type="text" placeholder="CPF:">
                     <div id="erro_cpf" class="error"></div>
-                    <input id="input_confirm_senha" type="text" placeholder="Confirmação da senha:">
+                    <input id="input_confirm_senha" type="password" placeholder="Confirmação da senha:">
                     <div id="erro_conf_senha" class="error"></div>
                 </div>
             </div>
@@ -97,6 +97,16 @@
             validacao++;
         }
 
+        if (senha.length < 8 || 
+        senha.indexOf("@") == -1 && senha.indexOf("&") == -1 && senha.indexOf("$") == -1 &&
+        senha.indexOf("!") == -1 && senha.indexOf("#") == -1 && senha.indexOf("%") == -1 &&
+        senha.indexOf("*") == -1 && senha.indexOf("/") == -1 && senha.indexOf("\\") == -1) {
+            erro_senha.innerHTML = "Senha muito fraca";
+        } else {
+            erro_senha.innerHTML = "";
+            validacao++;
+        }
+
         if (email.indexOf("@") == -1 || email.indexOf(".") == -1) {
             erro_email.innerHTML = "E-mail inválido";
         } else {
@@ -125,7 +135,7 @@
             validacao++;
         }
 
-        if (validacao == 6) {
+        if (validacao == 7) {
             confirm_cadastro.innerHTML = "Cadastro realizado com sucesso!";
         } else {
             confirm_cadastro.innerHTML = "";
