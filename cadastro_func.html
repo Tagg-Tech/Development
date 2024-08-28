@@ -36,27 +36,99 @@
             <h3>Cadastre seu funcionário aqui!</h3>
             <div class="conteudo">
                 <div>
-                    <input id="inp" type="text" placeholder="Nome:">
-                    <input id="inp" type="text" placeholder="Telefone:">
-                    <input id="inp" type="text" placeholder="Código da empresa:">
-                    <input id="inp" type="text" placeholder="Senha:">
+                    <input id="input_nome" type="text" placeholder="Nome:">
+                    <div id="erro_nome" class="error"></div>
+                    <input id="input_telefone" type="text" placeholder="Telefone:">
+                    <div id="erro_telefone" class="error"></div>
+                    <input id="input_codigo" type="text" placeholder="Código da empresa:">
+                    <div id="erro_codigo" class="error"></div>
+                    <input id="input_senha" type="text" placeholder="Senha:">
+                    <div id="erro_senha" class="error"></div>
                 </div>
                 <div>
-                    <input id="inp" type="text" placeholder="E-mail:">
-                    <select name="" id="inp" aria-placeholder="Cargo">
-                        <option value="" selected disabled>Cargo</option>
-                        <option value="">Analista</option>
-                        <option value="">Gerente</option>
+                    <input id="input_email" type="text" placeholder="E-mail:">
+                    <div id="erro_email" class="error"></div>
+                    <select name="" id="input_cargo" aria-placeholder="Cargo">
+                        <option value="0" selected disabled>Cargo</option>
+                        <option value="Analista">Analista</option>
+                        <option value="Gerente">Gerente</option>
                     </select>
-                    <input id="inp" type="text" placeholder="CPF:">
-                    <input id="inp" type="text" placeholder="Confirmação da senha:">
+                    <div id="erro_cargo" class="error"></div>
+                    <input id="input_cpf" type="text" placeholder="CPF:">
+                    <div id="erro_cpf" class="error"></div>
+                    <input id="input_confirm_senha" type="text" placeholder="Confirmação da senha:">
+                    <div id="erro_conf_senha" class="error"></div>
                 </div>
             </div>
             <div>
-                <button class="btn_cadastro">Cadastrar</button>
+                <button class="btn_cadastro" onclick="cadastrar()">Cadastrar</button>
+                <div id="confirm_cadastro" class="sucesso"></div>
             </div>
         </div>
     </div>
 </body>
 
 </html>
+
+<script>
+    
+    function cadastrar() {
+        let nome = input_nome.value; 
+        let telefone = input_telefone.value; 
+        let codigo = input_codigo.value; 
+        let senha = input_senha.value; 
+        let email = input_email.value; 
+        let cargo = input_cargo.value; 
+        let cpf = input_cpf.value; 
+        let confirm_senha = input_confirm_senha.value; 
+        let validacao = 0;
+
+        if (nome.length <= 1) {
+            erro_nome.innerHTML = "Nome inválido";
+        } else {
+            erro_nome.innerHTML = "";
+            validacao++;
+        }
+
+        if (telefone.length != 9 || isNaN(Number(telefone))) {
+            erro_telefone.innerHTML = "Número de telefone inválido";
+        } else {
+            erro_telefone.innerHTML = "";
+            validacao++;
+        }
+
+        if (email.indexOf("@") == -1 || email.indexOf(".") == -1) {
+            erro_email.innerHTML = "E-mail inválido";
+        } else {
+            erro_email.innerHTML = "";
+            validacao++;
+        }
+
+        if (cargo == 0) {
+            erro_cargo.innerHTML = "Selecione uma opção";
+        } else {
+            erro_cargo.innerHTML = "";
+            validacao++;
+        }
+
+        if (cpf.length != 11 || isNaN(Number(cpf))) {
+            erro_cpf.innerHTML = "CPF inválido";
+        } else {
+            erro_cpf.innerHTML = "";
+            validacao++;
+        }
+
+        if (confirm_senha != senha) {
+            erro_conf_senha.innerHTML = "Senhas são diferentes";
+        } else {
+            erro_conf_senha.innerHTML = "";
+            validacao++;
+        }
+
+        if (validacao == 6) {
+            confirm_cadastro.innerHTML = "Cadastro realizado com sucesso!";
+        } else {
+            confirm_cadastro.innerHTML = "";
+        }
+    }
+</script>
