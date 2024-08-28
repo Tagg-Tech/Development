@@ -376,5 +376,84 @@ button:hover {
 
 /* #region login */
 
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.caixa_login {
+    width: 20rem;
+    height: 43%;
+    background-color: rgb(83, 83, 83);
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-style: dashed;
+    border-color: #fff;
+    border-width: 5px;
+}
+
+.caixa_login h3{
+    margin-top: 3%;
+    color: #ffffff;
+}
+
+.caixa_login h4{
+    margin-top: 3%;
+    color: #ffffff;
+    margin: 15px;
+}
+
+.caixa_login .conteudo {
+    width: 30rem;
+    height: 25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.conteudo div {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+
+.conteudo div #inp {
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 5px;
+    font-weight: bolder;
+}
+
+::placeholder {
+    color: black;
+}
+
+.btn_login {
+    width: 13.5rem;
+    height: 3rem;
+    font-size: 1.5rem;
+    background-color: #FF914C;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10%;
+}
+
+button:hover {
+    transition-duration: 0.5s;
+    transform: scale(110%);
+}
+
+h4 a {
+    text-decoration-color: #FF914C;
+    color: #FF914C;
+    text-decoration: none;
+}
 /* #endregion */
 
