@@ -399,15 +399,12 @@ button:hover {
 
 .caixa_login {
     width: 20rem;
-    height: 43%;
+    height: 45%;
     background-color: rgb(83, 83, 83);
     border-radius: 1.5rem;
     display: flex;
     align-items: center;
     flex-direction: column;
-    border-style: dashed;
-    border-color: #fff;
-    border-width: 5px;
 }
 
 .caixa_login h3{
@@ -416,7 +413,6 @@ button:hover {
 }
 
 .caixa_login h4{
-    margin-top: 3%;
     color: #ffffff;
     margin: 15px;
 }
