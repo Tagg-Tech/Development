@@ -346,7 +346,7 @@ body {
     flex-direction: column;
 }
 
-.conteudo div #inp {
+.conteudo div input, select {
     padding: 1rem;
     margin: 1rem;
     border-radius: 5px;
@@ -370,6 +370,19 @@ body {
 button:hover {
     transition-duration: 0.5s;
     transform: scale(110%);
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.7rem;
+}
+
+.sucesso {
+    color: green;
+    font-weight: bolder;
+    text-align: center;
 }
 
 /* #endregion */
