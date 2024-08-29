@@ -92,7 +92,7 @@ body {
 
 /* #region home */
 
-.home-container{
+.home-container {
     width: 100vw;
     height: 100vh;
 }
@@ -132,13 +132,13 @@ body {
 
 /* #region sobre */
 
-.sobre-container{
+.sobre-container {
     width: 100vw;
     height: 100vh;
-    
+
 }
 
-.sobre-inner{
+.sobre-inner {
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -149,9 +149,9 @@ body {
 
 .sobre-inner-right {
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .sobre-inner-left {
@@ -175,18 +175,19 @@ body {
     width: 80%;
     height: 50%;
 }
+
 /* #endregion */
 
 /* #region cards */
 
-.cards-container{
+.cards-container {
     width: 100%;
     height: 100vh;
 }
 
-.cards-inner{
+.cards-inner {
     width: 100%;
-    height: 100vh; 
+    height: 100vh;
     background-image: url('img/banner-cards.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -195,9 +196,9 @@ body {
 .corpo4 .flip-card {
     justify-content: space-between;
     align-items: center;
-  }
-  
-  .flip-card {
+}
+
+.flip-card {
     border-radius: 15px;
     background-color: transparent;
     width: 300px;
@@ -206,10 +207,10 @@ body {
     perspective: 1000px;
     margin: 50px;
     margin-bottom: 10%;
-  }
-  
-  
-  .flip-card-inner {
+}
+
+
+.flip-card-inner {
     border-radius: 15px;
     position: relative;
     width: 100%;
@@ -218,18 +219,18 @@ body {
     transform-style: preserve-3d;
     height: 300px;
     position: fixed;
-  }
-  
-  /* Do an horizontal flip when you move the mouse over the flip box container */
-  .flip-card:hover .flip-card-inner {
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
     transform: rotateY(180deg);
     height: 300px;
-  
-  }
-  
-  /* Position the front and back side */
-  .flip-card-front,
-  .flip-card-back {
+
+}
+
+/* Position the front and back side */
+.flip-card-front,
+.flip-card-back {
     border-radius: 15px;
     position: absolute;
     width: 100%;
@@ -238,58 +239,118 @@ body {
     /* Safari */
     backface-visibility: hidden;
     position: fixed;
-  
-  }
-  
-  /* Style the front side (fallback if image is missing) */
-  .flip-card-front {
+
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
     background-color: var(--color-secondary);
     color: black;
     height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
 
-  .flip-card-front img{
+.flip-card-front img {
     width: 60%;
-  }
-  
-  /* Style the back side */
-  .flip-card-back {
+}
+
+/* Style the back side */
+.flip-card-back {
     background-color: var(--color-secondary);
     color: rgb(0, 0, 0);
     transform: rotateY(180deg);
     height: 300px;
     background-color: var(--color-secondary);
     position: fixed;
-  
-  }
 
-  .flip-card-back h1{
+}
+
+.flip-card-back h1 {
     margin-top: 30%;
-  }
-  
-  .corpo4 {
+}
+
+.corpo4 {
     background-color: white;
     display: flex;
     flex-direction: column;
     height: 48vh;
     justify-content: space-evenly;
     width: 100vw;
-  }
-  
-  .caixas {
+}
+
+.caixas {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     height: 48vh;
     padding-top: 12%;
-  }
+}
 
 /* #endregion */
 
 /* #region empresas */
+
+.empresas-container {
+    height: 100vh;
+    width: 100%;
+}
+
+.empresas-inner {
+    height: 100vh;
+    width: 100%;
+    background-image: url('img/banner-empresas3.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.empresas-inner-top {
+    width: 100%;
+    height: 80%;
+    display: flex;
+}
+
+.empresas-inner-bottom {
+    width: 100%;
+    height: 20%;
+}
+
+.empresas-inner-top-img img {
+    width: 50%;
+}
+
+.empresas-inner-top-img{
+    margin-top: 22%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: solid 5px black;
+    border-right: solid 5px black;
+}
+
+.empresas-nav li {
+    padding: 0 5px;
+    margin-left: 41%;
+}
+
+.empresas-nav li a {
+    height: 70px;
+    font-weight: 100;
+    padding: 10px 15px;
+    background-color: var(--color-primary);
+    color: var(--color-quartenary);
+    border-radius: 5px;
+    transition: 1s;
+}
+
+.empresas-nav li a:hover {
+    background-color: var(--color-secondary);
+    color: var(--color-quartenary);
+    transition: 1s;
+}
+
 
 /* #endregion */
 
@@ -299,7 +360,7 @@ body {
     width: 100%;
     height: 100vh;
     padding-top: 8%;
-    background-image: url('img/banner-equipe2.png');
+    background-image: url('img/banner-equipe5.png');
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -447,7 +508,7 @@ body {
     border-width: 5px;
 }
 
-.caixa h3{
+.caixa h3 {
     margin-top: 3%;
     color: #ffffff;
 }
@@ -466,7 +527,8 @@ body {
     flex-direction: column;
 }
 
-.conteudo div input, select {
+.conteudo div input,
+select {
     padding: 1rem;
     margin: 1rem;
     border-radius: 5px;
@@ -530,12 +592,12 @@ button:hover {
     border-width: 5px;
 }
 
-.caixa_login h3{
+.caixa_login h3 {
     margin-top: 3%;
     color: #ffffff;
 }
 
-.caixa_login h4{
+.caixa_login h4 {
     color: #ffffff;
     margin: 15px;
 }
@@ -587,5 +649,5 @@ h4 a {
     color: #FF914C;
     text-decoration: none;
 }
-/* #endregion */
 
+/* #endregion */
