@@ -651,3 +651,103 @@ h4 a {
 }
 
 /* #endregion */
+
+/* #region responsivo */
+
+/* celulares */
+@media (min-widht: 320px) and (max-width: 480px){
+	
+    /* #region header */
+    /* #endregion */
+
+    /* #region home */
+    /* #endregion */
+
+    /* #region sobre */
+    /* #endregion */
+
+    /* #region cards */
+    /* #endregion */
+
+    /* #region empresas */
+    /* #endregion */
+
+    /* #region equipe */
+    /* #endregion */
+
+    /* #region cadEmpresa */
+    /* #endregion */
+
+    /* #region cadFuncionario */
+    /* #endregion */
+
+    /* #region login */
+    /* #endregion */
+
+}
+
+/* tablets */
+@media (min-widht: 481px) and (max-width: 768px){
+
+    /* #region header */
+    /* #endregion */
+
+    /* #region home */
+    /* #endregion */
+
+    /* #region sobre */
+    /* #endregion */
+
+    /* #region cards */
+    /* #endregion */
+
+    /* #region empresas */
+    /* #endregion */
+
+    /* #region equipe */
+    /* #endregion */
+
+    /* #region cadEmpresa */
+    /* #endregion */
+
+    /* #region cadFuncionario */
+    /* #endregion */
+
+    /* #region login */
+    /* #endregion */
+	
+}
+
+/* desktops */
+@media (min-widht: 1025px) and (max-width: 1200px){
+
+    /* #region header */
+    /* #endregion */
+
+    /* #region home */
+    /* #endregion */
+
+    /* #region sobre */
+    /* #endregion */
+
+    /* #region cards */
+    /* #endregion */
+
+    /* #region empresas */
+    /* #endregion */
+
+    /* #region equipe */
+    /* #endregion */
+
+    /* #region cadEmpresa */
+    /* #endregion */
+
+    /* #region cadFuncionario */
+    /* #endregion */
+
+    /* #region login */
+    /* #endregion */
+	
+}
+
+/* #endregion */
