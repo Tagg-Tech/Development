@@ -45,6 +45,10 @@ body {
 
 /* #region header */
 
+.menu-button {
+    display: none;
+}
+
 .navbar {
     height: 70px;
     position: absolute;
@@ -320,7 +324,7 @@ body {
     width: 50%;
 }
 
-.empresas-inner-top-img{
+.empresas-inner-top-img {
     margin-top: 22%;
     height: 20%;
     display: flex;
@@ -655,24 +659,363 @@ h4 a {
 /* #region responsivo */
 
 /* celulares */
-@media (min-widht: 320px) and (max-width: 480px){
-	
+@media (min-width: 320px) and (max-width: 480px) {
+
+    body {
+        background: rgb(235, 235, 235);
+        background: linear-gradient(90deg, rgba(235, 235, 235, 1) 18%, rgba(241, 154, 66, 1) 100%);
+    }
+
     /* #region header */
+
+    #logo {
+        display: none;
+    }
+
+    .menu-button {
+        display: block;
+        margin-left: 85%;
+        font-size: 45px;
+        background-color: transparent;
+        border: none;
+        color: var(--color-tertiary);
+    }
+
+    .navbar {
+        margin-top: 0%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-left: 60%;
+    }
+
+    .navbar li {
+        display: none;
+    }
+
+    .navbar.active {
+        flex-direction: column;
+        background-color: var(--color-primary);
+        top: 0;
+        left: 0;
+        z-index: 999;
+        display: block;
+        position: static;
+        height: auto;
+        right: 0;
+        width: 180px;
+
+    }
+
+    .navbar.active li {
+        display: block;
+        padding: 15px;
+    }
+
     /* #endregion */
 
     /* #region home */
+
+    .home-container {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .home-inner {
+        display: flex;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .home-inner-right {
+        width: 0%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+
+    .home-inner-left {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .home-inner-right img {
+        display: none;
+    }
+
+    .home-inner-left img {
+        width: 70%;
+        height: 60%;
+    }
+
+
     /* #endregion */
 
     /* #region sobre */
+
+    .sobre-container {
+        width: 100vw;
+        height: 100vh;
+
+    }
+
+    .sobre-inner {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        background-image: none;
+    }
+
+    .sobre-inner-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sobre-inner-left {
+        width: 100%;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 35%;
+        font-size: 90%;
+    }
+
+
     /* #endregion */
 
     /* #region cards */
+
+    .cards-container {
+        width: 100%;
+        height: 100vh;
+    }
+
+    .cards-inner {
+        width: 100%;
+        height: 100vh;
+        background-image: none;
+    }
+
+    .corpo4 .flip-card {
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .flip-card {
+        border-radius: 15px;
+        background-color: transparent;
+        width: 300px;
+        height: 300px;
+        margin-bottom: 5%;
+        perspective: 1000px;
+        margin: 50px;
+        margin-bottom: 30%;
+        margin-left: 68px;
+    }
+
+
+    .flip-card-inner {
+        border-radius: 15px;
+        position: relative;
+        width: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+        height: 300px;
+        position: fixed;
+    }
+
+    /* Do an horizontal flip when you move the mouse over the flip box container */
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+        height: 300px;
+
+    }
+
+    /* Position the front and back side */
+    .flip-card-front,
+    .flip-card-back {
+        border-radius: 15px;
+        position: absolute;
+        width: 100%;
+        height: 300px;
+        -webkit-backface-visibility: hidden;
+        /* Safari */
+        backface-visibility: hidden;
+        position: fixed;
+
+    }
+
+    /* Style the front side (fallback if image is missing) */
+    .flip-card-front {
+        background-color: var(--color-secondary);
+        color: black;
+        height: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .flip-card-front img {
+        width: 30%;
+    }
+
+    /* Style the back side */
+    .flip-card-back {
+        background-color: var(--color-secondary);
+        color: rgb(0, 0, 0);
+        transform: rotateY(180deg);
+        height: 150px;
+        background-color: var(--color-secondary);
+        position: fixed;
+
+    }
+
+    .flip-card-back h1 {
+        margin-top: 5%;
+    }
+
+    .corpo4 {
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        height: 48vh;
+        justify-content: space-evenly;
+        width: 100vw;
+    }
+
+    .caixas {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 10vh;
+        padding-top: 12%;
+    }
+
     /* #endregion */
 
     /* #region empresas */
+
+    .empresas-container {
+        height: 100vh;
+        width: 100%;
+    }
+
+    .empresas-inner {
+        height: 100vh;
+        width: 100%;
+        background-image: none;
+    }
+
+    .empresas-inner-top {
+        width: 100%;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .empresas-inner-bottom {
+        width: 100%;
+        height: 20%;
+    }
+
+    .empresas-inner-top-img img {
+        width: 30%;
+    }
+
+    .empresas-inner-top-img {
+        margin-top: 25%;
+        height: 10%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-left: solid 5px black;
+        border-right: solid 5px black;
+    }
+
+    .empresas-nav li {
+        padding: 0 5px;
+        margin-left: 0%;
+        margin-top: 5%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .empresas-nav li a {
+        height: 30px;
+        font-weight: 100;
+        padding: 5px 5px;
+        background-color: var(--color-primary);
+        color: var(--color-quartenary);
+        border-radius: 5px;
+        text-align: center;
+        width: 300px;
+        font-size: 14px;
+    }
+
+    .empresas-nav li a:hover {
+        background-color: var(--color-secondary);
+        color: var(--color-quartenary);
+        transition: 1s;
+    }
+
     /* #endregion */
 
     /* #region equipe */
+
+    #equipe {
+        width: 100%;
+        height: 100vh;
+        padding-top: 30%;
+        background-image: none;
+    }
+
+    .equipe-inner {
+        width: 100%;
+    }
+
+    .card img {
+        width: 200px;
+        height: 200px;
+        border-radius: 25%;
+        margin-top: 2%;
+    }
+
+    .card {
+        background-color: transparent;
+        padding: 1em;
+        border-radius: 2%;
+        width: 10%;
+        height: 75%;
+    }
+
+    .card h4 {
+        font-size: 20px;
+        margin-top: 3%;
+    }
+
+    .card p {
+        color: var(--color-secondary);
+    }
+
+    .equipe-container {
+        width: 90%;
+        height: 85vh;
+        text-align: center;
+    }
+
+    .equipe-inner h1 {
+        font-size: 40px;
+        color: var(--color-tertiary);
+        margin-bottom: 3%;
+    }
+
     /* #endregion */
 
     /* #region cadEmpresa */
@@ -687,7 +1030,7 @@ h4 a {
 }
 
 /* tablets */
-@media (min-widht: 481px) and (max-width: 768px){
+@media (min-widht: 481px) and (max-width: 768px) {
 
     /* #region header */
     /* #endregion */
@@ -715,39 +1058,8 @@ h4 a {
 
     /* #region login */
     /* #endregion */
-	
+
 }
 
-/* desktops */
-@media (min-widht: 1025px) and (max-width: 1200px){
-
-    /* #region header */
-    /* #endregion */
-
-    /* #region home */
-    /* #endregion */
-
-    /* #region sobre */
-    /* #endregion */
-
-    /* #region cards */
-    /* #endregion */
-
-    /* #region empresas */
-    /* #endregion */
-
-    /* #region equipe */
-    /* #endregion */
-
-    /* #region cadEmpresa */
-    /* #endregion */
-
-    /* #region cadFuncionario */
-    /* #endregion */
-
-    /* #region login */
-    /* #endregion */
-	
-}
 
 /* #endregion */

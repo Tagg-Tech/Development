@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tag Tech</title>
+    <!-- boxIcons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- Swiper -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
         integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
@@ -22,6 +26,7 @@
             <nav>
                 <div class="menu">
                     <a href="#home"><img src="img/CarroNavBar.png" alt="logo" id="logo"></a>
+                    <button class="menu-button"><i class='bx bx-menu'></i></button>
 
                     <ul class="navbar">
                         <li><a href="#home"><strong>Home</strong></a></li>
@@ -53,7 +58,7 @@
 
             <!-- Sobre Nós -->
             <section id="sobre">
-                <div class="sobre-conatiner">
+                <div class="sobre-conatiner" data-aos="fade-up">
                     <div class="sobre-inner">
                         <div class="sobre-inner-left">
                             <h1>SOBRE NÓS</h1>
@@ -70,8 +75,6 @@
                             </p>
                         </div>
                         <div class="sobre-inner-right">
-                            <!-- <img src="img/banner-sobre.png" alt="banner1" class="banner1">
-                            <img src="img/carro-banner.png" alt="banner2" class="banner2"> -->
                         </div>
 
                     </div>
@@ -80,7 +83,7 @@
 
             <!-- Cards -->
             <section id="cards">
-                <div class="cards-container">
+                <div class="cards-container" data-aos="fade-up">
                     <div class="cards-inner">
                         <div class="caixas">
                             <div class="flip-card">
@@ -142,7 +145,7 @@
 
             <!-- Empresas -->
             <section id="empresas">
-                <div class="empresas-container">
+                <div class="empresas-container" data-aos="fade-up">
                     <div class="empresas-inner">
                         <div class="empresas-inner-top">
                             <div class="empresas-inner-top-img">
@@ -237,16 +240,27 @@
                             </ul>
                         </div>
                     </div>
-
+                    <!-- controls -->
+                    <div class="swiper-button-next myNext"></div>
+                    <div class="swiper-button-prev myPref"></div>
+                    <div class="swiper-button-pagination myPage"></div>
                 </div>
             </section>
         </main>
     </div>
 
+    <!-- Jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Swiper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.js"
         integrity="sha512-QwpsxtdZRih55GaU/Ce2Baqoy2tEv9GltjAG8yuTy2k9lHqK7VHHp3wWWe+yITYKZlsT3AaCj49ZxMYPp46iJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+
 
 </body>
 
@@ -255,22 +269,55 @@
 <script>
 
     //cards
+    var swiper;
+    if ($(window).width() < 769) {
+        var swiper = new Swiper(".equipe-inner", {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            slidePerGroup: 1,
+            loop: true,
+            loopFillGroupWidthBlank: true,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+    } else {
+        var swiper = new Swiper(".equipe-inner", {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            slidePerGroup: 3,
+            loop: true,
+            loopFillGroupWidthBlank: true,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+        ;
+    }
 
-    var swiper = new Swiper(".equipe-inner", {
-        slidesPerView: 3,
-        spaceBetween: 30,
-        slidePerGroup: 3,
-        loop: true,
-        loopFillGroupWidthBlank: true,
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
+    //aos
+    AOS.init({
+        duration: 2500,
     });
-    ;
+
+    //menu hamburguer
+    const menuButton = document.querySelector('.menu-button');
+    const navbar = document.querySelector('.navbar');
+
+    menuButton.addEventListener('click',
+        () => {
+            navbar.classList.toggle('active');
+
+        });
 
 </script>
