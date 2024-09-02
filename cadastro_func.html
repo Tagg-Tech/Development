@@ -5,8 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TagTech | Cadastro</title>
-     <!-- favIcon -->
-     <link rel="shortcut icon" href="img/logo1.png" type="image/x-icon">
+    <!-- boxIcons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
+        integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- favIcon -->
+    <link rel="shortcut icon" href="img/logo1.png" type="image/x-icon">
+    <!-- meuCSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -16,6 +25,7 @@
             <nav>
                 <div class="menu">
                     <a href="#home"><img src="img/CarroNavBar.png" alt="logo" id="logo"></a>
+                    <button class="menu-button"><i class='bx bx-menu'></i></button>
 
                     <ul class="navbar">
                         <li><a href="index.html #home"><strong>Home</strong></a></li>
@@ -24,7 +34,8 @@
                         <li><a href="index.html #empresas"><strong>Empresas</strong></a></li>
                         <li><a href="index.html #equipe"><strong>Equipe</strong></a></li>
                         <li style="color:black;"><strong>|</strong></li>
-                        <li ><a style="background-color: #fff178;" href="cadastro_func.html"><strong>Cadastre-se</strong></a></li>
+                        <li><a style="background-color: #fff178;"
+                                href="cadastro_func.html"><strong>Cadastre-se</strong></a></li>
                         <li><a href="login.html"><strong>Login</strong></a></li>
                     </ul>
                 </div>
@@ -70,17 +81,21 @@
 
 </html>
 
-<script>
+
     
+
+
+<script>
+
     function cadastrar() {
-        let nome = input_nome.value; 
-        let telefone = input_telefone.value; 
-        let codigo = input_codigo.value; 
-        let senha = input_senha.value; 
-        let email = input_email.value; 
-        let cargo = input_cargo.value; 
-        let cpf = input_cpf.value; 
-        let confirm_senha = input_confirm_senha.value; 
+        let nome = input_nome.value;
+        let telefone = input_telefone.value;
+        let codigo = input_codigo.value;
+        let senha = input_senha.value;
+        let email = input_email.value;
+        let cargo = input_cargo.value;
+        let cpf = input_cpf.value;
+        let confirm_senha = input_confirm_senha.value;
         let validacao = 0;
 
         if (nome.length <= 1) {
@@ -97,10 +112,10 @@
             validacao++;
         }
 
-        if (senha.length < 8 || 
-        senha.indexOf("@") == -1 && senha.indexOf("&") == -1 && senha.indexOf("$") == -1 &&
-        senha.indexOf("!") == -1 && senha.indexOf("#") == -1 && senha.indexOf("%") == -1 &&
-        senha.indexOf("*") == -1 && senha.indexOf("/") == -1 && senha.indexOf("\\") == -1) {
+        if (senha.length < 8 ||
+            senha.indexOf("@") == -1 && senha.indexOf("&") == -1 && senha.indexOf("$") == -1 &&
+            senha.indexOf("!") == -1 && senha.indexOf("#") == -1 && senha.indexOf("%") == -1 &&
+            senha.indexOf("*") == -1 && senha.indexOf("/") == -1 && senha.indexOf("\\") == -1) {
             erro_senha.innerHTML = "Senha muito fraca";
         } else {
             erro_senha.innerHTML = "";
@@ -141,4 +156,16 @@
             confirm_cadastro.innerHTML = "";
         }
     }
+
+
+    //menu hamburguer
+    const menuButton = document.querySelector('.menu-button');
+    const navbar = document.querySelector('.navbar');
+
+    menuButton.addEventListener('click',
+        () => {
+            navbar.classList.toggle('active');
+
+        });
+
 </script>

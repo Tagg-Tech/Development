@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TagTech | Cadastro</title>
+    <!-- boxIcons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- Swiper -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
         integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
@@ -22,6 +26,7 @@
             <nav>
                 <div class="menu">
                     <a href="#home"><img src="img/CarroNavBar.png" alt="logo" id="logo"></a>
+                    <button class="menu-button"><i class='bx bx-menu'></i></button>
 
                     <ul class="navbar">
                         <li><a href="index.html #home"><strong>Home</strong></a></li>
@@ -30,7 +35,8 @@
                         <li><a href="index.html #empresas"><strong>Empresas</strong></a></li>
                         <li><a href="index.html #equipe"><strong>Equipe</strong></a></li>
                         <li style="color:black;"><strong>|</strong></li>
-                        <li ><a style="background-color: #fff178;" href="cadastro_func.html"><strong>Cadastre-se</strong></a></li>
+                        <li><a style="background-color: #fff178;"
+                                href="cadastro_func.html"><strong>Cadastre-se</strong></a></li>
                         <li><a href="login.html"><strong>Login</strong></a></li>
                     </ul>
                 </div>
@@ -78,3 +84,15 @@
 </body>
 
 </html>
+
+<script>
+    //menu hamburguer
+    const menuButton = document.querySelector('.menu-button');
+    const navbar = document.querySelector('.navbar');
+
+    menuButton.addEventListener('click',
+        () => {
+            navbar.classList.toggle('active');
+
+        });
+</script>
