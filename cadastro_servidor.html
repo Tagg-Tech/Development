@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TagTech | Cadastro</title>
+    <title>TagTech | Cadastro do Servidor</title>
     <!-- boxIcons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- AOS -->
@@ -83,75 +83,75 @@
 
 <script>
 
-    // function cadastrar() {
-    //     let nome = input_nome.value;
-    //     let telefone = input_telefone.value;
-    //     let codigo = input_codigo.value;
-    //     let senha = input_senha.value;
-    //     let email = input_email.value;
-    //     let cargo = input_cargo.value;
-    //     let cpf = input_cpf.value;
-    //     let confirm_senha = input_confirm_senha.value;
-    //     let validacao = 0;
+    function cadastrar() {
+         let id = input_id.value;
+         let placaderede = input_placaderede.value;
+         let memoria = input_memoria.value;
+         let senha = input_senha.value;
+         let sistemaoperacional= input_sistemaoperacional.value;
+         let cpu = input_cpu.value;
+         let disco = input_disco.value;
+         let confirm_senha = input_confirm_senha.value;
+         let validacao = 0;
 
-    //     if (nome.length <= 1) {
-    //         erro_nome.innerHTML = "Nome inválido";
-    //     } else {
-    //         erro_nome.innerHTML = "";
-    //         validacao++;
-    //     }
+        //  if (nome.length <= 1) {
+        //      erro_nome.innerHTML = "Nome inválido";
+        //  } else {
+        //      erro_nome.innerHTML = "";
+        //      validacao++;
+        //  }
 
-    //     if (telefone.length != 9 || isNaN(Number(telefone))) {
-    //         erro_telefone.innerHTML = "Número de telefone inválido";
-    //     } else {
-    //         erro_telefone.innerHTML = "";
-    //         validacao++;
-    //     }
+        //  if (telefone.length != 9 || isNaN(Number(telefone))) {
+        //      erro_telefone.innerHTML = "Número de telefone inválido";
+        //  } else {
+        //      erro_telefone.innerHTML = "";
+        //      validacao++;
+        //  }
 
-    //     if (senha.length < 8 ||
-    //         senha.indexOf("@") == -1 && senha.indexOf("&") == -1 && senha.indexOf("$") == -1 &&
-    //         senha.indexOf("!") == -1 && senha.indexOf("#") == -1 && senha.indexOf("%") == -1 &&
-    //         senha.indexOf("*") == -1 && senha.indexOf("/") == -1 && senha.indexOf("\\") == -1) {
-    //         erro_senha.innerHTML = "Senha muito fraca";
-    //     } else {
-    //         erro_senha.innerHTML = "";
-    //         validacao++;
-    //     }
+         if (senha.length < 8 ||
+             senha.indexOf("@") == -1 && senha.indexOf("&") == -1 && senha.indexOf("$") == -1 &&
+             senha.indexOf("!") == -1 && senha.indexOf("#") == -1 && senha.indexOf("%") == -1 &&
+             senha.indexOf("*") == -1 && senha.indexOf("/") == -1 && senha.indexOf("\\") == -1) {
+             erro_senha.innerHTML = "Senha muito fraca";
+         } else {
+             erro_senha.innerHTML = "";
+             validacao++;
+         }
 
-    //     if (email.indexOf("@") == -1 || email.indexOf(".") == -1) {
-    //         erro_email.innerHTML = "E-mail inválido";
-    //     } else {
-    //         erro_email.innerHTML = "";
-    //         validacao++;
-    //     }
+        //  if (email.indexOf("@") == -1 || email.indexOf(".") == -1) {
+        //      erro_email.innerHTML = "E-mail inválido";
+        //  } else {
+        //      erro_email.innerHTML = "";
+        //      validacao++;
+        //  }
 
-    //     if (cargo == 0) {
-    //         erro_cargo.innerHTML = "Selecione uma opção";
-    //     } else {
-    //         erro_cargo.innerHTML = "";
-    //         validacao++;
-    //     }
+        //  if (cargo == 0) {
+        //      erro_cargo.innerHTML = "Selecione uma opção";
+        //  } else {
+        //      erro_cargo.innerHTML = "";
+        //      validacao++;
+        //  }
 
-    //     if (cpf.length != 11 || isNaN(Number(cpf))) {
-    //         erro_cpf.innerHTML = "CPF inválido";
-    //     } else {
-    //         erro_cpf.innerHTML = "";
-    //         validacao++;
-    //     }
+        //  if (cpf.length != 11 || isNaN(Number(cpf))) {
+        //      erro_cpf.innerHTML = "CPF inválido";
+        //  } else {
+        //      erro_cpf.innerHTML = "";
+        //      validacao++;
+        //  }
 
-    //     if (confirm_senha != senha) {
-    //         erro_conf_senha.innerHTML = "Senhas são diferentes";
-    //     } else {
-    //         erro_conf_senha.innerHTML = "";
-    //         validacao++;
-    //     }
+         if (confirm_senha != senha) {
+             erro_conf_senha.innerHTML = "Senhas são diferentes";
+         } else {
+             erro_conf_senha.innerHTML = "";
+             validacao++;
+         }
 
-    //     if (validacao == 7) {
-    //         confirm_cadastro.innerHTML = "Cadastro realizado com sucesso!";
-    //     } else {
-    //         confirm_cadastro.innerHTML = "";
-    //     }
-    // }
+         if (validacao == 2) {
+             confirm_cadastro.innerHTML = "Cadastro realizado com sucesso!";
+         } else {
+             confirm_cadastro.innerHTML = "";
+         }
+     }
 
 
     //menu hamburguer
