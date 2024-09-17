@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TagTech | Cadastro</title>
+    <!-- boxIcons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
+        integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- favIcon -->
+    <link rel="shortcut icon" href="img/logo1.png" type="image/x-icon">
+    <!-- meuCSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="background">
+    <div class="banner">
+        <div class="header">
+            <nav>
+                <div class="menu">
+                    <a href="#home"><img src="img/CarroNavBar.png" alt="logo" id="logo"></a>
+                    <button class="menu-button"><i class='bx bx-menu'></i></button>
+
+                    <ul class="navbar">
+                        <li><a href="index.html #home"><strong>Home</strong></a></li>
+                        <li><a href="index.html #sobre"><strong>Sobre Nós</strong></a></li>
+                        <li><a href="index.html #cards"><strong>Saiba Mais</strong></a></li>
+                        <li><a href="index.html #empresas"><strong>Empresas</strong></a></li>
+                        <li><a href="index.html #equipe"><strong>Equipe</strong></a></li>
+                        <li style="color:black;"><strong>|</strong></li>
+                        <li><a style="background-color: #fff178;"
+                                href="cadastro_func.html"><strong>Cadastre-se</strong></a></li>
+                        <li><a href="login.html"><strong>Login</strong></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="cadastro">
+        <div class="caixa">
+            <h3>Cadastre seu Servidor aqui!</h3>
+            <div class="conteudo">
+                <div>
+                    <input id="input_id" type="text" placeholder="ID:">
+                    <div id="erro_id" class="error"></div>
+                    <input id="input_placaderede" type="text" placeholder="Placa de Rede:">
+                    <div id="erro_plcaderede" class="error"></div>
+                    <input id="input_memoria" type="text" placeholder="Memoria:">
+                    <div id="erro_memoria" class="error"></div>
+                    <input id="input_senha" type="password" placeholder="Senha:">
+                    <div id="erro_senha" class="error"></div>
+                </div>
+                <div>
+                    <input id="input_sistemaoperacional" type="text" placeholder="Sistema Operacional:">
+                    <div id="erro_sistemaoperacional" class="error"></div>
+                    <input id="input_cpu" type="text" placeholder="CPU:">
+                    <div id="erro_cpu" class="error"></div>
+                    <input id="input_disco" type="text" placeholder="Disco:">
+                    <div id="erro_disco" class="error"></div>
+                    <input id="input_confirm_senha" type="password" placeholder="Confirmação da senha:">
+                    <div id="erro_conf_senha" class="error"></div>
+                </div>
+            </div>
+            <div>
+                <button class="btn_cadastro" onclick="cadastrar()">Cadastrar</button>
+                <div id="confirm_cadastro" class="sucesso"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+    
+
+
+<script>
+
+    // function cadastrar() {
+    //     let nome = input_nome.value;
+    //     let telefone = input_telefone.value;
+    //     let codigo = input_codigo.value;
+    //     let senha = input_senha.value;
+    //     let email = input_email.value;
+    //     let cargo = input_cargo.value;
+    //     let cpf = input_cpf.value;
+    //     let confirm_senha = input_confirm_senha.value;
+    //     let validacao = 0;
+
+    //     if (nome.length <= 1) {
+    //         erro_nome.innerHTML = "Nome inválido";
+    //     } else {
+    //         erro_nome.innerHTML = "";
+    //         validacao++;
+    //     }
+
+    //     if (telefone.length != 9 || isNaN(Number(telefone))) {
+    //         erro_telefone.innerHTML = "Número de telefone inválido";
+    //     } else {
+    //         erro_telefone.innerHTML = "";
+    //         validacao++;
+    //     }
+
+    //     if (senha.length < 8 ||
+    //         senha.indexOf("@") == -1 && senha.indexOf("&") == -1 && senha.indexOf("$") == -1 &&
+    //         senha.indexOf("!") == -1 && senha.indexOf("#") == -1 && senha.indexOf("%") == -1 &&
+    //         senha.indexOf("*") == -1 && senha.indexOf("/") == -1 && senha.indexOf("\\") == -1) {
+    //         erro_senha.innerHTML = "Senha muito fraca";
+    //     } else {
+    //         erro_senha.innerHTML = "";
+    //         validacao++;
+    //     }
+
+    //     if (email.indexOf("@") == -1 || email.indexOf(".") == -1) {
+    //         erro_email.innerHTML = "E-mail inválido";
+    //     } else {
+    //         erro_email.innerHTML = "";
+    //         validacao++;
+    //     }
+
+    //     if (cargo == 0) {
+    //         erro_cargo.innerHTML = "Selecione uma opção";
+    //     } else {
+    //         erro_cargo.innerHTML = "";
+    //         validacao++;
+    //     }
+
+    //     if (cpf.length != 11 || isNaN(Number(cpf))) {
+    //         erro_cpf.innerHTML = "CPF inválido";
+    //     } else {
+    //         erro_cpf.innerHTML = "";
+    //         validacao++;
+    //     }
+
+    //     if (confirm_senha != senha) {
+    //         erro_conf_senha.innerHTML = "Senhas são diferentes";
+    //     } else {
+    //         erro_conf_senha.innerHTML = "";
+    //         validacao++;
+    //     }
+
+    //     if (validacao == 7) {
+    //         confirm_cadastro.innerHTML = "Cadastro realizado com sucesso!";
+    //     } else {
+    //         confirm_cadastro.innerHTML = "";
+    //     }
+    // }
+
+
+    //menu hamburguer
+    const menuButton = document.querySelector('.menu-button');
+    const navbar = document.querySelector('.navbar');
+
+    menuButton.addEventListener('click',
+        () => {
+            navbar.classList.toggle('active');
+
+        });
+
+</script>
