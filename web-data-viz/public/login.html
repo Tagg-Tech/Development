@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tag Tech | Login</title>
+
+    <script src="./js/sessao.js"></script>
+
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" href="./assets/icon/favicon2.ico">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+</head>
+
+<body class="background">
+
+    <div class="banner">
+        <div class="header">
+            <nav>
+                <div class="menu">
+                    <a href="#home"><img src="./assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
+                    <button class="menu-button"><i class='bx bx-menu'></i></button>
+
+                    <ul class="navbar">
+                        <li><a href="index.html#home"><strong>Home</strong></a></li>
+                        <li><a href="index.html#sobre"><strong>Sobre Nós</strong></a></li>
+                        <li><a href="index.html#cards"><strong>Saiba Mais</strong></a></li>
+                        <li><a href="index.html#empresas"><strong>Empresas</strong></a></li>
+                        <li><a href="index.html#equipe"><strong>Equipe</strong></a></li>
+                        <li style="color:black;"><strong>|</strong></li>
+                        <li><a href="cadastro_funcionario.html"><strong>Cadastre-se</strong></a></li>
+                        <li><a style="background-color: #fff178;" href="login.html"><strong>Login</strong></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="login">
+        <div class="caixa_login">
+            <h3>Faça seu Login!</h3>
+            <div class="conteudo">
+                <div>
+                    <input id="inp" type="text" placeholder="E-mail:">
+                    <input id="inp" type="text" placeholder="Senha:">
+                </div>
+            </div>
+            <div>
+                <button class="btn_login">Login</button>
+            </div>
+            <h4>Não tem cadastro? <a href="cadastro_func.html">Cadastre-se!</a></h4>
+        </div>
+    </div>
+
+    <!-- <form onsubmit="entrar(event)">
+        <h1>Faça login no nosso sistema</h1>
+        <div class="campos">
+            <label>
+                <span>Email:</span>
+                <input id="email_input" type="email" placeholder="Email" required autofocus autocomplete="email" />
+            </label>
+            <label>
+                <span>Senha:</span>
+                <input id="senha_input" type="password" placeholder="Password" required autocomplete="current-password" />
+            </label>
+            <div class="links">
+                <a href="">Esqueceu a senha?</a>
+            </div>
+        </div>
+        <button type="submit">LOGIN</button>
+    </form> -->
+
+</body>
+
+</html>
+
+<script src="/js/script.js"></script>
+<script>
+    function entrar(event) {
+        logar(event)
+        // aguardar();
+
+        var emailVar = email_input.value;
+        var senhaVar = senha_input.value;
+
+        if (emailVar == "" || senhaVar == "") {
+            cardErro.style.display = "block"
+            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+            finalizarAguardar();
+            return false;
+        }
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+
+                resposta.json().then(json => {
+                    sessionStorage.EMAIL_USUARIO = json[0].email;
+                    sessionStorage.NOME_USUARIO = json[0].nome;
+                    sessionStorage.ID_USUARIO = json[0].id;
+
+                    setTimeout(function () {
+                        window.location = "";
+                    }, 1000); // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    // finalizarAguardar(texto);
+                });
+
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+</script>
+
+<script>
+    //menu hamburguer
+    const menuButton = document.querySelector('.menu-button');
+    const navbar = document.querySelector('.navbar');
+
+    menuButton.addEventListener('click',
+        () => {
+            navbar.classList.toggle('active');
+
+        });
+</script>
