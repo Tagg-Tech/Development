@@ -15,6 +15,9 @@ var HOST_APP = process.env.APP_HOST;
 
 var app = express();
 
+//Conexão cadastro da empresa
+var empresaRouter = require("./src/routes/empresas");
+
 var usuarioRouter = require("./src/routes/usuarios");
 var servidorRouter = require("./src/routes/servidor");
 
@@ -23,6 +26,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
+
+//Conexão cadastro da empresa
+app.use("/empresas", empresasRouter);
 
 app.use("/usuarios", usuarioRouter);
 app.use("/servodor", servidorRouter);

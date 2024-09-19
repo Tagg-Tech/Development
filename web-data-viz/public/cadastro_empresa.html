@@ -10,15 +10,73 @@
 
   <script src="./js/sessao.js"></script>
 
-  <link rel="stylesheet" href="./css/cadastro.css" />
   <link rel="stylesheet" href="./css/style.css" />
 
   <link rel="icon" href="./assets/icon/favicon2.ico" />
   <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body>
+<body class="background" >
   
+  <div class="container">
+    <header>
+        <nav>
+            <div class="menu">
+                <a href="#home"><img src="./assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
+                <button class="menu-button"><i class='bx bx-menu'></i></button>
+
+                <ul class="navbar">
+                    <li><a href="index.html#home"><strong>Home</strong></a></li>
+                    <li><a href="index.html#sobre"><strong>Sobre Nós</strong></a></li>
+                    <li><a href="index.html#cards"><strong>Saiba Mais</strong></a></li>
+                    <li><a href="index.html#empresas"><strong>Empresas</strong></a></li>
+                    <li><a href="index.html#equipe"><strong>Equipe</strong></a></li>
+                    <li style="color:black;"><strong>|</strong></li>
+                    <li><a style="background-color: #fff178;"
+                            href="cadastro_func.html"><strong>Cadastre-se</strong></a></li>
+                    <li><a href="login.html"><strong>Login</strong></a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+<div class="fundo">
+
+    <div class="card-cadastro">
+
+        <h3>Cadastre sua empresa aqui!</h3>
+
+        <div class="formulario">
+
+        <div class="cima">
+            <div class="campo">
+                <input id="input_razaoSocial" type="text" placeholder="Razão Social:">
+            </div>
+
+            <div class="campo">
+                <input id="input_nomeFantasia" type="text" placeholder="Nome Fantasia:">
+            </div>
+        </div>
+
+
+        <div class="baixo">
+            <div class="campo">
+                <input id="input_cnpj" type="text" placeholder="CNPJ:">
+            </div>
+
+            <div class="campo">
+                <input id="input_cep" type="text" placeholder="CEP:">
+            </div>
+        
+        </div>
+
+        <button class="botao_cadastrar"><strong>Cadastrar</strong></button>
+
+        </div>
+
+    </div>
+
+</div>
  
 </body>
 
@@ -26,92 +84,173 @@
 
 <script>
 
-  // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let listaEmpresasCadastradas = [];
+function cadastrar() {
 
-  div_aguardar.style.display = 'none';
+        //terminar tratamento após configuração da rota
+        let razoaSocialVar = input_razaoSocial.value;
+        let nomeFantasiaVar = input_nomeFantasia.value;
+        let cnpjVar = input_cnpj.value;
+        let cepVar = input_cep.value;
+        let validacao = 0;
 
-  function cadastrar() {
-    // aguardar();
+        if (razaoSocial.length <= 1) {
+            erro_nome.innerHTML = "Razão Social inválida";
+        } else {
+            erro_nome.innerHTML = "";
+            validacao++;
+        }
 
-    //Recupere o valor da nova input pelo nome do id
-    // Agora vá para o método fetch logo abaixo
-    var nomeVar = nome_input.value;
-    var emailVar = email_input.value;
-    var senhaVar = senha_input.value;
-    var telefoneVar = telefone_input.value;
-    var cpfVar = cpf_input.value;
-    var cargoVar = cargo_input.value;
+        if (telefone.length != 11 || isNaN(Number(telefone))) {
+            erro_telefone.innerHTML = "Número de telefone inválido";
+        } else {
+            erro_telefone.innerHTML = "";
+            validacao++;
+        }
 
-    // var confirmacaoSenhaVar = confirmacao_senha_input.value;
-    // var codigoVar = codigo_input.value;
-    // var idEmpresaVincular
+        if (cpf.length != 11 || isNaN(Number(cpf))) {
+            erro_cpf.innerHTML = "CPF inválido";
+        } else {
+            erro_cpf.innerHTML = "";
+            validacao++;
+        }
 
-    // Verificando se há algum campo em branco
-    if (
-      nomeVar == "" ||
-      emailVar == "" ||
-      senhaVar == "" ||
-      telefoneVar == "" ||
-      cpfVar == "" ||
-      cargoVar == ""
-    ) {
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
+        if (confirm_senha != senha) {
+            erro_conf_senha.innerHTML = "Senhas são diferentes";
+        } else {
+            erro_conf_senha.innerHTML = "";
+            validacao++;
+        }
 
-      finalizarAguardar();
-      return false;
-    } else {
-      setInterval(sumirMensagem, 5000);
+        if (validacao == 4) {
+            confirm_cadastro.innerHTML = "Cadastro realizado com sucesso!";
+        } else {
+            confirm_cadastro.innerHTML = "";
+        }
+
+  fetch("/empresas/cadastrar", {
+     method: "POST",
+     headers: {
+       "Content-Type": "application/json",
+     },
+     body: JSON.stringify({
+       // crie um atributo que recebe o valor recuperado aqui
+       // Agora vá para o arquivo routes/usuario.js
+       razaoSocial: razaoSocialVar,
+       nomeFantasia: nomeFantasiaVar,
+       cnpj: cnpjVar,
+       cep: cepVar,
+     }),
+   })
+   .then(function (resposta) {
+       console.log("resposta: ", resposta);
+
+       if (resposta.ok) {
+         cardErro.style.display = "block";
+
+         mensagem_erro.innerHTML =
+           "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+         setTimeout(() => {
+           window.location = "login.html";
+         }, "2000");
+
+         limparFormulario();
+         finalizarAguardar();
+       } else {
+         throw "Houve um erro ao tentar realizar o cadastro!";
+       }
+     })
+     .catch(function (resposta) {
+       console.log(`#ERRO: ${resposta}`);
+       finalizarAguardar();
+     });
+        
     }
 
-    // Enviando o valor da nova input
-    fetch("/usuarios/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nomeVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-        telefoneServer: telefoneVar,
-        cpfServer: cpfVar,
-        cargoServer:cargoVar
-        
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
 
-        if (resposta.ok) {
-          cardErro.style.display = "block";
+  // Array para armazenar empresas cadastradas para validação de código de ativação 
+  //let listaEmpresasCadastradas = [];
 
-          mensagem_erro.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+  //div_aguardar.style.display = 'none';
 
-          setTimeout(() => {
-            window.location = "login.html";
-          }, "2000");
+// function cadastrar() {
+//   // aguardar();
+//
+//   //Recupere o valor da nova input pelo nome do id
+//   // Agora vá para o método fetch logo abaixo
+//   var nomeVar = nome_input.value;
+//   var emailVar = email_input.value;
+//   var senhaVar = senha_input.value;
+//   var telefoneVar = telefone_input.value;
+//   var cpfVar = cpf_input.value;
+//   var cargoVar = cargo_input.value;
+//
+//   // var confirmacaoSenhaVar = confirmacao_senha_input.value;
+//   // var codigoVar = codigo_input.value;
+//   // var idEmpresaVincular
+//
+//   // Verificando se há algum campo em branco
+//   if (
+//     nomeVar == "" ||
+//     emailVar == "" ||
+//     senhaVar == "" ||
+//     telefoneVar == "" ||
+//     cpfVar == "" ||
+//     cargoVar == ""
+//   ) {
+//     cardErro.style.display = "block";
+//     mensagem_erro.innerHTML =
+//       "(Mensagem de erro para todos os campos em branco)";
+//
+//     finalizarAguardar();
+//     return false;
+//   } else {
+//     setInterval(sumirMensagem, 5000);
+//   }
+//
+//   // Enviando o valor da nova input
+//   fetch("/usuarios/cadastrar", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       // crie um atributo que recebe o valor recuperado aqui
+//       // Agora vá para o arquivo routes/usuario.js
+//       nomeServer: nomeVar,
+//       emailServer: emailVar,
+//       senhaServer: senhaVar,
+//       telefoneServer: telefoneVar,
+//       cpfServer: cpfVar,
+//       cargoServer:cargoVar
+//       
+//     }),
+//   })
+//     .then(function (resposta) {
+//       console.log("resposta: ", resposta);
+//
+//       if (resposta.ok) {
+//         cardErro.style.display = "block";
+//
+//         mensagem_erro.innerHTML =
+//           "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+//
+//         setTimeout(() => {
+//           window.location = "login.html";
+//         }, "2000");
+//
+//         limparFormulario();
+//         finalizarAguardar();
+//       } else {
+//         throw "Houve um erro ao tentar realizar o cadastro!";
+//       }
+//     })
+//     .catch(function (resposta) {
+//       console.log(`#ERRO: ${resposta}`);
+//       finalizarAguardar();
+//     });
+//
+//   return false;
+// }
 
-          limparFormulario();
-          finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
-      });
-
-    return false;
-  }
-
-  function sumirMensagem() {
-    cardErro.style.display = "none";
-  }
 </script>
