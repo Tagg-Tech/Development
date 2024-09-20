@@ -434,12 +434,12 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  width: 500px;
+  width: 50%;
   height: 370px;
   border-radius: 10px;
-  border-style: dashed;
+  border-style: groove;
   border-color: #fff;
-  border-width: 5px;
+  border-width: 3px;
 }
 
 .formulario {
@@ -469,6 +469,7 @@ body {
   margin: 1rem;
   border-radius: 5px;
   font-weight: bolder;
+  outline: none;
 }
 
 .botao_cadastrar {
@@ -479,6 +480,7 @@ body {
   padding: 0.5rem 2rem;
   cursor: pointer;
   margin-top: 2%;
+  color: white;
 }
 
 
