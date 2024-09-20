@@ -451,11 +451,13 @@ body {
 .cima {
   display: flex;
   flex-direction: row;
+  column-gap: 15px;
 }
 
 .baixo {
   display: flex;
   flex-direction: row;
+  column-gap: 15px;
 }
 
 .campo {
@@ -466,7 +468,7 @@ body {
 
 .campo input {
   padding: 1rem;
-  margin: 1rem;
+  /*margin: 1rem;*/
   border-radius: 5px;
   font-weight: bolder;
   outline: none;
