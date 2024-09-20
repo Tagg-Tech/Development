@@ -41,41 +41,33 @@
     </header>
 
 <div class="fundo">
-
     <div class="card-cadastro">
-
         <h3>Cadastre sua empresa aqui!</h3>
-
         <div class="formulario">
-
-        <div class="cima">
-            <div class="campo">
-                <input id="input_razaoSocial" type="text" placeholder="Razão Social:">
-            </div>
-
-            <div class="campo">
-                <input id="input_nomeFantasia" type="text" placeholder="Nome Fantasia:">
-            </div>
+           <div class="cima">
+               <div class="campo">
+                   <input id="input_razaoSocial" type="text" placeholder="Razão Social:">
+                   <div id="erro_razaoSocial" class="error"></div>
+               </div>
+               <div class="campo">
+                   <input id="input_nomeFantasia" type="text" placeholder="Nome Fantasia:">
+                   <div id="erro_nomeFantasia" class="error"></div>
+               </div>
+           </div>
+           <div class="baixo">
+               <div class="campo">
+                   <input id="input_cnpj" type="text" placeholder="CNPJ: 14 dígitos">
+                   <div id="erro_cnpj" class="error"></div>
+               </div>
+               <div class="campo">
+                   <input id="input_cep" type="text" placeholder="CEP: 8 dígitos">
+                   <div id="erro_cep" class="error"></div>
+               </div>
+           </div>
+           <button class="botao_cadastrar" onclick="cadastrar()"><strong>Cadastrar</strong></button>
+           <div id="confirm_cadastro" class="sucesso"></div>
         </div>
-
-
-        <div class="baixo">
-            <div class="campo">
-                <input id="input_cnpj" type="text" placeholder="CNPJ:">
-            </div>
-
-            <div class="campo">
-                <input id="input_cep" type="text" placeholder="CEP:">
-            </div>
-        
-        </div>
-
-        <button class="botao_cadastrar"><strong>Cadastrar</strong></button>
-
-        </div>
-
     </div>
-
 </div>
  
 </body>
@@ -87,45 +79,62 @@
 function cadastrar() {
 
         //terminar tratamento após configuração da rota
-        let razoaSocialVar = input_razaoSocial.value;
-        let nomeFantasiaVar = input_nomeFantasia.value;
-        let cnpjVar = input_cnpj.value;
-        let cepVar = input_cep.value;
-        let validacao = 0;
+       let razaoSocialVar = input_razaoSocial.value;
+       let nomeFantasiaVar = input_nomeFantasia.value;
+       let cnpjVar = input_cnpj.value;
+       let cepVar = input_cep.value;
+       let validacao = 0;
 
-        if (razaoSocial.length <= 1) {
-            erro_nome.innerHTML = "Razão Social inválida";
-        } else {
-            erro_nome.innerHTML = "";
-            validacao++;
+        if(razaoSocialVar == "" ||
+           nomeFantasiaVar == "" ||
+           cnpjVar == "" ||
+           cepVar == "" 
+          ){
+            confirm_cadastro.innerHTML = '<span style="color: red;">Todos os campos devem estar preenchidos e corretamente!</span>';
+            return false;
+           } 
+        
+        else {
+            if (razaoSocialVar.length == "" || razaoSocialVar == null) {
+                erro_razaoSocial.innerHTML = "Razão Social inválida";
+                return false
+            } else {
+                erro_razaoSocial.innerHTML = "";
+                validacao++;
+            }
+
+            if (nomeFantasiaVar.length == "" || razaoSocialVar == null) {
+                erro_nomeFantasia.innerHTML = "Nome fantasia inválido";
+                return false
+            } else {
+                erro_nomeFantasia.innerHTML = "";
+                validacao++;
+            }
+
+            if (cepVar.length != 8 || isNaN(Number(cepVar))) {
+                erro_cep.innerHTML = "CEP inválido";
+                return false
+            } else {
+                erro_cep.innerHTML = "";
+                validacao++;
+            }
+
+            if (cnpjVar.length != 14 || isNaN(Number(cnpjVar))) {
+                erro_cnpj.innerHTML = "CNPJ inválido";
+                return false
+            } else {
+                erro_cnpj.innerHTML = "";
+                validacao++;
+            }
+
+            if (validacao == 4) {
+                confirm_cadastro.innerHTML = "Cadastro Realizado!";
+            } else {
+                confirm_cadastro.innerHTML = "";
+            }
         }
 
-        if (telefone.length != 11 || isNaN(Number(telefone))) {
-            erro_telefone.innerHTML = "Número de telefone inválido";
-        } else {
-            erro_telefone.innerHTML = "";
-            validacao++;
-        }
-
-        if (cpf.length != 11 || isNaN(Number(cpf))) {
-            erro_cpf.innerHTML = "CPF inválido";
-        } else {
-            erro_cpf.innerHTML = "";
-            validacao++;
-        }
-
-        if (confirm_senha != senha) {
-            erro_conf_senha.innerHTML = "Senhas são diferentes";
-        } else {
-            erro_conf_senha.innerHTML = "";
-            validacao++;
-        }
-
-        if (validacao == 4) {
-            confirm_cadastro.innerHTML = "Cadastro realizado com sucesso!";
-        } else {
-            confirm_cadastro.innerHTML = "";
-        }
+        
 
   fetch("/empresas/cadastrar", {
      method: "POST",
@@ -134,37 +143,41 @@ function cadastrar() {
      },
      body: JSON.stringify({
        // crie um atributo que recebe o valor recuperado aqui
-       // Agora vá para o arquivo routes/usuario.js
-       razaoSocial: razaoSocialVar,
-       nomeFantasia: nomeFantasiaVar,
-       cnpj: cnpjVar,
-       cep: cepVar,
+       // Agora vá para o arquivo routes/empresa.js
+       razaoSocialServer: razaoSocialVar,
+       nomeFantasiaServer: nomeFantasiaVar,
+       cnpjServer: cnpjVar,
+       cepServer: cepVar,
      }),
    })
    .then(function (resposta) {
        console.log("resposta: ", resposta);
 
        if (resposta.ok) {
-         cardErro.style.display = "block";
+         //cardErro.style.display = "block";
+         console.log("If do resposta.ok")
 
-         mensagem_erro.innerHTML =
-           "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+         console.log("Cadastro realizado")
+        // mensagem_erro.innerHTML =
+        //   "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
          setTimeout(() => {
            window.location = "login.html";
          }, "2000");
 
-         limparFormulario();
-         finalizarAguardar();
+         //limparFormulario();
+         //finalizarAguardar();
        } else {
          throw "Houve um erro ao tentar realizar o cadastro!";
        }
      })
      .catch(function (resposta) {
+       console.log("Deu erro mano")
        console.log(`#ERRO: ${resposta}`);
-       finalizarAguardar();
+       //finalizarAguardar();
      });
-        
+
+     return false;
     }
 
 

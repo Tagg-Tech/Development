@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 //Conexão cadastro da empresa
-app.use("/empresas", empresasRouter);
+app.use("/empresas", empresaRouter);
 
 app.use("/usuarios", usuarioRouter);
 app.use("/servodor", servidorRouter);

@@ -84,92 +84,84 @@
 
 <script>
 
-  // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let listaEmpresasCadastradas = [];
+function cadastrar() {
+        let nome = input_nome.value;
+        let telefone = input_telefone.value;
+        let codigo = input_codigo.value;
+        let senha = input_senha.value;
+        let email = input_email.value;
+        let cargo = input_cargo.value;
+        let cpf = input_cpf.value;
+        let confirm_senha = input_confirm_senha.value;
+        let validacao = 0;
 
-  div_aguardar.style.display = 'none';
+        if (nome.length <= 1) {
+            erro_nome.innerHTML = "Nome inválido";
+        } else {
+            erro_nome.innerHTML = "";
+            validacao++;
+        }
 
-  function cadastrar() {
-    // aguardar();
+        if (telefone.length != 9 || isNaN(Number(telefone))) {
+            erro_telefone.innerHTML = "Número de telefone inválido";
+        } else {
+            erro_telefone.innerHTML = "";
+            validacao++;
+        }
 
-    //Recupere o valor da nova input pelo nome do id
-    // Agora vá para o método fetch logo abaixo
-    var nomeVar = nome_input.value;
-    var emailVar = email_input.value;
-    var senhaVar = senha_input.value;
-    var telefoneVar = telefone_input.value;
-    var cpfVar = cpf_input.value;
-    var cargoVar = cargo_input.value;
+        if (senha.length < 8 ||
+            senha.indexOf("@") == -1 && senha.indexOf("&") == -1 && senha.indexOf("$") == -1 &&
+            senha.indexOf("!") == -1 && senha.indexOf("#") == -1 && senha.indexOf("%") == -1 &&
+            senha.indexOf("*") == -1 && senha.indexOf("/") == -1 && senha.indexOf("\\") == -1) {
+            erro_senha.innerHTML = "Senha muito fraca";
+        } else {
+            erro_senha.innerHTML = "";
+            validacao++;
+        }
 
-    // var confirmacaoSenhaVar = confirmacao_senha_input.value;
-    // var codigoVar = codigo_input.value;
-    // var idEmpresaVincular
+        if (email.indexOf("@") == -1 || email.indexOf(".") == -1) {
+            erro_email.innerHTML = "E-mail inválido";
+        } else {
+            erro_email.innerHTML = "";
+            validacao++;
+        }
 
-    // Verificando se há algum campo em branco
-    if (
-      nomeVar == "" ||
-      emailVar == "" ||
-      senhaVar == "" ||
-      telefoneVar == "" ||
-      cpfVar == "" ||
-      cargoVar == ""
-    ) {
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
+        if (cargo == 0) {
+            erro_cargo.innerHTML = "Selecione uma opção";
+        } else {
+            erro_cargo.innerHTML = "";
+            validacao++;
+        }
 
-      finalizarAguardar();
-      return false;
-    } else {
-      setInterval(sumirMensagem, 5000);
+        if (cpf.length != 11 || isNaN(Number(cpf))) {
+            erro_cpf.innerHTML = "CPF inválido";
+        } else {
+            erro_cpf.innerHTML = "";
+            validacao++;
+        }
+
+        if (confirm_senha != senha) {
+            erro_conf_senha.innerHTML = "Senhas são diferentes";
+        } else {
+            erro_conf_senha.innerHTML = "";
+            validacao++;
+        }
+
+        if (validacao == 7) {
+            confirm_cadastro.innerHTML = "Cadastro realizado com sucesso!";
+        } else {
+            confirm_cadastro.innerHTML = "";
+        }
     }
 
-    // Enviando o valor da nova input
-    fetch("/usuarios/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nomeVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-        telefoneServer: telefoneVar,
-        cpfServer: cpfVar,
-        cargoServer:cargoVar
-        
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
 
-        if (resposta.ok) {
-          cardErro.style.display = "block";
+    //menu hamburguer
+    const menuButton = document.querySelector('.menu-button');
+    const navbar = document.querySelector('.navbar');
 
-          mensagem_erro.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+    menuButton.addEventListener('click',
+        () => {
+            navbar.classList.toggle('active');
 
-          setTimeout(() => {
-            window.location = "login.html";
-          }, "2000");
-
-          limparFormulario();
-          finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
-      });
-
-    return false;
-  }
-
-  function sumirMensagem() {
-    cardErro.style.display = "none";
-  }
+        });
 </script>

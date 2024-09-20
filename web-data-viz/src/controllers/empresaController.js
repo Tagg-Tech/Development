@@ -1,10 +1,10 @@
 var empresaModel = require("../models/empresaModel");
 
 function cadastrar(req, res){
-    var razaoSocial = req.body.razaoSocial;
-    var nomeFantasia = req.body.nomeFantasia;
-    var cnpj = req.body.cnpj;
-    var cep = req.body.cep;
+    var razaoSocial = req.body.razaoSocialServer;
+    var nomeFantasia = req.body.nomeFantasiaServer;
+    var cnpj = req.body.cnpjServer;
+    var cep = req.body.cepServer;
 
     if(razaoSocial == undefined){
         res.status(400).send("A Razão Social está undefined!");
