@@ -249,7 +249,7 @@ body {
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
-  background-color: var(--color-secondary);
+  background-color: var(--color-quinternary);
   color: black;
   height: 300px;
   display: flex;
