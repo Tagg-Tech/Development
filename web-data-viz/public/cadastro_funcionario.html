@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body>
+<body onload="tornar_cinza_select()">
   
   <body class="background">
     <div class="banner">
@@ -60,9 +60,9 @@
                     <input id="input_email" type="text" placeholder="E-mail:">
                     <div id="erro_email" class="error"></div>
                     <select name="" id="input_cargo">
-                        <option value="0" selected disabled style="color:#a6a6a6">Cargo</option>
-                        <option value="Analista">Analista</option>
-                        <option value="Gerente">Gerente</option>
+                        <option value="0" selected disabled style="color:#a6a6a6;">Cargo</option>
+                        <option value="Analista" style="color: black;">Analista</option>
+                        <option value="Gerente" style="color:black ">Gerente</option>
                     </select>
                     <div id="erro_cargo" class="error"></div>
                     <input id="input_cpf" type="text" placeholder="XXX.XXX.XXX-XX" onkeypress="mascararCpf(Event)" maxlength="14">
@@ -199,4 +199,19 @@ function mascararTel(Event) {
             navbar.classList.toggle('active');
 
         });
+
+        //funcao para deixar o select de cargo cinza quando desabilitado
+        function tornar_cinza_select(){
+            let atualizar = () =>{             // cria uma variavel executavel para que se execute logo abaixo
+                if(input_cargo.value == 0){
+                input_cargo.style = "color: #a6a6a6"
+            }else{
+                input_cargo.style = "color:black"
+            }
+            }
+            atualizar()//executa ao carregar
+
+            input_cargo.addEventListener('change', atualizar) // adiciona escutador para que atualize a pagina quando haver mudanças
+            // Felipe Gasparotto 21/09
+        }
 </script>

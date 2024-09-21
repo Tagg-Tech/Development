@@ -1716,6 +1716,9 @@ h4 a {
 #inp_email::placeholder{
   color: #a6a6a6;
 }
+#input_email::placeholder{
+  color: #a6a6a6;
+  }
 #inp_senha::placeholder{
   color: #a6a6a6;
 }
@@ -1738,7 +1741,9 @@ h4 a {
 #input_confirm_senha::placeholder{
     color: #a6a6a6;
 }
-
+#input_cargo option:disabled {
+  background-color: #f0f0f0; 
+}
 
 
 
