@@ -590,7 +590,7 @@ button:hover {
 
 .caixa_login {
   width: 20rem;
-  height: 45%;
+  height: 55%;
   background-color: rgb(83, 83, 83);
   border-radius: 1.5rem;
   display: flex;
@@ -1712,6 +1712,34 @@ h4 a {
   /* #endregion */
 
 }
+
+#inp_email::placeholder{
+  color: #a6a6a6;
+}
+#inp_senha::placeholder{
+  color: #a6a6a6;
+}
+#input_cpf::placeholder{
+  color: #a6a6a6;
+}
+#input_nome::placeholder{
+  color: #a6a6a6;
+}
+#input_telefone::placeholder{
+  color: #a6a6a6;
+}
+#input_codigo::placeholder{
+  color: #a6a6a6;
+  font-size: 1.4vh;
+}
+#input_senha::placeholder{
+  color: #a6a6a6;
+}
+#input_confirm_senha::placeholder{
+    color: #a6a6a6;
+}
+
+
 
 
 /* #endregion */

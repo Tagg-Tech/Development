@@ -47,27 +47,27 @@
             <h3>Cadastre seu funcionário aqui!</h3>
             <div class="conteudo">
                 <div>
-                    <input id="input_nome" type="text" placeholder="Nome:">
+                    <input id="input_nome" type="text" placeholder="Seu Nome">
                     <div id="erro_nome" class="error"></div>
-                    <input id="input_telefone" type="text" placeholder="Telefone:">
+                    <input id="input_telefone" type="text" placeholder="(XX) XXXXX-XXXX" onkeypress="mascararTel(Event)" maxlength="15">
                     <div id="erro_telefone" class="error"></div>
-                    <input id="input_codigo" type="text" placeholder="Código da empresa:">
+                    <input id="input_codigo" type="text" placeholder="Insira código fornecido(Exemplo: 123)">
                     <div id="erro_codigo" class="error"></div>
-                    <input id="input_senha" type="password" placeholder="Senha:">
+                    <input id="input_senha" type="password" placeholder="*******">
                     <div id="erro_senha" class="error"></div>
                 </div>
                 <div>
                     <input id="input_email" type="text" placeholder="E-mail:">
                     <div id="erro_email" class="error"></div>
-                    <select name="" id="input_cargo" aria-placeholder="Cargo">
-                        <option value="0" selected disabled>Cargo</option>
+                    <select name="" id="input_cargo">
+                        <option value="0" selected disabled style="color:#a6a6a6">Cargo</option>
                         <option value="Analista">Analista</option>
                         <option value="Gerente">Gerente</option>
                     </select>
                     <div id="erro_cargo" class="error"></div>
-                    <input id="input_cpf" type="text" placeholder="CPF:">
+                    <input id="input_cpf" type="text" placeholder="XXX.XXX.XXX-XX" onkeypress="mascararCpf(Event)" maxlength="14">
                     <div id="erro_cpf" class="error"></div>
-                    <input id="input_confirm_senha" type="password" placeholder="Confirmação da senha:">
+                    <input id="input_confirm_senha" type="password" placeholder="*******">
                     <div id="erro_conf_senha" class="error"></div>
                 </div>
             </div>
@@ -154,7 +154,42 @@ function cadastrar() {
         }
     }
 
+    function mascararCpf(Event) {
+    var cpflength = input_cpf.value.length;
+    var ultimoChar = input_cpf.value.charAt(cpflength - 1);    // Verifica se o último caractere adicionado foi ponto ou traço
+    if (Event.key == "Backspace") {
 
+    } else {
+        if ((ultimoChar !== '.' && ultimoChar !== '-') && cpflength !== 14) {
+            if (cpflength === 3 || cpflength === 7) {
+                input_cpf.value += '.';
+            } else if (cpflength === 11) {
+                input_cpf.value += '-';
+            }
+        }
+        if(input_cpf.value.length>14){
+
+        }
+    }
+}
+function mascararTel(Event) {
+    var telefonelength = input_telefone.value.length;
+    var ultimoChar = input_telefone.value.charAt(telefonelength - 1);    // Verifica se o último caractere adicionado foi ponto ou traço
+    if (Event.key == "Backspace") {
+
+
+    } else {
+        if ((ultimoChar !== '(' && ultimoChar !== ')' && ultimoChar !== '-' && ultimoChar !== ' ') && telefonelength !== 15) {
+            if (telefonelength === 0) {
+                input_telefone.value += '(';
+            } else if (telefonelength === 3) {
+                input_telefone.value += ') ';
+            } else if (telefonelength === 10) {
+                input_telefone.value += '-';
+            }
+        }
+    }
+}
     //menu hamburguer
     const menuButton = document.querySelector('.menu-button');
     const navbar = document.querySelector('.navbar');
