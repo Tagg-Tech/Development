@@ -57,7 +57,7 @@
                     <div id="erro_senha" class="error"></div>
                 </div>
                 <div>
-                    <input id="input_email" type="text" placeholder="E-mail:">
+                    <input id="input_email" type="text" placeholder="seuemail@.com">
                     <div id="erro_email" class="error"></div>
                     <select name="" id="input_cargo">
                         <option value="0" selected disabled style="color:#a6a6a6;">Cargo</option>
@@ -86,12 +86,12 @@
 
 function cadastrar() {
         let nome = input_nome.value;
-        let telefone = input_telefone.value;
+        let telefone = removerMascara(input_telefone.value);
         let codigo = input_codigo.value;
         let senha = input_senha.value;
         let email = input_email.value;
         let cargo = input_cargo.value;
-        let cpf = input_cpf.value;
+        let cpf = removerMascara(input_cpf.value);
         let confirm_senha = input_confirm_senha.value;
         let validacao = 0;
 
@@ -189,6 +189,18 @@ function mascararTel(Event) {
             }
         }
     }
+}
+function removerMascara(valorComMascara) {
+    var valorSemMascara = valorComMascara.replaceAll("-", "");
+
+    valorSemMascara = valorSemMascara.replaceAll(".", "");
+
+    valorSemMascara = valorSemMascara.replaceAll(" ", "");
+
+    valorSemMascara = valorSemMascara.replaceAll("(", "")
+    valorSemMascara = valorSemMascara.replaceAll(")", "")
+
+    return valorSemMascara
 }
     //menu hamburguer
     const menuButton = document.querySelector('.menu-button');
