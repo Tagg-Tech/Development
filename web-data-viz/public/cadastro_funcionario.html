@@ -42,6 +42,7 @@
             </nav>
         </div>
     </div>
+    
     <div class="cadastro">
         <div class="caixa">
             <h3>Cadastre seu funcionário aqui!</h3>
@@ -49,7 +50,7 @@
                 <div>
                     <input id="input_nome" type="text" placeholder="Seu Nome">
                     <div id="erro_nome" class="error"></div>
-                    <input id="input_telefone" type="text" placeholder="(XX) XXXXX-XXXX" onkeypress="mascararTel(Event)" maxlength="15">
+                    <input id="input_telefone" placeholder="(XX) XXXXX-XXXX" onkeypress="mascararTel(Event)" maxlength="15">
                     <div id="erro_telefone" class="error"></div>
                     <input id="input_codigo" type="text" placeholder="Insira código fornecido(Exemplo: 123)">
                     <div id="erro_codigo" class="error"></div>
@@ -71,7 +72,7 @@
                     <div id="erro_conf_senha" class="error"></div>
                 </div>
             </div>
-            <div>
+            <div class="tratamento_confirmacaoDados_cadastroFuncionario" >
                 <button class="btn_cadastro" onclick="cadastrar()">Cadastrar</button>
                 <div id="confirm_cadastro" class="sucesso"></div>
             </div>
@@ -85,76 +86,149 @@
 <script>
 
 function cadastrar() {
-        let nome = input_nome.value;
-        let telefone = removerMascara(input_telefone.value);
-        let codigo = input_codigo.value;
-        let senha = input_senha.value;
-        let email = input_email.value;
-        let cargo = input_cargo.value;
-        let cpf = removerMascara(input_cpf.value);
-        let confirm_senha = input_confirm_senha.value;
-        let validacao = 0;
 
-        if (nome.length <= 1) {
+    let nomeVar = input_nome.value;
+    let emailVar = input_email.value;
+    let senhaVar = input_senha.value;
+    let cargoVar = input_cargo.value;
+    let telefoneVar = removerMascara(input_telefone.value);
+    let cpfVar = removerMascara(input_cpf.value);
+    let codigoVar = input_codigo.value;
+
+    let confirm_senha = input_confirm_senha.value;
+    let validacao = 0;
+
+    if(nomeVar == "" ||
+       emailVar == "" ||
+       senhaVar == "" || 
+       cargoVar == "" ||
+       telefoneVar == "" ||
+       cpfVar == "" ||
+       codigoVar == "" ||
+       confirm_senha == ""
+       ) 
+       {
+          confirm_cadastro.innerHTML = '<span style="color: red;">Todos os campos devem estar preenchidos e corretamente!</span>';
+          return false;
+       } else {
+ 
+        if (nomeVar.length <= 1) {
             erro_nome.innerHTML = "Nome inválido";
+            return false;
         } else {
             erro_nome.innerHTML = "";
             validacao++;
         }
-
-        if (telefone.length != 9 || isNaN(Number(telefone))) {
+        if (telefoneVar.length > 15 || isNaN(Number(telefoneVar))) {
             erro_telefone.innerHTML = "Número de telefone inválido";
+            return false
         } else {
             erro_telefone.innerHTML = "";
             validacao++;
         }
-
-        if (senha.length < 8 ||
-            senha.indexOf("@") == -1 && senha.indexOf("&") == -1 && senha.indexOf("$") == -1 &&
-            senha.indexOf("!") == -1 && senha.indexOf("#") == -1 && senha.indexOf("%") == -1 &&
-            senha.indexOf("*") == -1 && senha.indexOf("/") == -1 && senha.indexOf("\\") == -1) {
+        if (senhaVar.length < 8 ||
+        senhaVar.indexOf("@") == -1 && senhaVar.indexOf("&") == -1 && senhaVar.indexOf("$") == -1 &&
+        senhaVar.indexOf("!") == -1 && senhaVar.indexOf("#") == -1 && senhaVar.indexOf("%") == -1 &&
+        senhaVar.indexOf("*") == -1 && senhaVar.indexOf("/") == -1 && senhaVar.indexOf("\\") == -1) {
             erro_senha.innerHTML = "Senha muito fraca";
+            return false
         } else {
             erro_senha.innerHTML = "";
             validacao++;
         }
-
-        if (email.indexOf("@") == -1 || email.indexOf(".") == -1) {
+        if (emailVar.indexOf("@") == -1 || emailVar.indexOf(".") == -1) {
             erro_email.innerHTML = "E-mail inválido";
+            return false;
         } else {
             erro_email.innerHTML = "";
             validacao++;
         }
-
-        if (cargo == 0) {
+        if (cargoVar == 0) {
             erro_cargo.innerHTML = "Selecione uma opção";
+            return false;
         } else {
             erro_cargo.innerHTML = "";
             validacao++;
         }
-
-        if (cpf.length != 11 || isNaN(Number(cpf))) {
+        if (cpfVar.length != 11 || isNaN(Number(cpfVar))) {
             erro_cpf.innerHTML = "CPF inválido";
+            return false;
         } else {
             erro_cpf.innerHTML = "";
             validacao++;
         }
-
-        if (confirm_senha != senha) {
+        if (confirm_senha != senhaVar) {
             erro_conf_senha.innerHTML = "Senhas são diferentes";
+            return false;
         } else {
             erro_conf_senha.innerHTML = "";
             validacao++;
         }
-
         if (validacao == 7) {
             confirm_cadastro.innerHTML = "Cadastro realizado com sucesso!";
         } else {
             confirm_cadastro.innerHTML = "";
         }
-    }
+        
+    } 
 
-    function mascararCpf(Event) {
+    fetch("/funcionarios/cadastrar", {
+     method: "POST",
+     headers: {
+       "Content-Type": "application/json",
+     },
+     body: JSON.stringify({
+       // crie um atributo que recebe o valor recuperado aqui
+       // Agora vá para o arquivo routes/empresa.js
+       nomeServer: nomeVar,
+       emailServer: emailVar,
+       senhaServer: senhaVar,
+       cargoServer: cargoVar,
+       telefoneServer: telefoneVar,
+       cpfServer: cpfVar,
+       codigoServer: codigoVar,
+     }),
+   })
+   .then(function (resposta) {
+       console.log("resposta: ", resposta);
+
+       if (resposta.ok) {
+         //cardErro.style.display = "block";
+         console.log("If do resposta.ok")
+
+         console.log("Cadastro realizado")
+        // mensagem_erro.innerHTML =
+        //   "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+         setTimeout(() => {
+           window.location = "login.html";
+         }, "2000");
+
+         //limparFormulario();
+         //finalizarAguardar();
+       } else {
+         throw "Houve um erro ao tentar realizar o cadastro!";
+       }
+     })
+     .catch(function (resposta) {
+       console.log("Deu erro mano")
+       console.log(`#ERRO: ${resposta}`);
+       //finalizarAguardar();
+     });
+
+     return false;
+
+}
+
+
+
+
+
+
+
+
+
+function mascararCpf(Event) {
     var cpflength = input_cpf.value.length;
     var ultimoChar = input_cpf.value.charAt(cpflength - 1);    // Verifica se o último caractere adicionado foi ponto ou traço
     if (Event.key == "Backspace") {
@@ -172,12 +246,13 @@ function cadastrar() {
         }
     }
 }
+
 function mascararTel(Event) {
     var telefonelength = input_telefone.value.length;
     var ultimoChar = input_telefone.value.charAt(telefonelength - 1);    // Verifica se o último caractere adicionado foi ponto ou traço
     if (Event.key == "Backspace") {
-
-
+    
+    
     } else {
         if ((ultimoChar !== '(' && ultimoChar !== ')' && ultimoChar !== '-' && ultimoChar !== ' ') && telefonelength !== 15) {
             if (telefonelength === 0) {
@@ -190,6 +265,7 @@ function mascararTel(Event) {
         }
     }
 }
+
 function removerMascara(valorComMascara) {
     var valorSemMascara = valorComMascara.replaceAll("-", "");
 
@@ -197,33 +273,29 @@ function removerMascara(valorComMascara) {
 
     valorSemMascara = valorSemMascara.replaceAll(" ", "");
 
-    valorSemMascara = valorSemMascara.replaceAll("(", "")
-    valorSemMascara = valorSemMascara.replaceAll(")", "")
+    valorSemMascara = valorSemMascara.replaceAll("(", "");
+    valorSemMascara = valorSemMascara.replaceAll(")", "");
 
     return valorSemMascara
 }
-    //menu hamburguer
-    const menuButton = document.querySelector('.menu-button');
-    const navbar = document.querySelector('.navbar');
 
-    menuButton.addEventListener('click',
-        () => {
-            navbar.classList.toggle('active');
+//menu hamburguer
+const menuButton = document.querySelector('.menu-button');
+const navbar = document.querySelector('.navbar');
+menuButton.addEventListener('click', () => { navbar.classList.toggle('active'); });
 
-        });
+//funcao para deixar o select de cargo cinza quando desabilitado
+function tornar_cinza_select(){
+    let atualizar = () =>{             // cria uma variavel executavel para que se execute logo abaixo
+        if(input_cargo.value == 0){
+        input_cargo.style = "color: #a6a6a6"
+    }else{
+        input_cargo.style = "color:black"
+    }
+    }
+    atualizar()//executa ao carregar
+    input_cargo.addEventListener('change', atualizar) // adiciona escutador para que atualize a pagina quando haver mudanças
+    // Felipe Gasparotto 21/09
+}
 
-        //funcao para deixar o select de cargo cinza quando desabilitado
-        function tornar_cinza_select(){
-            let atualizar = () =>{             // cria uma variavel executavel para que se execute logo abaixo
-                if(input_cargo.value == 0){
-                input_cargo.style = "color: #a6a6a6"
-            }else{
-                input_cargo.style = "color:black"
-            }
-            }
-            atualizar()//executa ao carregar
-
-            input_cargo.addEventListener('change', atualizar) // adiciona escutador para que atualize a pagina quando haver mudanças
-            // Felipe Gasparotto 21/09
-        }
 </script>

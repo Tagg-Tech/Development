@@ -555,7 +555,7 @@ select {
   font-weight: bold;
   padding: 0.5rem 2rem;
   cursor: pointer;
-  margin-bottom: 10%;
+  margin-bottom: 2%;
 }
 
 button:hover {
@@ -574,6 +574,12 @@ button:hover {
   color: green;
   font-weight: bolder;
   text-align: center;
+}
+
+.tratamento_confirmacaoDados_cadastroFuncionario{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* #endregion */

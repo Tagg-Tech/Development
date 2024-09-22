@@ -33,7 +33,7 @@
                     <li><a href="index.html#equipe"><strong>Equipe</strong></a></li>
                     <li style="color:black;"><strong>|</strong></li>
                     <li><a style="background-color: #fff178;"
-                            href="cadastro_func.html"><strong>Cadastre-se</strong></a></li>
+                            href="cadastro_funcionario.html"><strong>Cadastre-se</strong></a></li>
                     <li><a href="login.html"><strong>Login</strong></a></li>
                 </ul>
             </div>
@@ -78,7 +78,6 @@
 
 function cadastrar() {
 
-        //terminar tratamento após configuração da rota
        let razaoSocialVar = input_razaoSocial.value;
        let nomeFantasiaVar = input_nomeFantasia.value;
        let cnpjVar = input_cnpj.value;
@@ -162,7 +161,7 @@ function cadastrar() {
         //   "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
          setTimeout(() => {
-           window.location = "login.html";
+           window.location = "cadastro_funcionario.html";
          }, "2000");
 
          //limparFormulario();
@@ -178,7 +177,7 @@ function cadastrar() {
      });
 
      return false;
-    }
+}
 
 
   // Array para armazenar empresas cadastradas para validação de código de ativação 
