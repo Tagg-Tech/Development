@@ -47,10 +47,11 @@
                     <input id="inp_senha" type="password" placeholder="*******">
                 </div>
             </div>
-            <div>
-                <button class="btn_login">Login</button>
+            <div class="tratamento_confirmacaoDados_cadastroFuncionario">
+                <button class="btn_login" onclick="entrar(event)">Login</button>
+                <div id="confirm_cadastro" class="sucesso"></div>
             </div>
-            <h4>Não tem cadastro? <a href="cadastro_func.html">Cadastre-se!</a></h4>
+            <h4>Não tem cadastro? <a href="cadastro_funcionario.html">Cadastre-se!</a></h4>
         </div>
     </div>
 
@@ -77,22 +78,24 @@
 </html>
 
 <script src="/js/script.js"></script>
+<script src=""></script>
 <script>
     function entrar(event) {
         logar(event)
         // aguardar();
 
-        var emailVar = email_input.value;
-        var senhaVar = senha_input.value;
+        var emailVar = inp_email.value;
+        var senhaVar = inp_senha.value;
 
         if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            finalizarAguardar();
+            confirm_cadastro.innerHTML = '<span style="color: red;">Todos os campos devem estar preenchidos e corretamente!</span>';
+            //finalizarAguardar();
             return false;
+        } else {
+
         }
 
-        fetch("/usuarios/autenticar", {
+        fetch("/funcionarios/autenticar", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -109,11 +112,12 @@
                 resposta.json().then(json => {
                     sessionStorage.EMAIL_USUARIO = json[0].email;
                     sessionStorage.NOME_USUARIO = json[0].nome;
-                    sessionStorage.ID_USUARIO = json[0].id;
+                    //sessionStorage.ID_USUARIO = json[0].id;
 
+                    console.log("O login deu certo mano")
                     setTimeout(function () {
-                        window.location = "";
-                    }, 1000); // apenas para exibir o loading
+                        window.location = "./dashboard/dashboard.html";
+                    }, 500); 
 
                 });
 
@@ -123,7 +127,8 @@
 
                 resposta.text().then(texto => {
                     console.error(texto);
-                    // finalizarAguardar(texto);
+                    confirm_cadastro.innerHTML = '<span style="color: red;">Email e/ou senha inválidos</span>'
+                    //finalizarAguardar(texto);
                 });
 
             }
@@ -134,7 +139,6 @@
 
         return false;
     }
-
     
 </script>
 

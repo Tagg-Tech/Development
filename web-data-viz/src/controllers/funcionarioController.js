@@ -1,4 +1,4 @@
-var servidorModel = require("../models/funcionarioModel");
+var funcionarioModel = require("../models/funcionarioModel");
 
 function cadastrar(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
@@ -28,7 +28,7 @@ function cadastrar(req, res) {
     } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        servidorModel.cadastrar(nome, email, senha, cargo, telefone, cpf, codigo)
+        funcionarioModel.cadastrar(nome, email, senha, cargo, telefone, cpf, codigo)
             .then(
                 function (resultado) {
                     res.status(200).json(resultado);
@@ -51,17 +51,21 @@ function autenticar(req, res) {
     var senha = req.body.senhaServer;
 
     if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
+        res.status(400).send("Seu email está indefinida!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está indefinida!");
     } else {
 
-        servidorModel.autenticar(email, senha)
+        funcionarioModel.autenticar(email, senha)
             .then(
                 function (resultadoAutenticar) {
+                    console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
+                    console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`); // transforma JSON em String
+
                     if (resultadoAutenticar.length == 1) {
                         res.status(200).json(resultadoAutenticar);
                     } else if (resultadoAutenticar.length == 0) {
+                        confirm_cadastro.innerHTML = "Email ou senha inválidos"
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {
                         res.status(403).send("Mais de um usuário com o mesmo login e senha!");
