@@ -77,10 +77,6 @@
 
 </html>
 
-
-    
-
-
 <script>
 
     function cadastrar() {
@@ -94,20 +90,6 @@
          let confirm_senha = input_confirm_senha.value;
          let validacao = 0;
 
-        //  if (nome.length <= 1) {
-        //      erro_nome.innerHTML = "Nome inválido";
-        //  } else {
-        //      erro_nome.innerHTML = "";
-        //      validacao++;
-        //  }
-
-        //  if (telefone.length != 9 || isNaN(Number(telefone))) {
-        //      erro_telefone.innerHTML = "Número de telefone inválido";
-        //  } else {
-        //      erro_telefone.innerHTML = "";
-        //      validacao++;
-        //  }
-
          if (senha.length < 8 ||
              senha.indexOf("@") == -1 && senha.indexOf("&") == -1 && senha.indexOf("$") == -1 &&
              senha.indexOf("!") == -1 && senha.indexOf("#") == -1 && senha.indexOf("%") == -1 &&
@@ -117,27 +99,6 @@
              erro_senha.innerHTML = "";
              validacao++;
          }
-
-        //  if (email.indexOf("@") == -1 || email.indexOf(".") == -1) {
-        //      erro_email.innerHTML = "E-mail inválido";
-        //  } else {
-        //      erro_email.innerHTML = "";
-        //      validacao++;
-        //  }
-
-        //  if (cargo == 0) {
-        //      erro_cargo.innerHTML = "Selecione uma opção";
-        //  } else {
-        //      erro_cargo.innerHTML = "";
-        //      validacao++;
-        //  }
-
-        //  if (cpf.length != 11 || isNaN(Number(cpf))) {
-        //      erro_cpf.innerHTML = "CPF inválido";
-        //  } else {
-        //      erro_cpf.innerHTML = "";
-        //      validacao++;
-        //  }
 
          if (confirm_senha != senha) {
              erro_conf_senha.innerHTML = "Senhas são diferentes";
