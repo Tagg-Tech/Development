@@ -53,8 +53,6 @@
                     <div id="erro_plcaderede" class="error"></div>
                     <input id="input_memoria" type="text" placeholder="Memoria:">
                     <div id="erro_memoria" class="error"></div>
-                    <input id="input_senha" type="password" placeholder="Senha:">
-                    <div id="erro_senha" class="error"></div>
                 </div>
                 <div>
                     <input id="input_sistemaoperacional" type="text" placeholder="Sistema Operacional:">
@@ -63,8 +61,6 @@
                     <div id="erro_cpu" class="error"></div>
                     <input id="input_disco" type="text" placeholder="Disco:">
                     <div id="erro_disco" class="error"></div>
-                    <input id="input_confirm_senha" type="password" placeholder="Confirmação da senha:">
-                    <div id="erro_conf_senha" class="error"></div>
                 </div>
             </div>
             <div>
@@ -83,35 +79,10 @@
          let id = input_id.value;
          let placaderede = input_placaderede.value;
          let memoria = input_memoria.value;
-         let senha = input_senha.value;
          let sistemaoperacional= input_sistemaoperacional.value;
          let cpu = input_cpu.value;
          let disco = input_disco.value;
-         let confirm_senha = input_confirm_senha.value;
-         let validacao = 0;
 
-         if (senha.length < 8 ||
-             senha.indexOf("@") == -1 && senha.indexOf("&") == -1 && senha.indexOf("$") == -1 &&
-             senha.indexOf("!") == -1 && senha.indexOf("#") == -1 && senha.indexOf("%") == -1 &&
-             senha.indexOf("*") == -1 && senha.indexOf("/") == -1 && senha.indexOf("\\") == -1) {
-             erro_senha.innerHTML = "Senha muito fraca";
-         } else {
-             erro_senha.innerHTML = "";
-             validacao++;
-         }
-
-         if (confirm_senha != senha) {
-             erro_conf_senha.innerHTML = "Senhas são diferentes";
-         } else {
-             erro_conf_senha.innerHTML = "";
-             validacao++;
-         }
-
-         if (validacao == 2) {
-             confirm_cadastro.innerHTML = "Cadastro realizado com sucesso!";
-         } else {
-             confirm_cadastro.innerHTML = "";
-         }
      }
 
 
