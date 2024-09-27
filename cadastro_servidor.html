@@ -47,8 +47,6 @@
             <h3>Cadastre seu Servidor aqui!</h3>
             <div class="conteudo">
                 <div>
-                    <input id="input_id" type="text" placeholder="ID:">
-                    <div id="erro_id" class="error"></div>
                     <input id="input_placaderede" type="text" placeholder="Placa de Rede:">
                     <div id="erro_plcaderede" class="error"></div>
                     <input id="input_memoria" type="text" placeholder="Memoria:">
@@ -96,4 +94,22 @@
 
         });
 
+        fetch('/servidores/cadastrar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            placaderedeServer: placaderede,
+            memoriaServer: memoria,
+            sistemaoperacionalServer: sistemaoperacional,
+            cpuServer: cpu,
+            discoServer: disco
+        })
+    }).then(response => response.json())
+      .then(data => {
+          document.getElementById('confirm_cadastro').innerText = "Cadastro realizado com sucesso!";
+      })
+      .catch(error => console.error('Erro:', error));
+      
 </script>

@@ -21,8 +21,6 @@ function cadastrar(req, res) {
     } else if (disco == undefined) {
         res.status(400).send("Seu disco está indefinido!");
     } else {
-
-        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
         servidorModel.cadastrar(placaderede, memoria, sistemaoperacional, cpu, disco)
             .then(
                 function (resultado) {
