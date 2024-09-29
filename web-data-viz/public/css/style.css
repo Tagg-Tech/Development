@@ -1806,3 +1806,17 @@ h4 a {
 
 
 /* #endregion */
+
+
+/* #region perfil_user */
+
+.menu_lateral{
+  position: fixed;
+  width: 10%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-secondary);
+}
+
+/* #endregion */
