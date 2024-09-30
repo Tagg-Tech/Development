@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Tag Tech | Cadastro</title>
+  <title>Tag Tech | Cadastro Empresa</title>
 
   <script src="./js/sessao.js"></script>
 
@@ -56,11 +56,11 @@
            </div>
            <div class="baixo">
                <div class="campo">
-                   <input id="input_cnpj" type="text" placeholder="CNPJ: 14 dígitos">
+                   <input id="input_cnpj" type="text" placeholder="CNPJ: XXX.XXX/0001-XX" onkeypress="mascararCnpj(Event)" maxlength="15">
                    <div id="erro_cnpj" class="error"></div>
                </div>
                <div class="campo">
-                   <input id="input_cep" type="text" placeholder="CEP: 8 dígitos">
+                   <input id="input_cep" type="text" placeholder="CEP: XXXXX-XXX" onkeypress="mascararCep(Event)" maxlength="9">
                    <div id="erro_cep" class="error"></div>
                </div>
            </div>
@@ -80,8 +80,8 @@ function cadastrar() {
 
        let razaoSocialVar = input_razaoSocial.value;
        let nomeFantasiaVar = input_nomeFantasia.value;
-       let cnpjVar = input_cnpj.value;
-       let cepVar = input_cep.value;
+       let cnpjVar = removerMascara(input_cnpj.value);
+       let cepVar = removerMascara(input_cep.value);
        let validacao = 0;
 
         if(razaoSocialVar == "" ||
@@ -118,7 +118,7 @@ function cadastrar() {
                 validacao++;
             }
 
-            if (cnpjVar.length != 14 || isNaN(Number(cnpjVar))) {
+            if (cnpjVar.length != 12 || isNaN(Number(cepVar))) {
                 erro_cnpj.innerHTML = "CNPJ inválido";
                 return false
             } else {
@@ -178,6 +178,53 @@ function cadastrar() {
 
      return false;
 }
+
+// XXX.XXX/0001-XX
+function mascararCnpj(Event) {
+    var cnpjlength = input_cnpj.value.length;
+    var ultimoChar = input_cnpj.value.charAt(cnpjlength - 1);    // Verifica se o último caractere adicionado foi ponto ou traço
+    if (Event.key == "Backspace") {
+
+    } else {
+        if ((ultimoChar !== '.' && ultimoChar !== '-') && cnpjlength !== 14) {
+            if (cnpjlength === 3) {
+                input_cnpj.value += '.';
+            } else if(cnpjlength === 7){
+                input_cnpj.value += '/'
+            } else if (cnpjlength === 12) {
+                input_cnpj.value += '-';
+            }
+        }
+    }
+}
+
+// XXXXX-XXX
+function mascararCep(Event) {
+    var ceplength = input_cep.value.length;
+    var ultimoChar = input_cep.value.charAt(ceplength - 1);    // Verifica se o último caractere adicionado foi ponto ou traço
+    if (Event.key == "Backspace") {
+
+    } else {
+        if (ultimoChar !== '-' && ceplength !== 9) {
+            if (ceplength === 5) {
+                input_cep.value += '-';
+            }
+        }
+    }
+}
+
+function removerMascara(valorComMascara) {
+    var valorSemMascara = valorComMascara.replaceAll("-", "");
+
+    valorSemMascara = valorSemMascara.replaceAll(".", "");
+    valorSemMascara = valorSemMascara.replaceAll(" ", "");
+    valorSemMascara = valorSemMascara.replaceAll("(", "");
+    valorSemMascara = valorSemMascara.replaceAll(")", "");
+    valorSemMascara = valorSemMascara.replaceAll("/", "");
+
+    return valorSemMascara
+}
+
 
 
   // Array para armazenar empresas cadastradas para validação de código de ativação 
