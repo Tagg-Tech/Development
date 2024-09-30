@@ -64,6 +64,15 @@ function autenticar(req, res) {
 
                     if (resultadoAutenticar.length == 1) {
                         res.status(200).json(resultadoAutenticar);
+                        if(resultadoAutenticar > 0){
+                            res.json({
+                                idUsuario: resultadoAutenticar[0].idUsuario,
+                                nome: resultadoAutenticar[0].nome,
+                                email: resultadoAutenticar[0].email,
+                                cargo: resultadoAutenticar[0].cargo,
+                                senha: resultadoAutenticar[0].senha,
+                            });
+                        }
                     } else if (resultadoAutenticar.length == 0) {
                         confirm_cadastro.innerHTML = "Email ou senha inválidos"
                         res.status(403).send("Email e/ou senha inválido(s)");

@@ -110,14 +110,25 @@
             if (resposta.ok) {
 
                 resposta.json().then(json => {
-                    sessionStorage.EMAIL_USUARIO = json[0].email;
+                    sessionStorage.ID_USUARIO = json[0].idUsuario;
                     sessionStorage.NOME_USUARIO = json[0].nome;
-                    //sessionStorage.ID_USUARIO = json[0].id;
+                    sessionStorage.EMAIL_USUARIO = json[0].email;
+                    sessionStorage.CARGO = json[0].cargo;
 
                     console.log("O login deu certo mano")
-                    setTimeout(function () {
+
+                    if(json[0].cargo == "Analista"){
+                        setTimeout(function () {
+                        //direcionamento temporário de página até ter a dash e perfil do analista
                         window.location = "./dashboard/dashboard.html";
-                    }, 500); 
+                        }, 500); 
+                    } else {
+                        setTimeout(function () {
+                        //direcionamento temporário de página até ter a dash e perfil do gerente
+                        window.location = "./dashboard/cards.html";
+                        }, 500); 
+                    }
+                  
 
                 });
 
