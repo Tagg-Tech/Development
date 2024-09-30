@@ -1806,3 +1806,61 @@ h4 a {
 
 
 /* #endregion */
+
+
+/* #region perfil_user */
+
+.container_perfil_main{
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.menu_lateral{
+  position: relative;
+  top: 70px;
+  width: 12%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  background-color: var(--color-secondary);
+}
+
+.menu_lateral span{
+  font-size: 25px;
+}
+
+.itens1{
+  display: flex;
+  width: 100%;
+  height: 30%;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.itens2{
+  display: flex;
+  width: 100%;
+  height: 40%;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  align-items: center;
+}
+
+.itens2 img{
+  width: 450px;
+}
+
+
+.container_perfil{
+  top: 70px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-tertiary);
+}
+/* #endregion */
