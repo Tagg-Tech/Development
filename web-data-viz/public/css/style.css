@@ -11,6 +11,7 @@
   list-style: none;
   text-decoration: none;
   font-family: 'Poppins-Light';
+  /* overflow-x: hidden; */
 }
 
 body {
@@ -365,7 +366,7 @@ body {
   width: 100%;
   height: 100vh;
   padding-top: 8%;
-  background-image: url('../assets/TagTech/img/banner-equipe5.png');
+  background-image: url('../assets/TagTech/im g/banner-equipe5.png');
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -1718,6 +1719,57 @@ h4 a {
   /* #endregion */
 
 }
+#footer{
+  height: 48vh;
+  background-color: #545454;
+  color: #efefef;
+  text-align: center;
+}
+#footer-box{
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
+  background-color: #545454;
+  color: #efefef;
+  height: fit-content;
+  padding-top: 2%;
+}
+#footer hr{
+  margin-top: 2%;
+  border:black solid 0.1px;
+  height: 0.1px;
+}
+#dev-team{
+  font-family: 'Poppins-Light';
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  /* margin-left: 3.3vh; */
+  list-style: decimal;
+  background-color: #000000;
+  border: #000000 4px;
+  border-radius: 10px 20px;
+  box-shadow: #d3d3c4 5px 5px;
+  padding: 1px 4px 4px 24px;
+}
+#dev-team li{
+  list-style-type:decimal ;
+}
+#footer-links{
+  font-family: 'Poppins-Light';
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  list-style: circle;
+  background-color: #000000;
+  border: #000000 4px;
+  border-radius: 10px 20px;
+  box-shadow: #d3d3c4 5px 5px;
+  padding: 4% 4% 4% 4%;
+}
+
 
 #inp_email::placeholder{
   color: #a6a6a6;
