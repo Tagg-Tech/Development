@@ -1811,7 +1811,7 @@ h4 a {
 /* #region perfil_user */
 
 .container_perfil_main{
-  position: relative;
+  position: fixed;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -1821,7 +1821,7 @@ h4 a {
 .menu_lateral{
   position: relative;
   top: 70px;
-  width: 12%;
+  width: 14%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -1858,9 +1858,79 @@ h4 a {
 
 
 .container_perfil{
-  top: 70px;
+  display: flex;
+  flex-direction: row;
   width: 100%;
   height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.infoPerfil{
+  margin-top: 2%;
+  width: 80%;
+  height: 70%;
+  display: flex;
+  flex-direction: row;
+  /* background-color: var(--color-tertiary); */
+  border: 1px #000000 solid;
+  border-radius: 10px;
+}
+
+.pfAtual{
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
+}
+
+.pfAtual img{
+  border-radius: 50%;
+  height: 130px;
+}
+
+.allCp{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.campoAt{
   background-color: var(--color-tertiary);
+  font-size: 20px;
+  padding-right: 15px;
+  padding-left: 15px;
+  border-radius: 10px;
+}
+
+.newPerfil{
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
+}
+
+.inpAt{
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+}
+
+.newPerfil img{
+  /* border-radius: 50%; */
+  height: 100px;
+  width: 100px;
+}
+
+.newImg{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }
 /* #endregion */
