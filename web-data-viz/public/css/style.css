@@ -1769,8 +1769,20 @@ h4 a {
   box-shadow: #d3d3c4 5px 5px;
   padding: 4% 4% 4% 4%;
 }
+#input_razaoSocial::placeholder{
+  color: #a6a6a6;
+}
 
+#input_nomeFantasia::placeholder{
+  color: #a6a6a6;
+}
+#input_cnpj::placeholder{
+  color: #a6a6a6;
+}
+#input_cep::placeholder{
+  color: #a6a6a6;
 
+}
 #inp_email::placeholder{
   color: #a6a6a6;
 }
