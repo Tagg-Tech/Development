@@ -8,6 +8,7 @@ function cadastrar(req, res) {
     var cargo = req.body.cargoServer;
     var telefone = req.body.telefoneServer;
     var cpf = req.body.cpfServer;
+    var foto = req.body.fotoServer;
     var codigo = req.body.codigoServer;
     
     // Faça as validações dos valores
@@ -23,12 +24,14 @@ function cadastrar(req, res) {
         res.status(400).send("Seu telefone está undefined!");
     } else if (cpf == undefined) {
         res.status(400).send("Seu cpf está undefined!");
+    } else if (foto == undefined) {
+        res.status(400).send("Sua foto está undefined!");
     } else if (codigo == undefined) {
         res.status(400).send("Seu codigo está undefined!");
     } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        funcionarioModel.cadastrar(nome, email, senha, cargo, telefone, cpf, codigo)
+        funcionarioModel.cadastrar(nome, email, senha, cargo, telefone, cpf,foto, codigo)
             .then(
                 function (resultado) {
                     res.status(200).json(resultado);
