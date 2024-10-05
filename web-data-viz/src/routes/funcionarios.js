@@ -8,6 +8,10 @@ router.post("/cadastrar", function (req, res) {
     funcionarioController.cadastrar(req, res);
 })
 
+router.post("/alterar", function (req, res) {
+    funcionarioController.alterar(req, res);
+})
+
 router.post("/autenticar", function (req, res) {
     funcionarioController.autenticar(req, res);
 });

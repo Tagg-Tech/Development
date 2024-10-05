@@ -10,14 +10,16 @@
 
     <script src="../js/sessao.js"></script>
 
-    <link rel="stylesheet" href="./css/cadastro.css" />
     <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/areaCliente/perfil.css" />
+    
+
 
     <link rel="icon" href="../assets/icon/favicon2.ico" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body onload="direcionarDashboard()">
+<body onload="direcionarDashboard(), validarSessao(), adicionarCampos()">
     <div class="header">
         <nav>
             <div class="menu">
@@ -44,19 +46,19 @@
             <div class="infoPerfil">
                 <div class="pfAtual">
                     <h2>Dados atuais</h2>
-                    <img src="../assets/icones/imgPerfil.png" alt="">
+                    <img id="fotoPerfil" alt="">
                     <div class="allCp">
                         <div class="campoAt">
                             <span>Nome:</span>
-                            <span>Raul Reis</span>
+                            <span id="spanNome"></span>
                         </div>
                         <div class="campoAt">
                             <span class="cpLabel">Email:</span>
-                            <span>raulgomesreis@gmail.com</span>
+                            <span id="spanEmail"></span>
                         </div>
                         <div class="campoAt">
-                            <span class="cpLabel">Senha:</span>
-                            <span>**********</span>
+                            <span class="cpLabel">telefone:</span>
+                            <span id="spanTelefone"></span>
                         </div>
                     </div>
                 </div>
@@ -65,23 +67,24 @@
                     <div class="allCp">
                         <div class="newImg">
                             <h3>Nova Foto</h3>
-                            <img src="../assets/icones/imgPerfil.png" alt="">
+                            <input id="inpNovaFoto" type="text" placeholder="url">
                         </div>
                         <div class="inpAt">
-                        </div>
-                        <div class="inpAt">
-                            <span>Novo nome:</span>
-                            <input type="text" placeholder="Nome...">
                         </div>
                         <div class="inpAt">
                             <span>Novo email:</span>
-                            <input type="text" placeholder="Email...">
+                            <input id="inpNovoEmail" type="text" placeholder="Email...">
+                        </div>
+                        <div class="inpAt">
+                            <span>Novo Telefone:</span>
+                            <input id="inpNovoTelefone" type="text" placeholder="Email...">
                         </div>
                         <div class="inpAt">
                             <span>Nova senha:</span>
-                            <input type="password" placeholder="Senha...">
+                            <input id="inpNovaSenha" type="password" placeholder="Senha...">
                         </div>
-                        <button>Enviar</button>
+                        <button onclick="alterarPerfil()">Enviar</button>
+                        <div id="alertBox"></div>
                     </div>
                 </div>
             </div>
@@ -92,6 +95,72 @@
 </html>
 
 <script>
+    function adicionarCampos(){
+        var nome = sessionStorage.NOME_USUARIO;
+        var email = sessionStorage.EMAIL_USUARIO;
+        var telefone = sessionStorage.TELEFONE;   
+        
+        spanNome.innerHTML = nome;
+        spanEmail.innerHTML = email;
+        spanTelefone.innerHTML = telefone; 
+    }
+
+    function alterarPerfil(){
+        var idVar = sessionStorage.ID_USUARIO;
+        var fotoVar = inpNovaFoto.value;
+        var emailVar = inpNovoEmail.value;
+        var telefoneVar = inpNovoTelefone.value;
+        var senhaVar = inpNovaSenha.value;
+
+        
+        alert(idVar)
+        alert(fotoVar)
+        alert(emailVar)
+        alert(telefoneVar)
+        alert(senhaVar)
+
+        fetch("/funcionarios/alterar", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              // crie um atributo que recebe o valor recuperado aqui
+              // Agora vá para o arquivo routes/empresa.js
+              idServer: idVar,
+              emailServer: emailVar,
+              senhaServer: senhaVar,
+              telefoneServer: telefoneVar,
+              fotoServer: fotoVar,
+            }),
+          })
+          .then(function (resposta) {
+              console.log("resposta: ", resposta);
+       
+              if (resposta.ok) {
+                //cardErro.style.display = "block";
+                console.log("If do resposta.ok")
+                alert('Rodou')
+                console.log("Alteração realizada")
+               // mensagem_erro.innerHTML =
+               //   "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+       
+                //limparFormulario();
+                //finalizarAguardar();
+              } else {
+                throw "Houve um erro ao tentar realizar o cadastro!";
+              }
+            })
+            .catch(function (resposta) {
+              console.log("Deu erro mano")
+              console.log(`#ERRO: ${resposta}`);
+              //finalizarAguardar();
+            });
+
+
+    }
+
+
 
 
 </script>
