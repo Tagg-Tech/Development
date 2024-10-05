@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TagTech | Login</title>
+    <title>TagTech | Cadastro</title>
     <!-- boxIcons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- AOS -->
@@ -16,13 +16,13 @@
     <!-- favIcon -->
     <link rel="shortcut icon" href="img/logo1.png" type="image/x-icon">
     <!-- meuCSS -->
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="../style.css">
 </head>
 
-<body class="background">
-    <div class="banner">
-        <div class="header">
+<body>
+
+    <div class="container">
+        <header>
             <nav>
                 <div class="menu">
                     <a href="#home"><img src="img/CarroNavBar.png" alt="logo" id="logo"></a>
@@ -35,28 +35,52 @@
                         <li><a href="index.html #empresas"><strong>Empresas</strong></a></li>
                         <li><a href="index.html #equipe"><strong>Equipe</strong></a></li>
                         <li style="color:black;"><strong>|</strong></li>
-                        <li><a href="cadastro_func.html"><strong>Cadastre-se</strong></a></li>
-                        <li><a style="background-color: #fff178;" href="login.html"><strong>Login</strong></a></li>
+                        <li><a style="background-color: #fff178;"
+                                href="cadastro_func.html"><strong>Cadastre-se</strong></a></li>
+                        <li><a href="login.html"><strong>Login</strong></a></li>
                     </ul>
                 </div>
             </nav>
-        </div>
-    </div>
-    <div class="login">
-        <div class="caixa_login">
-            <h3>Faça seu Login!</h3>
-            <div class="conteudo">
-                <div>
-                    <input id="inp" type="text" placeholder="E-mail:">
-                    <input id="inp" type="text" placeholder="Senha:">
+        </header>
+    
+<div class="fundo">
+
+        <div class="card-cadastro">
+
+            <h3>Cadastre sua empresa aqui!</h3>
+
+            <div class="formulario">
+
+            <div class="cima">
+                <div class="campo">
+                    <input type="text" placeholder="Razão Social:">
+                </div>
+
+                <div class="campo">
+                    <input type="text" placeholder="Nome Fantasia:">
                 </div>
             </div>
-            <div>
-                <button class="btn_login">Login</button>
+
+
+            <div class="baixo">
+                <div class="campo">
+                    <input type="text" placeholder="CNPJ:">
+                </div>
+
+                <div class="campo">
+                    <input type="text" placeholder="CEP:">
+                </div>
+            
             </div>
-            <h4>Não tem cadastro? <a href="cadastro_func.html">Cadastre-se!</a></h4>
+
+            <button class="botao_cadastrar"><strong>Cadastrar</strong></button>
+
+            </div>
+
         </div>
-    </div>
+
+</div>
+
 </body>
 
 </html>

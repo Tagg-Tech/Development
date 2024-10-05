@@ -17,6 +17,20 @@ function limparSessao() {
     window.location = "../login.html";
 }
 
+function direcionarDashboard() {
+    var cargo = sessionStorage.CARGO;
+    var dashboardLink = document.getElementById('dashboardLink');
+
+    if (cargo === 'Analista') {
+        dashboardLink.href = 'dashboardAnalista.html';
+        alert("Direcionando para analista")
+    } else{
+        alert("Direcionando para Gerente")
+        dashboardLink.href = 'dashboardGerente.html';
+    }
+}
+
+
 // carregamento (loading)
 // function aguardar() {
 //     var divAguardar = document.getElementById("div_aguardar");

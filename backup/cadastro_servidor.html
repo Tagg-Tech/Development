@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TagTech | Cadastro</title>
+    <title>TagTech | Cadastro do Servidor</title>
     <!-- boxIcons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- AOS -->
@@ -16,13 +16,12 @@
     <!-- favIcon -->
     <link rel="shortcut icon" href="img/logo1.png" type="image/x-icon">
     <!-- meuCSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
 
-<body>
-
-    <div class="container">
-        <header>
+<body class="background">
+    <div class="banner">
+        <div class="header">
             <nav>
                 <div class="menu">
                     <a href="#home"><img src="img/CarroNavBar.png" alt="logo" id="logo"></a>
@@ -41,51 +40,50 @@
                     </ul>
                 </div>
             </nav>
-        </header>
-    
-<div class="fundo">
-
-        <div class="card-cadastro">
-
-            <h3>Cadastre sua empresa aqui!</h3>
-
-            <div class="formulario">
-
-            <div class="cima">
-                <div class="campo">
-                    <input type="text" placeholder="Razão Social:">
-                </div>
-
-                <div class="campo">
-                    <input type="text" placeholder="Nome Fantasia:">
-                </div>
-            </div>
-
-
-            <div class="baixo">
-                <div class="campo">
-                    <input type="text" placeholder="CNPJ:">
-                </div>
-
-                <div class="campo">
-                    <input type="text" placeholder="CEP:">
-                </div>
-            
-            </div>
-
-            <button class="botao_cadastrar"><strong>Cadastrar</strong></button>
-
-            </div>
-
         </div>
-
-</div>
-
+    </div>
+    <div class="cadastro">
+        <div class="caixa">
+            <h3>Cadastre seu Servidor aqui!</h3>
+            <div class="conteudo">
+                <div>
+                    <input id="input_placaderede" type="text" placeholder="Placa de Rede:">
+                    <div id="erro_plcaderede" class="error"></div>
+                    <input id="input_memoria" type="text" placeholder="Memoria:">
+                    <div id="erro_memoria" class="error"></div>
+                </div>
+                <div>
+                    <input id="input_sistemaoperacional" type="text" placeholder="Sistema Operacional:">
+                    <div id="erro_sistemaoperacional" class="error"></div>
+                    <input id="input_cpu" type="text" placeholder="CPU:">
+                    <div id="erro_cpu" class="error"></div>
+                    <input id="input_disco" type="text" placeholder="Disco:">
+                    <div id="erro_disco" class="error"></div>
+                </div>
+            </div>
+            <div>
+                <button class="btn_cadastro" onclick="cadastrar()">Cadastrar</button>
+                <div id="confirm_cadastro" class="sucesso"></div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
 
 <script>
+
+    function cadastrar() {
+         let id = input_id.value;
+         let placaderede = input_placaderede.value;
+         let memoria = input_memoria.value;
+         let sistemaoperacional= input_sistemaoperacional.value;
+         let cpu = input_cpu.value;
+         let disco = input_disco.value;
+
+     }
+
+
     //menu hamburguer
     const menuButton = document.querySelector('.menu-button');
     const navbar = document.querySelector('.navbar');
@@ -95,4 +93,23 @@
             navbar.classList.toggle('active');
 
         });
+
+        fetch('/servidores/cadastrar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            placaderedeServer: placaderede,
+            memoriaServer: memoria,
+            sistemaoperacionalServer: sistemaoperacional,
+            cpuServer: cpu,
+            discoServer: disco
+        })
+    }).then(response => response.json())
+      .then(data => {
+          document.getElementById('confirm_cadastro').innerText = "Cadastro realizado com sucesso!";
+      })
+      .catch(error => console.error('Erro:', error));
+      
 </script>
