@@ -1,11 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <script src="../js/sessao.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/areaCliente/perfil.css" />
+    <link rel="icon" href="../assets/icon/favicon2.ico" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Tag Tech</title>
 </head>
+
 <body>
-    
+    <div class="header">
+        <nav>
+            <div class="menu">
+                <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
+                <button class="menu-button"><i class='bx bx-menu'></i></button>
+
+                <ul class="navbar">
+                    <li><a id="dashboardLink" class="active"><strong>Dashboard</strong></a></li>
+                    <li><a href="index.html#sobre"><strong>Alertas</strong></a></li>
+                    <li><a href="index.html#cards"><strong>Help Desk</strong></a></li>
+                    <li><a href="index.html#cards"><strong>Perfil</strong></a></li>
+                    <li style="color:black;"><strong>|</strong></li>
+                    <li><a style="background-color: #fff178;" href="cadastro_funcionario.html"><strong>Sair <img
+                                    src="../assets/icones/sair.svg" alt=""></strong></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <section class="container_gerente">
+        <section class="ranking_downtime">
+            <ul>
+            </ul>
+        </section>
+        <section class="container_dash_gerente">
+            <div id="grafico_pizza">
+                <div class="container_chart">
+                    <h5>Uso médio de RAM</h5>
+                    <canvas id="myChart3"></canvas>
+                </div>
+                <div class="container_chart">
+                    <h5>Uso médio de CPU</h5>
+                    <canvas id="myChart4"></canvas>
+                </div>
+            </div>
+            <div id="grafico_column">
+                <div class="container_chart">
+                    <h5>Quantidade de alertas de cada servidor</h5>
+                    <canvas id="myChart1"></canvas>
+                </div>
+                <div class="container_chart">
+                    <h5>Distribuição de <strong>CPU</strong>/RAM/DISCO</h5>
+                    <canvas id="myChart2"></canvas>
+                </div>
+
+            </div>
+
+        </section>
+    </section>
 </body>
+
 </html>
+<script>
+    const labels = ['Server 1', 'Server 2', 'Server 3', 'Server 4'];
+    const data = {
+        labels: labels,
+        datasets: [{
+            axis: 'y',
+            label: 'Nivel Crítico',
+            data: [10, 13, 8, 6],
+            // fill: false,
+            backgroundColor: [
+                '#FF914C',
+            ],
+            borderColor: [
+                '#FF914C',
+            ],
+            borderWidth: 1
+        },
+        {
+            axis: 'y',
+            label: 'DownTime',
+            data: [15, 8, 9, 12],
+            // fill: false,
+            backgroundColor: [
+                '#6B4423',
+            ],
+            borderColor: [
+                '#6B4423',
+            ],
+            borderWidth: 1
+        }
+        ]
+    }
+
+    const config = {
+        type: 'bar',
+        data,
+        options: {
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: 'Tempo em segundos'
+                    }
+                },
+                y: {
+                    stacked: true,
+                }
+            }
+        }
+    };
+    const ctx = document.getElementById('myChart1');
+    new Chart(ctx, config);
+
+</script>
+<script>
+    const labels2 = ['CPU 1', 'CPU 2', 'CPU 3']
+    const data2 = {
+        labels: labels2,
+        datasets: [{
+            label: 'Distribuição de uso CPU',
+            data: [22, 9, 18],
+            backgroundColor: [
+                '#6B4423',
+            ],
+            borderColor: [
+                '#6B4423',
+            ],
+            borderWidth: 1
+        }]
+    };
+    const config2 = {
+        type: 'bar',
+        data: data2,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+
+    const ctx2 = document.getElementById('myChart2');
+    new Chart(ctx2, config2);
+
+</script>
+<script>
+    const data3 = {
+        labels: [
+            'Server1',
+            'Server2',
+            'Server3'
+        ],
+        datasets: [{
+            label: 'Uso médio de RAM(Todos os servidores)',
+            data: [70, 54, 100],
+            backgroundColor: [
+                '#6B4423',
+                '#FF914C',
+                '#fff178'
+            ],
+            hoverOffset: 4
+        }]
+    };
+    const config3 = {
+        type: 'pie',
+        data: data3,
+    };
+    const ctx3 = document.getElementById('myChart3');
+    new Chart(ctx3, config3);
+</script>
+<script>
+    const data4 = {
+        labels: [
+            'Server1',
+            'Server2',
+            'Server3'
+        ],
+        datasets: [{
+            label: 'Uso médio de CPU(Todos os servidores)',
+            data: [70, 54, 100],
+            backgroundColor: [
+                '#6B4423',
+                '#FF914C',
+                '#fff178'
+            ],
+            hoverOffset: 4
+        }]
+    };
+    const config4 = {
+        type: 'pie',
+        data: data4,
+    };
+    const ctx4 = document.getElementById('myChart4');
+    new Chart(ctx4, config4);
+</script>
