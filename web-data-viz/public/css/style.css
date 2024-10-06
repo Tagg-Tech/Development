@@ -1950,29 +1950,85 @@ h4 a {
 }
 .container_gerente{
   position: fixed;
-  width: 100%;
+  width: 95%;
   height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 .container_dash_gerente{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15vh;
+  
+}
+.ranking_downtime{
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   align-items: center;
   justify-content: center;
 }
-#myChart1{
-  width: 80vh;
-}
+/* canvas{
+  max-width: 70vh;
+  max-height: 50vh;
+} */
 #grafico_column{
-
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+}
+#grafico_pizza{
+display: flex;
+flex-direction: row;
+justify-content: space-around;
+flex-wrap: wrap;
+}
+#myChart1{
+  max-width: 60vh;
+  max-height: 60vh;
+  width: 60vh;
+  height: auto;
+  /* margin-left: 65vh; */
+}
+#myChart2{
+  max-width: 60vh;
+  max-height: 60vh;
+  width: 60vh;
+  height: auto;
+  /* margin-left: 65vh; */
+}
+#myChart3{
+  max-width: 30vh;
+  max-height: 30vh;
+  width: 60vh;
+  height: auto;
+  /* margin-left: 65vh; */
+}
+#myChart4{
+  max-width: 30vh;
+  max-height: 30vh;
+  width: 60vh;
+  height: auto;
+  /* margin-left: 65vh; */
 }
 .header{
   position: fixed;
   /* z-index: 1; */
 }
+.container_chart{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+/* canvas {
+  max-width: 400px;
+  max-height: 400px;
+} */
 
 
 /* #endregion */
