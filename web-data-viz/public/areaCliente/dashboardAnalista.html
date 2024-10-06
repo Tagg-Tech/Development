@@ -4,8 +4,233 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="areaCliente.css" />
+    <link rel="icon" href="./assets/icon/favicon2.ico">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
 </head>
+
 <body>
-    
+    <div class="header">
+        <nav>
+            <div class="menu">
+                <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
+                <button class="menu-button"><i class='bx bx-menu'></i></button>
+
+                <ul class="navbar">
+                    <li><a id="dashboardLink"><strong>Dashboard</strong></a></li>
+                    <li><a href="index.html#sobre"><strong>Alertas</strong></a></li>
+                    <li><a href="index.html#cards"><strong>Help Desk</strong></a></li>
+                    <li><a href="index.html#cards"><strong>Perfil</strong></a></li>
+                    <li style="color:black;"><strong>|</strong></li>
+                    <li><a style="background-color: #fff178;" href="cadastro_funcionario.html"><strong>Sair <img src="../assets/icones/sair.svg" alt=""></strong></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h1>TAG TECH</h1>
+        <p>Olá, Fernando!</p>
+        <div class="metrics">
+            <h2>Métricas</h2>
+            <select>
+                <option>Nome</option>
+            </select>
+           
+            <button>Disco Used X Disco Free</button>
+            <button>Botão baixar relatório</button>
+            <select>
+                <option>Nome</option>
+            </select>
+            
+        </div>
+        <div class="buttons">
+            <button>Dashboard</button>
+            <button>Alertas</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Container flexbox para os gráficos e ranking -->
+        <div class="chart-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+            <!-- Gráfico de Pizza -->
+            <canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
+
+            <!-- Gráfico de Barras Horizontais -->
+            <canvas id="horizontalBarChart" style="aspect-ratio: 16/9; width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
+
+            <!-- Gráfico de Colunas Empilhadas -->
+            <canvas id="stackedBarChart" style="aspect-ratio: 16/9; width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-top: 20px;"></canvas>
+
+            <!-- Ranking de tempo fora do ar -->
+            <div class="ranking" style="width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-top: 20px;background-color: rgba(255, 255, 255, 0.8);">
+                <h3>Ranking de tempo fora do ar</h3>
+                <table style="width: 100%;">
+                    <tr>
+                        <th>Ranking</th>
+                        <th>Servidor</th>
+                        <th>Tempo fora do ar</th>
+                    </tr>
+                    <tr>
+                        <td>1-</td>
+                        <td>Servidor 2</td>
+                        <td>53:03</td>
+                    </tr>
+                    <tr>
+                        <td>2-</td>
+                        <td>Servidor 1</td>
+                        <td>45:23</td>
+                    </tr>
+                    <tr>
+                        <td>3-</td>
+                        <td>Servidor 3</td>
+                        <td>36:12</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Gráfico de Pizza
+        const ctxPizza = document.getElementById('meuGrafico').getContext('2d');
+        const meuGrafico = new Chart(ctxPizza, {
+            type: 'pie',
+            data: {
+                labels: ['CPU', 'RAM', 'DISCO'],
+                datasets: [{
+                    label: 'Uso de Recursos',
+                    data: [12500, 10000, 3000],
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: context => {
+                                return ' %' + context.parsed.toLocaleString('pt-BR', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                });
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'left',
+                        labels: {
+                            font: { size: 18 }
+                        },
+                    },
+                    title: {
+                        display: true,
+                        text: 'Distribuição de uso CPU/RAM/DISCO',
+                        font: { size: 24 },
+                        padding: { bottom: 30 }
+                    }
+                },
+                responsive: false,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Gráfico de Barras Horizontais
+        const ctxBar = document.getElementById('horizontalBarChart').getContext('2d');
+        const dataBar = {
+            labels: ['Server 1', 'Server 2', 'Server 3'],
+            datasets: [
+                {
+                    label: 'MIN',
+                    data: [3, 8, 16],
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: '#ff914c',
+                },
+                {
+                    label: 'MAX',
+                    data: [6, 14, 17],
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: '#f64b00',
+                }
+            ]
+        };
+
+        const configBar = {
+            type: 'bar',
+            data: dataBar,
+            options: {
+                indexAxis: 'y', // Configuração para barras horizontais
+                elements: {
+                    bar: {
+                        borderWidth: 2,
+                    }
+                },
+                responsive: false,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Menor e Maior uso de cada componente por servidor'
+                    }
+                }
+            }
+        };
+
+        const horizontalBarChart = new Chart(ctxBar, configBar);
+
+        // Gráfico de Colunas Empilhadas
+        const ctxStacked = document.getElementById('stackedBarChart').getContext('2d');
+
+        const DATA_COUNT = 7;
+        const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 30};
+
+        const labels = ['Server 1', 'Server 2', 'Server 3']; // Mudei para meses fixos
+        const data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Alertas',
+                    data: Array.from({ length: DATA_COUNT }, () => Math.floor(Math.random() * 10)),
+                    backgroundColor: '#ff914c',
+                },
+                {
+                    label: 'DownTime',
+                    data: Array.from({ length: DATA_COUNT }, () => Math.floor(Math.random() * 10)),
+                    backgroundColor: '#f64b00',
+                },
+            ]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Quantidade de alertas de cada servidor'
+                    },
+                },
+                responsive: false,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+        };
+
+        const stackedBarChart = new Chart(ctxStacked, config);
+    </script>
 </body>
 </html>
