@@ -1950,19 +1950,20 @@ h4 a {
 }
 .container_gerente{
   position: fixed;
-  width: 95%;
+  width: 90%;
   height: 100vh;
   display: flex;
   flex-direction: row;
+  margin-left: 35vh;
 }
 .container_dash_gerente{
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 92%;
   height: 100%;
   align-items: center;
   justify-content: center;
-  margin-left: 15vh;
+  /* margin-left: 15vh; */
   
 }
 .ranking_downtime{
@@ -1981,6 +1982,7 @@ h4 a {
 display: flex;
 flex-direction: row;
 justify-content: space-between;
+margin-top: 15%;
 }
 #grafico_pizza{
 display: flex;
@@ -1989,36 +1991,36 @@ justify-content: space-around;
 flex-wrap: wrap;
 }
 #myChart1{
-  max-width: 60vh;
-  max-height: 60vh;
-  width: 60vh;
+  max-width: 45vh;
+  max-height: 45vh;
+  width: 45vh;
   height: auto;
   /* margin-left: 65vh; */
 }
 #myChart2{
-  max-width: 60vh;
-  max-height: 60vh;
-  width: 60vh;
+  max-width: 45vh;
+  max-height: 45vh;
+  width: 45vh;
   height: auto;
   /* margin-left: 65vh; */
 }
 #myChart3{
   max-width: 30vh;
   max-height: 30vh;
-  width: 60vh;
+  width: 45vh;
   height: auto;
   /* margin-left: 65vh; */
 }
 #myChart4{
   max-width: 30vh;
   max-height: 30vh;
-  width: 60vh;
+  width: 45vh;
   height: auto;
   /* margin-left: 65vh; */
 }
 .header{
   position: fixed;
-  z-index: 1;
+  /* z-index: 1; */
 }
 .container_chart{
   display: flex;
