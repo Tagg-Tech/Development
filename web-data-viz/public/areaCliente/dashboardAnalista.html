@@ -82,13 +82,13 @@
             <canvas id="stackedBarChart" style="aspect-ratio: 16/9; width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-top: 20px;"></canvas>
 
             <!-- Ranking de tempo fora do ar -->
-            <div class="ranking" style="width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-top: 20px;background-color: rgba(255, 255, 255, 0.8);">
+            <div class="ranking" style="width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-top: 20px;background-color: transparent;">
                 <h3>Ranking de tempo fora do ar</h3>
                 <table style="width: 100%;">
                     <tr>
                         <th>Ranking</th>
                         <th>Servidor</th>
-                        <th>Tempo fora do ar</th>
+                        <th>Tempo fora do ar (min)</th>
                     </tr>
                     <tr>
                         <td>1-</td>
@@ -166,7 +166,7 @@
                     backgroundColor: '#ff914c',
                 },
                 {
-                    label: 'MAX',
+                    label: 'MAX',   
                     data: [6, 14, 17],
                     borderColor: 'rgb(54, 162, 235)',
                     backgroundColor: '#f64b00',
@@ -192,7 +192,9 @@
                     },
                     title: {
                         display: true,
-                        text: 'Menor e Maior uso de cada componente por servidor'
+                        text: 'Menor e Maior uso de cada componente por servidor',
+                        font: { size: 24 },
+                        padding: { bottom: 30 }
                     }
                 }
             }
@@ -230,7 +232,9 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Quantidade de alertas de cada servidor'
+                        text: 'Quantidade de alertas de cada servidor',
+                        font: { size: 24 },
+                        padding: { bottom: 30 }
                     },
                 },
                 responsive: false,

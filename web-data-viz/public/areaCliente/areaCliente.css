@@ -1970,8 +1970,14 @@
       color: #ffcc66;
       align-items: center;
   }
+
+  .sidebar h2 {
+    color: white;
+    align-items: center;
+}
   .sidebar p {
-      color: #000;
+      color: white;
+      font-size: x-large;
   }
   .sidebar .metrics {
       margin-top: 20px;
@@ -2011,10 +2017,10 @@
         .ranking {
             width: 50%; /* Ajuste para manter a largura igual aos gráficos */
             margin-top: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: transparent;
             padding: 10px; /* Adiciona espaço ao redor da tabela */
             border-radius: 10px; /* Bordas arredondadas */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
+            
         }
 
         .ranking table {
