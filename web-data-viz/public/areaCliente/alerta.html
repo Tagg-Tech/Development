@@ -45,7 +45,7 @@
                     <canvas id="LineChart" style="aspect-ratio: 16/9; width: 100%; height: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
                 </div>
                 <div class="graficoRoscaTipoAlerta grafAlerta">
-
+                    <canvas id="RoscaChart" style="aspect-ratio: 16/9; width: 100%; height: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
                 </div>
             </section>
         </main>
@@ -137,6 +137,40 @@
           }
         },
       };
-
       const LineChart = new Chart(ctxLine, configLine);
+
+
+      const ctxRosca = document.getElementById('RoscaChart').getContext('2d');
+
+      const dataRosca = {
+        labels: ['Critico', 'DownTime'],
+        datasets: [
+          {
+            label: 'Dataset 1',
+            data: [12,5],
+            backgroundColor: ['red','orange'],
+          }
+        ]
+      };
+  
+  
+      const configRosca = {
+        type: 'doughnut',
+        data: dataRosca,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Chart.js Doughnut Chart'
+            }
+          }
+        },
+      };
+
+        const RoscaChart = new Chart(ctxRosca, configRosca);
+
 </script>
