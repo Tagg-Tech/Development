@@ -1,176 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tag | Alertas</title>
-    
+
     <script src="../js/sessao.js"></script>
 
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/areaCliente/alerta.css" />
 
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <header>
-            <nav>
-                <div class="menu">
-                    <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
-                    <button class="menu-button"><i class='bx bx-menu'></i></button>
-    
-                    <ul class="navbar">
-                        <li ><a id="dashboardLink"><strong>Dashboard</strong></a></li>
-                        <li><a href="index.html#sobre"><strong>Alertas</strong></a></li>
-                        <li><a href="index.html#cards"><strong>Help Desk</strong></a></li>
-                        <li><a href="index.html#cards"><strong>Perfil</strong></a></li>
-                        <li style="color:black;"><strong>|</strong></li>
-                        <li><a style="background-color: #fff178;"
-                                href="cadastro_funcionario.html"><strong>Sair <img src="../assets/icones/sair.svg" alt=""></strong></a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+      <header>
+        <nav>
+          <div class="menu">
+            <a href="#home"
+              ><img
+                src="../assets/TagTech/img/CarroNavBar.png"
+                alt="logo"
+                id="logo"
+            /></a>
+            <button class="menu-button"><i class="bx bx-menu"></i></button>
 
-        <main>
-            <section class="graficosAlerta">
-                <div class="graficoBarrasTipoAlerta grafAlerta">
-                    <canvas id="horizontalBarChart" style="aspect-ratio: 16/9; width: 100%; height: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
-                </div>
-                <div class="graficoAlertaPorTempo grafAlerta">
-                    <canvas id="LineChart" style="aspect-ratio: 16/9; width: 100%; height: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
-                </div>
-                <div class="graficoRoscaTipoAlerta grafAlerta">
-                    <canvas id="RoscaChart" style="aspect-ratio: 16/9; width: 100%; height: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
-                </div>
-            </section>
-        </main>
+            <ul class="navbar">
+              <li>
+                <a id="dashboardLink"><strong>Dashboard</strong></a>
+              </li>
+              <li>
+                <a href="index.html#sobre"><strong>Alertas</strong></a>
+              </li>
+              <li>
+                <a href="index.html#cards"><strong>Help Desk</strong></a>
+              </li>
+              <li>
+                <a href="index.html#cards"><strong>Perfil</strong></a>
+              </li>
+              <li style="color: black"><strong>|</strong></li>
+              <li>
+                <a
+                  style="background-color: #fff178"
+                  href="cadastro_funcionario.html"
+                  ><strong
+                    >Sair <img src="../assets/icones/sair.svg" alt="" /></strong
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+
+      <main>
+        <section class="graficosAlerta">
+          <div class="graficoBarrasTipoAlerta grafAlerta">
+            <canvas
+              id="horizontalBarChart"
+              style="
+                aspect-ratio: 16/9;
+                width: 100%;
+                height: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 10px;
+              "
+            ></canvas>
+          </div>
+          <div class="graficoAlertaPorTempo grafAlerta">
+            <canvas
+              id="LineChart"
+              style="
+                aspect-ratio: 16/9;
+                width: 100%;
+                height: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 10px;
+              "
+            ></canvas>
+          </div>
+          <div class="graficoRoscaTipoAlerta grafAlerta">
+            <canvas
+              id="RoscaChart"
+              style="
+                aspect-ratio: 16/9;
+                width: 100%;
+                height: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 10px;
+              "
+            ></canvas>
+          </div>
+        </section>
+
+        <section class="containerAlertas">
+          <div class="divAlertas">
+            <div class="headerAlertas">
+              <h2>Historico de Alertas</h2>
+              <h4>Chamados (5 resultados) (Ultimas 24 horas)</h4>
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>id do chamado</th>
+                  <th>Situação</th>
+                  <th>Componente</th>
+                  <th>Tipo de incidente</th>
+                  <th>% de uso</th>
+                  <th>Horário</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>THD - 8</td>
+                  <td>Esperando Suporte</td>
+                  <td>Processador</td>
+                  <td>nivel critico</td>
+                  <td>95%</td>
+                  <td>Sábado, 18 de outubro, 2024 13:17:51 PM</td>
+                </tr>
+                <tr>
+                  <td>THD - 8</td>
+                  <td>Esperando Suporte</td>
+                  <td>Processador</td>
+                  <td>nivel critico</td>
+                  <td>95%</td>
+                  <td>Sábado, 18 de outubro, 2024 13:17:51 PM</td>
+                </tr>
+                <tr>
+                  <td>THD - 8</td>
+                  <td>Esperando Suporte</td>
+                  <td>Processador</td>
+                  <td>nivel critico</td>
+                  <td>95%</td>
+                  <td>Sábado, 18 de outubro, 2024 13:17:51 PM</td>
+                </tr>
+                <tr>
+                  <td>THD - 8</td>
+                  <td>Esperando Suporte</td>
+                  <td>Processador</td>
+                  <td>nivel critico</td>
+                  <td>95%</td>
+                  <td>Sábado, 18 de outubro, 2024 13:17:51 PM</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
     </div>
-
-
-</body>
+  </body>
 </html>
 
 <script>
-    const ctxBar = document.getElementById('horizontalBarChart').getContext('2d');
-    const dataBar = {
-        labels: ['CPU', 'RAM', 'DISCO'],
-        datasets: [
-            {
-                label: 'DOWN TIME',
-                data: [3, 8, 16],
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: '#ff914c',
-            },
-            {
-                label: 'SOBRECARGA',
-                data: [6, 14, 17],
-                backgroundColor: '#f64b00',
-            }
-        ]
-    };
-    
-    const configBar = {
-        type: 'bar',
-        data: dataBar,
-        options: {
-            indexAxis: 'x', // Configuração para barras horizontais
-            elements: {
-                bar: {
-                    borderWidth: 2,
-                }
-            },
-            responsive: false,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom', // Muda a posição da legenda para baixo
-                },
-                title: {
-                    display: true,
-                    text: 'Tipos de alertas'
-                }
-            }
-        }
-    };
-    
-    const horizontalBarChart = new Chart(ctxBar, configBar);
+  const ctxBar = document.getElementById("horizontalBarChart").getContext("2d");
+  const dataBar = {
+    labels: ["CPU", "RAM", "DISCO"],
+    datasets: [
+      {
+        label: "DOWN TIME",
+        data: [3, 8, 16],
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "#ff914c",
+      },
+      {
+        label: "SOBRECARGA",
+        data: [6, 14, 17],
+        backgroundColor: "#f64b00",
+      },
+    ],
+  };
 
-    const ctxLine = document.getElementById('LineChart').getContext('2d');
-
-    const dataLine = {
-      labels: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sabado'],
-      datasets: [
-        {
-          label: 'Nivel Critico',
-          data: [12,15,16,27,18,21,9],
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: '#ff914c',
+  const configBar = {
+    type: "bar",
+    data: dataBar,
+    options: {
+      indexAxis: "x", // Configuração para barras horizontais
+      elements: {
+        bar: {
+          borderWidth: 2,
         },
-        {
-          label: 'Down Times',
-          data: [6,8,8,9,6,11,3],
-          borderColor: 'blue',
-          backgroundColor: 'blue"',
-        }
-      ]
-    };
-
-
-    const configLine = {
-        type: 'line',
-        data: dataLine,
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'top',
-            },
-            title: {
-              display: true,
-              text: 'Chart.js Line Chart'
-            }
-          }
+      },
+      responsive: false,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom", // Muda a posição da legenda para baixo
         },
-      };
-      const LineChart = new Chart(ctxLine, configLine);
-
-
-      const ctxRosca = document.getElementById('RoscaChart').getContext('2d');
-
-      const dataRosca = {
-        labels: ['Critico', 'DownTime'],
-        datasets: [
-          {
-            label: 'Dataset 1',
-            data: [12,5],
-            backgroundColor: ['red','orange'],
-          }
-        ]
-      };
-  
-  
-      const configRosca = {
-        type: 'doughnut',
-        data: dataRosca,
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'top',
-            },
-            title: {
-              display: true,
-              text: 'Chart.js Doughnut Chart'
-            }
-          }
+        title: {
+          display: true,
+          text: "Tipos de alertas",
         },
-      };
+      },
+    },
+  };
 
-        const RoscaChart = new Chart(ctxRosca, configRosca);
+  const horizontalBarChart = new Chart(ctxBar, configBar);
 
+  const ctxLine = document.getElementById("LineChart").getContext("2d");
+
+  const dataLine = {
+    labels: [
+      "Domingo",
+      "Segunda",
+      "Terça",
+      "Quarta",
+      "Quinta",
+      "Sexta",
+      "Sabado",
+    ],
+    datasets: [
+      {
+        label: "Nivel Critico",
+        data: [12, 15, 16, 27, 18, 21, 9],
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "#ff914c",
+      },
+      {
+        label: "Down Times",
+        data: [6, 8, 8, 9, 6, 11, 3],
+        borderColor: "blue",
+        backgroundColor: 'blue"',
+      },
+    ],
+  };
+
+  const configLine = {
+    type: "line",
+    data: dataLine,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: "Chart.js Line Chart",
+        },
+      },
+    },
+  };
+  const LineChart = new Chart(ctxLine, configLine);
+
+  const ctxRosca = document.getElementById("RoscaChart").getContext("2d");
+
+  const dataRosca = {
+    labels: ["Critico", "DownTime"],
+    datasets: [
+      {
+        label: "Dataset 1",
+        data: [12, 5],
+        backgroundColor: ["red", "orange"],
+      },
+    ],
+  };
+
+  const configRosca = {
+    type: "doughnut",
+    data: dataRosca,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: "Chart.js Doughnut Chart",
+        },
+      },
+    },
+  };
+
+  const RoscaChart = new Chart(ctxRosca, configRosca);
 </script>
