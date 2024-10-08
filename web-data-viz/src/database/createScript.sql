@@ -51,3 +51,6 @@ CREATE TABLE usuarioResponsavelMaquina (
   FOREIGN KEY (fkUsuario) REFERENCES usuario (idUsuario),
   FOREIGN KEY (fkMaquina) REFERENCES maquina (idMaquina)
 );
+
+select * from usuario;
+select * from registros;
