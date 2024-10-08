@@ -1,0 +1,42 @@
+:root {
+    --color-default: #efefef;
+    --color-primary: #ff914c;
+    --color-secondary: #fff178;
+    --color-tertiary: #545454;
+    --color-quartenary: #202018;
+    --color-quinternary: #a6a6a6;
+  }
+
+
+body{
+    background-color: var(--color-primary);
+}
+
+
+
+.graficosAlerta{
+    margin-top: 70px;
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.grafAlerta{
+    width: 32.7%;
+    background-color: #fff;
+    height: 98%;
+    border-radius: 5px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.graficoAlertaPorTempo{
+    width: 43%;
+}
+
+.graficoRoscaTipoAlerta{
+    width: 22%;
+}
