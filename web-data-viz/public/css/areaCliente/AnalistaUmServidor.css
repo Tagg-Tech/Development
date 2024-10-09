@@ -1991,7 +1991,6 @@
   }
   .sidebar .buttons {
       margin-top: 20px;
-      
   }
   .sidebar .buttons button {
       width: 100%;
@@ -1999,28 +1998,6 @@
       margin-bottom: 10px;
       box-sizing: border-box;
   }
-
-  .sidebar .escolha-servidor{
-    display: flex;
-    flex-direction:column;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  /* .sidebar .escolha-servidor a{ */
-    /* background-color: #f0ecec; */
-    /* border-radius: solid 20%; */
-    /* border-color: gray; */
-    /* border-width: 2%; */
-    /* width: 100%; */
-    /* text-align: center; */
-  /* } */
-
-  #selecionaServidor{
-    width: 20%;
-    box-sizing: content-box;
-  }
-
   .sidebar .car-icon {
       text-align: center;
       margin-top: 20px;

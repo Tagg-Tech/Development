@@ -37,7 +37,7 @@
     <div class="sidebar">
         <h1>TAG TECH</h1>
         <p>Olá, Fernando!</p>
-        <div class="metrics">
+        <div class="metrics buttons">
             <h2>Filtros</h2>
             <select>
                 <option selected disabled >Escolha a amostra</option>
@@ -48,20 +48,27 @@
            
            
             <button>Baixar relatório</button>
-            <select>
-                <option selected disabled >Escolha o servidor</option>
-                <option>
-                    <a href="dashboardAnalistaUmServidor.html">Servidor 1</a>
-                </option>
-                <option>
-                    <a href="dashboardAnalistaUmServidor.html">Servidor 2</a>
-                </option>
-                <option>
-                    <a href="dashboardAnalistaUmServidor.html">Servidor 3</a>
-                </option>
-            </select>
+
             
-        </div>
+            <div class="escolha-servidor" >
+                <div>
+                    <span>Escolha o servidor</span>
+                    <select id="selecionaServidor">
+                        <option selected disabled >Nº</option>
+                        <option id="1" >
+                            1
+                        </option id="2" >
+                        <option>
+                            2
+                        </option>
+                        <option id="3" >
+                            3
+                        </option>
+                    </select>
+                </div>
+            </div> 
+                <button onclick="mudarTela()" >Acessar</button>
+            </div>
         <div class="buttons">
             <button>Dashboard</button>
             <button>Alertas</button>
@@ -250,7 +257,26 @@
             }
         };
 
+        function mudarTela(){
+            select = selecionaServidor.value
+            if(select == 1){
+                window.location = "dashboardAnalistaUmServidor.html";
+            } else if (select == 2){
+                window.location = "dashboardAnalistaUmServidor.html";
+            } else if (select == 3){
+                window.location = "dashboardAnalistaUmServidor.html";
+            }
+        }
+
         const stackedBarChart = new Chart(ctxStacked, config);
+
+        //const select = document.getElementById('seleciona-servidor');
+        //const link = document.getElementById('link-dash-servidor');
+        //select.addEventListener('change', () => {
+        //    link.href = 'dashboardAnalistaUmServidor.html';
+        //});
+    
+
     </script>
 </body>
 </html>

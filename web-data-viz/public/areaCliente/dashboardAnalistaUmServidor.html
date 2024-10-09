@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Servidor</title>
-    <link rel="stylesheet" href="areaCliente.css" />
+    <link rel="stylesheet" href="../css/areaCliente/AnalistaUmServidor.css" />
     <link rel="icon" href="./assets/icon/favicon2.ico">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
@@ -46,13 +46,13 @@
             <button>Botão baixar relatório</button>
             <select>
                 <option>
-                    <a href="dashboardAnalistaUmServidor.html">Servidor 1</a>
+                    Servidor 1
                 </option>
                 <option>
-                    <a href="dashboardAnalistaUmServidor.html">Servidor 2</a>
+                    Servidor 2
                 </option>
                 <option>
-                    <a href="dashboardAnalistaUmServidor.html">Servidor 3</a>
+                    Servidor 3
                 </option>
             </select>
             
@@ -65,58 +65,33 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Container flexbox para os gráficos e ranking -->
+
+        <!-- Container flexbox para os gráficos -->
         <div class="chart-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
-            <!-- Gráfico de Pizza -->
-            <canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
 
-            <!-- Gráfico de Barras Horizontais -->
-            <canvas id="horizontalBarChart" style="aspect-ratio: 16/9; width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
+           <!-- Gráfico de Pizza -->
+           <canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
 
-            <!-- Gráfico de Colunas Empilhadas -->
-            <canvas id="stackedBarChart" style="aspect-ratio: 16/9; width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-top: 20px;"></canvas>
+           <!-- Gráfico de Linhas -->
+           <canvas id="meuGraficoLinhas" style="aspect-ratio: 16/9; width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
 
-            <!-- Ranking de tempo fora do ar -->
-            <div class="ranking" style="width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-top: 20px;background-color: rgba(255, 255, 255, 0.8);">
-                <h3>Ranking de tempo fora do ar</h3>
-                <table style="width: 100%;">
-                    <tr>
-                        <th>Ranking</th>
-                        <th>Servidor</th>
-                        <th>Tempo fora do ar</th>
-                    </tr>
-                    <tr>
-                        <td>1-</td>
-                        <td>Servidor 2</td>
-                        <td>53:03</td>
-                    </tr>
-                    <tr>
-                        <td>2-</td>
-                        <td>Servidor 1</td>
-                        <td>45:23</td>
-                    </tr>
-                    <tr>
-                        <td>3-</td>
-                        <td>Servidor 3</td>
-                        <td>36:12</td>
-                    </tr>
-                </table>
-            </div>
         </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // Gráfico de Pizza
-        const ctxPizza = document.getElementById('meuGrafico').getContext('2d');
+
+       // Gráfico de Pizza
+       const ctxPizza = document.getElementById('meuGrafico').getContext('2d');
         const meuGrafico = new Chart(ctxPizza, {
             type: 'pie',
             data: {
-                labels: ['CPU', 'RAM', 'DISCO'],
+                labels: ['Livre','Ocupado'],
                 datasets: [{
                     label: 'Uso de Recursos',
-                    data: [12500, 10000, 3000],
+                    data: [300,700],
                 }]
             },
             options: {
@@ -139,7 +114,7 @@
                     },
                     title: {
                         display: true,
-                        text: 'Distribuição de uso CPU/RAM/DISCO',
+                        text: 'Disco Usado x Livre (%)',
                         font: { size: 24 },
                         padding: { bottom: 30 }
                     }
@@ -147,101 +122,54 @@
                 responsive: false,
                 maintainAspectRatio: false
             }
-        });
+        });     
 
-        // Gráfico de Barras Horizontais
-        const ctxBar = document.getElementById('horizontalBarChart').getContext('2d');
-        const dataBar = {
-            labels: ['Server 1', 'Server 2', 'Server 3'],
-            datasets: [
-                {
-                    label: 'MIN',
-                    data: [3, 8, 16],
-                    borderColor: 'rgb(255, 99, 132)',
-                    backgroundColor: '#ff914c',
-                },
-                {
-                    label: 'MAX',
-                    data: [6, 14, 17],
-                    borderColor: 'rgb(54, 162, 235)',
-                    backgroundColor: '#f64b00',
-                }
-            ]
-        };
-
-        const configBar = {
-            type: 'bar',
-            data: dataBar,
-            options: {
-                indexAxis: 'y', // Configuração para barras horizontais
-                elements: {
-                    bar: {
-                        borderWidth: 2,
-                    }
-                },
-                responsive: false,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Menor e Maior uso de cada componente por servidor'
-                    }
-                }
-            }
-        };
-
-        const horizontalBarChart = new Chart(ctxBar, configBar);
-
-        // Gráfico de Colunas Empilhadas
-        const ctxStacked = document.getElementById('stackedBarChart').getContext('2d');
-
+        // Gráfico de Linhas
         const DATA_COUNT = 7;
-        const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 30};
+        const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
 
-        const labels = ['Server 1', 'Server 2', 'Server 3']; // Mudei para meses fixos
+        const labels = Utils.months({count: 7});
         const data = {
-            labels: labels,
-            datasets: [
-                {
-                    label: 'Alertas',
-                    data: Array.from({ length: DATA_COUNT }, () => Math.floor(Math.random() * 10)),
-                    backgroundColor: '#ff914c',
-                },
-                {
-                    label: 'DownTime',
-                    data: Array.from({ length: DATA_COUNT }, () => Math.floor(Math.random() * 10)),
-                    backgroundColor: '#f64b00',
-                },
-            ]
+          labels: labels,
+          datasets: [
+            {
+              label: 'Dataset 1',
+              data: Utils.numbers(NUMBER_CFG),
+              borderColor: Utils.CHART_COLORS.red,
+              backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
+            },
+            {
+              label: 'Dataset 2',
+              data: Utils.numbers(NUMBER_CFG),
+              borderColor: Utils.CHART_COLORS.blue,
+              backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
+            }
+          ]
         };
-
-        const config = {
-            type: 'bar',
+        
+        const ctxLinhas = document.getElementById('meuGraficoLinhas').getContext('2d');
+        const configLinhas = new Chart(ctxLinhas, {
+            type: 'line',
             data: data,
             options: {
+                responsive: true,
                 plugins: {
+                    legend: {
+                        position: 'top',
+                    },
                     title: {
                         display: true,
-                        text: 'Quantidade de alertas de cada servidor'
-                    },
-                },
-                responsive: false,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        stacked: true
+                        text: 'Chart.js Line Chart'
                     }
                 }
-            }
-        };
+            },
+        });
 
-        const stackedBarChart = new Chart(ctxStacked, config);
+
+        const meuGraficoLinhas = new Chart(ctxLinhas, configLinhas, data, labels);
+
+
+
     </script>
 </body>
 </html>
