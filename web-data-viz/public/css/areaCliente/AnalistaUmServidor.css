@@ -1989,6 +1989,29 @@
       padding: 10px;
       box-sizing: border-box;
   }
+
+  .sidebar .buttons {
+    margin-top: 20px; 
+  }
+  .sidebar .buttons button {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .sidebar .escolha-servidor{
+  display: flex;
+  flex-direction:column;
+  justify-content: space-between;
+  align-items: center;
+  }
+
+  #selecionaServidor{
+    width: 20%;
+    box-sizing: content-box;
+  }
+
+
   .sidebar .buttons {
       margin-top: 20px;
   }
@@ -2012,36 +2035,16 @@
       overflow: hidden; /* Para evitar problemas de flutuação */
   }
 
+  .organizacao_graficos{
+    display: flex;
+  }
+
+  .organizacao_cada_grafico_separado{
+    display:flex;
+    width: 50%;
+    height: 50%;
+  }
+
  
-        /* Estilo para a tabela */
-        .ranking {
-            width: 50%; /* Ajuste para manter a largura igual aos gráficos */
-            margin-top: 20px;
-            background-color: transparent;
-            padding: 10px; /* Adiciona espaço ao redor da tabela */
-            border-radius: 10px; /* Bordas arredondadas */
-            
-        }
-
-        .ranking table {
-            width: 100%; /* Tabela ocupa toda a largura da div */
-            border-collapse: collapse;
-        }
-
-        .ranking th,
-        .ranking td {
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #000;
-        }
-
-        .ranking th {
-            background-color: #cc6600;
-            color: #fff;
-        }
-
-        .ranking td {
-            background-color: #ffcc99;
-        }
-
+  
         

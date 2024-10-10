@@ -16,6 +16,7 @@
             <div class="menu">
                 <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
+                <h1>Dash Juninho</h1>
 
                 <ul class="navbar">
                     <li><a id="dashboardLink"><strong>Dashboard</strong></a></li>
@@ -23,7 +24,6 @@
                     <li><a href="index.html#cards"><strong>Help Desk</strong></a></li>
                     <li><a href="perfil.html"><strong>Perfil</strong></a></li>
                     <li style="color:black;"><strong>|</strong></li>
-                    <li>aaaaaaaaaaaaaaaaaaaaaaaa</li>
                     <li><a style="background-color: #fff178;" href="cadastro_funcionario.html"><strong>Sair <img src="../assets/icones/sair.svg" alt=""></strong></a></li>
                 </ul>
             </div>
@@ -44,18 +44,24 @@
            
            
             <button>Botão baixar relatório</button>
-            <select>
-                <option>
-                    Servidor 1
-                </option>
-                <option>
-                    Servidor 2
-                </option>
-                <option>
-                    Servidor 3
-                </option>
-            </select>
-            
+            <div class="escolha-servidor" >
+                <div>
+                    <span>Escolha o servidor</span>
+                    <select id="selecionaServidor">
+                        <option selected disabled >Nº</option>
+                        <option id="1" >
+                            1
+                        </option id="2" >
+                        <option>
+                            2
+                        </option>
+                        <option id="3" >
+                            3
+                        </option>
+                    </select>
+                </div>
+            </div> 
+            <button onclick="mudarTela()" >Acessar</button>  
         </div>
         <div class="buttons">
             <button>Dashboard</button>
@@ -64,20 +70,55 @@
     </div>
 
     <!-- Main Content -->
-    <div class="main-content">
+    <main class="main-content">
 
         <!-- Container flexbox para os gráficos -->
         <div class="chart-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
 
            <!-- Gráfico de Pizza -->
-           <canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
+           <canvas id="meuGrafico" 
+                    style="aspect-ratio: 16/9; 
+                                  width: 50%; 
+                                 height: 50%; 
+                                padding: 10px; 
+                     border: 1px solid #ddd; 
+                          border-radius: 10px;">
+           </canvas>
 
            <!-- Gráfico de Linhas -->
-           <canvas id="meuGraficoLinhas" style="aspect-ratio: 16/9; width: 48%; height: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
+           <canvas id="LineChart" 
+                    style="aspect-ratio: 16/9; 
+                                  width: 50%; 
+                                 height: 50%; 
+                                padding: 10px; 
+                     border: 1px solid #ddd; 
+                          border-radius: 10px;">
+            </canvas>
+
+            <!-- Gráfico de Barras Horizontais -->
+            <canvas id="ChartBarraHorizontal" 
+                    style="aspect-ratio: 16/9; 
+                                  width: 50%; 
+                                 height: 50%; 
+                                padding: 10px; 
+                     border: 1px solid #ddd; 
+                          border-radius: 10px;">
+            </canvas>     
+                
+
+            <!-- Gráfico de Colunas -->
+            <canvas id="ChartColunas" 
+                     style="aspect-ratio: 16/9; 
+                                   width: 50%; 
+                                  height: 50%; 
+                                 padding: 10px; 
+                      border: 1px solid #ddd; 
+                           border-radius: 10px;">
+            </canvas>    
 
         </div>
 
-    </div>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -85,14 +126,20 @@
 
        // Gráfico de Pizza
        const ctxPizza = document.getElementById('meuGrafico').getContext('2d');
+
+
         const meuGrafico = new Chart(ctxPizza, {
             type: 'pie',
             data: {
                 labels: ['Livre','Ocupado'],
-                datasets: [{
-                    label: 'Uso de Recursos',
-                    data: [300,700],
-                }]
+                datasets: 
+                [
+                    {
+                        label: 'Uso de Recursos',
+                        data: ["300","700"],
+                        backgroundColor: ["#fe914c","#8b5736"],
+                    }
+                ]
             },
             options: {
                 plugins: {
@@ -124,51 +171,169 @@
             }
         });     
 
-        // Gráfico de Linhas
-        const DATA_COUNT = 7;
-        const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
 
-        const labels = Utils.months({count: 7});
-        const data = {
-          labels: labels,
+
+
+
+        // Gráfico de Linhas
+        const ctxLine = document.getElementById("LineChart").getContext("2d");
+
+        const contador_datas = 7;
+        const nmr_CFG = {count: contador_datas, min: 0, max: 30};
+
+        const dataLine = {
+          labels: [
+            "15:10:22",
+            "15:10:26",
+            "15:10:30",
+            "15:10:34",
+            "15:10:38",
+          ],
           datasets: [
             {
-              label: 'Dataset 1',
-              data: Utils.numbers(NUMBER_CFG),
-              borderColor: Utils.CHART_COLORS.red,
-              backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
+              label: "CPU",
+              data: Array.from({ length: contador_datas }, () => Math.floor(Math.random() * 80 + 1)),
+              borderColor: "#fe914c",
+              backgroundColor: "#fe914c",
             },
             {
-              label: 'Dataset 2',
-              data: Utils.numbers(NUMBER_CFG),
-              borderColor: Utils.CHART_COLORS.blue,
-              backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
-            }
-          ]
+              label: "RAM",
+              data: Array.from({ length: contador_datas }, () => Math.floor(Math.random() * 80 + 1)),
+              borderColor: "#8b5736",
+              backgroundColor: "#8b5736",
+            },
+          ],
         };
-        
-        const ctxLinhas = document.getElementById('meuGraficoLinhas').getContext('2d');
-        const configLinhas = new Chart(ctxLinhas, {
-            type: 'line',
-            data: data,
+
+        const configLine = {
+          type: "line",
+          data: dataLine,
+          options: {
+            responsive: false,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: {
+                position: "top",
+                labels: {
+                            font: { size: 18 }
+                        },
+                      },
+              title: {
+                display: true,
+                text: "Uso de CPU e RAM (%)",
+                font: { size: 24 },
+                padding: { bottom: 30 }
+              },
+            },
+          },
+        };
+        const LineChart = new Chart(ctxLine, configLine);
+
+
+
+
+
+        //Gráfico de Barras Horizontais
+        const ctxBar = document.getElementById('ChartBarraHorizontal').getContext('2d');
+
+        const contador_dados = 7;
+        const numero_CFG = {count: contador_dados, min: 0, max: 30};
+
+        const dataBar = {
+            labels: ['15:10:22','15:10:26','15:10:30','15:10:34','15:10:38'],
+            datasets: [
+                {
+                    label: 'CPU (Frequência em MHz)',
+                    data: Array.from({ length: contador_dados }, () => Math.floor(Math.random() * 80 + 1)),
+                    borderColor: '#ff914c',
+                    backgroundColor: '#ff914c',
+                }
+            ]
+        };
+
+        const configBar = {
+            type: 'bar',
+            data: dataBar,
             options: {
-                responsive: true,
+                indexAxis: 'y', // Configuração para barras horizontais
+                elements: {
+                    bar: {
+                        borderWidth: 2,
+                    }
+                },
+                responsive: false,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         position: 'top',
                     },
                     title: {
                         display: true,
-                        text: 'Chart.js Line Chart'
+                        text: 'Uso de CPU (MHz)',
+                        font: { size: 24 },
+                        padding: { bottom: 30 }
                     }
                 }
-            },
-        });
+            }
+        };
 
+        const horizontalBarChart = new Chart(ctxBar, configBar);
 
-        const meuGraficoLinhas = new Chart(ctxLinhas, configLinhas, data, labels);
+        //Gráfico de Colunas
+        const ctxStacked = document.getElementById('ChartColunas').getContext('2d');
 
+        const DATA_COUNT = 7;
+        const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 30};
 
+        const labels = ['15:10:22','15:10:26','15:10:30','15:10:34','15:10:38'];
+        const data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'RAM (GB)',
+                    data: Array.from({ length: DATA_COUNT }, () => Math.floor(Math.random() * 80 + 1)),
+                    backgroundColor: '#8b5736',
+                }
+            ]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Uso Memória RAM (GB)',
+                        font: { size: 24 },
+                        padding: { bottom: 30 }
+                    },
+                },
+                responsive: false,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
+                }
+            }
+        };
+
+        const stackedBarChart = new Chart(ctxStacked, config);
+
+        function mudarTela(){
+            select = selecionaServidor.value
+            if(select == 1){
+                window.location = "dashboardAnalistaUmServidor.html";
+            } else if (select == 2){
+                window.location = "dashboardAnalistaUmServidor.html";
+            } else if (select == 3){
+                window.location = "dashboardAnalistaUmServidor.html";
+            }
+        }
 
     </script>
 </body>
