@@ -19,7 +19,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body onload="direcionarDashboard(), validarSessao(), adicionarCampos()">
+<body onload="">
+    <!-- direcionarDashboard(), validarSessao(), adicionarCampos() -->
     <div class="header">
         <nav>
             <div class="menu">
@@ -64,10 +65,10 @@
                 </div>
 
                 <div class="newPerfil">
-                    <div class="allCp">
+                    <div class="allCp" style="width: 60%;">
                         <div class="newImg">
                             <h3>Nova Foto</h3>
-                            <input id="inpNovaFoto" type="text" placeholder="url">
+                            <input id="inpNovaFoto" type="file" placeholder="url">
                         </div>
                         <div class="inpAt">
                         </div>
@@ -83,7 +84,10 @@
                             <span>Nova senha:</span>
                             <input id="inpNovaSenha" type="password" placeholder="Senha...">
                         </div>
-                        <button onclick="alterarPerfil()">Enviar</button>
+                        <div class="buttonsNewPerfil">
+                            <button onclick="alterarPerfil()">Enviar</button>
+                            <button style="background-color: #545454; color: white;">Cancelar</button>
+                        </div>
                         <div id="alertBox"></div>
                     </div>
                 </div>
