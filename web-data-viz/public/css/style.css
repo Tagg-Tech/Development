@@ -1881,10 +1881,10 @@ h4 a {
 .infoPerfil{
   margin-top: 2%;
   width: 80%;
-  height: 70%;
+  height: 80%;
   display: flex;
   flex-direction: row;
-  /* background-color: var(--color-tertiary); */
+  background-color: white;
   border: 1px #000000 solid;
   border-radius: 10px;
 }
@@ -1910,11 +1910,13 @@ h4 a {
 }
 
 .campoAt{
-  background-color: var(--color-tertiary);
+  background-color: var(--color-quinternary);
+  font-style: oblique;
   font-size: 20px;
   padding-right: 15px;
   padding-left: 15px;
-  border-radius: 10px;
+  border-radius: 3px;
+  width: 400px;
 }
 
 .newPerfil{
@@ -1924,6 +1926,30 @@ h4 a {
   flex-direction: column;
   align-items:center;
   justify-content: center;
+}
+
+.newPerfil input{
+  text-align: center;
+  border-radius: 2px;
+  outline: none;
+}
+
+.buttonsNewPerfil{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.newPerfil button{
+  margin-top: 20px;
+  background-color: var(--color-primary);
+  /* background-color: var(); */
+  height: 35px;
+  font-size: 20px;
+  width: 130px;
+  border-radius: 5px;
+  border: 0px;
+  font-weight: bolder;
 }
 
 .inpAt{
@@ -1938,6 +1964,10 @@ h4 a {
   height: 100px;
   width: 100px;
 }
+
+
+
+
 
 .newImg{
   display: flex;
