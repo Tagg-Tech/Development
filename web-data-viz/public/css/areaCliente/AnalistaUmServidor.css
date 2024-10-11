@@ -1,7 +1,7 @@
 /* #region global */
 @font-face {
     font-family: 'Poppins-Light';
-    src: url(./fontes/Poppins-Light.otf);
+    src: url(../fontes/Poppins-Light.otf);
   }
   
   * {
@@ -11,7 +11,7 @@
     list-style: none;
     text-decoration: none;
     font-family: 'Poppins-Light';
-    /* overflow-x: hidden; */
+    overflow-y: hidden; 
   }
   
   body {
@@ -1982,19 +1982,20 @@
   .sidebar .metrics {
       margin-top: 20px;
   }
+
   .sidebar .metrics select,
   .sidebar .metrics button {
-      width: 100%;
+      width: 90%;
       margin-bottom: 10px;
       padding: 10px;
-      box-sizing: border-box;
+      margin-left: 5%;
   }
 
   .sidebar .buttons {
     margin-top: 20px; 
   }
   .sidebar .buttons button {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     box-sizing: border-box;
   }
@@ -2011,12 +2012,17 @@
     box-sizing: content-box;
   }
 
+  #selecionaTempo{
+    width: 80%;
+    margin-top: 5%;
+  }
+
 
   .sidebar .buttons {
       margin-top: 20px;
   }
   .sidebar .buttons button {
-      width: 100%;
+      width: 90%;
       padding: 10px;
       margin-bottom: 10px;
       box-sizing: border-box;
@@ -2043,6 +2049,13 @@
     display:flex;
     width: 50%;
     height: 50%;
+  }
+
+  .botaoAplicar{
+    width: 90%;
+    height: 90%;
+    padding: 10px;
+    margin-top: 10px;
   }
 
  

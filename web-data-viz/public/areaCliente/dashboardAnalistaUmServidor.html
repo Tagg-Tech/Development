@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Servidor</title>
     <link rel="stylesheet" href="../css/areaCliente/AnalistaUmServidor.css" />
-    <link rel="icon" href="./assets/icon/favicon2.ico">
+    <!-- favIcon -->
+    <link rel="shortcut icon" href="../assets/TagTech/img/logo1.png" type="image/x-icon">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
 </head>
@@ -18,12 +19,12 @@
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
 
                 <ul class="navbar">
-                    <li><a id="dashboardLink"><strong>Dashboard</strong></a></li>
-                    <li><a href="index.html#sobre"><strong>Alertas</strong></a></li>
+                    <li><a href="dashboardAnalista.html"><strong>Dashboard</strong></a></li>
+                    <li><a href="alerta.html"><strong>Alertas</strong></a></li>
                     <li><a href="index.html#cards"><strong>Help Desk</strong></a></li>
                     <li><a href="perfil.html"><strong>Perfil</strong></a></li>
                     <li style="color:black;"><strong>|</strong></li>
-                    <li><a style="background-color: #fff178;" href="cadastro_funcionario.html"><strong>Sair <img src="../assets/icones/sair.svg" alt=""></strong></a></li>
+                    <li><a style="background-color: #fff178;" href="../login.html"><strong>Sair <img src="../assets/icones/sair.svg" alt=""></strong></a></li>
                 </ul>
             </div>
         </nav>
@@ -35,17 +36,17 @@
         <p>Olá, Fernando!</p>
         <div class="metrics">
             <h2>Métricas</h2>
-            <select>
+            <!-- <select>
                 <option>Dia</option>
                 <option>Semana</option>
                 <option>Mês</option>
-            </select>
+            </select> -->
            
            
-            <button>Botão baixar relatório</button>
+            <!-- <button>Botão baixar relatório</button> -->
             <div class="escolha-servidor" >
                 <div>
-                    <span>Escolha o servidor</span>
+                    <span>Escolha o servidor:</span>
                     <select id="selecionaServidor">
                         <option selected disabled >Nº</option>
                         <option id="1" >
@@ -58,27 +59,27 @@
                             3
                         </option>
                     </select>
+                    <button onclick="mudarTela()" >Acessar</button>  
                 </div>
             </div> 
-            <button onclick="mudarTela()" >Acessar</button>  
         </div>
-        <div class="buttons">
-            <button>Dashboard</button>
-            <button>Alertas</button>
-        </div>
+             <div class="escolha-servidor" >
+                 Insira o intervalo de tempo para análise (minutos): <input type="text" id="selecionaTempo"> 
+                 <button class="botaoAplicar">Aplicar</button>
+             </div>
     </div>
 
     <!-- Main Content -->
     <main class="main-content">
 
         <!-- Container flexbox para os gráficos -->
-        <div class="chart-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+        <div class="chart-container" style="display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap;">
 
            <!-- Gráfico de Pizza -->
            <canvas id="meuGrafico" 
                     style="aspect-ratio: 16/9; 
-                                  width: 50%; 
-                                 height: 50%; 
+                                  width: 45%; 
+                                 height: 45%; 
                                 padding: 10px; 
                      border: 1px solid #ddd; 
                           border-radius: 10px;">
@@ -87,8 +88,8 @@
            <!-- Gráfico de Linhas -->
            <canvas id="LineChart" 
                     style="aspect-ratio: 16/9; 
-                                  width: 50%; 
-                                 height: 50%; 
+                                  width: 45%; 
+                                 height: 45%; 
                                 padding: 10px; 
                      border: 1px solid #ddd; 
                           border-radius: 10px;">
@@ -97,8 +98,8 @@
             <!-- Gráfico de Barras Horizontais -->
             <canvas id="ChartBarraHorizontal" 
                     style="aspect-ratio: 16/9; 
-                                  width: 50%; 
-                                 height: 50%; 
+                                  width: 45%; 
+                                 height: 45%; 
                                 padding: 10px; 
                      border: 1px solid #ddd; 
                           border-radius: 10px;">
@@ -108,8 +109,8 @@
             <!-- Gráfico de Colunas -->
             <canvas id="ChartColunas" 
                      style="aspect-ratio: 16/9; 
-                                   width: 50%; 
-                                  height: 50%; 
+                                   width: 45%; 
+                                  height: 45%; 
                                  padding: 10px; 
                       border: 1px solid #ddd; 
                            border-radius: 10px;">
@@ -270,7 +271,7 @@
                         display: true,
                         text: 'Uso de CPU (MHz)',
                         font: { size: 24 },
-                        padding: { bottom: 30 }
+                        padding: { bottom: 20 }
                     }
                 }
             }
@@ -305,7 +306,7 @@
                         display: true,
                         text: 'Uso Memória RAM (GB)',
                         font: { size: 24 },
-                        padding: { bottom: 30 }
+                        padding: { bottom: 20 }
                     },
                 },
                 responsive: false,

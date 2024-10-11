@@ -1,7 +1,7 @@
 /* #region global */
 @font-face {
     font-family: 'Poppins-Light';
-    src: url(./fontes/Poppins-Light.otf);
+    src: url(../css/fontes/Poppins-Light.otf);
   }
   
   * {
