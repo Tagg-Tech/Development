@@ -1978,89 +1978,152 @@ h4 a {
 .active{
    background-color: #fff178 !important; 
 }
-.container_gerente{
-  position: fixed;
-  width: 90%;
-  height: 100vh;
-  display: flex;
-  flex-direction: row;
-  margin-left: 35vh;
-}
-.container_dash_gerente{
-  display: flex;
-  flex-direction: column;
-  width: 92%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  /* margin-left: 15vh; */
-  
-}
-.ranking_downtime{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-}
-/* canvas{
-  max-width: 70vh;
-  max-height: 50vh;
-} */
-#grafico_column{
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-margin-top: 15%;
-}
-#grafico_pizza{
-display: flex;
-flex-direction: row;
-justify-content: space-around;
-flex-wrap: wrap;
-}
-#myChart1{
-  max-width: 45vh;
-  max-height: 45vh;
-  width: 45vh;
-  height: auto;
-  /* margin-left: 65vh; */
-}
-#myChart2{
-  max-width: 45vh;
-  max-height: 45vh;
-  width: 45vh;
-  height: auto;
-  /* margin-left: 65vh; */
-}
-#myChart3{
-  max-width: 30vh;
-  max-height: 30vh;
-  width: 45vh;
-  height: auto;
-  /* margin-left: 65vh; */
-}
-#myChart4{
-  max-width: 30vh;
-  max-height: 30vh;
-  width: 45vh;
-  height: auto;
-  /* margin-left: 65vh; */
-}
-.header{
-  position: fixed;
-  z-index: 1;
-}
-.container_chart{
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-/* canvas {
-  max-width: 400px;
-  max-height: 400px;
-} */
+
 
 
 /* #endregion */
+/* Tutorial GPT responsividade, TIRAR DEPOIS */
+/* @media (max-width: 480px) {
+  .ranking, .container_chart {
+    width: 100%; 
+    margin: 10px 0; 
+  }
+
+  #myChart1, #myChart2, #myChart3, #myChart4 {
+    max-width: 100%; 
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar li {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+}
+/* Tutorial GPT responsividade tablet, TIRAR DEPOIS */
+/* @media (min-width: 481px) and (max-width: 768px) {
+  .ranking, .container_chart {
+    width: 48%; 
+    margin: 10px; 
+  }
+
+  #myChart1, #myChart2, #myChart3, #myChart4 {
+    max-width: 80%;
+  }
+}  */
+
+@media (min-width: 1146px){
+  .ranking{
+    width: 48%; 
+    height: 240px; 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  .container_gerente{
+    position: fixed;
+    width: 90%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    margin-left: 35vh;
+  }
+  .container_dash_gerente{
+    display: flex;
+    flex-direction: column;
+    width: 92%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* margin-left: 15vh; */
+    
+  }
+  .ranking_downtime{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  /* canvas{
+    max-width: 70vh;
+    max-height: 50vh;
+  } */
+  #grafico_column{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 15%;
+  }
+  #grafico_pizza{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  }
+  #myChart1{
+    max-width: 45vh;
+    max-height: 45vh;
+    width: 45vh;
+    height: auto;
+  }
+  #myChart2{
+    max-width: 45vh;
+    max-height: 45vh;
+    width: 45vh;
+    height: auto;
+    /* margin-left: 65vh; */
+  }
+  #myChart3{
+    max-width: 30vh;
+    max-height: 30vh;
+    width: 45vh;
+    height: auto;
+    /* margin-left: 65vh; */
+  }
+  #myChart4{
+    max-width: 30vh;
+    max-height: 30vh;
+    width: 45vh;
+    height: auto;
+    /* margin-left: 65vh; */
+  }
+  .header{
+    position: fixed;
+    z-index: 1;
+  }
+  .container_chart{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  /* canvas {
+    max-width: 400px;
+    max-height: 400px;
+  } */
+}
+
+@media (max-width: 1145px) {
+.header{
+  position: fixed;
+  top: 0;
+}
+.sidebar{
+  position: fixed;
+  top: 0;
+}
+#myChart1, #myChart2, #myChart3,#myChart4{
+  width: 25vh;
+}
+.container_dash_gerente{
+  width: 50%;
+  height: 50%;
+}
+}
