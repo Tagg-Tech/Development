@@ -2019,7 +2019,7 @@ h4 a {
 @media (min-width: 1146px){
   .ranking{
     width: 48%; 
-    height: 240px; 
+    height: 260px; 
     padding: 10px; 
     border: 1px solid #ddd; 
     border-radius: 10px;
@@ -2034,14 +2034,14 @@ h4 a {
     margin-left: 35vh;
   }
   .container_dash_gerente{
-    display: flex;
-    flex-direction: column;
-    width: 92%;
-    height: 100%;
+    display: flex; 
+    flex-direction: column; 
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-    /* margin-left: 15vh; */
+    flex-wrap: wrap; 
+    width: 92%; 
+    height: auto; 
+    margin-left: 0; 
     
   }
   .ranking_downtime{
@@ -2069,29 +2069,29 @@ h4 a {
   flex-wrap: wrap;
   }
   #myChart1{
-    max-width: 45vh;
+    max-width: 45vh; 
     max-height: 45vh;
-    width: 45vh;
+    width: 45vh !important; 
     height: auto;
   }
   #myChart2{
     max-width: 45vh;
     max-height: 45vh;
-    width: 45vh;
+    width: 45vh !important;
     height: auto;
     /* margin-left: 65vh; */
   }
   #myChart3{
     max-width: 30vh;
     max-height: 30vh;
-    width: 45vh;
+    width: 45vh !important;
     height: auto;
     /* margin-left: 65vh; */
   }
   #myChart4{
     max-width: 30vh;
     max-height: 30vh;
-    width: 45vh;
+    width: 45vh !important;
     height: auto;
     /* margin-left: 65vh; */
   }
@@ -2109,21 +2109,67 @@ h4 a {
     max-height: 400px;
   } */
 }
+@media (max-width: 1210px) {
+  .ranking{
+    height: 320px;
+  }
+}
 
 @media (max-width: 1145px) {
+  .ranking{
+    width: 45%; 
+    height: 370px; 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 15vh;
+  }
 .header{
   position: fixed;
+  z-index: 1;
   top: 0;
 }
 .sidebar{
   position: fixed;
   top: 0;
 }
-#myChart1, #myChart2, #myChart3,#myChart4{
+#myChart1, #myChart2{
   width: 25vh;
 }
-.container_dash_gerente{
-  width: 50%;
-  height: 50%;
+#myChart3,#myChart4{
+ max-width: 20vh;
+ width: 5vh;
+ height: auto;
 }
+.container_gerente{
+  position: absolute;
+  top: -15vh;
+  margin-top: 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 50vh;
+  }
+.container_dash_gerente{
+  margin-top: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  grid-template-rows: auto auto; 
+  gap: 20px; 
+  width: 100%; 
+  height: auto;
+  margin-left: 0;
+  justify-items: center; 
+} 
+/* .container_dash_gerente { 
+  /* OPÇÃO SEM GRID */
+  /* margin-top: 0;
+  display: flex; /* Altera para flexbox */
+  /* flex-direction: column; /* Coloca os gráficos e ranking em coluna */
+  /* align-items: center; /* Centraliza os itens */
+  /* width: 100%; 
+  height: auto; */
+
+
 }
