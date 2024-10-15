@@ -2018,7 +2018,9 @@ h4 a {
 
 @media (min-width: 1146px){
   .ranking{
-    width: 48%; 
+    margin-top: 20%;
+    margin-left: 5%;
+    width: 38%; 
     height: 260px; 
     padding: 10px; 
     border: 1px solid #ddd; 
@@ -2041,7 +2043,7 @@ h4 a {
     flex-wrap: wrap; 
     width: 92%; 
     height: auto; 
-    margin-left: 0; 
+    margin-left: 2%; 
     
   }
   .ranking_downtime{
@@ -2159,7 +2161,7 @@ h4 a {
   gap: 20px; 
   width: 100%; 
   height: auto;
-  margin-left: 0;
+  /* margin-left: 0; */
   justify-items: center; 
 } 
 /* .container_dash_gerente { 
@@ -2274,10 +2276,16 @@ h4 a {
         width: 30%;
         transform: translate(-250px);
       }
+      .ranking{
+        height: 420px;
+        width: 110%;
+      }
+      .container_gerente{
+        margin-top: 65%;
+        /* margin-left: 50px; */
+      }
       .container_dash_gerente{
-        position: absolute;
-        top: 500px;
-        left: -200px;
+        margin-top: 90%;
       }
       
       .header{
