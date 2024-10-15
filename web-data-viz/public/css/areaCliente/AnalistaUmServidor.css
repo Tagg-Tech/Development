@@ -2058,6 +2058,12 @@
     margin-top: 10px;
   }
 
+/* responsividade para celular */
+@media (min-width: 320px) and (max-width: 480px){
+    
+
+}
+
  
   
         
