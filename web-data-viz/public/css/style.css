@@ -2189,10 +2189,10 @@ h4 a {
   
 }
 #Open{
-  display: block;
+  display: none;
 }
 .sidebarIcon{
-  display: block;
+  display: none;
 }
 .sidebar h1 {
   color: #ffcc66;
@@ -2236,14 +2236,13 @@ h4 a {
 
 
     /* Estilo para a tabela */
-    .ranking {
-        width: 50%; /* Ajuste para manter a largura igual aos gráficos */
-        margin-top: 210px;
-        margin-left: 70px;
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 10px; /* Adiciona espaço ao redor da tabela */
-        border-radius: 10px; /* Bordas arredondadas */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
+    .ranking{
+      width: 48%; 
+      height: 260px; 
+      padding: 10px; 
+      border: 1px solid #ddd; 
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.8);
     }
 
     .ranking table {
@@ -2273,17 +2272,55 @@ h4 a {
         height: 100%;
         margin-right: 0;
         width: 30%;
+        transform: translate(-250px);
+      }
+      .container_dash_gerente{
+        position: absolute;
+        top: 500px;
+        left: -200px;
+      }
+      
+      .header{
+        z-index: 5;
       }
       .sidebarIcon{
           width: 22px;
           height: 22px;
+          display: flex;
           position: absolute;
-          z-index: 20;
-          top: 20px;
-          left: 20px;
+          z-index: 6;
+          top: 50px;
+          left: 00px;
+          display: flex;
+          flex-direction: column;
+          /* background-color: whitesmoke; */
           cursor: pointer;
-      }
-      #Open{
 
+      }
+      /* #Open{
+        display: block;
+      } */
+      #Open:checked ~ .sidebar{
+        transform: translate(0px);
+      }
+      .wrapper{
+        height: 4px;
+        background-color: white;
+        transition: all 0.5s;
+        display: block;
+      }
+      .wrapper.second, .wrapper.third{
+        margin-top: 3px;
+      }
+      #Open:checked ~ .sidebarIcon > .wrapper.second{
+        opacity: 0;
+      }
+      #Open:checked ~ .sidebarIcon > .wrapper.first{
+        transform: rotate(315deg);
+        margin-top: 8px;
+      }
+      #Open:checked ~ .sidebarIcon > .wrapper.third{
+        transform: rotate(-315deg);
+        margin-top: -8px
       }
   }
