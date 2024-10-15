@@ -2304,7 +2304,7 @@ h4 a {
         transform: translate(0px);
       }
       .wrapper{
-        height: 4px;
+        height: 3px;
         background-color: white;
         transition: all 0.5s;
         display: block;
