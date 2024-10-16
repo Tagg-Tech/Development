@@ -16,7 +16,6 @@
             <div class="menu">
                 <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
             
-                <!-- Título logo após o logo -->
                 <span style="font-size: 40px; font-weight: bold; margin-left: 16%;color: white;">DashBoard Analista</span>
             
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
@@ -29,7 +28,6 @@
                     <li><a style="background-color: #fff178;" href="cadastro_funcionario.html"><strong>Sair <img src="../assets/icones/sair.svg" alt=""></strong></a></li>
                 </ul>
             </div>
-            
         </nav>
     </div>
 
@@ -39,36 +37,41 @@
         <p>Olá, Fernando!</p>
         <div class="metrics buttons">
             <h2>Filtros</h2>
-            <select>
-                <option selected disabled >Escolha a amostra</option>
-                <option>Dia</option>
-                <option>Semana</option>
-                <option>Mês</option>
+            <select id="amostraTempo" onchange="alterarValores()">
+                <option selected disabled>Escolha a amostra</option>
+                <option value="dia">Dia</option>
+                <option value="semana">Semana</option>
+                <option value="mes">Mês</option>
             </select>
-           
            
             <button>Baixar relatório</button>
 
-            
-            <div class="escolha-servidor" >
+            <div class="escolha-servidor">
                 <div>
                     <span>Escolha o servidor</span>
                     <select id="selecionaServidor">
-                        <option selected disabled >Nº</option>
-                        <option id="1" >
-                            1
-                        </option id="2" >
-                        <option>
-                            2
-                        </option>
-                        <option id="3" >
-                            3
-                        </option>
+                        <option selected disabled>Nº</option>
+                        <option id="1">1</option>
+                        <option id="2">2</option>
+                        <option id="3">3</option>
                     </select>
                 </div>
             </div> 
-                <button onclick="mudarTela()" >Acessar</button>
+
+            <div class="escolha-componente">
+                <div>
+                    <span>Escolha o componente</span>
+                    <select id="selecionaComponente" onchange="atualizarGraficoComponente()">
+                        <option selected disabled>Componente</option>
+                        <option value="CPU">CPU</option>
+                        <option value="RAM">RAM</option>
+                        <option value="DISCO">DISCO</option>
+                    </select>
+                </div>
             </div>
+
+            <button onclick="mudarTela()">Acessar</button>
+        </div>
         <div class="buttons">
             <button>Dashboard</button>
             <button>Alertas</button>
@@ -77,7 +80,6 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Container flexbox para os gráficos e ranking -->
         <div class="chart-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
             <!-- Gráfico de Pizza -->
             <canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
@@ -162,41 +164,33 @@
         });
 
         // Gráfico de Barras Horizontais
-        const ctxBar = document.getElementById('horizontalBarChart').getContext('2d');
-        const dataBar = {
-            labels: ['Server 1', 'Server 2', 'Server 3'],
-            datasets: [
-                {
-                    label: 'MIN',
-                    data: [3, 8, 16],
-                    borderColor: 'rgb(255, 99, 132)',
-                    backgroundColor: '#ff914c',
-                },
-                {
-                    label: 'MAX',   
-                    data: [6, 14, 17],
-                    borderColor: 'rgb(54, 162, 235)',
-                    backgroundColor: '#f64b00',
-                }
-            ]
+        const dataComponentes = {
+            CPU: [38, 45, 56],
+            RAM: [21, 18, 20],
+            DISCO: [80, 75, 92]
         };
 
-        const configBar = {
+        const ctxBar = document.getElementById('horizontalBarChart').getContext('2d');
+        let dataBar = {
+            labels: ['Server 1', 'Server 2', 'Server 3'],
+            datasets: [{
+                label: 'Componente',
+                data: dataComponentes['CPU'],
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: '#ff914c',
+            }]
+        };
+
+        let configBar = {
             type: 'bar',
             data: dataBar,
             options: {
-                indexAxis: 'y', // Configuração para barras horizontais
-                elements: {
-                    bar: {
-                        borderWidth: 2,
-                    }
-                },
+                indexAxis: 'y',
+                elements: { bar: { borderWidth: 2 } },
                 responsive: false,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: 'right',
-                    },
+                    legend: { position: 'right' },
                     title: {
                         display: true,
                         text: 'Menor e Maior uso de cada componente por servidor',
@@ -207,77 +201,69 @@
             }
         };
 
-        const horizontalBarChart = new Chart(ctxBar, configBar);
+        let horizontalBarChart = new Chart(ctxBar, configBar);
 
-        // Gráfico de Colunas Empilhadas
-        const ctxStacked = document.getElementById('stackedBarChart').getContext('2d');
+        function atualizarGraficoComponente() {
+            const componenteSelecionado = document.getElementById('selecionaComponente').value;
+            horizontalBarChart.data.datasets[0].data = dataComponentes[componenteSelecionado];
+            horizontalBarChart.data.datasets[0].label = componenteSelecionado;
+            horizontalBarChart.update();
+        }
 
-        const DATA_COUNT = 7;
-        const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 30};
+        function alterarValores() {
+            const periodo = document.getElementById('amostraTempo').value;
+            let multiplicador = 1;
 
-        const labels = ['Server 1', 'Server 2', 'Server 3']; // Mudei para meses fixos
-        const data = {
-            labels: labels,
-            datasets: [
-                {
-                    label: 'Alertas',
-                    data: Array.from({ length: DATA_COUNT }, () => Math.floor(Math.random() * 10)),
-                    backgroundColor: '#ff914c',
-                },
-                {
-                    label: 'DownTime',
-                    data: Array.from({ length: DATA_COUNT }, () => Math.floor(Math.random() * 10)),
-                    backgroundColor: '#f64b00',
-                },
-            ]
-        };
-
-        const config = {
-            type: 'bar',
-            data: data,
-            options: {
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Quantidade de sobrecarga de cada servidor',
-                        font: { size: 24 },
-                        padding: { bottom: 30 }
-                    },
-                },
-                responsive: false,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        stacked: true
-                    }
-                }
+            if (periodo === 'semana') {
+                multiplicador = 7;
+            } else if (periodo === 'mes') {
+                multiplicador = 30;
             }
-        };
-        
-        const stackedBarChart = new Chart(ctxStacked, config);
 
-        function mudarTela(){
-            select = selecionaServidor.value
-            if(select == 1){
-                window.location = "dashboardAnalistaUmServidor.html";
-            } else if (select == 2){
-                window.location = "dashboardAnalistaUmServidor.html";
-            } else if (select == 3){
+            for (let key in dataComponentes) {
+                dataComponentes[key] = dataComponentes[key].map(val => Math.floor(val * multiplicador));
+            }
+
+            atualizarGraficoComponente();
+        }
+
+        function mudarTela() {
+            const select = document.getElementById('selecionaServidor').value;
+            if (select == 1 || select == 2 || select == 3) {
                 window.location = "dashboardAnalistaUmServidor.html";
             }
         }
 
-
-        //const select = document.getElementById('seleciona-servidor');
-        //const link = document.getElementById('link-dash-servidor');
-        //select.addEventListener('change', () => {
-        //    link.href = 'dashboardAnalistaUmServidor.html';
-        //});
-    
-
+        // Gráfico de Colunas Empilhadas
+        const ctxStacked = document.getElementById('stackedBarChart').getContext('2d');
+        const stackedBarChart = new Chart(ctxStacked, {
+            type: 'bar',
+            data: {
+                labels: ['Server 1', 'Server 2', 'Server 3'],
+                datasets: [
+                    { label: 'CPU', data: [38, 45, 56], backgroundColor: '#FFA07A' },
+                    { label: 'RAM', data: [21, 18, 20], backgroundColor: '#8FBC8F' },
+                    { label: 'DISCO', data: [80, 75, 92], backgroundColor: '#6495ED' }
+                ]
+            },
+            options: {
+                responsive: false,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right' },
+                    title: {
+                        display: true,
+                        text: 'Uso por Servidor',
+                        font: { size: 24 },
+                        padding: { bottom: 30 }
+                    }
+                },
+                scales: {
+                    y: { stacked: true },
+                    x: { stacked: true }
+                }
+            }
+        });
     </script>
 </body>
 </html>
