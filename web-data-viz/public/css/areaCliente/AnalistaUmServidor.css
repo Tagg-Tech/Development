@@ -677,7 +677,7 @@
   
     body {
         background: rgb(235, 235, 235);
-        background: linear-gradient(90deg, rgba(235, 235, 235, 1) 18%, rgba(241, 154, 66, 1) 100%);
+        /* background: linear-gradient(90deg, rgba(235, 235, 235, 1) 18%, rgba(241, 154, 66, 1) 100%); */
     }
   
     /* #region header */
@@ -1201,7 +1201,7 @@
   
     body {
         background: rgb(235, 235, 235);
-        background: linear-gradient(90deg, rgba(235, 235, 235, 1) 18%, rgba(241, 154, 66, 1) 100%);
+        /* background: linear-gradient(90deg, rgba(235, 235, 235, 1) 18%, rgba(241, 154, 66, 1) 100%); */
     }
   
     /* #region header */
@@ -2059,8 +2059,66 @@
   }
 
 /* responsividade para celular */
-@media (min-width: 320px) and (max-width: 480px){
+@media (min-width: 320px) and (max-width: 500px){
+
+  body{
+    padding: 0;
+    margin: 0;
+    /* box-sizing: border-box; */
+    list-style: none;
+    text-decoration: none;
+    font-family: 'Poppins-Light';
+    overflow-y: auto;
+    overflow-x: auto;
+  }
     
+  .sidebar{
+    display: none;
+  }
+
+  .main-content{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-content:start;
+    justify-items: start;
+  }
+
+  .chart-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: left;
+    width: 100vw;
+    height: 100vh;
+    flex-wrap: nowrap;
+  }
+
+  .menu{
+    width: 100%;
+  }
+
+  #meuGrafico{
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #LineChart{
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #ChartBarraHorizontal{
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #ChartColunas{
+    width: 100vw;
+    height: 100vh;
+  }
 
 }
 
