@@ -74,44 +74,57 @@
 </html>
 
 <script>
+ function cadastrar() {
+        let placaderede = input_placaderede.value;
+        let memoria = input_memoria.value;
+        let sistemaoperacional = input_sistemaoperacional.value;
+        let cpu = input_cpu.value;
+        let disco = input_disco.value;
+        let porcentagemAlarme = input_porcentagemAlarme.value;
+        let validacao = 0;
 
-    function cadastrar() {
-         let id = input_id.value;
-         let placaderede = input_placaderede.value;
-         let memoria = input_memoria.value;
-         let sistemaoperacional= input_sistemaoperacional.value;
-         let cpu = input_cpu.value;
-         let disco = input_disco.value;
+        // Verificações básicas
+        if (placaderede === "" || memoria === "" || sistemaoperacional === "" || cpu === "" || disco === "" || porcentagemAlarme === "") {
+            confirm_cadastro.innerHTML = '<span style="color: red;">Todos os campos devem estar preenchidos corretamente!</span>';
+            return false;
+        }
 
-     }
+        // Validações individuais
+        if (porcentagemAlarme < 1 || porcentagemAlarme > 100 || isNaN(Number(porcentagemAlarme))) {
+            erro_porcentagemAlarme.innerHTML = "Porcentagem inválida (deve ser entre 1 e 100)";
+            return false;
+        } else {
+            erro_porcentagemAlarme.innerHTML = "";
+            validacao++;
+        }
 
+        if (validacao === 1) {
+            fetch('/servidores/cadastrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    placaderedeServer: placaderede,
+                    memoriaServer: memoria,
+                    sistemaoperacionalServer: sistemaoperacional,
+                    cpuServer: cpu,
+                    discoServer: disco,
+                    porcentagemAlarmeServer: porcentagemAlarme
+                })
+            }).then(response => response.json())
+              .then(data => {
+                  document.getElementById('confirm_cadastro').innerText = "Cadastro realizado com sucesso!";
+              })
+              .catch(error => console.error('Erro:', error));
+        }
+    }
 
     //menu hamburguer
     const menuButton = document.querySelector('.menu-button');
     const navbar = document.querySelector('.navbar');
 
-    menuButton.addEventListener('click',
-        () => {
-            navbar.classList.toggle('active');
-
-        });
-
-        fetch('/servidores/cadastrar', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            placaderedeServer: placaderede,
-            memoriaServer: memoria,
-            sistemaoperacionalServer: sistemaoperacional,
-            cpuServer: cpu,
-            discoServer: disco
-        })
-    }).then(response => response.json())
-      .then(data => {
-          document.getElementById('confirm_cadastro').innerText = "Cadastro realizado com sucesso!";
-      })
-      .catch(error => console.error('Erro:', error));
-      
+    menuButton.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+    });
 </script>
