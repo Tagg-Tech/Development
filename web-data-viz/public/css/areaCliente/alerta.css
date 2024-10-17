@@ -12,6 +12,15 @@ body{
     background-color: var(--color-primary);
 }
 
+.containerAlertasTop{
+    width: 55%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+    align-items: center;
+}
+
 
 
 .graficosAlerta{
@@ -26,20 +35,21 @@ body{
 
 
 .grafAlerta{
-    width: 32.7%;
+    width: 61.4%;
     background-color: #fff;
-    height: 98%;
+    height: 100%;
     border-radius: 5px;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.graficoRoscaTipoAlerta{
+    width: 37%;
 }
 
 .graficoAlertaPorTempo{
     width: 43%;
 }
 
-.graficoRoscaTipoAlerta{
-    width: 22%;
-}
 
 
 
@@ -58,6 +68,34 @@ body{
     /* Removido overflow-y para permitir que a div cresça */
 }
 
+.canvasBarra{
+    aspect-ratio: 16/9;
+    width: 90%;
+    height: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.canvasLinha{
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  
+}
+
+.canvasRosca{
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  
+}
+
+
 table {
     width: 100%; /* Faz a tabela ocupar toda a div */
     border-collapse: collapse;
@@ -74,4 +112,72 @@ th {
     position: sticky; /* Cabeçalho fixo ao rolar */
     top: 0;
     z-index: 1;
+}
+
+
+
+@media (max-width: 1300px){
+    .divAlertas {
+        overflow-x: auto; /* Permite rolagem horizontal na div que contém a tabela */
+      }
+    
+      table {
+        width: 1200px; /* Mantém a largura fixa da tabela */
+      }
+
+
+
+      .graficoRoscaTipoAlerta{
+        height: 25vw;
+      }
+
+
+}
+
+@media (max-width: 1150px){
+    .graficosAlerta{
+        flex-direction: column;
+        height: 100vh;
+        border: 2px solid blue;
+    }
+
+    .grafAlerta{
+    width: 61.4%;
+    background-color: #fff;
+    }
+
+
+    .containerAlertasTop{
+        display: flex;
+        border: 2px solid green;
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .graficoBarrasTipoAlerta{
+        height: 30vw;
+    }
+
+    .graficoRoscaTipoAlerta{
+        width: 30%;
+        height: 29vw;
+
+    }
+
+    .graficoAlertaPorTempo{
+        width: 80%;
+        height: 40vh;
+    }
+
+    .canvasBarra{
+        flex-direction: column;
+        align-items: center;
+        display: flex;
+        aspect-ratio: 16/9;
+    }
+    .canvasLinha{
+        width: 100%;
+    }
+
+    
 }
