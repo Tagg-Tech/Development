@@ -269,6 +269,13 @@
         };
 
         let stackedBarChart = new Chart(ctxStackedBar, configStackedBar);
+
+        function mudarTela() {
+            const select = document.getElementById('selecionaServidor').value;
+            if (select == 1 || select == 2 || select == 3) {
+                window.location = "dashboardAnalistaUmServidor.html";
+            }
+        }
     </script>
 </body>
 </html>
