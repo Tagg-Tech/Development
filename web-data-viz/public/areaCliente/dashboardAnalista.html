@@ -15,9 +15,7 @@
         <nav>
             <div class="menu">
                 <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
-            
                 <span style="font-size: 40px; font-weight: bold; margin-left: 16%;color: white;">DashBoard Analista</span>
-            
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
                 <ul class="navbar">
                     <li><a id="dashboardLink"><strong>Dashboard</strong></a></li>
@@ -43,9 +41,7 @@
                 <option value="semana">Semana</option>
                 <option value="mes">Mês</option>
             </select>
-           
             <button>Baixar relatório</button>
-
             <div class="escolha-servidor">
                 <div>
                     <span>Escolha o servidor</span>
@@ -56,20 +52,18 @@
                         <option id="3">3</option>
                     </select>
                 </div>
-            </div> 
-
+            </div>
             <div class="escolha-componente">
                 <div>
                     <span>Escolha o componente</span>
                     <select id="selecionaComponente" onchange="atualizarGraficoComponente()">
                         <option disabled>Componente</option>
-                        <option value="CPU" selected>CPU</option> <!-- CPU já selecionado por padrão -->
+                        <option value="CPU" selected>CPU</option>
                         <option value="RAM">RAM</option>
                         <option value="DISCO">DISCO</option>
                     </select>
                 </div>
             </div>
-
             <button onclick="mudarTela()">Acessar</button>
         </div>
         <div class="buttons">
@@ -83,13 +77,10 @@
         <div class="chart-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
             <!-- Gráfico de Pizza -->
             <canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
-
             <!-- Gráfico de Barras Horizontais -->
             <canvas id="horizontalBarChart" style="aspect-ratio: 16/9; width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
-
             <!-- Gráfico de Colunas Empilhadas -->
             <canvas id="stackedBarChart" style="aspect-ratio: 16/9; width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-top: 20px;"></canvas>
-
             <!-- Ranking de tempo fora do ar -->
             <div class="ranking" style="width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-top: 20px;background-color: transparent;">
                 <h3>Ranking de tempo fora do ar</h3>
@@ -120,7 +111,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script>
         // Dados por servidor
         const dataServidores = {
@@ -176,20 +166,25 @@
         let meuGrafico = new Chart(ctxPizza, configPizza);
 
         // Gráfico de Barras Horizontais
-        const dataComponentes = {
-            CPU: [38, 45, 56],
-            RAM: [21, 18, 20],
-            DISCO: [80, 75, 92]
+        const dataComponentesMinMax = {
+            CPU: { min: [30, 40, 50], max: [38, 45, 56] },
+            RAM: { min: [15, 10, 18], max: [21, 18, 20] },
+            DISCO: { min: [70, 65, 80], max: [80, 75, 92] }
         };
 
         const ctxBar = document.getElementById('horizontalBarChart').getContext('2d');
         let dataBar = {
             labels: ['Server 1', 'Server 2', 'Server 3'],
             datasets: [{
-                label: 'CPU', // Padrão já é CPU
-                data: dataComponentes['CPU'], // Dados da CPU por padrão
+                label: 'Mínimo',
+                data: dataComponentesMinMax['CPU'].min,
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: '#ff914c',
+            }, {
+                label: 'Máximo',
+                data: dataComponentesMinMax['CPU'].max,
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: '#6495ED',
             }]
         };
 
@@ -205,84 +200,75 @@
                     legend: { position: 'right' },
                     title: {
                         display: true,
-                        text: 'Menor e Maior uso de cada componente por servidor',
+                        text: 'Mínimo e Máximo de cada componente por servidor',
                         font: { size: 24 },
                         padding: { bottom: 30 }
                     }
+                },
+                scales: {
+                    x: { beginAtZero: true }
                 }
             }
         };
 
         let horizontalBarChart = new Chart(ctxBar, configBar);
 
-        // Gráfico de Colunas Empilhadas
-        const dataStacked = {
-            labels: ['Server 1', 'Server 2', 'Server 3'],
-            datasets: [{
-                label: 'CPU',
-                data: [38, 45, 56],
-                backgroundColor: '#ff914c'
-            }, {
-                label: 'RAM',
-                data: [21, 18, 20],
-                backgroundColor: '#8FBC8F'
-            }, {
-                label: 'DISCO',
-                data: [80, 75, 92],
-                backgroundColor: '#6495ED'
-            }]
-        };
-
-        const configStackedBar = {
-            type: 'bar',
-            data: dataStacked,
-            options: {
-                responsive: false,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'top' },
-                    title: {
-                        display: true,
-                        text: 'Uso de CPU, RAM e DISCO por Servidor (Empilhado)',
-                        font: { size: 24 }
-                    }
-                },
-                scales: {
-                    x: {
-                        stacked: true
-                    },
-                    y: {
-                        stacked: true
-                    }
-                }
-            }
-        };
-
-        const ctxStacked = document.getElementById('stackedBarChart').getContext('2d');
-        const stackedBarChart = new Chart(ctxStacked, configStackedBar);
-
-        // Função para atualizar gráficos ao trocar o componente
+        // Função para atualizar os gráficos de pizza e barras horizontais ao trocar o componente
         function atualizarGraficoComponente() {
             const componenteSelecionado = document.getElementById("selecionaComponente").value;
-            
+
             // Atualizando dados do gráfico de pizza
             meuGrafico.data.datasets[0].data = dataServidores[componenteSelecionado];
             meuGrafico.update();
 
-            // Atualizando dados do gráfico de barras horizontais
-            horizontalBarChart.data.datasets[0].data = dataComponentes[componenteSelecionado];
-            horizontalBarChart.data.datasets[0].label = componenteSelecionado;
+            // Atualizando dados do gráfico de barras horizontais com valores mínimos e máximos
+            horizontalBarChart.data.datasets[0].data = dataComponentesMinMax[componenteSelecionado].min;
+            horizontalBarChart.data.datasets[1].data = dataComponentesMinMax[componenteSelecionado].max;
             horizontalBarChart.update();
         }
 
-        // Função de redirecionamento para a tela do servidor
-        
-        function mudarTela() {
-            const select = document.getElementById('selecionaServidor').value;
-            if (select == 1 || select == 2 || select == 3) {
-                window.location = "dashboardAnalistaUmServidor.html";
+        // Gráfico de Colunas Empilhadas
+        const ctxStackedBar = document.getElementById('stackedBarChart').getContext('2d');
+        let dataStackedBar = {
+            labels: ['Server 1', 'Server 2', 'Server 3'],
+            datasets: [{
+                label: 'CPU',
+                data: [38, 45, 56],
+                backgroundColor: '#ff914c',
+            }, {
+                label: 'RAM',
+                data: [21, 18, 20],
+                backgroundColor: '#8FBC8F',
+            }, {
+                label: 'DISCO',
+                data: [80, 75, 92],
+                backgroundColor: '#6495ED',
+            }]
+        };
+
+        let configStackedBar = {
+            type: 'bar',
+            data: dataStackedBar,
+            options: {
+                responsive: false,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right' },
+                    title: {
+                        display: true,
+                        text: 'Componentes por Servidor',
+                        font: { size: 24 },
+                        padding: { bottom: 30 }
+                    }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: { beginAtZero: true, stacked: true }
+                }
             }
-        }
+        };
+
+        let stackedBarChart = new Chart(ctxStackedBar, configStackedBar);
     </script>
 </body>
 </html>
