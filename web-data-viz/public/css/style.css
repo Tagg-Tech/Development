@@ -2276,6 +2276,7 @@ h4 a {
         margin-right: 0;
         width: 30%;
         transform: translate(-290px);
+        transition: transform 0.3s ease;
       }
       .ranking{
         height: 300px;
