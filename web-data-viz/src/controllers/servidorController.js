@@ -1,17 +1,15 @@
 var servidorModel = require("../models/servidorModel");
 
 function cadastrar(req, res) {
-    // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
     var placaderede = req.body.placaderedeServer;
     var memoria = req.body.memoriaServer;
     var sistemaoperacional = req.body.sistemaoperacionalServer;
     var cpu = req.body.cpuServer;
     var disco = req.body.discoServer;
-    
-    // Faça as validações dos valores
-    
+    var porcentagemAlarme = req.body.porcentagemAlarmeServer;
+
     if (placaderede == undefined) {
-        res.status(400).send("Seu Placa de Rede está indefinida!");;
+        res.status(400).send("Sua Placa de Rede está indefinida!");
     } else if (memoria == undefined) {
         res.status(400).send("Sua memória está indefinida!");
     } else if (sistemaoperacional == undefined) {
@@ -20,8 +18,10 @@ function cadastrar(req, res) {
         res.status(400).send("Sua CPU está indefinida!");
     } else if (disco == undefined) {
         res.status(400).send("Seu disco está indefinido!");
+    } else if (porcentagemAlarme == undefined || porcentagemAlarme < 1 || porcentagemAlarme > 100) {
+        res.status(400).send("Porcentagem de alarme inválida!");
     } else {
-        servidorModel.cadastrar(placaderede, memoria, sistemaoperacional, cpu, disco)
+        servidorModel.cadastrar(placaderede, memoria, sistemaoperacional, cpu, disco, porcentagemAlarme)
             .then(
                 function (resultado) {
                     res.status(200).json(resultado);
@@ -41,4 +41,4 @@ function cadastrar(req, res) {
 
 module.exports = {
     cadastrar
-}
+};
