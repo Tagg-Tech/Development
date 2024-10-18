@@ -2064,7 +2064,7 @@
 
 
 /* responsividade para celular */
-@media (min-width: 320px) and (max-width: 500px){
+@media (min-width: 320px) and (max-width: 800px){
 
   body{
     padding: 0;
