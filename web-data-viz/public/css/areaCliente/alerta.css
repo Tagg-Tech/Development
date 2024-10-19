@@ -69,7 +69,6 @@ body{
 }
 
 .canvasBarra{
-    aspect-ratio: 16/9;
     width: 90%;
     height: 100%;
     padding: 10px;
@@ -125,9 +124,15 @@ th {
         width: 1200px; /* Mantém a largura fixa da tabela */
       }
 
-
+      .graficoBarrasTipoAlerta{
+        height: 25vw;
+      }
 
       .graficoRoscaTipoAlerta{
+        height: 25vw;
+      }
+
+      .graficoAlertaPorTempo{
         height: 25vw;
       }
 
@@ -138,7 +143,6 @@ th {
     .graficosAlerta{
         flex-direction: column;
         height: 100vh;
-        border: 2px solid blue;
     }
 
     .grafAlerta{
@@ -149,7 +153,6 @@ th {
 
     .containerAlertasTop{
         display: flex;
-        border: 2px solid green;
         width: 100%;
         justify-content: space-around;
     }
@@ -173,11 +176,34 @@ th {
         flex-direction: column;
         align-items: center;
         display: flex;
-        aspect-ratio: 16/9;
     }
     .canvasLinha{
         width: 100%;
     }
 
     
+}
+
+@media (max-width: 720px){
+    .containerAlertasTop{
+        display: flex;
+        flex-direction: column;
+        min-height: 580px; 
+    }
+
+    .graficoBarrasTipoAlerta{
+        height: 40vh;
+        width: 75vw;
+    }
+
+    .graficoRoscaTipoAlerta{
+        width: 50vw;
+        height: 40vh;
+    }
+
+    .containerAlertas{
+        margin-top: 200px;
+    }
+
+
 }

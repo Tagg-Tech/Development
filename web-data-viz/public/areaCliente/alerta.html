@@ -7,17 +7,19 @@
 
     <script src="../js/sessao.js"></script>
 
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/areaCliente/alerta.css" />
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/areaCliente/alerta.css" />
+
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
-  <body>
+  <body onload="direcionarDashboard()">
     <div class="container">
       <header>
         <nav>
@@ -35,13 +37,13 @@
                 <a id="dashboardLink"><strong>Dashboard</strong></a>
               </li>
               <li>
-                <a href="index.html#sobre"><strong>Alertas</strong></a>
+                <a href="alerta.html"><strong>Alertas</strong></a>
               </li>
               <li>
-                <a href="index.html#cards"><strong>Help Desk</strong></a>
+                <a href="#"><strong>Help Desk</strong></a>
               </li>
               <li>
-                <a href="index.html#cards"><strong>Perfil</strong></a>
+                <a href="perfil.html"><strong>Perfil</strong></a>
               </li>
               <li style="color: black"><strong>|</strong></li>
               <li>
@@ -176,7 +178,7 @@
           borderWidth: 2,
         },
       },
-      responsive: false,
+      responsive: true,
       maintainAspectRatio: false,
       plugins: {
         legend: {
@@ -184,7 +186,7 @@
         },
         title: {
           display: true,
-          text: "Tipos de alertas",
+          text: "Distribuição de alerta por componente",
         },
       },
     },
@@ -225,13 +227,14 @@
     data: dataLine,
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           position: "top",
         },
         title: {
           display: true,
-          text: "Chart.js Line Chart",
+          text: "Alertas por dia de semana",
         },
       },
     },
@@ -256,13 +259,14 @@
     data: dataRosca,
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           position: "top",
         },
         title: {
           display: true,
-          text: "Chart.js Doughnut Chart",
+          text: "Tipos de alerta",
         },
       },
     },
@@ -270,3 +274,4 @@
 
   const RoscaChart = new Chart(ctxRosca, configRosca);
 </script>
+
