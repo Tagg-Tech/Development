@@ -10,6 +10,17 @@
     <link rel="icon" href="../assets/icon/favicon2.ico" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+                   <!-- boxIcons -->
+                   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+                   <!-- AOS -->
+                   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+                   <!-- Swiper -->
+                   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
+                       integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
+                       crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <title>Tag Tech</title>
 </head>
 
@@ -238,4 +249,16 @@
     };
     const ctx4 = document.getElementById('myChart4');
     new Chart(ctx4, config4);
+</script>
+
+<script>
+    //menu hamburguer
+    const menuButton = document.querySelector('.menu-button');
+    const navbar = document.querySelector('.navbar');
+
+    menuButton.addEventListener('click',
+        () => {
+            navbar.classList.toggle('active');
+
+        });
 </script>

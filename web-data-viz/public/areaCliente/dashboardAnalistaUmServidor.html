@@ -9,6 +9,15 @@
     <link rel="shortcut icon" href="../assets/TagTech/img/logo1.png" type="image/x-icon">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+
+                <!-- boxIcons -->
+                <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+                <!-- AOS -->
+                <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+                <!-- Swiper -->
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
+                    integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
+                    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -336,3 +345,15 @@
     </script>
 </body>
 </html>
+
+<script>
+    //menu hamburguer
+    const menuButton = document.querySelector('.menu-button');
+    const navbar = document.querySelector('.navbar');
+
+    menuButton.addEventListener('click',
+        () => {
+            navbar.classList.toggle('active');
+
+        });
+</script>
