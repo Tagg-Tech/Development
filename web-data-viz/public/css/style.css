@@ -16,7 +16,7 @@
 
 body {
   background-color: var(--color-default);
-  /* overflow-x: hidden; */
+  overflow-x: hidden;
   /* overflow-y: hidden; */
 }
 
@@ -1104,7 +1104,7 @@ h4 a {
   /* #region cadFuncionario */
 
   .background {
-      background-image: url(./assets/TagTech/img/fundo-cadastro.png);
+      background-image: url('../assets/TagTech/img/fundo-cadastro.png');
       background-size: cover;
       background-repeat: no-repeat;
   }
@@ -1630,7 +1630,7 @@ h4 a {
   /* #region cadFuncionario */
 
   .background {
-      background-image: url(./assets/TagTech/img/fundo-cadastro.png);
+      background-image: url('../assets/TagTech/img/fundo-cadastro.png');
       background-size: cover;
       background-repeat: no-repeat;
   }
@@ -2276,6 +2276,7 @@ h4 a {
         margin-right: 0;
         width: 30%;
         transform: translate(-290px);
+        transition: transform 0.3s ease;
       }
       .ranking{
         height: 300px;

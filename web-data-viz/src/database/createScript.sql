@@ -30,6 +30,7 @@ CREATE TABLE maquina (
   qtdTotalMemoria BIGINT,
   qtdCpu INT,
   qtdTotalDisco BIGINT, 
+  porcentagemAlarme DECIMAL(5, 2),
   fkEmpresa INT NOT NULL,
   FOREIGN KEY (fkEmpresa) REFERENCES empresa (idEmpresa)
 );
