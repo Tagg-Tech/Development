@@ -2018,8 +2018,8 @@ h4 a {
 
 @media (min-width: 1146px){
   .ranking{
-    margin-top: 20%;
-    margin-left: 5%;
+    /* margin-top: 20%; */
+    margin-left: 25%;
     width: 38%; 
     height: 260px; 
     padding: 10px; 
@@ -2029,10 +2029,11 @@ h4 a {
   }
   .container_gerente{
     position: fixed;
+    top: 10vh;
     width: 90%;
     height: 100vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-left: 35vh;
   }
   .container_dash_gerente{
@@ -2062,7 +2063,7 @@ h4 a {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 15%;
+  margin-top: 1%;
   }
   #grafico_pizza{
   display: flex;
@@ -2072,13 +2073,14 @@ h4 a {
   }
   #myChart1{
     max-width: 45vh; 
-    max-height: 45vh;
+    max-height: 35vh;
     width: 45vh !important; 
     height: auto;
+    margin-right: 15px;
   }
   #myChart2{
     max-width: 45vh;
-    max-height: 45vh;
+    max-height: 35vh;
     width: 45vh !important;
     height: auto;
     /* margin-left: 65vh; */
@@ -2086,14 +2088,14 @@ h4 a {
   #myChart3{
     max-width: 30vh;
     max-height: 30vh;
-    width: 45vh !important;
+    width: 25vh !important;
     height: auto;
     /* margin-left: 65vh; */
   }
   #myChart4{
     max-width: 30vh;
     max-height: 30vh;
-    width: 45vh !important;
+    width: 25vh !important;
     height: auto;
     /* margin-left: 65vh; */
   }
