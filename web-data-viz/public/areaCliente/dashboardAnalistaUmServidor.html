@@ -20,7 +20,7 @@
                     crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body>
+<body onload="initializeData(), graficoDinamico()">
     <div class="header">
         <nav>
             <div class="menu">
@@ -130,6 +130,107 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+        let LineChart;  // To store the chart instance
+        let ctxLine;    // To store the canvas context
+        
+        // Initialize data arrays
+        let listaDadosCPU = [];
+        let listaDadosRAM = [];
+        let listaDadosHora = ["15:10:22", "15:10:26", "15:10:30", "15:10:34", "15:10:38"];
+        
+        // Initialize data
+        function initializeData() {
+            for (let i = 0; i < 5; i++) {
+                let numRAM = Math.floor(Math.random() * 80 + 1);
+                let numCPU = Math.floor(Math.random() * 80 + 1);
+                listaDadosCPU.push(numCPU);
+                listaDadosRAM.push(numRAM);
+            }
+        }
+        
+        function graficoDinamico() {
+            // Initialize ctxLine only once
+            if (!ctxLine) {
+                ctxLine = document.getElementById("LineChart").getContext("2d");
+            }
+        
+            // Generate new data
+            const novosDadosCPU = Math.floor(Math.random() * 80 + 1);
+            const novosDadosRAM = Math.floor(Math.random() * 80 + 1);
+            
+            listaDadosCPU.push(novosDadosCPU);
+            listaDadosRAM.push(novosDadosRAM);
+            listaDadosHora.push(new Date().toLocaleTimeString());
+        
+            // Keep only the last 5 data points
+            if (listaDadosCPU.length > 5) {
+                listaDadosCPU.shift();
+                listaDadosRAM.shift();
+                listaDadosHora.shift();
+            }
+        
+            const dataLine = {
+                labels: listaDadosHora,
+                datasets: [
+                    {
+                        label: "CPU",
+                        data: listaDadosCPU,
+                        borderColor: "#fe914c",
+                        backgroundColor: "#fe914c",
+                    },
+                    {
+                        label: "RAM",
+                        data: listaDadosRAM,
+                        borderColor: "#8b5736",
+                        backgroundColor: "#8b5736",
+                    },
+                ],
+            };
+        
+            const configLine = {
+                type: "line",
+                data: dataLine,
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: "top",
+                            labels: {
+                                font: { size: 18 }
+                            },
+                        },
+                        title: {
+                            display: true,
+                            text: "Uso de CPU e RAM (%)",
+                            font: { size: 24 },
+                            padding: { bottom: 30 }
+                        },
+                    },
+                },
+            };
+        
+            if (LineChart) {
+                // Update existing chart
+                LineChart.data = dataLine;
+                LineChart.update();
+            } else {
+                // Create new chart
+                LineChart = new Chart(ctxLine, configLine);
+            }
+        
+            // Schedule next update
+            setTimeout(graficoDinamico, 3000);
+        }
+        
+        // Initialize data and start the dynamic graph when the page loads
+        window.onload = function() {
+            initializeData();
+            graficoDinamico();
+        };
+        
+
+
 
        // Gráfico de Pizza
        const ctxPizza = document.getElementById('meuGrafico').getContext('2d');
@@ -183,60 +284,6 @@
 
 
         // Gráfico de Linhas
-        const ctxLine = document.getElementById("LineChart").getContext("2d");
-
-        const contador_datas = 7;
-        const nmr_CFG = {count: contador_datas, min: 0, max: 30};
-
-        const dataLine = {
-          labels: [
-            "15:10:22",
-            "15:10:26",
-            "15:10:30",
-            "15:10:34",
-            "15:10:38",
-          ],
-          datasets: [
-            {
-              label: "CPU",
-              data: Array.from({ length: contador_datas }, () => Math.floor(Math.random() * 80 + 1)),
-              borderColor: "#fe914c",
-              backgroundColor: "#fe914c",
-            },
-            {
-              label: "RAM",
-              data: Array.from({ length: contador_datas }, () => Math.floor(Math.random() * 80 + 1)),
-              borderColor: "#8b5736",
-              backgroundColor: "#8b5736",
-            },
-          ],
-        };
-
-        const configLine = {
-          type: "line",
-          data: dataLine,
-          options: {
-            responsive: false,
-            maintainAspectRatio: true,
-            plugins: {
-              legend: {
-                position: "top",
-                labels: {
-                            font: { size: 18 }
-                        },
-                      },
-              title: {
-                display: true,
-                text: "Uso de CPU e RAM (%)",
-                font: { size: 24 },
-                padding: { bottom: 30 }
-              },
-            },
-          },
-        };
-        const LineChart = new Chart(ctxLine, configLine);
-
-
 
 
 
@@ -332,6 +379,8 @@
         const stackedBarChart = new Chart(ctxStacked, config);
 
         function mudarTela(){
+
+
             select = selecionaServidor.value
             if(select == 1){
                 window.location = "dashboardAnalistaUmServidor.html";
