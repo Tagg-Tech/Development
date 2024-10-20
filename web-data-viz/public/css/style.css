@@ -2148,7 +2148,7 @@ h4 a {
 }
 .container_gerente{
   position: absolute;
-  top: -15vh;
+  top: 15vh;
   margin-top: 0;
   flex-direction: column;
   justify-content: center;
