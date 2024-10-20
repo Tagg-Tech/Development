@@ -9,15 +9,21 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
 
+    <!-- boxIcons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
+        integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-                <!-- boxIcons -->
-                <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-                <!-- AOS -->
-                <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-                <!-- Swiper -->
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
-                    integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
-                    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Adicionando o estilo pointer ao botão "Sair" -->
+    <style>
+        .navbar li a[onclick="limparSessao()"] {
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,7 +31,7 @@
         <nav>
             <div class="menu">
                 <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
-                <span style="font-size: 40px; font-weight: bold; margin-left: 16%;color: white;">DashBoard Analista</span>
+                <span style="font-size: 40px; font-weight: bold; margin-left: 16%; color: white;">DashBoard Analista</span>
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
                 <ul class="navbar">
                     <li><a href="dashboardAnalista.html"><strong>Dashboard</strong></a></li>
@@ -33,12 +39,15 @@
                     <li><a href="index.html#cards"><strong>Help Desk</strong></a></li>
                     <li><a href="perfil.html"><strong>Perfil</strong></a></li>
                     <li style="color:black;"><strong>|</strong></li>
-                    <li><a style="background-color: #fff178;" onclick="limparSessao()"><strong>Sair <img src="../assets/icones/sair.svg" alt=""></strong></a></li>
+                    <li>
+                        <a style="background-color: #fff178;" onclick="limparSessao()">
+                            <strong>Sair <img src="../assets/icones/sair.svg" alt=""></strong>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>
     </div>
-
     <!-- Sidebar -->
     <div class="sidebar">
         <h1>TAG TECH</h1>
