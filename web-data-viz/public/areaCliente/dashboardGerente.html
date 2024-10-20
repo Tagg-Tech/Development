@@ -10,6 +10,17 @@
     <link rel="icon" href="../assets/icon/favicon2.ico" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+                   <!-- boxIcons -->
+                   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+                   <!-- AOS -->
+                   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+                   <!-- Swiper -->
+                   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
+                       integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
+                       crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <title>Tag Tech</title>
 </head>
 
@@ -25,7 +36,7 @@
                     <li><a href=""><strong>Help Desk</strong></a></li>
                     <li><a href="perfil.html"><strong>Perfil</strong></a></li>
                     <li style="color:black;"><strong>|</strong></li>
-                    <li><a style="background-color: #fff178;" href="cadastro_funcionario.html"><strong>Sair <img
+                    <li><a style="background-color: #fff178;" onclick="limparSessao()"><strong>Sair <img
                                     src="../assets/icones/sair.svg" alt=""></strong></a></li>
                 </ul>
             </div>
@@ -60,6 +71,31 @@
     </div>
 
     <section class="container_gerente">
+
+        <section class="container_dash_gerente">
+            <div id="grafico_pizza">
+                <div class="container_chart">
+                    <h5>Uso médio de RAM</h5>
+                    <canvas id="myChart3"></canvas>
+                </div>
+                <div class="container_chart">
+                    <h5>Uso médio de CPU</h5>
+                    <canvas id="myChart4"></canvas>
+                </div>
+            </div>
+            <div id="grafico_column">
+                <div class="container_chart">
+                    <h5>Quantidade de alertas de cada servidor</h5>
+                    <canvas id="myChart1"></canvas>
+                </div>
+                <div class="container_chart">
+                    <h5>Distribuição de <strong>CPU</strong>/RAM/DISCO</h5>
+                    <canvas id="myChart2"></canvas>
+                </div>
+
+            </div>
+
+        </section>
         <div class="ranking">
             <h3>Ranking de tempo fora do ar</h3>
             <table style="width: 100%;" class="tabela_ranking">
@@ -85,32 +121,6 @@
                 </tr>
             </table>
         </div>
-    </div>
-    </div>
-        <section class="container_dash_gerente">
-            <div id="grafico_pizza">
-                <div class="container_chart">
-                    <h5>Uso médio de RAM</h5>
-                    <canvas id="myChart3"></canvas>
-                </div>
-                <div class="container_chart">
-                    <h5>Uso médio de CPU</h5>
-                    <canvas id="myChart4"></canvas>
-                </div>
-            </div>
-            <div id="grafico_column">
-                <div class="container_chart">
-                    <h5>Quantidade de alertas de cada servidor</h5>
-                    <canvas id="myChart1"></canvas>
-                </div>
-                <div class="container_chart">
-                    <h5>Distribuição de <strong>CPU</strong>/RAM/DISCO</h5>
-                    <canvas id="myChart2"></canvas>
-                </div>
-
-            </div>
-
-        </section>
     </section>
 </body>
 
@@ -239,4 +249,16 @@
     };
     const ctx4 = document.getElementById('myChart4');
     new Chart(ctx4, config4);
+</script>
+
+<script>
+    //menu hamburguer
+    const menuButton = document.querySelector('.menu-button');
+    const navbar = document.querySelector('.navbar');
+
+    menuButton.addEventListener('click',
+        () => {
+            navbar.classList.toggle('active');
+
+        });
 </script>

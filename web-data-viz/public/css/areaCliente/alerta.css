@@ -69,7 +69,6 @@ body{
 }
 
 .canvasBarra{
-    aspect-ratio: 16/9;
     width: 90%;
     height: 100%;
     padding: 10px;
@@ -95,6 +94,11 @@ body{
   
 }
 
+.headerAlertas{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 table {
     width: 100%; /* Faz a tabela ocupar toda a div */
@@ -103,16 +107,22 @@ table {
 
 th, td {
     border: 1px solid black;
-    padding: 8px;
+    padding: 10px;
     text-align: center;
 }
 
 th {
-    background-color: #f2f2f2;
-    position: sticky; /* Cabeçalho fixo ao rolar */
+    position: sticky; 
     top: 0;
     z-index: 1;
+    background-color: #cc6600;
+    color: #fff;
+      
 }
+
+td {
+    background-color: #ffcc99;
+  }
 
 
 
@@ -125,9 +135,15 @@ th {
         width: 1200px; /* Mantém a largura fixa da tabela */
       }
 
-
+      .graficoBarrasTipoAlerta{
+        height: 25vw;
+      }
 
       .graficoRoscaTipoAlerta{
+        height: 25vw;
+      }
+
+      .graficoAlertaPorTempo{
         height: 25vw;
       }
 
@@ -138,7 +154,6 @@ th {
     .graficosAlerta{
         flex-direction: column;
         height: 100vh;
-        border: 2px solid blue;
     }
 
     .grafAlerta{
@@ -149,7 +164,6 @@ th {
 
     .containerAlertasTop{
         display: flex;
-        border: 2px solid green;
         width: 100%;
         justify-content: space-around;
     }
@@ -173,11 +187,34 @@ th {
         flex-direction: column;
         align-items: center;
         display: flex;
-        aspect-ratio: 16/9;
     }
     .canvasLinha{
         width: 100%;
     }
 
     
+}
+
+@media (max-width: 720px){
+    .containerAlertasTop{
+        display: flex;
+        flex-direction: column;
+        min-height: 580px; 
+    }
+
+    .graficoBarrasTipoAlerta{
+        height: 40vh;
+        width: 75vw;
+    }
+
+    .graficoRoscaTipoAlerta{
+        width: 50vw;
+        height: 40vh;
+    }
+
+    .containerAlertas{
+        margin-top: 200px;
+    }
+
+
 }

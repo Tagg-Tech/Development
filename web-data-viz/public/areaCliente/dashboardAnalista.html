@@ -8,6 +8,16 @@
     <link rel="icon" href="./assets/icon/favicon2.ico">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+
+
+                <!-- boxIcons -->
+                <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+                <!-- AOS -->
+                <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+                <!-- Swiper -->
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
+                    integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
+                    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -18,12 +28,12 @@
                 <span style="font-size: 40px; font-weight: bold; margin-left: 16%;color: white;">DashBoard Analista</span>
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
                 <ul class="navbar">
-                    <li><a id="dashboardLink"><strong>Dashboard</strong></a></li>
-                    <li><a href="index.html#sobre"><strong>Alertas</strong></a></li>
+                    <li><a href="dashboardAnalista.html"><strong>Dashboard</strong></a></li>
+                    <li><a href="alerta.html"><strong>Alertas</strong></a></li>
                     <li><a href="index.html#cards"><strong>Help Desk</strong></a></li>
-                    <li><a href="index.html#cards"><strong>Perfil</strong></a></li>
+                    <li><a href="perfil.html"><strong>Perfil</strong></a></li>
                     <li style="color:black;"><strong>|</strong></li>
-                    <li><a style="background-color: #fff178;" href="cadastro_funcionario.html"><strong>Sair <img src="../assets/icones/sair.svg" alt=""></strong></a></li>
+                    <li><a style="background-color: #fff178;" onclick="limparSessao()"><strong>Sair <img src="../assets/icones/sair.svg" alt=""></strong></a></li>
                 </ul>
             </div>
         </nav>
@@ -66,10 +76,13 @@
             </div>
             <button onclick="mudarTela()">Acessar</button>
         </div>
-        <div class="buttons">
-            <button>Dashboard</button>
-            <button>Alertas</button>
-        </div>
+       <div class="buttons">
+    <a href="../cadastro_servidor.html">
+        <button>Cadastro de Servidor</button>
+    </a>
+    <button>Alertas</button>
+</div>
+
     </div>
 
     <!-- Main Content -->
@@ -279,3 +292,15 @@
     </script>
 </body>
 </html>
+
+<script>
+    //menu hamburguer
+    const menuButton = document.querySelector('.menu-button');
+    const navbar = document.querySelector('.navbar');
+
+    menuButton.addEventListener('click',
+        () => {
+            navbar.classList.toggle('active');
+
+        });
+</script>
