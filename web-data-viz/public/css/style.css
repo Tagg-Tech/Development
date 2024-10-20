@@ -90,7 +90,7 @@ body {
   height: 70px;
   background-color: var(--color-primary);
   position: fixed;
-  z-index: 100;
+  /* z-index: 10; */
 }
 
 /* #endregion */
@@ -2186,11 +2186,20 @@ h4 a {
   width: 20%;
   height: 100vh; /* 100% da altura da janela de visualização */
   background-color: var(--color-primary);
-  padding: 20px;
+  /* padding: 20px; */
   box-sizing: border-box;
   float: left;
+  color: #efefef;
 
-  
+}
+.sidebar .metrics button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.sidebar p{
+    color: #efefef;
 }
 #Open{
   display: none;
@@ -2199,29 +2208,27 @@ h4 a {
   display: none;
 }
 .sidebar h1 {
-  color: #ffcc66;
+  color: #efefef;
   align-items: center;
 }
-.sidebar p {
+/* .sidebar p {
   color: #000;
-}
+} */
 .sidebar .metrics {
   margin-top: 20px;
-}
-.sidebar .metrics select,
-.sidebar .metrics button {
-  width: 100%;
-  margin-bottom: 10px;
   padding: 10px;
-  box-sizing: border-box;
+  margin-bottom: 10px;
+  margin-left: 0.5vh;
 }
+
 .sidebar .buttons {
   margin-top: 20px;
 }
 .sidebar .buttons button {
-  width: 100%;
+  width: 85%;
   padding: 10px;
   margin-bottom: 10px;
+  margin-left: 3vh;
   box-sizing: border-box;
 }
 .sidebar .car-icon {
