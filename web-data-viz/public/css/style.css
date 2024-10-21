@@ -2017,16 +2017,15 @@ h4 a {
 }  */
 
 @media (min-width: 1146px){
-  .ranking{
-    /* margin-top: 20%; */
-    /* margin-left: 25%; */
+  /* .ranking{
+
     width: 38%; 
     height: 60px; 
     padding: 10px; 
     border: 1px solid #ddd; 
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.8);
-  }
+  } */
   .container_gerente{
     position: fixed;
     top: 5vh;
@@ -2072,30 +2071,30 @@ h4 a {
   flex-wrap: wrap;
   }
   #myChart1{
-    max-width: 45vh; 
-    max-height: 35vh;
+    max-width: 55vh; 
+    max-height: 45vh;
     width: 45vh !important; 
     height: auto;
     margin-right: 15px;
   }
   #myChart2{
-    max-width: 45vh;
-    max-height: 35vh;
+    max-width: 55vh;
+    max-height: 45vh;
     width: 45vh !important;
     height: auto;
     /* margin-left: 65vh; */
   }
   #myChart3{
-    max-width: 30vh;
-    max-height: 30vh;
-    width: 25vh !important;
+    max-width: 40vh;
+    max-height: 40vh;
+    width: 33 vh !important;
     height: auto;
     /* margin-left: 65vh; */
   }
   #myChart4{
-    max-width: 30vh;
-    max-height: 30vh;
-    width: 25vh !important;
+    max-width: 40vh;
+    max-height: 40vh;
+    width: 33vh !important;
     height: auto;
     /* margin-left: 65vh; */
   }
