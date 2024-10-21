@@ -1972,7 +1972,7 @@
   /* Estilos do sidebar */
   .sidebar {
       width: 20%;
-      height: 88vh; /* 100% da altura da janela de visualização */
+      height: 100vh; /* 100% da altura da janela de visualização */
       background-color: var(--color-primary);
       padding: 20px;
       box-sizing: border-box;
@@ -2031,9 +2031,9 @@
   }
 
 
-  .sidebar .buttons {
+  /* .sidebar .buttons { */
       /* margin-top: 20px; */
-  }
+  /* } */
   .sidebar .buttons button {
       width: 90%;
       padding: 10px;

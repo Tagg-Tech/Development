@@ -18,6 +18,15 @@
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
                     integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
                     crossorigin="anonymous" referrerpolicy="no-referrer" />
+                 <!-- Adicionando o estilo pointer ao botão "Sair" -->
+                    <style>
+                        .navbar li a[onclick="limparSessao()"] {
+                            cursor: pointer;
+                        }
+                    </style>
+
+                <link rel="icon" href="../assets/TagTech/img/logo1.png" />
+                <script src="../js/sessao.js"></script>
 </head>
 
 <body onload="initializeData(), graficoDinamico()">
@@ -30,7 +39,7 @@
                 <ul class="navbar">
                     <li><a href="dashboardAnalista.html"><strong>Dashboard</strong></a></li>
                     <li><a href="alerta.html"><strong>Alertas</strong></a></li>
-                    <li><a href="index.html#cards"><strong>Help Desk</strong></a></li>
+                    <li><a href="https://tagtech.atlassian.net/jira/servicedesk/projects/THD/issues?jql=project%20%3D%20%22THD%22%20ORDER%20BY%20created%20DESC" target="blank"><strong>Help Desk</strong></a></li>
                     <li><a href="perfil.html"><strong>Perfil</strong></a></li>
                     <li style="color:black;"><strong>|</strong></li>
                     <li><a style="background-color: #fff178;" onclick="limparSessao()"><strong>Sair <img src="../assets/icones/sair.svg" alt=""></strong></a></li>
@@ -89,8 +98,7 @@
             <canvas id="meuGrafico"
             style="aspect-ratio: 16/9; 
                            width: 45%; 
-                        height: 240px; 
-                        padding: 10px; 
+                        height: 280px;  
              border: 1px solid #ddd; 
                   border-radius: 10px;">
 
@@ -99,8 +107,7 @@
             <canvas id="LineChart" 
                 style="aspect-ratio: 16/9; 
                                width: 45%; 
-                            height: 240px; 
-                            padding: 10px; 
+                            height: 280px; 
                  border: 1px solid #ddd; 
                       border-radius: 10px;">
             </canvas>
@@ -108,8 +115,7 @@
             <canvas id="ChartBarraHorizontal" 
                 style="aspect-ratio: 16/9; 
                                width: 45%; 
-                            height: 240px; 
-                            padding: 10px; 
+                            height: 280px; 
                  border: 1px solid #ddd; 
                       border-radius: 10px;">
             </canvas>     
@@ -117,8 +123,7 @@
             <canvas id="ChartColunas" 
                  style="aspect-ratio: 16/9; 
                                 width: 45%; 
-                             height: 240px; 
-                             padding: 10px; 
+                             height: 280px; 
                   border: 1px solid #ddd; 
                        border-radius: 10px;">
             </canvas>    

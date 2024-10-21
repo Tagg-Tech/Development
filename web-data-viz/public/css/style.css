@@ -90,7 +90,7 @@ body {
   height: 70px;
   background-color: var(--color-primary);
   position: fixed;
-  z-index: 100;
+  /* z-index: 10; */
 }
 
 /* #endregion */
@@ -2017,24 +2017,23 @@ h4 a {
 }  */
 
 @media (min-width: 1146px){
-  .ranking{
-    /* margin-top: 20%; */
-    margin-left: 25%;
+  /* .ranking{
+
     width: 38%; 
-    height: 260px; 
+    height: 60px; 
     padding: 10px; 
     border: 1px solid #ddd; 
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.8);
-  }
+  } */
   .container_gerente{
     position: fixed;
-    top: 10vh;
+    top: 5vh;
     width: 90%;
     height: 100vh;
     display: flex;
-    flex-direction: column;
-    margin-left: 35vh;
+    flex-direction: row;
+    /* margin-left: 35vh; */
   }
   .container_dash_gerente{
     display: flex; 
@@ -2044,14 +2043,14 @@ h4 a {
     flex-wrap: wrap; 
     width: 92%; 
     height: auto; 
-    margin-left: 2%; 
+    margin-left: 30%; 
     
   }
   .ranking_downtime{
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: 50%;
     align-items: center;
     justify-content: center;
   }
@@ -2072,30 +2071,30 @@ h4 a {
   flex-wrap: wrap;
   }
   #myChart1{
-    max-width: 45vh; 
-    max-height: 35vh;
+    max-width: 55vh; 
+    max-height: 45vh;
     width: 45vh !important; 
     height: auto;
     margin-right: 15px;
   }
   #myChart2{
-    max-width: 45vh;
-    max-height: 35vh;
+    max-width: 55vh;
+    max-height: 45vh;
     width: 45vh !important;
     height: auto;
     /* margin-left: 65vh; */
   }
   #myChart3{
-    max-width: 30vh;
-    max-height: 30vh;
-    width: 25vh !important;
+    max-width: 33vh;
+    max-height: 40vh;
+    width: 33vh !important;
     height: auto;
     /* margin-left: 65vh; */
   }
   #myChart4{
-    max-width: 30vh;
-    max-height: 30vh;
-    width: 25vh !important;
+    max-width: 33vh;
+    max-height: 40vh;
+    width: 33vh !important;
     height: auto;
     /* margin-left: 65vh; */
   }
@@ -2148,7 +2147,7 @@ h4 a {
 }
 .container_gerente{
   position: absolute;
-  top: -15vh;
+  top: 15vh;
   margin-top: 0;
   flex-direction: column;
   justify-content: center;
@@ -2186,11 +2185,20 @@ h4 a {
   width: 20%;
   height: 100vh; /* 100% da altura da janela de visualização */
   background-color: var(--color-primary);
-  padding: 20px;
+  /* padding: 20px; */
   box-sizing: border-box;
   float: left;
+  color: #efefef;
 
-  
+}
+.sidebar .metrics button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.sidebar p{
+    color: #efefef;
 }
 #Open{
   display: none;
@@ -2199,29 +2207,27 @@ h4 a {
   display: none;
 }
 .sidebar h1 {
-  color: #ffcc66;
+  color: #efefef;
   align-items: center;
 }
-.sidebar p {
+/* .sidebar p {
   color: #000;
-}
+} */
 .sidebar .metrics {
   margin-top: 20px;
-}
-.sidebar .metrics select,
-.sidebar .metrics button {
-  width: 100%;
-  margin-bottom: 10px;
   padding: 10px;
-  box-sizing: border-box;
+  margin-bottom: 10px;
+  margin-left: 0.5vh;
 }
+
 .sidebar .buttons {
   margin-top: 20px;
 }
 .sidebar .buttons button {
-  width: 100%;
+  width: 85%;
   padding: 10px;
   margin-bottom: 10px;
+  margin-left: 3vh;
   box-sizing: border-box;
 }
 .sidebar .car-icon {
@@ -2241,12 +2247,14 @@ h4 a {
 
     /* Estilo para a tabela */
     .ranking{
-      width: 48%; 
-      height: 260px; 
+      width: 38%; 
+      margin-top: 22vh;
+      height: 420px; 
       padding: 10px; 
       border: 1px solid #ddd; 
       border-radius: 10px;
       background-color: rgba(255, 255, 255, 0.8);
+      margin-left: 20vh;
     }
 
     .ranking table {
@@ -2264,10 +2272,13 @@ h4 a {
     .ranking th {
         background-color: #cc6600;
         color: #fff;
+        height: 1vh;
     }
 
     .ranking td {
         background-color: #ffcc99;
+        height: 1vh;
+        width: 2vh;
     } 
     @media(max-width:375px){
       .sidebar{
