@@ -2,6 +2,8 @@ CREATE DATABASE IF NOT EXISTS TagTech;
 USE TagTech ;
 
 
+
+
 CREATE TABLE empresa (
   idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
   razaoSocial VARCHAR(80),
@@ -30,7 +32,6 @@ CREATE TABLE maquina (
   qtdTotalMemoria BIGINT,
   qtdCpu INT,
   qtdTotalDisco BIGINT, 
-  porcentagemAlarme DECIMAL(5, 2),
   fkEmpresa INT NOT NULL,
   FOREIGN KEY (fkEmpresa) REFERENCES empresa (idEmpresa)
 );
@@ -55,3 +56,7 @@ CREATE TABLE usuarioResponsavelMaquina (
 
 select * from usuario;
 select * from registros;
+
+update usuario set cargo = 'Analista' where idUsuario = 3;
+
+TRUNCATE TABLE registros;
