@@ -24,8 +24,8 @@
                     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
-    <link rel="icon" href="../assets/icon/favicon2.ico" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
+                <link rel="icon" href="../assets/TagTech/img/logo1.png" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
 <body onload="direcionarDashboard(), validarSessao(), adicionarCampos()">
@@ -56,7 +56,7 @@
             <div class="infoPerfil">
                 <div class="pfAtual">
                     <h2>Dados atuais</h2>
-                    <img id="fotoPerfil" alt="">
+                    <img id="fotoPerfil" alt="" src="../assets/TagTech/img/perfil/perfil.png" style="margin-top: 15px; margin-bottom: 15px; border-radius: 100%;">
                     <div class="allCp">
                         <div class="campoAt">
                             <span>Nome:</span>
@@ -77,7 +77,7 @@
                     <div class="allCp" style="width: 60%;">
                         <div class="newImg">
                             <h3>Nova Foto</h3>
-                            <input id="inpNovaFoto" type="file" placeholder="url">
+                            <input id="inpNovaFoto" type="text" placeholder="">
                         </div>
                         <div class="inpAt">
                         </div>
@@ -87,7 +87,7 @@
                         </div>
                         <div class="inpAt">
                             <span>Novo Telefone:</span>
-                            <input id="inpNovoTelefone" type="text" placeholder="Email...">
+                            <input id="inpNovoTelefone" type="text" placeholder="Telefone...">
                         </div>
                         <div class="inpAt">
                             <span>Nova senha:</span>
@@ -126,11 +126,6 @@
         var senhaVar = inpNovaSenha.value;
 
         
-        alert(idVar)
-        alert(fotoVar)
-        alert(emailVar)
-        alert(telefoneVar)
-        alert(senhaVar)
 
         fetch("/funcionarios/alterar", {
             method: "POST",
@@ -153,7 +148,6 @@
               if (resposta.ok) {
                 //cardErro.style.display = "block";
                 console.log("If do resposta.ok")
-                alert('Rodou')
                 console.log("Alteração realizada")
                // mensagem_erro.innerHTML =
                //   "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
