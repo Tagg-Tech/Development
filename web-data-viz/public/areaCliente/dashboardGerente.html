@@ -11,6 +11,7 @@
     <link rel="icon" href="../assets/icon/favicon2.ico" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
                    <!-- boxIcons -->
@@ -216,7 +217,7 @@
         ],
         datasets: [{
             label: 'Uso médio de RAM(Todos os servidores)',
-            data: [70, 54, 100],
+            data: [70, 54, 45],
             backgroundColor: [
                 '#6B4423',
                 '#FF914C',
@@ -226,9 +227,22 @@
         }]
     };
     const config3 = {
-        type: 'pie',
-        data: data3,
-    };
+    type: 'pie',
+    data: data3,
+    options: {
+        plugins: {
+            datalabels: {
+                formatter: (value) => value + '%',
+                color: 'black',
+                font: {
+                    weight: 'bold',
+                    size: 18,
+                }
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
+};
     const ctx3 = document.getElementById('myChart3');
     new Chart(ctx3, config3);
 </script>
@@ -241,7 +255,7 @@
         ],
         datasets: [{
             label: 'Uso médio de CPU(Todos os servidores)',
-            data: [70, 54, 100],
+            data: [30, 12, 80],
             backgroundColor: [
                 '#6B4423',
                 '#FF914C',
@@ -253,6 +267,19 @@
     const config4 = {
         type: 'pie',
         data: data4,
+        options: {
+        plugins: {
+            datalabels: {
+                formatter: (value) => value + '%',
+                color: 'black',
+                font: {
+                    weight: 'bold',
+                    size: 18,
+                }
+            }
+        }
+    },
+    plugins:[ChartDataLabels]
     };
     const ctx4 = document.getElementById('myChart4');
     new Chart(ctx4, config4);
