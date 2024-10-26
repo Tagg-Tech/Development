@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS TagTech;
-USE TagTech ;
+USE TagTech;
 
 
 
@@ -51,6 +51,7 @@ CREATE TABLE usuarioResponsavelMaquina (
 CREATE TABLE registros (
 idRegistro INT PRIMARY KEY AUTO_INCREMENT, 
 percentualMemoria DECIMAL(6,2), 
+gigaBytesMemoria DECIMAL(6,2),
 qtdUtilizadaDisco BIGINT, 
 percentualDisco DECIMAL(6,2), 
 percentualCPU DECIMAL (6,2), 
