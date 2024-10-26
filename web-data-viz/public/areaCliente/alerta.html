@@ -36,7 +36,7 @@
 
             <link rel="icon" href="../assets/TagTech/img/logo1.png" />
   </head>
-  <body onload="direcionarDashboard()">
+  <body onload="direcionarDashboard(), getChamados()">
     <div class="container">
       <header>
         <nav>
@@ -167,6 +167,27 @@
 </html>
 
 <script>
+
+  async function getChamados(){
+
+    const response = await fetch("/verChamados", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const issues = await response.json();
+    console.log(issues);
+
+    console.log(JSON.stringify(issues, null, 2));
+
+  
+
+
+  }
+
+
   const ctxBar = document.getElementById("horizontalBarChart").getContext("2d");
   const dataBar = {
     labels: ["CPU", "RAM", "DISCO"],

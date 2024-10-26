@@ -22,6 +22,11 @@ var funcionarioRouter = require("./src/routes/funcionarios");
 //Conexão cadastro do servidor
 var servidorRouter = require("./src/routes/servidores");
 
+const getIssues = require('./src/routes/get-issues.js');
+
+
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -35,4 +40,39 @@ app.use("/servidores", servidorRouter);
 app.listen(PORTA_APP, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n`)
     console.log(`Servidor rodando`);
+});
+
+const getIssuesFunc = async () => {
+    const issues = await getIssues();
+    
+    // Exibir todos os dados retornados, incluindo 'fields'
+
+    try{    
+        console.log(JSON.stringify(issues, null, 2));
+        
+        // Caso deseje visualizar apenas os campos 'fields' de cada chamado
+        issues.issues.forEach(issue => {
+        console.log(`Issue Key: ${issue.key}`);
+        console.log('Fields:', JSON.stringify(issue.fields, null, 2));
+        });
+        return issues;
+    }catch(error){
+        console.error(error);
+        throw error;
+    }
+
+    
+  };
+
+
+
+  app.post("/verChamados", async (req, res) => {
+  
+    try {
+        const resultado = await getIssuesFunc();
+        res.json( { resultado } );
+    } catch (error) {
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+
 });
