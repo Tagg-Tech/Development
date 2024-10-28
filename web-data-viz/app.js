@@ -1,5 +1,5 @@
-var ambiente_processo = 'producao';
-//var ambiente_processo = 'desenvolvimento';
+// var ambiente_processo = 'producao';
+var ambiente_processo = 'desenvolvimento';
 
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 // Acima, temos o uso do operador ternário para definir o caminho do arquivo .env
@@ -12,7 +12,9 @@ var cors = require("cors");
 var path = require("path");
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
-
+var AWS = require('aws-sdk');
+var csv = require('csv-parser');
+require('dotenv').config();
 var app = express();
 
 //Conexão cadastro da empresa
@@ -76,3 +78,14 @@ const getIssuesFunc = async () => {
     }
 
 });
+
+//Configurando chaves de acesso para manipulação
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  sessionToken: process.env.AWS_SESSION_TOKEN
+});
+
+
+// Configurando a região da AWS usando .config
+AWS.config.update({ region: '' });
