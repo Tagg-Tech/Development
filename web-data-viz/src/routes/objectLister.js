@@ -1,6 +1,8 @@
 //Criando um objeto do bucket
 //Configurando chaves de acesso para manipulação
-import AWS from 'aws-sdk';
+const AWS = require('aws-sdk');
+const csv = require('csv-parser');
+require('dotenv').config();
 
 
 AWS.config.update({
@@ -117,9 +119,8 @@ const processJson = async () => {
 
 //chamando as functions e views
 
-// listObjects();
-// callObjectsListing();
-processCSV();
+module.exports = callObjectsListing;
+module.exports = processCSV;
 // readFileCsv();
 
 // Comente qual você não quer se necessário.

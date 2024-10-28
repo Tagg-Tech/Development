@@ -26,7 +26,7 @@ var servidorRouter = require("./src/routes/servidores");
 
 const getIssues = require('./src/routes/get-issues.js');
 
-
+var getS3Objects = require('./src/routes/objectLister.js')
 
 
 app.use(express.json());
@@ -68,6 +68,7 @@ const getIssuesFunc = async () => {
 
 
 
+
   app.post("/verChamados", async (req, res) => {
   
     try {
@@ -78,3 +79,12 @@ const getIssuesFunc = async () => {
     }
 
 });
+
+ app.get("/viewS3", async(req, res) =>{
+    try {
+        const resultado = await getS3Objects();
+        res.json( {resultado});
+    } catch (error) {
+        res.status(500).json({error: 'Erro interno do servidor'})
+    }
+ })
