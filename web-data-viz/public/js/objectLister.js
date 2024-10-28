@@ -1,4 +1,18 @@
 //Criando um objeto do bucket
+//Configurando chaves de acesso para manipulação
+import AWS from 'aws-sdk';
+
+
+AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    sessionToken: process.env.AWS_SESSION_TOKEN
+  });
+  
+  
+  // Configurando a região da AWS usando .config
+  AWS.config.update({ region: 'us-east-1' });
+
 const s3 = new AWS.S3();
 
 //Função para async para listar objetos usando função .listObjectsV2
@@ -77,8 +91,8 @@ const readFileCsv = async (fileName, nomeBucket) =>{
   const processCSV = async () => {
     console.log('/////////////////////Chamando função processar arquivos CSV////////////////////////////')
     try {
-        const nomeBucket = '';
-        const fileName = '.csv'
+        const nomeBucket = 'tagtech-client';
+        const fileName = 'relatorioSemanal.csv'
         var csvData = await readFileCsv(fileName,nomeBucket/*Aqui dentro você passa o argumento do nome do arquivo, se você quiser deixar o código dinâmico, exemplo de uso listado */);
         console.log('Parsed CSV Data:', csvData);
         // Agora você tem o arquivo pronto para uso externo
@@ -104,7 +118,7 @@ const processJson = async () => {
 //chamando as functions e views
 
 // listObjects();
-callObjectsListing();
+// callObjectsListing();
 processCSV();
 // readFileCsv();
 
