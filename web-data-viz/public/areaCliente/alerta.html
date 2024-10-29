@@ -104,7 +104,7 @@
         <section class="containerAlertas">
           <div class="divAlertas">
             <div class="headerAlertas">
-              <h2>Historico de Alertas</h2>
+              <h2>Histórico de Alertas</h2>
               <h4>Chamados (5 resultados) (Ultimas 24 horas)</h4>
             </div>
 
@@ -167,10 +167,16 @@
 </html>
 
 <script>
+  var listaChamados = []
+  var listaPorcentagens = []
+  var listaComponentes = []
+  var listaDatas = []
+  var listaServidores = []
+
 
   async function getChamados(){
 
-    var listaChamados = []
+  listaChamados = []
 
     const response = await fetch("/verChamados", {
       method: "POST",
@@ -191,140 +197,200 @@
     issues.forEach(issue => {
       const chamadoAtual = issue.fields; // Acesse os campos do issue
       const descAtual = chamadoAtual.description; // Supondo que você tenha um campo 'description'
-    
- 
+      
+
+
       console.log(descAtual);
+
+      listaChamados.push(descAtual)
     });
 
+    dadosChamados()
 
-    
+
+
+
 
   }
 
 
-  const ctxBar = document.getElementById("horizontalBarChart").getContext("2d");
-  const dataBar = {
-    labels: ["CPU", "RAM", "DISCO"],
-    datasets: [
-      {
-        label: "DOWN TIME",
-        data: [3, 8, 16],
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "#ff914c",
-      },
-      {
-        label: "SOBRECARGA",
-        data: [6, 14, 17],
-        backgroundColor: "#f64b00",
-      },
-    ],
-  };
+  function dadosChamados(){
+    listaChamados.forEach(chamado => {
+      var index = chamado.indexOf("´´");
+      if (index !== -1) {  // Verifica se "´´" foi encontrado
+          var porcentAtual = chamado.substring(index + 2, index + 7);
+          listaPorcentagens.push(Number(porcentAtual))
+      }
 
-  const configBar = {
-    type: "bar",
-    data: dataBar,
-    options: {
-      indexAxis: "x", // Configuração para barras horizontais
-      elements: {
-        bar: {
-          borderWidth: 2,
+
+      index = chamado.indexOf("**");
+      if (index !== -1) { 
+          var dataAtual = chamado.substring(index + 2, index + 19);
+
+          dataAtual = new Date(dataAtual) 
+
+          listaDatas.push(dataAtual)
+
+      }
+
+
+      index = chamado.indexOf("teve");
+      if (index !== -1) {  
+          var componenteAtual = chamado.substring(13, index);
+          listaComponentes.push(componenteAtual)
+
+      }
+
+
+      index = chamado.indexOf("''");
+      if (index !== -1) {  
+          var servidorAtual = chamado.substring(index + 2);
+          listaServidores.push(servidorAtual)
+
+      }
+
+      console.log(porcentAtual)
+      console.log(dataAtual)
+      console.log(componenteAtual)
+      console.log(servidorAtual)
+
+      
+
+  });
+
+  plotarGraficos()
+
+  }
+
+
+
+  function plotarGraficos(){
+
+    const ctxBar = document.getElementById("horizontalBarChart").getContext("2d");
+    const dataBar = {
+      labels: ["CPU", "RAM", "DISCO"],
+      datasets: [
+        {
+          label: "DOWN TIME",
+          data: [3, 8, 16],
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "#ff914c",
+        },
+        {
+          label: "SOBRECARGA",
+          data: [6, 14, 17],
+          backgroundColor: "#f64b00",
+        },
+      ],
+    };
+  
+    const configBar = {
+      type: "bar",
+      data: dataBar,
+      options: {
+        indexAxis: "x", // Configuração para barras horizontais
+        elements: {
+          bar: {
+            borderWidth: 2,
+          },
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "bottom", // Muda a posição da legenda para baixo
+          },
+          title: {
+            display: true,
+            text: "Distribuição de alerta por componente",
+          },
         },
       },
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "bottom", // Muda a posição da legenda para baixo
+    };
+  
+    const horizontalBarChart = new Chart(ctxBar, configBar);
+  
+    const ctxLine = document.getElementById("LineChart").getContext("2d");
+  
+    const dataLine = {
+      labels: [
+        "Domingo",
+        "Segunda",
+        "Terça",
+        "Quarta",
+        "Quinta",
+        "Sexta",
+        "Sabado",
+      ],
+      datasets: [
+        {
+          label: "Nivel Critico",
+          data: [12, 15, 16, 27, 18, 21, 9],
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "#ff914c",
         },
-        title: {
-          display: true,
-          text: "Distribuição de alerta por componente",
+        {
+          label: "Down Times",
+          data: [6, 8, 8, 9, 6, 11, 3],
+          borderColor: "blue",
+          backgroundColor: 'blue"',
         },
-      },
-    },
-  };
-
-  const horizontalBarChart = new Chart(ctxBar, configBar);
-
-  const ctxLine = document.getElementById("LineChart").getContext("2d");
-
-  const dataLine = {
-    labels: [
-      "Domingo",
-      "Segunda",
-      "Terça",
-      "Quarta",
-      "Quinta",
-      "Sexta",
-      "Sabado",
-    ],
-    datasets: [
-      {
-        label: "Nivel Critico",
-        data: [12, 15, 16, 27, 18, 21, 9],
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "#ff914c",
-      },
-      {
-        label: "Down Times",
-        data: [6, 8, 8, 9, 6, 11, 3],
-        borderColor: "blue",
-        backgroundColor: 'blue"',
-      },
-    ],
-  };
-
-  const configLine = {
-    type: "line",
-    data: dataLine,
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "top",
-        },
-        title: {
-          display: true,
-          text: "Alertas por dia de semana",
+      ],
+    };
+  
+    const configLine = {
+      type: "line",
+      data: dataLine,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "top",
+          },
+          title: {
+            display: true,
+            text: "Alertas por dia de semana",
+          },
         },
       },
-    },
-  };
-  const LineChart = new Chart(ctxLine, configLine);
-
-  const ctxRosca = document.getElementById("RoscaChart").getContext("2d");
-
-  const dataRosca = {
-    labels: ["Critico", "DownTime"],
-    datasets: [
-      {
-        label: "Dataset 1",
-        data: [12, 5],
-        backgroundColor: ["red", "orange"],
-      },
-    ],
-  };
-
-  const configRosca = {
-    type: "doughnut",
-    data: dataRosca,
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "top",
+    };
+    const LineChart = new Chart(ctxLine, configLine);
+  
+    const ctxRosca = document.getElementById("RoscaChart").getContext("2d");
+  
+    const dataRosca = {
+      labels: ["Critico", "DownTime"],
+      datasets: [
+        {
+          label: "Dataset 1",
+          data: [12, 5],
+          backgroundColor: ["red", "orange"],
         },
-        title: {
-          display: true,
-          text: "Tipos de alerta",
+      ],
+    };
+  
+    const configRosca = {
+      type: "doughnut",
+      data: dataRosca,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "top",
+          },
+          title: {
+            display: true,
+            text: "Tipos de alerta",
+          },
         },
       },
-    },
-  };
+    };
+  
+    const RoscaChart = new Chart(ctxRosca, configRosca);
+  }
 
-  const RoscaChart = new Chart(ctxRosca, configRosca);
 </script>
 
 <script>
