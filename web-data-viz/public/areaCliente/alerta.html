@@ -167,17 +167,19 @@
 </html>
 
 <script>
-  var listaChamados = []
+  var listaChamadosPico = []
+  var listaChamadosDown = []
   var listaPorcentagens = []
   var listaComponentes = []
   var listaDatas = []
+  var listaDatasDown = []
   var listaServidores = []
 
 
   async function getChamados(){
 
-  listaChamados = []
-
+  listaChamadosPico = []
+  listaChamadosDown = []
     const response = await fetch("/verChamados", {
       method: "POST",
       headers: {
@@ -198,11 +200,21 @@
       const chamadoAtual = issue.fields; // Acesse os campos do issue
       const descAtual = chamadoAtual.description; // Supondo que você tenha um campo 'description'
       
+      var tipoChamado = chamadoAtual.project.key;
 
+   
 
+      console.log(chamadoAtual)
+
+      console.log(tipoChamado)
       console.log(descAtual);
+      if(tipoChamado == "TTCS"){
+        listaChamadosPico.push(descAtual)
+      }else if(tipoChamado == "DOWN"){
+        listaChamadosDown.push(descAtual)
+      }
 
-      listaChamados.push(descAtual)
+      
     });
 
     dadosChamados()
@@ -215,10 +227,12 @@
 
 
   function dadosChamados(){
-    listaChamados.forEach(chamado => {
+    listaChamadosPico.forEach(chamado => {
+
+
       var index = chamado.indexOf("´´");
       if (index !== -1) {  // Verifica se "´´" foi encontrado
-          var porcentAtual = chamado.substring(index + 2, index + 7);
+          var porcentAtual = chamado.substring(index + 2, index + 6);
           listaPorcentagens.push(Number(porcentAtual))
       }
 
@@ -258,6 +272,18 @@
 
   });
 
+  listaChamadosDown.forEach(chamado => {
+    index = chamado.indexOf("**");
+    if (index !== -1) { 
+        var dataAtual = chamado.substring(index + 2, index + 19);
+
+        dataAtual = new Date(dataAtual) 
+        alert(dataAtual)
+        listaDatasDown.push(dataAtual)
+
+    }
+  })
+
   plotarGraficos()
 
   }
@@ -280,17 +306,14 @@
       
       })
 
-      console.log(picoCPU)
-      console.log(picoDisco)
-      console.log(picoRAM)
-    
+
     const ctxBar = document.getElementById("horizontalBarChart").getContext("2d");
     const dataBar = {
       labels: ["CPU", "RAM", "DISCO"],
       datasets: [
         {
           label: "DOWN TIME",
-          data: [1, 1, 1],
+          data: [listaChamadosDown.length, listaChamadosDown.length, listaChamadosDown.length],
           borderColor: "rgb(255, 99, 132)",
           backgroundColor: "#ff914c",
         },
@@ -329,6 +352,9 @@
     };
   
     const horizontalBarChart = new Chart(ctxBar, configBar);
+
+    
+
   
     const ctxLine = document.getElementById("LineChart").getContext("2d");
   
@@ -381,14 +407,12 @@
   
     
 
-    alert(listaChamados.length)
-
     const dataRosca = {
       labels: ["Critico", "DownTime"],
       datasets: [
         {
           label: "Dataset 1",
-          data: [listaChamados.length, 5],
+          data: [listaChamadosPico.length, listaChamadosDown.length],
           backgroundColor: ["red", "orange"],
         },
       ],
