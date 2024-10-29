@@ -170,6 +170,8 @@
 
   async function getChamados(){
 
+    var listaChamados = []
+
     const response = await fetch("/verChamados", {
       method: "POST",
       headers: {
@@ -177,13 +179,25 @@
       },
     });
 
-    const issues = await response.json();
-    console.log(issues);
+    const data = await response.json();
+     // Exibe a resposta completa
+    
+    // Acessando o array de issues
+    const issues = data.resultado.issues; // Aqui estamos acessando o array de issues
+    
+    console.log(issues)
 
-    console.log(JSON.stringify(issues, null, 2));
+    // Processando as issues
+    issues.forEach(issue => {
+      const chamadoAtual = issue.fields; // Acesse os campos do issue
+      const descAtual = chamadoAtual.description; // Supondo que você tenha um campo 'description'
+    
+ 
+      console.log(descAtual);
+    });
 
-  
 
+    
 
   }
 
