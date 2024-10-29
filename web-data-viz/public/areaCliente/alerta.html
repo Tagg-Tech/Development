@@ -236,7 +236,7 @@
 
       index = chamado.indexOf("teve");
       if (index !== -1) {  
-          var componenteAtual = chamado.substring(13, index);
+          var componenteAtual = chamado.substring(13, index - 1);
           listaComponentes.push(componenteAtual)
 
       }
@@ -266,24 +266,44 @@
 
   function plotarGraficos(){
 
+    var picoCPU = 0
+    var picoDisco = 0
+    var picoRAM = 0
+
+    listaComponentes.forEach(componente =>{
+      console.log(componente)
+
+      if(componente == 'CPU') picoCPU ++;
+      if(componente == 'disco') picoDisco ++;
+      if(componente == 'memória RAM') picoRAM ++;
+      
+      
+      })
+
+      console.log(picoCPU)
+      console.log(picoDisco)
+      console.log(picoRAM)
+    
     const ctxBar = document.getElementById("horizontalBarChart").getContext("2d");
     const dataBar = {
       labels: ["CPU", "RAM", "DISCO"],
       datasets: [
         {
           label: "DOWN TIME",
-          data: [3, 8, 16],
+          data: [1, 1, 1],
           borderColor: "rgb(255, 99, 132)",
           backgroundColor: "#ff914c",
         },
         {
           label: "SOBRECARGA",
-          data: [6, 14, 17],
+          data: [picoCPU, picoRAM, picoDisco],
           backgroundColor: "#f64b00",
         },
       ],
     };
   
+
+
     const configBar = {
       type: "bar",
       data: dataBar,
@@ -359,12 +379,16 @@
   
     const ctxRosca = document.getElementById("RoscaChart").getContext("2d");
   
+    
+
+    alert(listaChamados.length)
+
     const dataRosca = {
       labels: ["Critico", "DownTime"],
       datasets: [
         {
           label: "Dataset 1",
-          data: [12, 5],
+          data: [listaChamados.length, 5],
           backgroundColor: ["red", "orange"],
         },
       ],
