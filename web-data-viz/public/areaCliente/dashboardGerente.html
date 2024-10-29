@@ -12,6 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1691.0.min.js"></script>
+    <!-- <script type="module" src="/Development/web-data-viz/objectLister.js"></script> -->
+
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
                    <!-- boxIcons -->
@@ -36,7 +39,8 @@
     <title>Tag Tech</title>
 </head>
 
-<body>
+<body onload="getS3()">
+    <!-- Lembrem-se de colocar o aws-sdk como script na página de vocês para que importem bibliotecas -->
     <div class="header">
         <nav>
             <div class="menu">
@@ -296,4 +300,26 @@
             navbar.classList.toggle('active');
 
         });
+</script>
+<script>
+      async function getS3(){
+
+const response = await fetch("/viewS3", {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+const issues = await response.json();
+console.log(issues);
+
+console.log(JSON.stringify(issues, null, 2));
+
+
+
+
+}
+
+
 </script>

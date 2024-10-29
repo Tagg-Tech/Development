@@ -1,5 +1,5 @@
-var ambiente_processo = 'producao';
-//var ambiente_processo = 'desenvolvimento';
+// var ambiente_processo = 'producao';
+var ambiente_processo = 'desenvolvimento';
 
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 // Acima, temos o uso do operador ternário para definir o caminho do arquivo .env
@@ -12,7 +12,9 @@ var cors = require("cors");
 var path = require("path");
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
-
+var AWS = require('aws-sdk');
+var csv = require('csv-parser');
+require('dotenv').config();
 var app = express();
 
 //Conexão cadastro da empresa
@@ -24,7 +26,7 @@ var servidorRouter = require("./src/routes/servidores");
 
 const getIssues = require('./src/routes/get-issues.js');
 
-
+var getS3Objects = require('./src/routes/objectLister.js')
 
 
 app.use(express.json());
@@ -71,6 +73,7 @@ const getIssuesFunc = async () => {
 
 
 
+
   app.post("/verChamados", async (req, res) => {
   
     try {
@@ -81,3 +84,12 @@ const getIssuesFunc = async () => {
     }
 
 });
+
+ app.get("/viewS3", async(req, res) =>{
+    try {
+        const resultado = await getS3Objects();
+        res.json( {resultado});
+    } catch (error) {
+        res.status(500).json({error: 'Erro interno do servidor'})
+    }
+ })
