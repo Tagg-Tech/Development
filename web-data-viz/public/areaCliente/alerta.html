@@ -354,6 +354,8 @@
     const horizontalBarChart = new Chart(ctxBar, configBar);
 
     
+    const dataNivelCritico = contarPorDiaDaSemana(listaDatas);
+    const dataDownTimes = contarPorDiaDaSemana(listaDatasDown);
 
   
     const ctxLine = document.getElementById("LineChart").getContext("2d");
@@ -371,13 +373,13 @@
       datasets: [
         {
           label: "Nivel Critico",
-          data: [12, 15, 16, 27, 18, 21, 9],
+          data: dataNivelCritico,
           borderColor: "rgb(255, 99, 132)",
           backgroundColor: "#ff914c",
         },
         {
           label: "Down Times",
-          data: [6, 8, 8, 9, 6, 11, 3],
+          data: dataDownTimes,
           borderColor: "blue",
           backgroundColor: 'blue"',
         },
@@ -438,6 +440,18 @@
   
     const RoscaChart = new Chart(ctxRosca, configRosca);
   }
+
+  function contarPorDiaDaSemana(lista) {
+    const diasDaSemana = Array(7).fill(0); // Cria um array com 7 zeros, um para cada dia da semana
+  
+    lista.forEach((data) => {
+      const diaSemana = data.getDay(); // getDay() retorna o dia da semana (0 = Domingo, 6 = Sábado)
+      diasDaSemana[diaSemana] += 1;
+    });
+  
+    return diasDaSemana;
+  }
+  
 
 </script>
 
