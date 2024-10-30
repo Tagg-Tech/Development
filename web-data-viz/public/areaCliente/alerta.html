@@ -108,7 +108,7 @@
               <h4>Chamados (5 resultados) (Ultimas 24 horas)</h4>
             </div>
 
-            <table>
+            <table id="tabelaDeAlertas">
               <thead>
                 <tr>
                   <th>id do chamado</th>
@@ -120,43 +120,8 @@
                   <th>Horário</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>THD - 8</td>
-                  <td>Servidor 4</td>
-                  <td>Esperando Suporte</td>
-                  <td>Processador</td>
-                  <td>nivel critico</td>
-                  <td>95%</td>
-                  <td>Sábado, 19 de outubro, 2024 18:59:51 PM</td>
-                </tr>
-                <tr>
-                  <td>THD - 8</td>
-                  <td>Servidor 3</td>
-                  <td>Já resolvido</td>
-                  <td>memória RAM</td>
-                  <td>Fora do ar</td>
-                  <td>0%</td>
-                  <td>Sábado, 19 de outubro, 2024 13:17:32 PM</td>
-                </tr>
-                <tr>
-                  <td>THD - 8</td>
-                  <td>Servidor 1</td>
-                  <td>Esperando Suporte</td>
-                  <td>Processador</td>
-                  <td>nivel critico</td>
-                  <td>92%</td>
-                  <td>Sexta, 18 de outubro, 2024 21:03:12 PM</td>
-                </tr>
-                <tr>
-                  <td>THD - 8</td>
-                  <td>Servidor 2</td>
-                  <td>Esperando Suporte</td>
-                  <td>Disco</td>
-                  <td>Em andamento</td>
-                  <td>99%</td>
-                  <td>Quarta, 16 de outubro, 2024 20:57:23x PM</td>
-                </tr>
+              <tbody id="bodyTabela">
+                
               </tbody>
             </table>
           </div>
@@ -167,19 +132,29 @@
 </html>
 
 <script>
+
+
+  var listaDeChaves = []
+
+
+
   var listaChamadosPico = []
-  var listaChamadosDown = []
   var listaPorcentagens = []
   var listaComponentes = []
   var listaDatas = []
-  var listaDatasDown = []
   var listaServidores = []
 
+
+
+  var listaChamadosDown = []
+  var listaDatasDown = []
+  var listaServidoresDown = []
 
   async function getChamados(){
 
   listaChamadosPico = []
   listaChamadosDown = []
+  listaDeChaves = []
     const response = await fetch("/verChamados", {
       method: "POST",
       headers: {
@@ -202,7 +177,7 @@
       
       var tipoChamado = chamadoAtual.project.key;
 
-   
+      listaDeChaves.push(issue.key)
 
       console.log(chamadoAtual)
 
@@ -278,10 +253,20 @@
         var dataAtual = chamado.substring(index + 2, index + 19);
 
         dataAtual = new Date(dataAtual) 
-        alert(dataAtual)
         listaDatasDown.push(dataAtual)
 
     }
+
+    index = chamado.indexOf("''");
+
+    index2 = chamado.indexOf("ficou")
+    if (index !== -1) {  
+        var servidorAtual = chamado.substring(index +2,  index2  );
+        listaServidoresDown.push(servidorAtual)
+
+    }
+
+
   })
 
   plotarGraficos()
@@ -439,6 +424,9 @@
     };
   
     const RoscaChart = new Chart(ctxRosca, configRosca);
+
+    incrementarTabela()
+
   }
 
   function contarPorDiaDaSemana(lista) {
@@ -450,6 +438,77 @@
     });
   
     return diasDaSemana;
+
+
+
+  }
+
+  function formatarData(data) {
+    const opcoesData = {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    };
+  
+    const dataFormatada = data.toLocaleDateString("pt-BR", opcoesData);
+    const horaFormatada = data.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  
+    return `${dataFormatada} ${horaFormatada}`;
+  }
+  
+  const dataAtual = new Date();
+  console.log(formatarData(dataAtual));
+
+
+  function incrementarTabela(){
+
+   
+
+    for(var i = 0; i < listaChamadosPico.length; i++ ){
+
+      var dataFormatada = formatarData(listaDatas[i])
+
+      bodyTabela.innerHTML += 
+      
+      `
+                <tr>
+                  <td>${listaDeChaves[i]}</td>
+                  <td>${listaServidores[i]}</td>
+                  <td>Esperando Suporte</td>
+                  <td>${listaComponentes[i]}</td>
+                  <td>Nivel Crítico</td>
+                  <td>${listaPorcentagens[i]}%</td>
+                  <td>${dataFormatada}</td>
+                </tr>
+      `;
+    }
+
+
+    for(var i = 0; i < listaChamadosDown.length; i++ ){
+
+      var dataFormatada = formatarData(listaDatasDown[i])
+
+      bodyTabela.innerHTML += 
+      
+      `
+                <tr>
+                  <td>${listaDeChaves[i + listaChamadosPico.length]}</td>
+                  <td>${listaServidoresDown[i]}</td>
+                  <td>Esperando Suporte</td>
+                  <td>Todos</td>
+                  <td>Down Time</td>
+                  <td>0%</td>
+                  <td>${dataFormatada}</td>
+                </tr>
+      `;
+    }
+
+
   }
   
 
