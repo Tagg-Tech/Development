@@ -160,6 +160,10 @@
                 plugins: {
                     tooltip: {
                         callbacks: {
+                            font: {
+                    weight: 'bold',
+                    size: 18,
+                },
                             label: context => {
                                 return context.label + ': ' + context.raw.toLocaleString('pt-BR', {
                                     minimumFractionDigits: 2,
