@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TagTech | Cadastro do Servidor</title>
+    <!-- boxIcons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
+        integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- favIcon -->
+    <link rel="icon" href="../assets/TagTech/img/logo1.png" />
+    <script src="../js/sessao.js"></script>
+    <!-- meuCSS -->
+    <link rel="stylesheet" href="../../public/css/GerenciarServidor/gerenciarServidor.css">
+
+
+    
+    
+</head>
+
+<body class="background">
+    <div class="banner">
+        <div class="header">
+            <nav>
+                <div class="menu">
+                    <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
+                    <button class="menu-button"><i class='bx bx-menu'></i></button>
+                    <ul class="navbar">
+                        <li><a href="dashboardAnalista.html"><strong>Dashboard</strong></a></li>
+                        <li><a href="alerta.html"><strong>Alertas</strong></a></li>
+                        <li><a href="index.html#cards"><strong>Help Desk</strong></a></li>
+                        <li><a href="perfil.html"><strong>Perfil</strong></a></li>
+                        <li style="color:black;"><strong>|</strong></li>
+                        <li><a style="background-color: #fff178;" onclick="limparSessao()"><strong>Sair <img src="../assets/icones/sair.svg" alt=""></strong></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="cadastro">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h1>TAG TECH</h1>
+            <p>Olá, Fernando!</p>
+            <div class="metrics buttons">
+                <h2>Você deseja: </h2>
+                <button id="btn_cs" onclick="mudarCaixa(caixa_cadastro)" >Cadastrar Servidor</button>
+                <button id="btn_gc" onclick="mudarCaixa(caixa_componentes)" >Gerenciar Componentes</button>
+                <button id="btn_gf" onclick="mudarCaixa(caixa_funcionarios)" >Gerenciar Funcionários</button>
+            </div>
+        </div>
+
+            <div id="caixa_cadastro" class="caixa" style="display: none">
+                <h3>Cadastre seu Servidor aqui!</h3>
+                <div class="conteudo">
+                    <div>
+                        <input id="input_placaderede" type="text" placeholder="Placa de Rede:">
+                        <div id="erro_plcaderede" class="error"></div>
+                        <input id="input_memoria" type="text" placeholder="Memoria:">
+                        <div id="erro_memoria" class="error"></div>
+                        <input id="input_porcentagemAlarme" type="number" placeholder="Porcentagem alarme (%)" min="1" max="100">
+                        <div id="erro_porcentagemAlarme" class="error"></div>
+                    </div>
+                    <div>
+                        <input id="input_sistemaoperacional" type="text" placeholder="Sistema Operacional:">
+                        <div id="erro_sistemaoperacional" class="error"></div>
+                        <input id="input_cpu" type="text" placeholder="CPU:">
+                        <div id="erro_cpu" class="error"></div>
+                        <input id="input_disco" type="text" placeholder="Disco:">
+                        <div id="erro_disco" class="error"></div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn_cadastro" onclick="cadastrar()">Cadastrar</button>
+                    <div id="confirm_cadastro" class="sucesso"></div>
+                </div>
+            </div>
+
+            <div id="caixa_componentes" class="caixa" style="display: none">
+                <h3>Componente</h3>
+                <div class="conteudo" style="flex-direction: column;">
+                    <div>
+                        <select id="input_placaderede">
+                            <option abled>Componente</option>
+                            <option value="CPU" selected>CPU</option>
+                            <option value="RAM">RAM</option>
+                            <option value="DISCO">DISCO</option>
+                        </select>
+                        <div class="btn_componentes" >
+                            <button>Adicionar</button>
+                            <button>Excluir</button>
+                        </div>
+                        <!-- <input id="" type="text" placeholder="Placa de Rede:"> -->
+                        <div id="erro_plcaderede" class="error"></div>
+                    </div>
+                    <div>
+                        <button class="btn_cadastro" onclick="cadastrar()">Confirmar</button>
+                        <div id="confirm_cadastro" class="sucesso"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="caixa_funcionarios" class="caixa" style="display: none">
+                <h3>Funcionário</h3>
+                <div class="conteudo">
+                    <div>
+                        <input id="input_placaderede" type="text" placeholder="Código do funcionário">
+                        <div id="erro_plcaderede" class="error"></div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn_cadastro" onclick="">Confirmar</button>
+                    <div id="confirm_cadastro" class="sucesso"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+<script>
+ function cadastrar() {
+        let placaderede = input_placaderede.value;
+        let memoria = input_memoria.value;
+        let sistemaoperacional = input_sistemaoperacional.value;
+        let cpu = input_cpu.value;
+        let disco = input_disco.value;
+        let porcentagemAlarme = input_porcentagemAlarme.value;
+        let validacao = 0;
+
+        // Verificações básicas
+        if (placaderede === "" || memoria === "" || sistemaoperacional === "" || cpu === "" || disco === "" || porcentagemAlarme === "") {
+            confirm_cadastro.innerHTML = '<span style="color: red;">Todos os campos devem estar preenchidos corretamente!</span>';
+            return false;
+        }
+
+        // Validações individuais
+        if (porcentagemAlarme < 1 || porcentagemAlarme > 100 || isNaN(Number(porcentagemAlarme))) {
+            erro_porcentagemAlarme.innerHTML = "Porcentagem inválida (deve ser entre 1 e 100)";
+            return false;
+        } else {
+            erro_porcentagemAlarme.innerHTML = "";
+            validacao++;
+        }
+
+        if (validacao === 1) {
+            fetch('/servidores/cadastrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    placaderedeServer: placaderede,
+                    memoriaServer: memoria,
+                    sistemaoperacionalServer: sistemaoperacional,
+                    cpuServer: cpu,
+                    discoServer: disco,
+                    porcentagemAlarmeServer: porcentagemAlarme
+                })
+            }).then(response => response.json())
+              .then(data => {
+                  document.getElementById('confirm_cadastro').innerText = "Cadastro realizado com sucesso!";
+              })
+              .catch(error => console.error('Erro:', error));
+        }
+    }
+
+    //menu hamburguer
+    const menuButton = document.querySelector('.menu-button');
+    const navbar = document.querySelector('.navbar');
+
+    menuButton.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+    });
+
+
+    //função para mudar a atividade na página
+    function mudarCaixa(id){
+        caixa_cadastro.style.display = 'none';
+        caixa_componentes.style.display = 'none';
+        caixa_funcionarios.style.display = 'none';
+        id.style.display = 'block';
+        id.style.display = 'flex';
+    }
+</script>
