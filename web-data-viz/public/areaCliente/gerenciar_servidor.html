@@ -17,7 +17,7 @@
     <link rel="icon" href="../assets/TagTech/img/logo1.png" />
     <script src="../js/sessao.js"></script>
     <!-- meuCSS -->
-    <link rel="stylesheet" href="../../public/css/GerenciarServidor/gerenciarServidor.css">
+    <link rel="stylesheet" href="../css/GerenciarServidor/gerenciarServidor.css">
 
 
     
@@ -83,13 +83,13 @@
                 </div>
             </div>
 
-            <div id="caixa_componentes" class="caixa" style="display: none">
-                <h3>Componente</h3>
+            <div id="caixa_componentes" class="caixa_cnpnt" style="display: none">
+                <h3>Selecione o componente</h3>
                 <div class="conteudo" style="flex-direction: column;">
                     <div>
                         <select id="input_placaderede">
-                            <option abled>Componente</option>
-                            <option value="CPU" selected>CPU</option>
+                            <option disabled selected>Componente</option>
+                            <option value="CPU">CPU</option>
                             <option value="RAM">RAM</option>
                             <option value="DISCO">DISCO</option>
                         </select>
@@ -97,28 +97,35 @@
                             <button>Adicionar</button>
                             <button>Excluir</button>
                         </div>
-                        <!-- <input id="" type="text" placeholder="Placa de Rede:"> -->
-                        <div id="erro_plcaderede" class="error"></div>
                     </div>
-                    <div>
+                    <!-- <div> enotooo ieiir
                         <button class="btn_cadastro" onclick="cadastrar()">Confirmar</button>
                         <div id="confirm_cadastro" class="sucesso"></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
-            <div id="caixa_funcionarios" class="caixa" style="display: none">
-                <h3>Funcionário</h3>
+            <div id="caixa_funcionarios" class="caixa_fnc" style="display: none">
+                <h3>Insira o código do funcionário e do servidor</h3>
                 <div class="conteudo">
                     <div>
-                        <input id="input_placaderede" type="text" placeholder="Código do funcionário">
+                        <input id="input_cod_funcionario" type="number" placeholder="Código do funcionário">
+                        <div id="erro_plcaderede" class="error"></div>
+                    </div>
+                    <div>
+                        <input id="input_cod_servidor" type="number" placeholder="Código do servidor">
                         <div id="erro_plcaderede" class="error"></div>
                     </div>
                 </div>
-                <div>
-                    <button class="btn_cadastro" onclick="">Confirmar</button>
-                    <div id="confirm_cadastro" class="sucesso"></div>
+                <div class="btn_fnc" >
+                    <button onclick="associar()">Associar</button>
+                    <button>Desassociar</button>
+                    <button>Excluir</button>
                 </div>
+                <div id="confirm_cadastro_fnc" class="sucesso"></div>
+                <!-- <div>
+                    <button class="btn_cadastro" onclick="">Confirmar</button>
+                </div> -->
             </div>
         </div>
 
@@ -128,6 +135,7 @@
 </html>
 
 <script>
+
  function cadastrar() {
         let placaderede = input_placaderede.value;
         let memoria = input_memoria.value;
@@ -191,4 +199,33 @@
         id.style.display = 'block';
         id.style.display = 'flex';
     }
+
+    function associar(){
+        let codFuncionarioAssociar = input_cod_funcionario.value;
+        let codServidorReferencia = input_cod_servidor.value; 
+
+        fetch('/funcionarios/associar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                codFuncionarioAssociarServer: codFuncionarioAssociar, 
+                codServidorReferenciaServer: codServidorReferencia,
+            })
+        }).then(response => response.json())
+          .then(data => {
+              document.getElementById('confirm_cadastro').innerText = "Funcionário associado com sucesso!";
+            })
+          .catch(error => console.error('Erro:', error));
+    }
+
+    function desassociar(){
+
+    }
+
+    function excluir(){
+
+    }
+
 </script>

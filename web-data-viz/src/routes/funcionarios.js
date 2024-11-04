@@ -16,4 +16,8 @@ router.post("/autenticar", function (req, res) {
     funcionarioController.autenticar(req, res);
 });
 
+router.post("/associar", function (req, res) {
+    funcionarioController.associar(req, res);
+})
+
 module.exports = router;

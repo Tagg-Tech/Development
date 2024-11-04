@@ -506,7 +506,121 @@
     height: 100vh;
     justify-content: space-between;
   }
+
+  /* Gerenciar Componentes - INÍCIO*/
+  .caixa_cnpnt{
+    width: 21rem;
+    height: 55vh;
+    background-color: rgb(83, 83, 83);
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-style: dashed;
+    border-color: #fff;
+    border-width: 5px;
+    margin-right: 30%;
+  }
+
+  .caixa_cnpnt h3 {
+    margin-top: 3%;
+    color: #ffffff;
+  }
   
+  .caixa_cnpnt .conteudo {
+    width: 15rem;
+    height: 25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn_componentes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    background-color: rgb(83, 83, 83);
+    width: 50vw;
+    height: 10vh;
+    margin-top: 45%;
+  }
+
+  .btn_componentes button{
+    display: inline-block;
+    font-weight: bold;
+    width: 10vw;
+    height: 7vh;
+    margin: 3%;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #FF914C;
+  }
+
+  /* Gerenciar componentes - FIM */
+
+  /* Gerenciar Funcionários - INÍCIO */
+
+  .caixa_fnc{
+    width: 32rem;
+    height: 40vh;
+    background-color: rgb(83, 83, 83);
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    border-style: dashed;
+    border-color: #fff;
+    border-width: 5px;
+    margin-right: 25%;
+  }
+
+  .caixa_fnc h3 {
+    margin-top: 5%;
+    color: #ffffff;
+  }
+  
+  .caixa_fnc .conteudo {
+    width: 15rem;
+    height: 25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  .btn_fnc{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    background-color: rgb(83, 83, 83);
+    width: 30vw;
+    height: 10vh;
+    margin-bottom: 5%;
+  }
+
+  .btn_fnc button{
+    display: inline-block;
+    font-weight: bold;
+    width: 7vw;
+    height: 7vh;
+    background-color: #FF914C;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .confirm_cadastro_fnc{
+    background-color: red;
+  }
+
+  /* Gerenciar Funcionários - FIM */
+
   .caixa {
     width: 35rem;
     height: 70vh;
@@ -519,7 +633,6 @@
     border-color: #fff;
     border-width: 5px;
     margin-right: 20%;
-
   }
   
   .caixa h3 {
@@ -1818,15 +1931,6 @@
   #input_cargo option:disabled {
     background-color: #f0f0f0; 
   }
-  
-  .btn_componentes{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 40vw;
-    height: 10vh;
-  }
-  
   
   /* #endregion */
   
