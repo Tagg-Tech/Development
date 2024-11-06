@@ -17,7 +17,7 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
-//Função para async para listar objetos usando função .listObjectsV2
+//Função async para listar objetos usando função .listObjectsV2
 const listObjects = async (nomeBucket) =>{
   try {
     const params = {
