@@ -63,3 +63,4 @@ CONSTRAINT fkMaquinaRegistros FOREIGN KEY (fkMaquina) REFERENCES maquina (idMaqu
 
 select * from usuario;
 select * from registros;
+

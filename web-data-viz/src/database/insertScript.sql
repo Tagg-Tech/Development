@@ -11,7 +11,12 @@ INSERT INTO maquina VALUES (default, 91755279024, "Windows", 32, 64 , 1024, 80, 
 
 INSERT INTO usuarioresponsavelmaquina VALUES (1,1),(1,2),(1,3);
 
+-- adicionar
+UPDATE usuarioresponsavelmaquina SET fkUsuario = 2 WHERE fkMaquina = 3;
+-- desassociar
 
+-- excluir
+-- DELETE usuario WHERE idUsuario = -- cod do funcionario
 
 select * from empresa;
 select * from usuario;
