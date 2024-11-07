@@ -10,9 +10,6 @@
     <!-- <link rel="stylesheet" href="areaCliente.css" /> -->
     <link rel="icon" href="../assets/icon/favicon2.ico" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1691.0.min.js"></script>
     <!-- <script type="module" src="/Development/web-data-viz/objectLister.js"></script> -->
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -39,8 +36,8 @@
     <title>Tag Tech</title>
 </head>
 
-<body onload="getS3()">
-    <!-- Lembrem-se de colocar o aws-sdk como script na página de vocês para que importem bibliotecas -->
+<body>
+
     <div class="header">
         <nav>
             <div class="menu">
@@ -85,210 +82,11 @@
 
     <section class="container_gerente">
 
-        <section class="container_dash_gerente">
-            <div id="grafico_pizza">
-                <div class="container_chart">
-                    <h5>Uso médio de RAM</h5>
-                    <canvas id="myChart3"></canvas>
-                </div>
-                <div class="container_chart">
-                    <h5>Uso médio de CPU</h5>
-                    <canvas id="myChart4"></canvas>
-                </div>
-            </div>
-            <div id="grafico_column">
-                <div class="container_chart">
-                    <h5>Quantidade de alertas de cada servidor</h5>
-                    <canvas id="myChart1"></canvas>
-                </div>
-                <div class="container_chart">
-                    <h5>Distribuição de <strong>CPU</strong></h5>
-                    <canvas id="myChart2"></canvas>
-                </div>
-
-            </div>
-
-        </section>
-        <div class="ranking">
-            <h3>Ranking de tempo fora do ar</h3>
-            <table style="width: 100%;" class="tabela_ranking">
-                <tr>
-                    <th>Ranking</th>
-                    <th>Servidor</th>
-                    <th>Tempo fora do ar</th>
-                </tr>
-                <tr>
-                    <td>1-</td>
-                    <td>Servidor 2</td>
-                    <td>53:03</td>
-                </tr>
-                <tr>
-                    <td>2-</td>
-                    <td>Servidor 1</td>
-                    <td>45:23</td>
-                </tr>
-                <tr>
-                    <td>3-</td>
-                    <td>Servidor 3</td>
-                    <td>36:12</td>
-                </tr>
-            </table>
-        </div>
     </section>
 </body>
 
 </html>
-<script>
-    const labels = ['Server 1', 'Server 2', 'Server 3', 'Server 4'];
-    const data = {
-        labels: labels,
-        datasets: [{
-            axis: 'y',
-            label: 'Nivel Crítico',
-            data: [10, 13, 8, 6],
-            // fill: false,
-            backgroundColor: [
-                '#FF914C',
-            ],
-            borderColor: [
-                '#FF914C',
-            ],
-            borderWidth: 1
-        }
-        ]
-    }
 
-    const config = {
-        type: 'bar',
-        data,
-        options: {
-            indexAxis: 'y',
-            scales: {
-                x: {
-                    stacked: true,
-                    title: {
-                        display: true,
-                        text: 'Tempo em segundos'
-                    }
-                },
-                y: {
-                    stacked: true,
-                }
-            }
-        }
-    };
-    const ctx = document.getElementById('myChart1');
-    new Chart(ctx, config);
-
-</script>
-<script>
-    const labels2 = ['CPU 1', 'CPU 2', 'CPU 3']
-    const data2 = {
-        labels: labels2,
-        datasets: [{
-            label: 'Distribuição de uso CPU',
-            data: [22, 9, 18],
-            backgroundColor: [
-                '#6B4423',
-            ],
-            borderColor: [
-                '#6B4423',
-            ],
-            borderWidth: 1
-        }]
-    };
-    const config2 = {
-        type: 'bar',
-        data: data2,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        },
-    };
-
-    const ctx2 = document.getElementById('myChart2');
-    new Chart(ctx2, config2);
-
-</script>
-<script>
-    const data3 = {
-        labels: [
-            'Server1',
-            'Server2',
-            'Server3'
-        ],
-        datasets: [{
-            label: 'Uso médio de RAM(Todos os servidores)',
-            data: [70, 54, 45],
-            backgroundColor: [
-                '#6B4423',
-                '#FF914C',
-                '#fff178'
-            ],
-            hoverOffset: 4
-        }]
-    };
-    const config3 = {
-    type: 'pie',
-    data: data3,
-    options: {
-        plugins: {
-            datalabels: {
-                formatter: (value) => value + '%',
-                color: 'black',
-                font: {
-                    weight: 'bold',
-                    size: 18,
-                }
-            }
-        }
-    },
-    plugins: [ChartDataLabels]
-};
-    const ctx3 = document.getElementById('myChart3');
-    new Chart(ctx3, config3);
-</script>
-<script>
-    const data4 = {
-        labels: [
-            'Server1',
-            'Server2',
-            'Server3'
-        ],
-        datasets: [{
-            label: 'Uso médio de CPU(Todos os servidores)',
-            data: [30, 12, 80],
-            backgroundColor: [
-                '#6B4423',
-                '#FF914C',
-                '#fff178'
-            ],
-            hoverOffset: 4
-        }]
-    };
-    const config4 = {
-        type: 'pie',
-        data: data4,
-        options: {
-        plugins: {
-            datalabels: {
-                formatter: (value) => value + '%',
-                color: 'black',
-                font: {
-                    weight: 'bold',
-                    size: 18,
-                }
-            }
-        }
-    },
-    plugins:[ChartDataLabels]
-    };
-    const ctx4 = document.getElementById('myChart4');
-    new Chart(ctx4, config4);
-</script>
 
 <script>
     //menu hamburguer
@@ -301,25 +99,4 @@
 
         });
 </script>
-<script>
-      async function getS3(){
 
-const response = await fetch("/viewS3", {
-  method: "GET",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-const issues = await response.json();
-console.log(issues);
-
-console.log(JSON.stringify(issues, null, 2));
-
-
-
-
-}
-
-
-</script>
