@@ -1,0 +1,128 @@
+.body{
+    overflow-y: hidden;
+}
+
+
+
+.container_gerente{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 96vh;
+    padding-top: 10vh;
+}
+.faq{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.kpi{
+    margin-bottom: 7vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 35vh;
+}
+
+.uptime{
+    display: flex;
+    background-color: #fe914c;
+    height: 18vh;
+    width: 34vh;
+    color: #c1ff72;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 63px;
+}
+.efficency{
+    background-color: #fe914c;
+    height: 18vh;
+    width: 34vh;
+    color: #c1ff72;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 53px;
+    padding-top: 3vh;
+}
+
+.container_kpi{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.graphics{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    /* gap: 30vh; */
+    margin-top: 0vh;
+}
+
+
+.container_graphic{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-btn {
+    width: 30px;  
+    height: 30px;  
+    display: flex;
+    justify-content: center;  
+    align-items: center;  
+    background-color: transparent;  
+    /* border: 2px solid #000;   */
+    border: none; 
+    border-radius: 50%;  
+    cursor: pointer;
+    margin: 20px; 
+}
+
+.nav-btn svg {
+    scale: 2.0; 
+    height: 100%;  
+    fill: #949292;  
+    /* transition: transform 0.3s ease;  */
+}
+
+.nav-btn:hover svg {
+    transform: scale(1.05);  
+}
+
+#here{
+    text-decoration: underline; 
+    cursor: pointer;
+    font-weight: bold;
+}
+#here_b{
+    text-decoration: underline; 
+    cursor: pointer;
+    font-weight: bold;
+}
+.faq_page{
+    display: none;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin-top: 40px;
+}/*APENAS PARA MARCAÇÃO
+
+    TO-DO:
+    Página FAQ
+    Integração wdv
+    Alertas
+
+
+*/
