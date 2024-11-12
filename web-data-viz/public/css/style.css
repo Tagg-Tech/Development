@@ -2264,6 +2264,7 @@ h4 a {
 
 
 .alertaChamado {
+  display: none;
   cursor: pointer;
   position: absolute;
   top: 75vh;
@@ -2273,7 +2274,6 @@ h4 a {
   height: 20vh;
   border: 5px solid #f5b14c; 
   border-radius: 8px;
-  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
