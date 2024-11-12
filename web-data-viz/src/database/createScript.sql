@@ -27,7 +27,7 @@ CREATE TABLE usuario (
 
 CREATE TABLE maquina (
   idMaquina INT PRIMARY KEY AUTO_INCREMENT,
-  placaDeRede BIGINT UNIQUE NOT NULL,
+  placaDeRede VARCHAR(45) UNIQUE NOT NULL,
   sistemaOperacional VARCHAR(45),
   qtdTotalRAM BIGINT,
   qtdCpu INT,

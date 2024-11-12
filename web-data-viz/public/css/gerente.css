@@ -74,6 +74,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-right: 10vh;
 }
 
 .nav-btn {
@@ -117,7 +118,26 @@
     text-align: center;
     align-items: center;
     margin-top: 40px;
-}/*APENAS PARA MARCAÇÃO
+}
+
+@media(max-width:1366px){
+    .container_gerente{
+        height: 105vh;
+        margin-left: 60vh;
+    }
+    .container_kpi{
+        height: 24vh;
+    }
+    .sidebar{
+    position: fixed;
+    padding-top: 3vh;
+    }
+    .faq{
+    margin-left: 50vh;
+    }
+}
+
+/*APENAS PARA MARCAÇÃO
 
     TO-DO:
     Página FAQ
