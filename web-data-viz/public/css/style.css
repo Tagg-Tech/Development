@@ -2017,6 +2017,191 @@ h4 a {
   }
 }  */
 
+@media (min-width: 1146px){
+  /* .ranking{
+
+    width: 38%; 
+    height: 60px; 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+  } */
+  .container_gerente{
+    position: fixed;
+    top: 5vh;
+    width: 90%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    /* margin-left: 35vh; */
+  }
+  .container_dash_gerente{
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; 
+    width: 92%; 
+    height: auto; 
+    margin-left: 30%; 
+    
+  }
+
+  .container_gerenteV1{
+    position: fixed;
+    top: 5vh;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    /* margin-left: 35vh; */
+  }
+  .container_dash_gerenteV1{
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; 
+    width: 100%; 
+    height: auto; 
+    margin-left: 30%; 
+  }
+  
+  .ranking_downtime{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 50%;
+    align-items: center;
+    justify-content: center;
+  }
+  /* canvas{
+    max-width: 70vh;
+    max-height: 50vh;
+  } */
+  #grafico_column{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1%;
+  }
+  #grafico_pizza{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  }
+  #myChart1{
+    max-width: 55vh; 
+    max-height: 45vh;
+    width: 45vh !important; 
+    height: auto;
+    margin-right: 15px;
+  }
+  #myChart2{
+    max-width: 55vh;
+    max-height: 45vh;
+    width: 45vh !important;
+    height: auto;
+    /* margin-left: 65vh; */
+  }
+  #myChart3{
+    max-width: 33vh;
+    max-height: 40vh;
+    width: 33vh !important;
+    height: auto;
+    /* margin-left: 65vh; */
+  }
+  #myChart4{
+    max-width: 33vh;
+    max-height: 40vh;
+    width: 33vh !important;
+    height: auto;
+    /* margin-left: 65vh; */
+  }
+  .header{
+    position: fixed;
+    z-index: 1;
+  }
+  .container_chart{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  /* canvas {
+    max-width: 400px;
+    max-height: 400px;
+  } */
+}
+@media (max-width: 1210px) {
+  .ranking{
+    height: 320px;
+  }
+}
+
+@media (max-width: 1145px) {
+  .ranking{
+    width: 45%; 
+    height: 370px; 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 15vh;
+  }
+.header{
+  position: fixed;
+  z-index: 1;
+  top: 0;
+}
+.sidebar{
+  position: fixed;
+  top: 0;
+}
+#myChart1, #myChart2{
+  width: 25vh;
+}
+#myChart3,#myChart4{
+ max-width: 20vh;
+ width: 5vh;
+ height: auto;
+}
+.container_gerente{
+  position: absolute;
+  top: 15vh;
+  margin-top: 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 50vh;
+  }
+.container_dash_gerente{
+  margin-top: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  grid-template-rows: auto auto; 
+  gap: 20px; 
+  width: 100%; 
+  height: auto;
+  /* margin-left: 0; */
+  justify-items: center; 
+} 
+/* .container_dash_gerente { 
+  /* OPÇÃO SEM GRID */
+  /* margin-top: 0;
+  display: flex; /* Altera para flexbox */
+  /* flex-direction: column; /* Coloca os gráficos e ranking em coluna */
+  /* align-items: center; /* Centraliza os itens */
+  /* width: 100%; 
+  height: auto; */
+
+
+}
+
+.campoAt{
+  color: white;
+}
 /* Estilos do sidebar */
 .sidebar {
   width: 20%;
