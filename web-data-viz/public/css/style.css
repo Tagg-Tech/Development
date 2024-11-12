@@ -2080,8 +2080,8 @@ h4 a {
 .alertaChamado {
   cursor: pointer;
   position: absolute;
-  top: 5vh;
-  left: 3vw;
+  top: 75vh;
+  right: 3vw;
   background-color: #ff5722;
   width: 18vw;
   height: 20vh;
