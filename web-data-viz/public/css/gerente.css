@@ -122,8 +122,8 @@
 
 @media(max-width:1366px){
     .container_gerente{
-        height: 105vh;
-        margin-left: 60vh;
+        height: 90vh;
+        margin-left: 35vh;
     }
     .container_kpi{
         height: 24vh;
@@ -133,7 +133,7 @@
     padding-top: 3vh;
     }
     .faq{
-    margin-left: 50vh;
+    /* margin-left: 50vh; */
     }
 }
 
