@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <script src="../js/sessao.js"></script>
-    <script src="../js/alerta.js"></script>
-    <link rel="stylesheet" href="../css/style.css" />
     <!-- boxIcons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- AOS -->
@@ -19,8 +17,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
         integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="../js/alerta.js"></script>
-
 
     <!-- Adicionando o estilo pointer ao botão "Sair" -->
     <style>
@@ -31,15 +27,11 @@
      <link rel="icon" href="../assets/TagTech/img/logo1.png" />
 </head>
 
-<body onload="atualizacaoPeriodica()">
+<body>
     <div class="header">
         <nav>
             <div class="menu">
                 <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
-                <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
-                    <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
-                    <p id="pAlerta"></p>
-                </div>
                 <span style="font-size: 40px; font-weight: bold; margin-left: 16%; color: white;">DashBoard Analista</span>
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
                 <ul class="navbar">
@@ -108,12 +100,9 @@
         <div class="chart-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
              <!-- Gráfico de Colunas Empilhadas -->
              <canvas id="stackedBarChart" style="aspect-ratio: 16/9; width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-top: 20px;"></canvas>
-            <!-- Gráfico de Pizza -->
-            <canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
-            <!-- Gráfico de Barras Horizontais -->
-            <canvas id="horizontalBarChart" style="aspect-ratio: 16/9; width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
+           
             <!-- Ranking de tempo fora do ar -->
-            <div class="ranking" style="width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-top: 20px; background-color: transparent;">
+            <div class="ranking" style="width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;">
                 <h3>Ranking de tempo fora do ar</h3>
                 <div style="max-height: 200px; overflow-y: auto;">
                     <table style="width: 100%;">
@@ -150,7 +139,10 @@
                     </table>
                 </div>
             </div>
-            
+            <!-- Gráfico de Barras -->
+<canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; "></canvas>
+             <!-- Gráfico de Barras Horizontais -->
+             <canvas id="horizontalBarChart" style="aspect-ratio: 16/9; width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -163,54 +155,55 @@
         };
 
         // Gráfico de Pizza
-        const ctxPizza = document.getElementById('meuGrafico').getContext('2d');
-        let dataPizza = {
-            labels: ['Servidor 1', 'Servidor 2', 'Servidor 3'],
-            datasets: [{
-                label: 'Uso por Servidor',
-                data: dataServidores['CPU'], // CPU por padrão
-                backgroundColor: ['#ff914c', '#8b5736', '#f64b00'],
-            }]
-        };
+         // Configuração do Gráfico de Barras
+    const ctxBarras = document.getElementById('meuGrafico').getContext('2d');
+    let dataBarras = {
+        labels: ['Servidor 1', 'Servidor 2', 'Servidor 3'],
+        datasets: [{
+            label: 'Uso por Servidor',
+            data: dataServidores['CPU'], // CPU como valor padrão
+            backgroundColor: ['#ff914c', '#8b5736', '#f64b00'],
+        }]
+    };
 
-        let configPizza = {
-            type: 'pie',
-            data: dataPizza,
-            options: {
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            font: {
-                    weight: 'bold',
-                    size: 18,
-                },
-                            label: context => {
-                                return context.label + ': ' + context.raw.toLocaleString('pt-BR', {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
-                                }) + '%';
-                            }
-                        }
-                    },
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            font: { size: 18 }
+    let configBarras = {
+        type: 'bar', // Alterado de 'pie' para 'bar'
+        data: dataBarras,
+        options: {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        font: {
+                            weight: 'bold',
+                            size: 18,
                         },
-                    },
-                    title: {
-                        display: true,
-                        text: 'Uso por Servidor (por Componente)',
-                        font: { size: 24 },
-                        padding: { bottom: 30 }
+                        label: context => {
+                            return context.label + ': ' + context.raw.toLocaleString('pt-BR', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }) + '%';
+                        }
                     }
-                },
-                responsive: false,
-                maintainAspectRatio: false
-            }
-        };
 
-        let meuGrafico = new Chart(ctxPizza, configPizza);
+                },
+                title: {
+                    display: true,
+                    text: 'Uso dos componentes (por servidor)',
+                    font: { size: 24 },
+                    padding: { bottom: 30 }
+                }
+            },
+            responsive: false,
+            maintainAspectRatio: false,
+            scales: {
+                x: { beginAtZero: true },
+                y: { beginAtZero: true }
+            }
+        }
+    };
+
+    let meuGrafico = new Chart(ctxBarras, configBarras);
+
 
         // Gráfico de Barras Horizontais
         const dataComponentesMinMax = {
@@ -247,7 +240,7 @@
                     legend: { position: 'right' },
                     title: {
                         display: true,
-                        text: 'Mínimo e Máximo de cada componente por servidor',
+                        text: 'Variação de cada componente por servidor',
                         font: { size: 24 },
                         padding: { bottom: 30 }
                     }
