@@ -13,28 +13,29 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1691.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> <!-- Biblioteca APEX (Gráficos) -->
     <!-- <script type="module" src="/Development/web-data-viz/objectLister.js"></script> -->
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-                   <!-- boxIcons -->
-                   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-                   <!-- AOS -->
-                   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-                   <!-- Swiper -->
-                   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
-                       integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
-                       crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-                       <!-- Adicionando o estilo pointer ao botão "Sair" -->
-                    <style>
-                        .navbar li a[onclick="limparSessao()"] {
-                            cursor: pointer;
-                        }
-                    </style>
+    <!-- boxIcons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
+        integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-                    <link rel="icon" href="../assets/TagTech/img/logo1.png" />
-                    <script src="../js/sessao.js"></script>
+    <!-- Adicionando o estilo pointer ao botão "Sair" -->
+    <style>
+        .navbar li a[onclick="limparSessao()"] {
+            cursor: pointer;
+        }
+    </style>
+
+    <link rel="icon" href="../assets/TagTech/img/logo1.png" />
+    <script src="../js/sessao.js"></script>
 
     <title>Tag Tech</title>
 </head>
@@ -47,7 +48,8 @@
                 <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
                 <ul class="navbar">
-                    <li><a id="dashboardLink"  class="active" style="cursor: pointer;"><strong>Dashboard</strong></a></li>
+                    <li><a id="dashboardLink" class="active" style="cursor: pointer;"><strong>Dashboard</strong></a>
+                    </li>
                     <li><a href="alerta.html"><strong>Alertas</strong></a></li>
                     <li><a href=""><strong>Help Desk</strong></a></li>
                     <li><a href="perfil.html"><strong>Perfil</strong></a></li>
@@ -58,34 +60,39 @@
             </div>
         </nav>
     </div>
-        <input type="checkbox" id="Open">
-        <label for="Open" class="sidebarIcon">
-            <div class="wrapper first"></div>
-            <div class="wrapper second"></div>
-            <div class="wrapper third"></div>
-        </label>
-    <div class="sidebar">
-       <br>
-       <br>
-       <h1>TAG TECH</h1>
-        <p>Olá, Fernando!</p>
-        <h2>Métricas</h2>
-        <div class="metrics">
+    <input type="checkbox" id="Open">
+    <label for="Open" class="sidebarIcon">
+        <div class="wrapper first"></div>
+        <div class="wrapper second"></div>
+        <div class="wrapper third"></div>
+    </label>
 
-         
-            <button>Botão baixar relatório</button>
-        
+    <section class="visual">
+        <div class="sidebar">
+            <br>
+            <br>
+            <h1>TAG TECH</h1>
+            <p>Olá, Fernando!</p>
+            <h2>Métricas</h2>
+            <div class="metrics">
 
+
+                <button>Botão baixar relatório</button>
+
+
+            </div>
+            <div class="buttons">
+                <button>Dashboard</button>
+                <button>Alertas</button>
+            </div>
         </div>
-        <div class="buttons">
-            <button>Dashboard</button>
-            <button>Alertas</button>
-        </div>
-    </div>
 
-    <section class="container_gerenteV1">
-        <section class="container_dash_gerenteV1">
-
+        <section class="container_gerenteV1">
+            <section class="container_dash_gerenteV1">
+                <h3>10 pedágios mais utilizados</h3>
+                <div id="chart1">
+                </div>
+            </section>
         </section>
     </section>
 </body>
@@ -185,22 +192,22 @@
         }]
     };
     const config3 = {
-    type: 'pie',
-    data: data3,
-    options: {
-        plugins: {
-            datalabels: {
-                formatter: (value) => value + '%',
-                color: 'black',
-                font: {
-                    weight: 'bold',
-                    size: 18,
+        type: 'pie',
+        data: data3,
+        options: {
+            plugins: {
+                datalabels: {
+                    formatter: (value) => value + '%',
+                    color: 'black',
+                    font: {
+                        weight: 'bold',
+                        size: 18,
+                    }
                 }
             }
-        }
-    },
-    plugins: [ChartDataLabels]
-};
+        },
+        plugins: [ChartDataLabels]
+    };
     const ctx3 = document.getElementById('myChart3');
     new Chart(ctx3, config3);
 </script>
@@ -226,18 +233,18 @@
         type: 'pie',
         data: data4,
         options: {
-        plugins: {
-            datalabels: {
-                formatter: (value) => value + '%',
-                color: 'black',
-                font: {
-                    weight: 'bold',
-                    size: 18,
+            plugins: {
+                datalabels: {
+                    formatter: (value) => value + '%',
+                    color: 'black',
+                    font: {
+                        weight: 'bold',
+                        size: 18,
+                    }
                 }
             }
-        }
-    },
-    plugins:[ChartDataLabels]
+        },
+        plugins: [ChartDataLabels]
     };
     const ctx4 = document.getElementById('myChart4');
     new Chart(ctx4, config4);
@@ -255,24 +262,112 @@
         });
 </script>
 <script>
-      async function getS3(){
+    async function getS3() {
 
-const response = await fetch("/viewS3", {
-  method: "GET",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+        const response = await fetch("/viewS3", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
 
-const issues = await response.json();
-console.log(issues);
+        const issues = await response.json();
+        console.log(issues);
 
-console.log(JSON.stringify(issues, null, 2));
+        console.log(JSON.stringify(issues, null, 2));
+    }
 
+    window.addEventListener('onloadend', plotChart());
+    function plotChart() {
+        var options = {
+            chart: {
+                height: 350,
+                type: "line",
+                stacked: false
+            },
+            dataLabels: {
+                enabled: false
+            },
+            colors: ["#FF1654", "#247BA0"],
+            series: [
+                {
+                    name: "Series A",
+                    data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
+                },
+                {
+                    name: "Series B",
+                    data: [20, 29, 37, 36, 44, 45, 50, 58]
+                }
+            ],
+            stroke: {
+                width: [4, 4]
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: "20%"
+                }
+            },
+            xaxis: {
+                categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016]
+            },
+            yaxis: [
+                {
+                    axisTicks: {
+                        show: true
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: "#FF1654"
+                    },
+                    labels: {
+                        style: {
+                            colors: "#FF1654"
+                        }
+                    },
+                    title: {
+                        text: "Series A",
+                        style: {
+                            color: "#FF1654"
+                        }
+                    }
+                },
+                {
+                    opposite: true,
+                    axisTicks: {
+                        show: true
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: "#247BA0"
+                    },
+                    labels: {
+                        style: {
+                            colors: "#247BA0"
+                        }
+                    },
+                    title: {
+                        text: "Series B",
+                        style: {
+                            color: "#247BA0"
+                        }
+                    }
+                }
+            ],
+            tooltip: {
+                shared: false,
+                intersect: true,
+                x: {
+                    show: false
+                }
+            },
+            legend: {
+                horizontalAlign: "left",
+                offsetX: 40
+            }
+        };
 
+        var chart = new ApexCharts(document.querySelector("#chart1"), options);
 
-
-}
-
-
+        chart.render();
+    }
 </script>

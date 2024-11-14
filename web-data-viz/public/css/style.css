@@ -2048,26 +2048,48 @@ h4 a {
     
   }
 
-  .container_gerenteV1{
-    position: fixed;
-    top: 5vh;
+
+  .visual{
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+  }
+  .container_gerenteV1 {
+    position: relative;
+    top: 70px;
     width: 100%;
     height: 100vh;
     display: flex;
     flex-direction: row;
-    /* margin-left: 35vh; */
-  }
+}
   .container_dash_gerenteV1{
+    top: 70px;
     display: flex; 
     flex-direction: column; 
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap; 
+    /* flex-wrap: wrap;  */
     width: 100%; 
-    height: auto; 
-    margin-left: 30%; 
+    height: 100%;
+    overflow: auto;
+    /* margin-left: 30%;  */
+  }
+
+  .grafico{
+    height: 1px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    /* background-color: #545454; */
+    border: 2px solid black;
   }
   
+  #chart1 {
+    width: 850px;
+    margin: 35px auto;
+  }
+
   .ranking_downtime{
     display: flex;
     flex-direction: column;
