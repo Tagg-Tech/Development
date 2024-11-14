@@ -36,7 +36,7 @@
 
             <link rel="icon" href="../assets/TagTech/img/logo1.png" />
   </head>
-  <body onload="direcionarDashboard(), getChamados()">
+  <body onload="direcionarDashboard(), getChamados(), atualizacaoPeriodica()">
     <div class="container">
 
       <header>
@@ -49,10 +49,10 @@
                 alt="logo"
                 id="logo"
             /></a>
-            <div class="alertaChamado">
+            <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
               <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
-              <p>Alerta: <br> servidor 5 fora do ar!</p>
-            </div>
+              <p id="pAlerta"></p>
+          </div>
             
             <button class="menu-button"><i class="bx bx-menu"></i></button>
 
