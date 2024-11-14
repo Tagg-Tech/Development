@@ -88,11 +88,12 @@
   }
   
   .menu {
+    display: flex;
     width: 100%;
     height: 70px;
     background-color: var(--color-primary);
     /* position: fixed; */
-    z-index: 100;
+    /* z-index: 100; */
   }
   
   /* #endregion */
@@ -1967,87 +1968,14 @@
                  border: 1px solid #ddd; 
                       border-radius: 10px;
   }
-  /* Estilos do sidebar */
-  .sidebar {
-      width: 20%;
-      height: 100vh; /* 100% da altura da janela de visualização */
-      background-color: var(--color-primary);
-      padding: 20px;
-      box-sizing: border-box;
-      float: left;
-      
-  }
-  .sidebar h1 {
-      color: #ffcc66;
-      align-items: center;
-  }
-
-  .sidebar h2 {
-    color: white;
-    align-items: center;
-}
-  .sidebar p {
-      color: white;
-      font-size: x-large;
-  }
-  .sidebar .metrics {
-      margin-top: 20px;
-  }
-
-  .sidebar .metrics select,
-  .sidebar .metrics button {
-      width: 90%;
-      margin-bottom: 10px;
-      padding: 10px;
-      margin-left: 5%;
-  }
-
-  .sidebar .buttons {
-    margin-top: 20px; 
-  }
-  .sidebar .buttons button {
-    width: 90%;
-    padding: 10px;
-    box-sizing: border-box;
-  }
-
-  .sidebar .escolha-servidor{
-  display: flex;
-  flex-direction:column;
-  justify-content: space-between;
-  align-items: center;
-  }
-
-  #selecionaServidor{
-    width: 20%;
-    box-sizing: content-box;
-  }
-
-  #selecionaTempo{
-    width: 80%;
-    margin-top: 5%;
-  }
-  .sidebar .buttons button {
-      width: 90%;
-      padding: 10px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
-  }
-  .sidebar .car-icon {
-      text-align: center;
-      margin-top: 20px;
-  }
-  .sidebar .car-icon i {
-      font-size: 100px;
-      color: #ffcc66;
-  }
+  
   .main-content {
       display: flex;
       align-content: space-around;
-      padding: 20px;
       flex-wrap: wrap;
       width: 100vw;
       height: 100vh;
+      padding-top: 70px;
       align-items: center;
       justify-content: space-around;
       flex-direction: column;
@@ -2073,6 +2001,11 @@
 /* Gráficos */
 
 /* Continuação - Dash projeto individual */
+.container_{
+  display: flex;
+  flex-direction: column;
+}
+
 .up-side-dash{
   display: flex;
   justify-content: space-around;
@@ -2083,13 +2016,24 @@
 
 .metrica-um{
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: start;
 }
 
 .sub-metrica-um{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+
+.titulo-sub-metrica-um{
+  width: 25vh;
+  text-align: center;
+  font-weight: bold;
+}
+
+.sub-metrica-um-parte2{
+  text-align: center;
+  padding: 0 0 0 5vw;
 }
 
 .metrica-dois{
@@ -2102,6 +2046,44 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.div-picos-1{
+  background-color:#FF914C;
+  text-align: center;
+  font-weight: bold;
+  font-size: larger;
+  padding: 1% 1% 1% 1%;
+}
+
+.valor-pico-1{
+  padding: 10% 1% 1% 1%;
+}
+
+.valor-pico-2{
+  width: 5vw;
+  padding: 10% 1% 1% 1%;
+}
+
+.valor-pico-3{
+  padding: 10% 1% 1% 1%;
+}
+
+.div-picos-2{
+  background-color:#FF914C;
+  text-align: center;
+  font-weight: bold;
+  font-size: larger;
+  padding: 10% 10% 10% 10%;
+  border-radius: 10px black;
+}
+
+.div-picos-3{
+  background-color:#FF914C;
+  text-align: center;
+  font-weight: bold;
+  font-size: larger;
+  padding: 1% 3% 1% 3%;
 }
 
 
