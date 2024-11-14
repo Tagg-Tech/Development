@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <script src="../js/sessao.js"></script>
+    <script src="../js/alerta.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
     <!-- boxIcons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- AOS -->
@@ -17,6 +19,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
         integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="../js/alerta.js"></script>
+
 
     <!-- Adicionando o estilo pointer ao botão "Sair" -->
     <style>
@@ -27,11 +31,15 @@
      <link rel="icon" href="../assets/TagTech/img/logo1.png" />
 </head>
 
-<body>
+<body onload="atualizacaoPeriodica()">
     <div class="header">
         <nav>
             <div class="menu">
                 <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
+                <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
+                    <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
+                    <p id="pAlerta"></p>
+                </div>
                 <span style="font-size: 40px; font-weight: bold; margin-left: 16%; color: white;">DashBoard Analista</span>
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
                 <ul class="navbar">
