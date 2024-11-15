@@ -9,4 +9,9 @@ router.get("/", function (req, res) {
     gerenteController.reqDados(req, res, idUsuario);
 });
 
+router.get("/selectRam", function(req, res){
+    const idUsuario = req.query.idUsuario
+    gerenteController.reqDadosRam(req, res, idUsuario);
+})
+
 module.exports = router;
