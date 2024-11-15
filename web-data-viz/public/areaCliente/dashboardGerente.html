@@ -39,7 +39,7 @@
     <title>Tag Tech</title>
 </head>
 
-<body onload="atualizacaoPeriodica()">
+<body onload="atualizacaoPeriodica(), enviarDados()">
 
     <div class="header">
         <nav>
@@ -134,8 +134,6 @@
 
 
 <script>
-
-    
 // Configurações do primeiro gráfico (gráfico de barras horizontal)
 var options = {
   chart: {
@@ -181,11 +179,7 @@ var options2 = {
   },
   series: [{
     data: [
-      { x: 'Server 1', y: 10 }, // Dados de 'Server 1' com valor 10
-      { x: 'Server 2', y: 18 }, // Dados de 'Server 2' com valor 18
-      { x: 'Server 3', y: 13 }, // Dados de 'Server 3' com valor 13
-      { x: 'Server 4', y: 13 }, // Dados de 'Server 4' com valor 13
-      { x: 'Server 5', y: 13 }  // Dados de 'Server 5' com valor 13
+     
     ]
   }],
   colors: ["#8b5736"] // Define a cor das colunas
@@ -214,4 +208,27 @@ document.getElementById("here").addEventListener('click', hide_dash);
 document.getElementById("here_b").addEventListener('click', show_dash);
 
 </script>
+<script>
+function selecionarDados() {
+  const idUsuario = sessionStorage.getItem('ID_USUARIO');
 
+  fetch(`/gerente?idUsuario=${idUsuario}`, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+  .then(response => response.json())
+  .then(data => {
+      console.log('Dados recebidos:', data);
+      
+  })
+  .catch(error => {
+      console.error('Erro ao enviar os dados:', error);
+  });
+
+  setInterval(enviarDados, 300000);
+}
+
+
+</script>

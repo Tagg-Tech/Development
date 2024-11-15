@@ -21,8 +21,8 @@ var empresaRouter = require("./src/routes/empresas");
 var funcionarioRouter = require("./src/routes/funcionarios");
 //Conexão cadastro do servidor
 var servidorRouter = require("./src/routes/servidores");
-
-var gerenteRouter = require("./src/routes/gerente")
+//Conexão gerente(dados Servidores CPU) para GERENTE
+var gerenteRouter = require("./src/routes/gerente.js");
 
 const getIssues = require('./src/routes/get-issues.js');
 
