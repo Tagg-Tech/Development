@@ -11,7 +11,7 @@ function reqDados(idUsuario) {
 function reqDadosRam(idUsuario){
 
     var instrucaoSql = `
-        SELECT maquina.placaDeRede AS servidor, DATE(registros.dataHora) AS dia, AVG(registros.percentualMemoria) AS media_ram FROM registros JOIN maquina ON registros.fkMaquina = maquina.idMaquina JOIN usuarioresponsavelmaquina assoc ON registros.fkMaquina = assoc.fkMaquina WHERE assoc.fkUsuario = ${idUsuario} GROUP BY maquina.placaDeRede, DATE(registros.dataHora) ORDER BY dia DESC, servidor;
+        SELECT maquina.placaDeRede AS servidor, DATE(registros.dataHora) AS dia, AVG(registros.gigabytesMemoria) AS media_ram FROM registros JOIN maquina ON registros.fkMaquina = maquina.idMaquina JOIN usuarioresponsavelmaquina assoc ON registros.fkMaquina = assoc.fkMaquina WHERE assoc.fkUsuario = ${idUsuario} GROUP BY maquina.placaDeRede, DATE(registros.dataHora) ORDER BY dia DESC, servidor;
     `;
     console.log("Executando a instrução SQL(ram): \n" + instrucaoSql);
     return database.executar(instrucaoSql);
