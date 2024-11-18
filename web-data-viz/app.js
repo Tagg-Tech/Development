@@ -23,9 +23,10 @@ var funcionarioRouter = require("./src/routes/funcionarios");
 var servidorRouter = require("./src/routes/servidores");
 //Conexão gerente(dados Servidores CPU) para GERENTE
 var gerenteRouter = require("./src/routes/gerente.js");
+// Conexão analista (novas rotas para gráficos e máquinas)
+var analistaRouter = require("./src/routes/analista");
 
 const getIssues = require('./src/routes/get-issues.js');
-
 
 
 
@@ -39,6 +40,7 @@ app.use("/empresas", empresaRouter);
 app.use("/funcionarios", funcionarioRouter);
 app.use("/servidores", servidorRouter);
 app.use("/gerente", gerenteRouter)
+app.use("/analista", analistaRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n`)
