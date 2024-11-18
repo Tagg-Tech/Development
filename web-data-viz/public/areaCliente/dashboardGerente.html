@@ -102,7 +102,7 @@
 
                 <div class="container_graphic">
                     <h5><b>Quantidade de Alertas de cada servidor(Mensal)</b></h5>
-                    <div id="chart"></div>
+                    <div id="chart">SEM DADOS</div>
                 </div>
                 <button id="btn_graphic_alerts_next" style="display: none;" class="nav-btn next"><svg xmlns="http://www.w3.org/2000/svg"><path d="M10 20A10 10 0 1 0 0 10a10 10 0 0 0 10 10zM8.711 4.3l5.7 5.766L8.7 15.711l-1.4-1.422 4.289-4.242-4.3-4.347z"/></svg></button>
                 <div class="container_graphic">
@@ -158,6 +158,20 @@ var options = {
 // Cria e renderiza o primeiro gráfico na div "#chart"
 var chart = new ApexCharts(document.querySelector("#chart"), options);
 chart.render();
+
+function atualizarKPI(data2){
+  console.log(data2)
+  data2.forEach((item) => { 
+    const servidor = item.servidor; 
+    const dia = new Date(item.dia); 
+    const mediaRam = parseFloat(item.media_ram); 
+
+    
+    const eficienciaRam = 24 / mediaRam;
+
+    console.log(eficienciaRam)
+})
+}
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -225,15 +239,6 @@ function atualizarGraficoCpu(data) {
       min: 0, // Valor mínimo no eixo Y
       max: 100 // Valor máximo no eixo Y
     },
-    title: {
-      text: 'Uso Médio de CPU por Máquina',
-      align: 'center',
-      style: {
-        fontSize: '16px',
-        fontWeight: 'bold',
-        color: '#333'
-      }
-    },
     tooltip: {
       y: {
         formatter: function (val) {
@@ -297,9 +302,9 @@ function selecionarDados() {
       'Content-Type': 'application/json'
     }
   }).then(response => response.json())
-  .then(data => {
-      console.log('Dados recebidos RAM:', data);
-      
+  .then(data2 => {
+      console.log('Dados recebidos RAM:', data2);
+      atualizarKPI(data2);
   })
   .catch(error => {
       console.error('Erro ao enviar os dados:', error);
