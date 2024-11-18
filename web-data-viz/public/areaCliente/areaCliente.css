@@ -175,6 +175,11 @@ canvas {
   background-color: #ffcc99;
 }
 
+.navbar li a[onclick="limparSessao()"] {
+  cursor: pointer;
+}
+
+
 /* Responsividade */
 @media (max-width: 1200px) {
   .sidebar {
