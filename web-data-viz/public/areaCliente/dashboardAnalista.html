@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
         integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     
      <link rel="icon" href="../assets/TagTech/img/logo1.png" />
 </head>
@@ -86,15 +85,20 @@
     <a href="gerenciar_servidor.html">
         <button>Cadastro de Servidor</button>
     </a>
-</div>
+   </div>
 
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <div class="chart-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
-             <!-- Gráfico de Colunas Empilhadas -->
-             <canvas id="stackedBarChart" style="aspect-ratio: 16/9; width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-top: 20px;"></canvas>
+            
+            <div class="card-alertas">
+                <h2>Servidores com alertas:</h2>
+                <div id="alertas" style="font-size: 24px; font-weight: bold; margin-top: 10px;"></div>
+            </div>
+            
+            
            
             <!-- Ranking de tempo fora do ar -->
             <div class="ranking" style="width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;">
@@ -135,146 +139,167 @@
                 </div>
             </div>
             <!-- Gráfico de Barras -->
-<canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; "></canvas>
+<canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 48%; height: 280px; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; "></canvas>
              <!-- Gráfico de Barras Horizontais -->
-             <canvas id="horizontalBarChart" style="aspect-ratio: 16/9; width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
+             <canvas id="horizontalBarChart" style="aspect-ratio: 16/9; width: 48%; height: 280px; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Dados por servidor
-        const dataServidores = {
-            CPU: [38, 45, 56],
-            RAM: [21, 18, 20],
-            DISCO: [80, 75, 92]
-        };
+    
+</body>
+</html>
 
-        // Gráfico de Pizza
-         // Configuração do Gráfico de Barras
-    const ctxBarras = document.getElementById('meuGrafico').getContext('2d');
-    let dataBarras = {
-        labels: ['Servidor 1', 'Servidor 2', 'Servidor 3'],
+<script>
+    // Dados fictícios para os servidores
+    const servidores = [
+        { id: 1, alerta: true },
+        { id: 2, alerta: true },
+        { id: 3, alerta: false }
+    ];
+
+    // Atualizar o número de alertas no card
+    function atualizarAlertas() {
+        const totalServidores = servidores.length;
+        const servidoresComAlerta = servidores.filter(s => s.alerta).length;
+        document.getElementById('alertas').innerText = `${servidoresComAlerta}/${totalServidores}`;
+    }
+
+    // Chamada para atualizar o card na inicialização
+    atualizarAlertas();
+</script>
+
+<script>
+    // Dados por servidor
+    const dataServidores = {
+        CPU: [38, 45, 56],
+        RAM: [21, 18, 20],
+        DISCO: [80, 75, 92]
+    };
+
+    // Gráfico de Pizza
+     // Configuração do Gráfico de Barras
+const ctxBarras = document.getElementById('meuGrafico').getContext('2d');
+let dataBarras = {
+    labels: ['Servidor 1', 'Servidor 2', 'Servidor 3'],
+    datasets: [{
+        label: 'Uso por Servidor',
+        data: dataServidores['CPU'], // CPU como valor padrão
+        backgroundColor: ['#ff914c', '#8b5736', '#f64b00'],
+    }]
+};
+
+let configBarras = {
+    type: 'bar', 
+    data: dataBarras,
+    options: {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    font: {
+                        weight: 'bold',
+                        size: 18,
+                    },
+                    label: context => {
+                        return context.label + ': ' + context.raw.toLocaleString('pt-BR', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }) + '%';
+                    }
+                }
+
+            },
+            title: {
+                display: true,
+                text: 'Uso dos componentes (por servidor)',
+                font: { size: 24 },
+                padding: { bottom: 30 }
+            }
+        },
+        responsive: false,
+        maintainAspectRatio: false,
+        scales: {
+            x: { beginAtZero: true },
+            y: { beginAtZero: true }
+        }
+    }
+};
+
+let meuGrafico = new Chart(ctxBarras, configBarras);
+
+
+    // Gráfico de Barras Horizontais
+    const dataComponentesMinMax = {
+        CPU: { min: [30, 40, 50], max: [38, 45, 61] },
+        RAM: { min: [15, 10, 18], max: [21, 18, 20] },
+        DISCO: { min: [70, 65, 80], max: [80, 75, 92] }
+    };
+
+    const ctxBar = document.getElementById('horizontalBarChart').getContext('2d');
+    let dataBar = {
+        labels: ['Server 1', 'Server 2', 'Server 3'],
         datasets: [{
-            label: 'Uso por Servidor',
-            data: dataServidores['CPU'], // CPU como valor padrão
-            backgroundColor: ['#ff914c', '#8b5736', '#f64b00'],
+            label: 'Mínimo',
+            data: dataComponentesMinMax['CPU'].min,
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: '#ff914c',
+        }, {
+            label: 'Máximo',
+            data: dataComponentesMinMax['CPU'].max,
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: '#f64b00',
         }]
     };
 
-    let configBarras = {
-        type: 'bar', // Alterado de 'pie' para 'bar'
-        data: dataBarras,
+    let configBar = {
+        type: 'bar',
+        data: dataBar,
         options: {
+            indexAxis: 'y',
+            elements: { bar: { borderWidth: 2 } },
+            responsive: false,
+            maintainAspectRatio: false,
             plugins: {
-                tooltip: {
-                    callbacks: {
-                        font: {
-                            weight: 'bold',
-                            size: 18,
-                        },
-                        label: context => {
-                            return context.label + ': ' + context.raw.toLocaleString('pt-BR', {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2
-                            }) + '%';
-                        }
-                    }
-
-                },
+                legend: { position: 'right' },
                 title: {
                     display: true,
-                    text: 'Uso dos componentes (por servidor)',
+                    text: 'Variação de cada componente por servidor',
                     font: { size: 24 },
                     padding: { bottom: 30 }
                 }
             },
-            responsive: false,
-            maintainAspectRatio: false,
             scales: {
-                x: { beginAtZero: true },
-                y: { beginAtZero: true }
+                x: { beginAtZero: true }
             }
         }
     };
 
-    let meuGrafico = new Chart(ctxBarras, configBarras);
+    let horizontalBarChart = new Chart(ctxBar, configBar);
 
+    // Função para atualizar os gráfico de barras verticais e barras horizontais ao trocar o componente
+    function atualizarGraficoComponente() {
+        const componenteSelecionado = document.getElementById("selecionaComponente").value;
 
-        // Gráfico de Barras Horizontais
-        const dataComponentesMinMax = {
-            CPU: { min: [30, 40, 50], max: [38, 45, 61] },
-            RAM: { min: [15, 10, 18], max: [21, 18, 20] },
-            DISCO: { min: [70, 65, 80], max: [80, 75, 92] }
-        };
+        // Atualizando dados do gráfico de barras verticais
+        meuGrafico.data.datasets[0].data = dataServidores[componenteSelecionado];
+        meuGrafico.update();
 
-        const ctxBar = document.getElementById('horizontalBarChart').getContext('2d');
-        let dataBar = {
-            labels: ['Server 1', 'Server 2', 'Server 3'],
-            datasets: [{
-                label: 'Mínimo',
-                data: dataComponentesMinMax['CPU'].min,
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: '#ff914c',
-            }, {
-                label: 'Máximo',
-                data: dataComponentesMinMax['CPU'].max,
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: '#f64b00',
-            }]
-        };
+        // Atualizando dados do gráfico de barras horizontais com valores mínimos e máximos
+        horizontalBarChart.data.datasets[0].data = dataComponentesMinMax[componenteSelecionado].min;
+        horizontalBarChart.data.datasets[1].data = dataComponentesMinMax[componenteSelecionado].max;
+        horizontalBarChart.update();
+    }
 
-        let configBar = {
-            type: 'bar',
-            data: dataBar,
-            options: {
-                indexAxis: 'y',
-                elements: { bar: { borderWidth: 2 } },
-                responsive: false,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'right' },
-                    title: {
-                        display: true,
-                        text: 'Variação de cada componente por servidor',
-                        font: { size: 24 },
-                        padding: { bottom: 30 }
-                    }
-                },
-                scales: {
-                    x: { beginAtZero: true }
-                }
-            }
-        };
+    // Gráfico de Colunas Empilhadas
+    const ctxStackedBar = document.getElementById('stackedBarChart').getContext('2d');
+    
 
-        let horizontalBarChart = new Chart(ctxBar, configBar);
-
-        // Função para atualizar os gráfico de barras verticais e barras horizontais ao trocar o componente
-        function atualizarGraficoComponente() {
-            const componenteSelecionado = document.getElementById("selecionaComponente").value;
-
-            // Atualizando dados do gráfico de barras verticais
-            meuGrafico.data.datasets[0].data = dataServidores[componenteSelecionado];
-            meuGrafico.update();
-
-            // Atualizando dados do gráfico de barras horizontais com valores mínimos e máximos
-            horizontalBarChart.data.datasets[0].data = dataComponentesMinMax[componenteSelecionado].min;
-            horizontalBarChart.data.datasets[1].data = dataComponentesMinMax[componenteSelecionado].max;
-            horizontalBarChart.update();
+    function mudarTela() {
+        const select = document.getElementById('selecionaServidor').value;
+        if (select == 1 || select == 2 || select == 3) {
+            window.location = "dashboardAnalistaUmServidor.html";
         }
-
-        // Gráfico de Colunas Empilhadas
-        const ctxStackedBar = document.getElementById('stackedBarChart').getContext('2d');
-        
-
-        function mudarTela() {
-            const select = document.getElementById('selecionaServidor').value;
-            if (select == 1 || select == 2 || select == 3) {
-                window.location = "dashboardAnalistaUmServidor.html";
-            }
-        }
-    </script>
-</body>
-</html>
+    }
+</script>
 
 <script>
     //menu hamburguer

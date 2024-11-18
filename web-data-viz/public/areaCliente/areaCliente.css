@@ -40,6 +40,7 @@ body {
 /* #endregion */
 
 /* #region header */
+
 .menu-button {
   display: none;
 }
@@ -87,7 +88,10 @@ body {
   z-index: 100;
 }
 
-/* Sidebar */
+/* #endregion */
+
+/* #region sidebar */
+
 .sidebar {
   width: 20%;
   height: 91vh;
@@ -132,6 +136,7 @@ body {
   padding: 20px;
   overflow: hidden;
 }
+/* #endregion */
 
 /* Layout flexbox para os gráficos */
 .chart-container {
@@ -146,7 +151,7 @@ canvas {
   margin-bottom: 20px;
 }
 
-/* Tabela de ranking */
+/* #region Tabela de ranking */
 .ranking {
   width: 100%;
   margin-top: 20px;
@@ -175,12 +180,53 @@ canvas {
   background-color: #ffcc99;
 }
 
+/* #endregion */
+
 .navbar li a[onclick="limparSessao()"] {
   cursor: pointer;
 }
 
+.chart-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
 
-/* Responsividade */
+.card-alertas {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+    width: 48%; /* Mantendo o tamanho igual ao dos gráficos */
+    height: 280px; /* Igual aos gráficos */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.card-alertas h2 {
+    margin: 0;
+    font-size: 30px; /* Aumenta o tamanho do texto */
+    font-weight: bold;
+    color: #333;
+}
+
+.card-alertas #alertas {
+  font-size: 50px !important;
+  font-weight: bold ;
+  color: #f64b00 !important;
+  margin-top: 10px !important;
+  border-radius: 15%;
+  
+}
+
+
+/* #region responsividade*/
+
 @media (max-width: 1200px) {
   .sidebar {
       width: 25%;
@@ -229,3 +275,4 @@ canvas {
       display: none;
   }
 }
+/* #endregion */
