@@ -161,29 +161,95 @@ chart.render();
 
 ////////////////////////////////////////////////////////////////////////
 
-// Configurações do segundo gráfico (gráfico de barras vertical)
-var options2 = {
-  chart: {
-    type: 'bar', // Define o tipo de gráfico como "bar"
-    height: 280, // Altura do gráfico
-    width: 300 // Largura do gráfico
-  },
-  plotOptions: {
-    bar: {
-      columnWidth: '86%' // Largura das colunas em relação ao gráfico
-    }
-  },
-  series: [{
-    data: [
-     
-    ]
-  }],
-  colors: ["#8b5736"] // Define a cor das colunas
-};
+function atualizarGraficoCpu(data) {
+  console.log(data)
+  const mediaPercentualCpu = data.map(item => item.mediaPercentualCPU);
+  const maquina = data.map(item => item.maquina);
 
-// Cria e renderiza o segundo gráfico na div "#chart2"
-var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
-chart2.render();
+
+  // Opções de configuração do gráfico
+  var options2 = {
+    series: [{
+      name: 'Média CPU (%)',
+      data: mediaPercentualCpu
+    }],
+    chart: {
+      type: 'bar', // Tipo do gráfico (bar = gráfico de barras)
+      height: 280, // Altura do gráfico
+      width: '100%', // Largura do gráfico (ajustável conforme o contêiner)
+      toolbar: {
+        show: false // Desativa a barra de ferramentas do gráfico
+      }
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: '86%', // Largura das colunas em relação ao gráfico
+        distributed: true // Distribui as barras de forma igual
+      }
+    },
+    colors: ["#8b5736"], // Cor das barras
+    dataLabels: {
+      enabled: true, // Exibe os valores nas barras
+      style: {
+        colors: ['#fff'] // Cor do texto dos valores dentro das barras
+      }
+    },
+    xaxis: {
+      categories: maquina, 
+      title: {
+        text: 'Máquinas',
+        style: {
+          fontSize: '14px',
+          fontWeight: 'bold',
+          color: '#333'
+        }
+      },
+      labels: {
+        rotate: -45, // Roda os labels das máquinas para evitar sobreposição
+        style: {
+          fontSize: '12px',
+          fontWeight: 'normal',
+          colors: ['#333']
+        }
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Média (%) CPU', // Título do eixo Y
+        style: {
+          fontSize: '14px',
+          fontWeight: 'bold',
+          color: '#333'
+        }
+      },
+      min: 0, // Valor mínimo no eixo Y
+      max: 100 // Valor máximo no eixo Y
+    },
+    title: {
+      text: 'Uso Médio de CPU por Máquina',
+      align: 'center',
+      style: {
+        fontSize: '16px',
+        fontWeight: 'bold',
+        color: '#333'
+      }
+    },
+    tooltip: {
+      y: {
+        formatter: function (val) {
+          return val.toFixed(2) + '%';
+        }
+      }
+    }
+  };
+
+  // Cria e renderiza o gráfico no elemento #chart2
+  var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+  chart2.render();
+}
+
+
+// Configurações do segundo gráfico (gráfico de barras vertical)
 
 // Função para esconder a seção "container_gerente" e exibir a "faq_page"
 function hide_dash() {
@@ -217,6 +283,7 @@ function selecionarDados() {
   .then(response => response.json())
   .then(data => {
       console.log('Dados recebidos CPU:', data);
+      atualizarGraficoCpu(data);
       
   })
   .catch(error => {
