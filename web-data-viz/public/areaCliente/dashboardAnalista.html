@@ -253,11 +253,11 @@
 
         let horizontalBarChart = new Chart(ctxBar, configBar);
 
-        // Função para atualizar os gráficos de pizza e barras horizontais ao trocar o componente
+        // Função para atualizar os gráfico de barras verticais e barras horizontais ao trocar o componente
         function atualizarGraficoComponente() {
             const componenteSelecionado = document.getElementById("selecionaComponente").value;
 
-            // Atualizando dados do gráfico de pizza
+            // Atualizando dados do gráfico de barras verticais
             meuGrafico.data.datasets[0].data = dataServidores[componenteSelecionado];
             meuGrafico.update();
 
@@ -269,46 +269,7 @@
 
         // Gráfico de Colunas Empilhadas
         const ctxStackedBar = document.getElementById('stackedBarChart').getContext('2d');
-        let dataStackedBar = {
-            labels: ['Server 1', 'Server 2', 'Server 3'],
-            datasets: [{
-                label: 'CPU',
-                data: [38, 45, 56],
-                backgroundColor: '#ff914c',
-            }, {
-                label: 'RAM',
-                data: [21, 18, 20],
-                backgroundColor: '#8b5736',
-            }, {
-                label: 'DISCO',
-                data: [80, 75, 92],
-                backgroundColor: '#f64b00',
-            }]
-        };
-
-        let configStackedBar = {
-            type: 'bar',
-            data: dataStackedBar,
-            options: {
-                responsive: false,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'right' },
-                    title: {
-                        display: true,
-                        text: 'Componentes por Servidor',
-                        font: { size: 24 },
-                        padding: { bottom: 30 }
-                    }
-                },
-                scales: {
-                    x: { stacked: true },
-                    y: { beginAtZero: true, stacked: true }
-                }
-            }
-        };
-
-        let stackedBarChart = new Chart(ctxStackedBar, configStackedBar);
+        
 
         function mudarTela() {
             const select = document.getElementById('selecionaServidor').value;
