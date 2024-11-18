@@ -30,7 +30,6 @@ A taxa de vendas de carros no Brasil aumentou em **35%**. Esse crescimento gerou
 *R:* O serviço é destinado a empresas que trabalham com RFID de carros e possuem uma **governança de TI** para monitoramento de servidores. Geralmente, esses perfis de governança são divididos em:
    - **Gerente**: Visão Geral
    - **Analista**: Visão Individual
---
 
 ## Um aviso aos devs...
 Um exemplo do arquivo .env pode ser encontrado dentro da pasta web-data-viz. Utilize esse exemplo para configurar as variáveis de ambiente para o seu ambiente local ou de produção.
