@@ -96,9 +96,59 @@
 
         <section class="container_gerenteV1">
             <section class="container_dash_gerenteV1">
-                <div class="dash1"></div>
-                <h3>10 pedágios mais utilizados</h3>
-                <div id="chart1">
+                <div class="dash1">
+                    <h3>10 pedágios mais utilizados</h3>
+                    <div class="dashPed">
+                        <div id="chart1"></div>
+                        <div class="tableDash1">
+                            <table>
+                                <caption>Uso Estimado dos Pedágios</caption>
+                                <thead>
+                                    <tr>
+                                        <th>Concessionária</th>
+                                        <th>Quilômetro</th>
+                                        <th>Uso Estimado (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Pedágio Alfa</td>
+                                        <td>km 45</td>
+                                        <td>95%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pedágio Beta</td>
+                                        <td>km 30</td>
+                                        <td>85%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pedágio Gama</td>
+                                        <td>km 60</td>
+                                        <td>75%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pedágio Delta</td>
+                                        <td>km 20</td>
+                                        <td>50%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pedágio Épsilon</td>
+                                        <td>km 10</td>
+                                        <td>30%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="indicadoresDashPed">
+                        <div onclick="showMaisUti()" id="indMped">
+                            <span>Mais utilizado</span>
+                        </div>
+                        <div>
+                            <span>Menos utilizado</span>
+                        </div>
+                    </div>
+                    
                 </div>
             </section>
         </section>
@@ -106,6 +156,20 @@
 </body>
 
 </html>
+
+<script>
+    // Indicadores gráfico pedágios:
+    var maisUti = "<span>80%</span>";
+    var menosUti = "<span>50%</span>";
+
+    function showMaisUti() {
+        if (!indMped.innerHTML.includes(maisUti)) {
+            indMped.innerHTML += maisUti;
+        } else{
+            indMped.innerHTML = "<span>Mais utilizado</span>";
+        }
+    }
+</script>
 
 <script>
     //menu hamburguer
@@ -144,7 +208,8 @@
     function plotChart() {
         var options = {
             chart: {
-                height: 350,
+                height: 300,
+                width: 700,
                 type: "line",
                 stacked: false
             },
