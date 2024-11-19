@@ -248,9 +248,14 @@ function atualizarGraficoCpu(data) {
     }
   };
 
-  // Cria e renderiza o gráfico no elemento #chart2
-  var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+  if(data.length != 0){
+ // Cria e renderiza o gráfico no elemento #chart2
+ var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
   chart2.render();
+  }else{
+
+  }
+ 
 }
 
 
