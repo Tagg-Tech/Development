@@ -1546,6 +1546,8 @@ h4 a {
       width: 90%;
       height: 85vh;
       text-align: center;
+      display: flex;
+      flex-direction: row;
   }
 
   .equipe-inner h1 {
