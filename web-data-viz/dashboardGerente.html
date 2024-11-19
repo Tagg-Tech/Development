@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="../js/sessao.js"></script>
+    <title>Dashboard | Acesso Geral</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/gerente.css">
+    <script src="../js/alerta.js"></script>
+
+    <!-- <link rel="stylesheet" href="areaCliente.css" /> -->
+    <link rel="icon" href="../assets/icon/favicon2.ico" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+                   <!-- boxIcons -->
+                   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+                   <!-- AOS -->
+                   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+                   <!-- Swiper -->
+                   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
+                       integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
+                       crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+                       <!-- Adicionando o estilo pointer ao botão "Sair" -->
+                    <style>
+                        .navbar li a[onclick="limparSessao()"] {
+                            cursor: pointer;
+                        }
+                    </style>
+
+                    <link rel="icon" href="../assets/TagTech/img/logo1.png" />
+                    <script src="../js/sessao.js"></script>
+
+    <title>Tag Tech</title>
+</head>
+
+<body onload="atualizacaoPeriodica(), selecionarDados()">
+
+    <div class="header">
+        <nav>
+            <div class="menu">
+                <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
+                <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
+                  <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
+                  <p id="pAlerta"></p>
+              </div>
+                <button class="menu-button"><i class='bx bx-menu'></i></button>
+                <ul class="navbar">
+                    <li><a id="dashboardLink"  class="active" style="cursor: pointer;"><strong>Dashboard</strong></a></li>
+                    <li><a href="alerta.html"><strong>Alertas</strong></a></li>
+                    <li><a href=""><strong>Help Desk</strong></a></li>
+                    <li><a href="perfil.html"><strong>Perfil</strong></a></li>
+                    <li style="color:black;"><strong>|</strong></li>
+                    <li><a style="background-color: #fff178;" onclick="limparSessao()"><strong>Sair <img
+                                    src="../assets/icones/sair.svg" alt=""></strong></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+        <!-- <input type="checkbox" id="Open">
+        <label for="Open" class="sidebarIcon">
+            <div class="wrapper first"></div>
+            <div class="wrapper second"></div>
+            <div class="wrapper third"></div>
+        </label> -->
+    <div class="sidebar">
+       <br>
+       <br>
+       <h1>TAG TECH</h1>
+        <p>Olá, Fernando!</p>
+        <h2>Métricas</h2>
+        <div class="metrics">
+
+         
+            <button>Botão baixar relatório</button>
+        
+
+        </div>
+        <div class="buttons">
+            <button>Dashboard</button>
+            <button>Alertas</button>
+        </div>
+    </div>
+
+    <section class="container_gerente">
+        <div class="kpi">
+            <div class="container_kpi">
+                <h3><b>Uptime Médio Do Mês</b></h3>
+                <div class="uptime"><span id="uptime_number">100%</span></div>
+            </div>
+            <div class="container_kpi">
+                <h3><b>Eficiência de memória</b></h3>
+                <div class="efficency"><span id="efficency_number">SEM DADOS</span></div>
+            </div>
+        </div>
+            <div class="graphics">
+
+                <div class="container_graphic">
+                    <h5><b>Quantidade de Alertas de cada servidor(Mensal)</b></h5>
+                    <div id="chart">SEM DADOS</div>
+                </div>
+                <button id="btn_graphic_alerts_next" style="display: none;" class="nav-btn next"><svg xmlns="http://www.w3.org/2000/svg"><path d="M10 20A10 10 0 1 0 0 10a10 10 0 0 0 10 10zM8.711 4.3l5.7 5.766L8.7 15.711l-1.4-1.422 4.289-4.242-4.3-4.347z"/></svg></button>
+                <div class="container_graphic">
+                    <h5><b>Distribuição de CPU(%)</b></h5>
+                    <div id="chart2"></div>
+                </div>
+                <button id="btn_graphic_cpu_next" style="display: none;" class="nav-btn next"><svg xmlns="http://www.w3.org/2000/svg"><path d="M10 20A10 10 0 1 0 0 10a10 10 0 0 0 10 10zM8.711 4.3l5.7 5.766L8.7 15.711l-1.4-1.422 4.289-4.242-4.3-4.347z"/></svg></button>
+            </div>
+            <section class="faq">    
+              <div class="bottom">
+                  <p>Clique <i><span id="here">aqui</span></i> para saber mais das <span style="color: orange;">métricas</span> dessa tela!</p>
+              </div>
+    </section>
+
+    </section>
+
+
+
+
+    <section class="faq_page">
+            <h1>TEXTOS DE EXPLICAÇÃO</h1>
+            <span id="here_b">Voltar</span>
+    </section>
+
+
+</body>
+
+</html>
+
+
+<script>
+// Configurações do primeiro gráfico (gráfico de barras horizontal)
+var options = {
+  chart: {
+    type: 'bar', // Define o tipo de gráfico como "bar"
+    height: 250, // Altura do gráfico
+    width: 500 // Largura do gráfico
+  },
+  plotOptions: {
+    bar: {
+      horizontal: true, // Define as barras como horizontais
+      barHeight: '86%' // Altura das barras em relação ao gráfico
+    }
+  },
+  series: [{
+    data: [
+
+    ]
+  }],
+  colors: ["#8b5736"] // Define a cor das barras
+};
+
+// Cria e renderiza o primeiro gráfico na div "#chart"
+var chart = new ApexCharts(document.querySelector("#chart"), options);
+chart.render();
+
+function atualizarKPI(data2){
+  console.log(data2)
+  if(data2.length !=0){
+    data2.forEach((item) => { 
+    const servidor = item.servidor; 
+    const dia = new Date(item.dia); 
+    const mediaRam = parseFloat(item.media_ram); 
+
+
+    const efficency = document.querySelector('.efficency'); 
+    const efficency_number = document.getElementById('efficency_number');
+    
+    const eficienciaRam = 24 / mediaRam;
+
+    console.log(eficienciaRam)
+
+    const eficienciaRamFormat = eficienciaRam.toFixed(2)
+
+    console.log(eficienciaRamFormat)
+
+
+    if(eficienciaRam < 2){
+      efficency.style.color = "yellow"
+    }else if(eficienciaRam < 1){
+      efficency.style.color = "red"
+    }
+      efficency.style.padding = '5vh'
+    efficency_number.innerHTML = `${eficienciaRamFormat}hr/GB`
+  })
+
+}else{
+    efficency_number.innerHTML = `SEM DADOS`
+}
+}
+
+////////////////////////////////////////////////////////////////////////
+
+function atualizarGraficoCpu(data) {
+  console.log(data)
+  const mediaPercentualCpu = data.map(item => item.mediaPercentualCPU);
+  const maquina = data.map(item => item.maquina);
+  // chart2.innerHTML = ``;
+if(data.length != 0){
+
+  // Opções de configuração do gráfico
+var options2 = {
+    series: [{
+      name: 'Média CPU (%)',
+      data: mediaPercentualCpu
+    }],
+    chart: {
+      type: 'bar', // Tipo do gráfico (bar = gráfico de barras)
+      height: 280, // Altura do gráfico
+      width: '100%', // Largura do gráfico (ajustável conforme o contêiner)
+      toolbar: {
+        show: false // Desativa a barra de ferramentas do gráfico
+      }
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: '86%', // Largura das colunas em relação ao gráfico
+        distributed: true // Distribui as barras de forma igual
+      }
+    },
+    colors: ["#8b5736"], // Cor das barras
+    dataLabels: {
+      enabled: true, // Exibe os valores nas barras
+      style: {
+        colors: ['#fff'],
+        fontSize: '25px'
+      }
+    },
+    xaxis: {
+      categories: maquina, 
+      title: {
+        text: 'Máquinas',
+        style: {
+          fontSize: '14px',
+          fontWeight: 'bold',
+          color: '#333'
+        }
+      },
+      labels: {
+        rotate: -45, // Roda os labels das máquinas para evitar sobreposição
+        style: {
+          fontSize: '12px',
+          fontWeight: 'normal',
+          colors: ['#333']
+        }
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Média (%) CPU', // Título do eixo Y
+        style: {
+          fontSize: '14px',
+          fontWeight: 'bold',
+          color: '#333'
+        }
+      },
+      min: 0, // Valor mínimo no eixo Y
+      max: 100 // Valor máximo no eixo Y
+    },
+    tooltip: {
+      y: {
+        formatter: function (val) {
+          return val.toFixed(2) + '%';
+        }
+      }
+    }
+  };
+
+  
+ // Cria e renderiza o gráfico no elemento #chart
+  var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+  chart2.render();
+
+
+}
+else{
+  chart2.innerHTML = `SEM DADOS`
+}  
+ 
+}
+
+
+// Configurações do segundo gráfico (gráfico de barras vertical)
+
+// Função para esconder a seção "container_gerente" e exibir a "faq_page"
+function hide_dash() {
+  var seccao = document.querySelector(".container_gerente");
+  seccao.style.display = 'none'; // Esconde a seção do dashboard
+  var faq_page = document.querySelector(".faq_page");
+  faq_page.style.display = "flex"; // Exibe a página FAQ
+}
+function show_dash(){
+    var seccao = document.querySelector(".container_gerente");
+  seccao.style.display = 'flex'; // Mostra a seção do dashboard
+  var faq_page = document.querySelector(".faq_page");
+  faq_page.style.display = "none"; // Esconde a página FAQ
+}
+
+// Adiciona o evento de clique ao elemento com id "here" para chamar a função hide_dash
+document.getElementById("here").addEventListener('click', hide_dash);
+document.getElementById("here_b").addEventListener('click', show_dash);
+
+</script>
+<script>
+function selecionarDados() {
+  const idUsuario = sessionStorage.getItem('ID_USUARIO');
+
+  fetch(`/gerente?idUsuario=${idUsuario}`, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+  .then(response => response.json())
+  .then(data => {
+      console.log('Dados recebidos CPU:', data);
+      atualizarGraficoCpu(data);
+      
+  })
+  .catch(error => {
+      console.error('Erro ao enviar os dados:', error);
+  });
+
+
+  fetch(`/gerente/selectRam?idUsuario=${idUsuario}`,{
+    method: 'GET',
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  }).then(response => response.json())
+  .then(data2 => {
+      console.log('Dados recebidos RAM:', data2);
+      atualizarKPI(data2);
+  })
+  .catch(error => {
+      console.error('Erro ao enviar os dados:', error);
+  });
+
+  setInterval(selecionarDados, 300000);
+}
+
+
+</script>
