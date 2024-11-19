@@ -92,3 +92,16 @@ function exibirAlerta(tipoChamado, servidorAtual){
 function irParaAlertas(){
     window.location.href = 'alerta.html';
 }
+
+
+function numeroPicosPorServidor(idServidor){
+  
+}
+
+function rankingForaDoAr(){
+
+}
+
+function qtdAlertasMensal(){
+
+}
