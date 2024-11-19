@@ -18,7 +18,8 @@
 }
 
 .tableDash1{
-
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
 
@@ -55,6 +56,29 @@ caption {
 }
 
 
+/* Campo gráfico pedágios */
+.graf1{
+    display: flex;
+    flex-direction: column;
+}
+
+.graf1 button{
+    position: relative;
+    width: 250px;
+    height: 40px;
+    background-color: #6b6a6a;
+    margin-left: 3%;
+    margin-top: 2%;
+}
+
+/* Slider style html */
+.slider-container{
+    display: flex;
+    column-gap: 30px;
+    margin-top: 1%;
+    margin-left: 3%;
+}
+
 /* Indicadores da dashboard */
 .indicadoresDashPed{
     display: flex;
@@ -71,4 +95,5 @@ caption {
     flex-direction: column;
     text-align: center;
     width: 150px;
+    height: auto;
 }
