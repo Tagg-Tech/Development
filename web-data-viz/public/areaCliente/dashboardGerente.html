@@ -108,7 +108,7 @@
                 <button id="btn_graphic_alerts_next" style="display: none;" class="nav-btn next"><svg xmlns="http://www.w3.org/2000/svg"><path d="M10 20A10 10 0 1 0 0 10a10 10 0 0 0 10 10zM8.711 4.3l5.7 5.766L8.7 15.711l-1.4-1.422 4.289-4.242-4.3-4.347z"/></svg></button>
                 <div class="container_graphic">
                     <h5><b>Distribuição de CPU(%)</b></h5>
-                    <div id="chart2"></div>
+                    <div id="chart2">SEM DADOS</div>
                 </div>
                 <button id="btn_graphic_cpu_next" style="display: none;" class="nav-btn next"><svg xmlns="http://www.w3.org/2000/svg"><path d="M10 20A10 10 0 1 0 0 10a10 10 0 0 0 10 10zM8.711 4.3l5.7 5.766L8.7 15.711l-1.4-1.422 4.289-4.242-4.3-4.347z"/></svg></button>
             </div>
@@ -199,9 +199,17 @@ function atualizarKPI(data2){
 
 function atualizarGraficoCpu(data) {
   console.log(data)
+  
+  if(data.length === 0){
+    const chart2 = document.getElementById('chart2')
+    chart2.innerHTML = 'SEM DADOS'
+  }else{
+    var textoDados = document.getElementById('chart2')
+    textoDados.innerHTML = ''
   const mediaPercentualCpu = data.map(item => item.mediaPercentualCPU);
   const maquina = data.map(item => item.maquina);
-  // chart2.innerHTML = ``;
+  
+
 if(data.length != 0){
 
   // Opções de configuração do gráfico
@@ -274,15 +282,13 @@ var options2 = {
 
   
  // Cria e renderiza o gráfico no elemento #chart
+  
   var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
   chart2.render();
 
 
 }
-else{
-  chart2.innerHTML = `SEM DADOS`
-}  
- 
+} 
 }
 
 
