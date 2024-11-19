@@ -9,7 +9,7 @@ function atualizacaoPeriodica() {
     
     getChamadosAlerta()
     
-    setTimeout(atualizacaoPeriodica, 5000);
+    setTimeout(atualizacaoPeriodica, 12000);
 
 
 

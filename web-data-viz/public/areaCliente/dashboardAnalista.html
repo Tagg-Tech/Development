@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Servidores</title>
     <link rel="stylesheet" href="areaCliente.css" />
+    <link rel="stylesheet" href="../css/areaCliente/notificacaoAlerta.css">
     <link rel="icon" href="./assets/icon/favicon2.ico">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
@@ -30,7 +31,10 @@
             <div class="menu">
                 <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
                 <span style="font-size: 40px; font-weight: bold; margin-left: 16%; color: white;">DashBoard Analista</span>
-                <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()"></div>
+                <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
+                    <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
+                    <p id="pAlerta"></p>
+                </div>
                 
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
                 <ul class="navbar">

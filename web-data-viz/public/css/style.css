@@ -2286,36 +2286,4 @@ h4 a {
 }
 
 
-.alertaChamado {
-  display: none;
-  cursor: pointer;
-  position: absolute;
-  top: 75vh;
-  right: 3vw;
-  background-color: #ff5722;
-  width: 18vw;
-  height: 20vh;
-  border: 5px solid #f5b14c; 
-  border-radius: 8px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0.8, 0.8, 0.8, 0.5);
-}
-
-.alertaChamado img {
-  width: 30%;
-  margin-bottom: 10px;
-}
-
-.alertaChamado p {
-  color: #fff;
-  font-size: 1em;
-  font-weight: bold;
-  text-align: center;
-  margin: 0;
-}
-
-
 
