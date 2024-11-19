@@ -167,6 +167,9 @@ function atualizarKPI(data2){
     const dia = new Date(item.dia); 
     const mediaRam = parseFloat(item.media_ram); 
 
+
+    const efficency = document.querySelector('.efficency'); 
+    const efficency_number = document.getElementById('efficency_number');
     
     const eficienciaRam = 24 / mediaRam;
 
@@ -176,6 +179,13 @@ function atualizarKPI(data2){
 
     console.log(eficienciaRamFormat)
 
+
+    if(eficienciaRam < 2){
+      efficency.style.color = "yellow"
+    }else if(eficienciaRam < 1){
+      efficency.style.color = "red"
+    }
+      efficency.style.padding = '5vh'
     efficency_number.innerHTML = `${eficienciaRamFormat}hr/GB`
   })
 
@@ -217,7 +227,8 @@ var options2 = {
     dataLabels: {
       enabled: true, // Exibe os valores nas barras
       style: {
-        colors: ['#fff'] // Cor do texto dos valores dentro das barras
+        colors: ['#fff'],
+        fontSize: '25px'
       }
     },
     xaxis: {
