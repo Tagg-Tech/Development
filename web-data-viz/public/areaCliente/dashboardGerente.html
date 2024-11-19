@@ -95,7 +95,7 @@
             </div>
             <div class="container_kpi">
                 <h3><b>Eficiência de memória</b></h3>
-                <div class="efficency"><span id="efficency_number">6 h/Gb</span></div>
+                <div class="efficency"><span id="efficency_number">SEM DADOS</span></div>
             </div>
         </div>
             <div class="graphics">
@@ -161,7 +161,8 @@ chart.render();
 
 function atualizarKPI(data2){
   console.log(data2)
-  data2.forEach((item) => { 
+  if(data2.length !=0){
+    data2.forEach((item) => { 
     const servidor = item.servidor; 
     const dia = new Date(item.dia); 
     const mediaRam = parseFloat(item.media_ram); 
@@ -170,7 +171,11 @@ function atualizarKPI(data2){
     const eficienciaRam = 24 / mediaRam;
 
     console.log(eficienciaRam)
-})
+  })
+
+}else{
+
+}
 }
 
 ////////////////////////////////////////////////////////////////////////
