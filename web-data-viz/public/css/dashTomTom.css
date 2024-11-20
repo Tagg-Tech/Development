@@ -4,11 +4,14 @@
     width: 100%;
 }
 
+.dash1 h3{
+    text-align: center;
+}
+
 .dashPed{
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
     height: auto;
 }
 
@@ -18,8 +21,7 @@
 }
 
 .tableDash1{
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-left: 20px;
 }
 
 
