@@ -8,4 +8,8 @@ router.post("/cadastrar", function (req, res) {
     servidorController.cadastrar(req, res);
 })
 
+router.post("/pegarCpuRamPorcentagem", function (req, res){
+    servidorController.pegarCpuRamPorcentagem(req, res);
+})
+
 module.exports = router;

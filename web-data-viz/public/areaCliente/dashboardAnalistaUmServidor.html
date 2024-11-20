@@ -29,9 +29,13 @@
 
                 <link rel="icon" href="../assets/TagTech/img/logo1.png" />
                 <script src="../js/sessao.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script> -->
+                <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js"></script> -->
+
 </head>
 
-<body onload=" atualizacaoPeriodica(), initializeData(), graficoDinamico()">
+<body onload=" atualizacaoPeriodica(), initializeData(), graficoDinamico(), pegarPorcentagens()">
     <div class = "container_" >
         <div class="header">
             <nav>
@@ -221,7 +225,6 @@
             graficoDinamico();
             atualizacaoPeriodica();
         };
-        
 
        // Gráfico de Pizza
        const ctxPizza = document.getElementById('meuGrafico').getContext('2d');
@@ -232,30 +235,33 @@
                 datasets: 
                 [
                     {
-                        data: ["40","60"],
+                        data: ["90","10"],
                         backgroundColor: ["#fe914c","#8b5736"],
                     }
                 ]
             },
             options: {
+                tooltips:{
+                    enable: false
+                },
                 plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const label = context.label || '';
-                                const value = context.parsed.y;
-                                return label + ': ' + value.toFixed(2) + '%';
-                            }
-                        }
-                    },
                     datalabels: {
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map(data => {
+                                sum += data;
+                            });
+                            let percentage = (value * 100 / sum).toFixed(2) + "%";
+                            return percentage;
+                        },
                         color: 'white',
                         font: {
                             size: 16
                         },
-                        formatter: (value, context) => {
-                            return value + '%';
-                        },
+                        // formatter: (value, context) => {
+                        //     return value + '%';
+                        // },
                     },
                     legend: {
                         position: 'left',
@@ -271,19 +277,28 @@
                     }
                 },
                 responsive: false,
-                maintainAspectRatio: false
+                maintainAspectRatio: true
             },
-        });     
+        });    
+        
+        
+        function pegarPorcentagens(){
+            //pegar também o servidor específico
+            let user_maquina = sessionStorage.getItem('ID_USUARIO');
 
-        function mudarTela(){
-            select = selecionaServidor.value
-            if(select == 1){
-                window.location = "dashboardAnalistaUmServidor.html";
-            } else if (select == 2){
-                window.location = "dashboardAnalistaUmServidor.html";
-            } else if (select == 3){
-                window.location = "dashboardAnalistaUmServidor.html";
-            }
+            fetch(`servidor/pegarCpuRamPorcentagem`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(dataCPU => {
+                console.log('% da cpu: ', dataCPU);
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+            });      
         }
 
     </script>

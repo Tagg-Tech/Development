@@ -45,3 +45,16 @@ select * from usuarioresponsavelmaquina;
 select * from registros;
 
 
+-- Grafico de linhas
+SELECT percentualCPU, percentualMemoria FROM registros WHERE fkMaquina = 1;
+
+-- Métrica de gigas
+SELECT gigaBytesMemoria FROM registros WHERE fkMaquina = 1;
+
+-- Métrica grafico de pizza
+SELECT qtdTotalDisco, qtdUtilizadaDisco FROM maquina AS m 
+	JOIN registros AS r WHERE m.idMaquina = r.fkMaquina;
+ 
+
+
+

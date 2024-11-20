@@ -39,6 +39,13 @@ function cadastrar(req, res) {
     }
 }
 
+function pegarCpuRamPorcentagem(req, res){
+    let user
+
+    servidorModel.pegarCpuRamPorcentagem()
+}
+
+
 module.exports = {
     cadastrar
 };
