@@ -1546,6 +1546,8 @@ h4 a {
       width: 90%;
       height: 85vh;
       text-align: center;
+      display: flex;
+      flex-direction: row;
   }
 
   .equipe-inner h1 {
@@ -2067,7 +2069,6 @@ h4 a {
     display: flex; 
     flex-direction: column; 
     align-items: center;
-    justify-content: center;
     /* flex-wrap: wrap;  */
     width: 100%; 
     height: 100%;
@@ -2282,38 +2283,6 @@ h4 a {
 .sidebar .car-icon i {
   font-size: 100px;
   color: #ffcc66;
-}
-
-
-.alertaChamado {
-  display: none;
-  cursor: pointer;
-  position: absolute;
-  top: 75vh;
-  right: 3vw;
-  background-color: #ff5722;
-  width: 18vw;
-  height: 20vh;
-  border: 5px solid #f5b14c; 
-  border-radius: 8px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0.8, 0.8, 0.8, 0.5);
-}
-
-.alertaChamado img {
-  width: 30%;
-  margin-bottom: 10px;
-}
-
-.alertaChamado p {
-  color: #fff;
-  font-size: 1em;
-  font-weight: bold;
-  text-align: center;
-  margin: 0;
 }
 
 

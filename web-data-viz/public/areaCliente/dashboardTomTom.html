@@ -6,7 +6,9 @@
     <script src="../js/sessao.js"></script>
     <title>Dashboard | Acesso Geral</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/style.css" />   
+    <link rel="stylesheet" href="../css/areaCliente/notificacaoAlerta.css">
+    <link rel="stylesheet" href="../css/dashTomTom.css">
     <script src="../js/alerta.js"></script>
 
     <!-- <link rel="stylesheet" href="areaCliente.css" /> -->
@@ -92,18 +94,91 @@
                 <button>Alertas</button>
             </div>
         </div>
+    </section>
 
-        <section class="container_gerenteV1">
-            <section class="container_dash_gerenteV1">
+        
+    <section class="container_gerenteV1">
+        <section class="container_dash_gerenteV1">
+            <div class="dash1">
                 <h3>10 pedágios mais utilizados</h3>
-                <div id="chart1">
+                <div class="dashPed">
+                    <div class="tableDash1">
+                        <table>
+                            <caption>Uso Estimado dos Pedágios</caption>
+                            <thead>
+                                <tr>
+                                    <th>Concessionária</th>
+                                    <th>Quilômetro</th>
+                                    <th>Uso Estimado (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Pedágio Alfa</td>
+                                    <td>km 45</td>
+                                    <td>95%</td>
+                                </tr>
+                                <tr>
+                                    <td>Pedágio Beta</td>
+                                    <td>km 30</td>
+                                    <td>85%</td>
+                                </tr>
+                                <tr>
+                                    <td>Pedágio Gama</td>
+                                    <td>km 60</td>
+                                    <td>75%</td>
+                                </tr>
+                                <tr>
+                                    <td>Pedágio Delta</td>
+                                    <td>km 20</td>
+                                    <td>50%</td>
+                                </tr>
+                                <tr>
+                                    <td>Pedágio Épsilon</td>
+                                    <td>km 10</td>
+                                    <td>30%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="graf1">
+                        <div id="chart1"></div>
+                        <div class="slider-container">
+                            <span>Range de data (Mês):</span>
+                            <input type="range" min="1" max="12" value="6" class="slider" id="myRange">
+                            <div class="slider-value" id="sliderValue">6</div>
+                        </div>
+                        <button>Expandir tabela</button>
+                    </div>
                 </div>
-            </section>
+                <div class="indicadoresDashPed">
+                    <div onclick="showMaisUti()" id="indMped">
+                        <span>Mais utilizado</span>
+                    </div>
+                    <div>
+                        <span>Menos utilizado</span>
+                    </div>
+                </div>
+            </div>
         </section>
     </section>
 </body>
 
 </html>
+
+<script>
+    // Indicadores gráfico pedágios:
+    var maisUti = "<span>CCR</span><span>80%</span>";
+    var menosUti = "<span>EcoVias</span><span>50%</span>";
+
+    function showMaisUti() {
+        if (!indMped.innerHTML.includes(maisUti)) {
+            indMped.innerHTML += maisUti;
+        } else{
+            indMped.innerHTML = "<span>Mais utilizado</span>";
+        }
+    }
+</script>
 
 <script>
     //menu hamburguer
@@ -133,11 +208,17 @@
         console.log(JSON.stringify(issues, null, 2));
     }
 
+
+</script>
+
+<script>
+    // Script gráfico 1
     window.addEventListener('onloadend', plotChart());
     function plotChart() {
         var options = {
             chart: {
-                height: 350,
+                height: 300,
+                width: 700,
                 type: "line",
                 stacked: false
             },
@@ -226,4 +307,14 @@
 
         chart.render();
     }
+</script>
+
+<!-- script slider -->
+<script>
+    const slider = document.getElementById("myRange");
+    const sliderValue = document.getElementById("sliderValue");
+
+    slider.addEventListener("input", () => {
+      sliderValue.textContent = slider.value;
+    });
 </script>

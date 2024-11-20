@@ -9,7 +9,7 @@ function atualizacaoPeriodica() {
     
     getChamadosAlerta()
     
-    setTimeout(atualizacaoPeriodica, 5000);
+    setTimeout(atualizacaoPeriodica, 12000);
 
 
 
@@ -91,4 +91,17 @@ function exibirAlerta(tipoChamado, servidorAtual){
 
 function irParaAlertas(){
     window.location.href = 'alerta.html';
+}
+
+
+function numeroPicosPorServidor(idServidor){
+  
+}
+
+function rankingForaDoAr(){
+
+}
+
+function qtdAlertasMensal(){
+
 }
