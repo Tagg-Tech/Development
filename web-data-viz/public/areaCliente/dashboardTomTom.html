@@ -22,6 +22,8 @@
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
+    <!-- bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- boxIcons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- AOS -->
@@ -97,7 +99,7 @@
         <section class="container_gerenteV1">
             <section class="container_dash_gerenteV1">
                 <div class="dash1">
-                    <h3>10 pedágios mais utilizados</h3>
+                    <h2>10 pedágios mais utilizados</h2>
                     <div class="dashPed">
                         <div class="tableDash1">
                             <table>
@@ -139,11 +141,12 @@
                             </table>
                         </div>
                         <div class="graf1">
+                            <!-- Gráfico de pedágios -->
                             <div id="chart1"></div>
                             <div class="slider-container">
                                 <span>Range de data (Mês):</span>
                                 <input type="range" min="1" max="12" value="6" class="slider" id="myRange">
-                                <div class="slider-value" id="sliderValue">6</div>
+                                <div class="slider-value" id="sliderValue">Mês: 6</div>
                             </div>
                             <button>Expandir tabela</button>
                         </div>
@@ -158,11 +161,24 @@
                     </div>
                 </div>
             </section>
-        </section><br><br>
 
-        <section>
-
-            <h2>asdn</h2>
+            <!-- 2º dashboard -->
+            <section class="container_dash_gerenteV1"><br>
+                <h2>Tempo médio até crash</h2>
+                <!-- Gráfico de regressão linear -->
+                 <div class="dashPed">
+                     <div id="chart2"></div>
+                     <!-- indicadores para dashboard -->
+                     <div class="indicadoresDashCrash">
+                        <div style="display: flex; margin-top: 50px;">
+                            <span class="indMaqDashCrash">Máquina 1: <i class="bi bi-pc-display"></i></span>
+                        </div>
+                        <span>Tempo aproximado até crash: 12 minutos</span>
+                        <span>Pico de uso de CPU: 76%</span>
+                        <button>Alterar máquina</button>
+                    </div>
+                 </div>
+            </section>
         </section>
     </section>
 </body>
@@ -312,12 +328,78 @@
     }
 </script>
 
+
+<!-- script gráfico 2 -->
+
+<script>
+    // Dados de exemplo
+    const scatterData = [
+      { x: 1, y: 2 },
+      { x: 2, y: 3 },
+      { x: 3, y: 5 },
+      { x: 4, y: 7 },
+      { x: 5, y: 8 },
+    ];
+
+    // Cálculo da regressão linear (simples, para fins de demonstração)
+    const xValues = scatterData.map(point => point.x);
+    const yValues = scatterData.map(point => point.y);
+    const n = xValues.length;
+
+    const sumX = xValues.reduce((a, b) => a + b, 0);
+    const sumY = yValues.reduce((a, b) => a + b, 0);
+    const sumXY = xValues.reduce((sum, x, i) => sum + x * yValues[i], 0);
+    const sumX2 = xValues.reduce((sum, x) => sum + x * x, 0);
+
+    const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+
+    // Dados da linha de regressão
+    const regressionLine = xValues.map(x => ({ x, y: slope * x + intercept }));
+
+    // Configuração do gráfico
+    const options = {
+      chart: {
+        type: 'line',
+        height: 300,
+        width: 500
+      },
+      series: [
+        {
+          name: 'Data Points',
+          type: 'line',
+          data: scatterData,
+        },
+        {
+          name: 'Regression Line',
+          type: 'line',
+          data: regressionLine,
+        },
+      ],
+      xaxis: {
+        title: {
+          text: 'X-Axis',
+        },
+      },
+      yaxis: {
+        title: {
+          text: 'Y-Axis',
+        },
+      },
+    };
+
+    // Renderizar o gráfico
+    const chart = new ApexCharts(document.querySelector("#chart2"), options);
+    chart.render();
+  </script>
+
+
 <!-- script slider -->
 <script>
     const slider = document.getElementById("myRange");
     const sliderValue = document.getElementById("sliderValue");
 
     slider.addEventListener("input", () => {
-      sliderValue.textContent = slider.value;
+      sliderValue.textContent = "Mês: " + slider.value + " de 2024";
     });
 </script>

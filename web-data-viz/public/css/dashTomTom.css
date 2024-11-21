@@ -4,7 +4,7 @@
     width: 100%;
 }
 
-.dash1 h3{
+.dash1 h2{
     text-align: center;
 }
 
@@ -15,7 +15,13 @@
     height: auto;
 }
 
+/* Estilização de tabelas */
 #chart1{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#chart2{
     margin: 0 !important;
     padding: 0 !important;
 }
@@ -81,7 +87,7 @@ caption {
     margin-left: 3%;
 }
 
-/* Indicadores da dashboard */
+/* Indicadores da dashboard pedagio*/
 .indicadoresDashPed{
     display: flex;
     margin-top: 15px;
@@ -98,4 +104,26 @@ caption {
     text-align: center;
     width: 150px;
     height: auto;
+}
+
+/* Indicadores da dashboard crash */
+.indicadoresDashCrash{
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.indMaqDashCrash{
+    font-size: 25px;
+    color: #806e3d;
+    font-weight: bolder;
+}
+
+.bi-pc-display{
+    font-size: 35px;
+    margin-left: 10px;
+    color: black;
 }
