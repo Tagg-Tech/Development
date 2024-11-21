@@ -41,10 +41,6 @@ async function getChamadosAlerta(){
       }
 
   
-      console.log(issues)
-      
-      console.log(numChamados)
-      console.log(issues.length)
 
       if(numChamados < issues.length){
         console.log("Entreeiiii")
@@ -80,7 +76,7 @@ function exibirAlerta(tipoChamado, servidorAtual){
         
         alertaTexto.textContent = `Alerta: O servidor ${servidorAtual} está fora do ar`;
     }else{
-        alertaTexto.textContent = `Alerta: O servidor ${servidorAtual} entrou em estado de pica!`;
+        alertaTexto.textContent = `Alerta: O servidor ${servidorAtual} entrou em estado de pico!`;
     }
 
 
@@ -94,8 +90,49 @@ function irParaAlertas(){
 }
 
 
-function numeroPicosPorServidor(idServidor){
+async function numeroPicosPorServidor(idServidor){
   
+  const response = await fetch("/verChamados", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  const issues = data.resultado.issues;
+  
+  var contPicos = 0;
+  
+
+  // Processando as issues
+  issues.forEach(issue => {
+
+
+    const chamadoAtual = issue.fields;
+    const descAtual = chamadoAtual.description;
+
+
+
+    const tipoChamado = chamadoAtual.project.key;
+
+    const index = descAtual.indexOf("''");
+    if (index !== -1) {  
+        var servidorAtual = descAtual.substring(index + 2);
+    }
+
+
+    if(tipoChamado == "TTCS" && servidorAtual == idServidor){
+        contPicos ++;
+    }
+
+    
+  });
+
+
+
+  return contPicos;
+
 }
 
 function rankingForaDoAr(){
