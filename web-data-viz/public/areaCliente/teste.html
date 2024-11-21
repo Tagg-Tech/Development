@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="../js/alerta.js"></script>
+    <link rel="stylesheet" href="../css/areaCliente/notificacaoAlerta.css">
 </head>
-<body>
+<body onload = "testeRanking()">
     <input type="text" id="inputData" maxlength="10" placeholder="DD/MM/YYYY" onkeyup="mascaraData(event)">
-</body>
+</body >
 </html>
 <script>
+
+    async function testeRanking(){
+        var listaDownTimes = await rankingForaDoAr()
+        console.log(listaDownTimes)
+    }
+
+    async function mostrarQtd(){
+        console.log("entrei")
+        var nome = "HAROLDO"
+        var qtd = await numeroPicosPorServidor(nome)
+
+        alert(qtd)
+    } 
     function mascaraData(event) {
         var input = document.getElementById("inputData");
         var data = input.value;

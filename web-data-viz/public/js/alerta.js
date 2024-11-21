@@ -43,7 +43,6 @@ async function getChamadosAlerta(){
   
 
       if(numChamados < issues.length){
-        console.log("Entreeiiii")
         var novoChamado = issues[issues.length - 1]
         novoChamado = novoChamado.fields
         const descAtual = novoChamado.description; // Supondo que você tenha um campo 'description'  
@@ -104,6 +103,7 @@ async function numeroPicosPorServidor(idServidor){
   
   var contPicos = 0;
   
+  console.log(issues)
 
   // Processando as issues
   issues.forEach(issue => {
@@ -135,8 +135,81 @@ async function numeroPicosPorServidor(idServidor){
 
 }
 
-function rankingForaDoAr(){
+async function rankingForaDoAr(){
+  
 
+  const response = await fetch("/verChamados", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  const issues = data.resultado.issues;
+
+
+  const listaChamadosDown = []
+
+
+  issues.forEach(issue => {
+
+
+    const chamadoAtual = issue.fields;
+    const tipoChamado = chamadoAtual.project.key;
+
+    if (tipoChamado == "DOWN"){
+      const chamado = chamadoAtual.description;
+
+
+      index = chamado.indexOf("''");
+      index2 = chamado.indexOf("ficou") - 1
+      if (index !== -1) {  
+          var servidorAtual = chamado.substring(index + 2,  index2  );
+  
+      }else{
+        var servidorAtual = null
+      }
+     
+      var index = chamado.indexOf("**");
+      if (index !== -1) { 
+          var dataAtual = chamado.substring(index + 2, index + 19);
+          dataAtual = new Date(dataAtual) 
+      }
+
+      var fimDownTime = chamadoAtual.customfield_10046.completedCycles[0]  
+
+
+      if(fimDownTime == undefined){
+        var dataFechamento = new Date()
+      }else{
+        var dataFechamento = new Date(fimDownTime.stopTime.iso8601)
+      }
+
+      var tempoDownTime = dataAtual - dataFechamento;
+
+      // Convertendo milissegundos para minutos
+      var diferencaHoras = Math.floor(tempoDownTime / (1000 * 60));
+
+      diferencaHoras = Math.round(diferencaHoras / 60, 2)
+
+      //Deixando o valor positivo
+      diferencaHoras = Math.abs(diferencaHoras)
+
+      var servidor = listaChamadosDown.find(item => item.nome === servidorAtual);
+
+      if (servidor) {
+        // Incrementa o downtime se o nome já estiver na lista
+        servidor.downtime += diferencaHoras;
+      } else {
+        // Adiciona um novo servidor na lista se ele não existir
+        listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
+      }
+
+    }
+  });
+
+  return listaChamadosDown;
 }
 
 function qtdAlertasMensal(){
