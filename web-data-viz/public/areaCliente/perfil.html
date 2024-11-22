@@ -30,7 +30,7 @@
                 <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body onload="direcionarDashboard(), validarSessao(), adicionarCampos(),atualizacaoPeriodica()">
+<body onload="direcionarDashboard(), validarSessao(), adicionarCampos(),atualizacaoPeriodica(), alertarAgora()">
     <!-- direcionarDashboard(), validarSessao(), adicionarCampos() -->
     <div class="header">
         <nav>
@@ -114,6 +114,15 @@
 </html>
 
 <script>
+
+    async function alertarAgora() {
+        var servidor = "HAROLDO";
+        var qtdAlertas = await numeroPicosPorServidor(servidor);
+
+        console.log(qtdAlertas)
+    }
+    
+
     function adicionarCampos(){
         var nome = sessionStorage.NOME_USUARIO;
         var email = sessionStorage.EMAIL_USUARIO;

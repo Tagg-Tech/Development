@@ -2064,11 +2064,12 @@ h4 a {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    gap: 50px;
     overflow: auto;
 }
   .container_dash_gerenteV1{
     position: relative;
-    top: 70px;
+
     display: flex; 
     flex-direction: column; 
     align-items: center;
@@ -2086,11 +2087,6 @@ h4 a {
 
     /* background-color: #545454; */
     border: 2px solid black;
-  }
-  
-  #chart1 {
-    width: 850px;
-    margin: 35px auto;
   }
 
   .ranking_downtime{

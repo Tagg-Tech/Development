@@ -14,4 +14,9 @@ router.get("/selectRam", function(req, res){
     gerenteController.reqDadosRam(req, res, idUsuario);
 })
 
+router.get("/selectLimite", function(req, res){
+    const idUsuario = req.query.idUsuario
+    gerenteController.reqLimites(req,res,idUsuario);
+})
+
 module.exports = router;

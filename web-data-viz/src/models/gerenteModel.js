@@ -16,8 +16,18 @@ function reqDadosRam(idUsuario){
     console.log("Executando a instrução SQL(ram): \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+function reqLimites(idUsuario){
+
+    var instrucaoSql = `
+       SELECT maq.alertaCPU, maq.alertaRAM FROM usuarioResponsavelMaquina JOIN maquina AS maq ON fkMaquina = idMaquina WHERE fkUsuario = ${idUsuario};
+    `;
+    console.log("Executando a instrução SQL(ram): \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 
 module.exports = {
     reqDados,
-    reqDadosRam
+    reqDadosRam,
+    reqLimites
 };

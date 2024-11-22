@@ -40,7 +40,7 @@
     <title>Tag Tech</title>
 </head>
 
-<body onload="atualizacaoPeriodica(), selecionarDados()">
+<body onload="atualizacaoPeriodica(), selecionarDados(),buscarLimites()">
 
     <div class="header">
         <nav>
@@ -327,6 +327,7 @@ function selecionarDados() {
   .then(data => {
       console.log('Dados recebidos CPU:', data);
       atualizarGraficoCpu(data);
+      alertarLimite(data);
       
   })
   .catch(error => {
@@ -351,5 +352,34 @@ function selecionarDados() {
   setInterval(selecionarDados, 300000);
 }
 
+function buscarLimites(){
+  const idUsuario = sessionStorage.getItem('ID_USUARIO');
 
+  fetch(`/gerente/selectLimite?idUsuario=${idUsuario}`,{
+    method: 'GET',
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  }).then(response => response.json())
+  .then(data3 => {
+      console.log('Dados recebidos Limites:', data3);
+      alertarLimite(data3);
+  })
+  .catch(error => {
+      console.error('Erro ao enviar os dados:', error);
+  });
+}
+
+function alertarLimite(data,data3){
+  console.log()
+  const limiteCpu = data3.map(item => item.alertaCPU);
+  const limiteRAM = data3.map(item => item.alertaRAM);
+  const mediaPercentualCpu = data.map(item => item.mediaPercentualCPU);
+  
+  if(mediaPercentualCpu>=limiteCpu){
+    console.error("CPU ACIMA DO LIMITE EM ALGUM SERVIDOR")
+  }
+
+
+}
 </script>
