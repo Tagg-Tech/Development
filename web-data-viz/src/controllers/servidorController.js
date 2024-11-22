@@ -40,12 +40,32 @@ function cadastrar(req, res) {
 }
 
 function pegarCpuRamPorcentagem(req, res){
-    let user
+    var id_usuario = req.body.idUsuarioServer;
+    var fk_maquina = req.body.fkMaquinaServer;
 
-    servidorModel.pegarCpuRamPorcentagem()
+    console.log('controler')
+    if(!id_usuario || !fk_maquina){
+        return res.status(400).send({message: 'id do usuário ou fk máquina não foram encontrados ou não foram passados, verificar controller servidor function pegarCpuRamPorcentagem'})
+    }
+    else{
+        console.log('model')
+        servidorModel.pegarCpuRamPorcentagem(id_usuario, fk_maquina)
+        .then(dados => {
+            console.log("SQL aceitou! Retornando dados com a resposta")
+            res.status(200).send(dados);  
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).send({ message: `
+                ***ERRO INTERNO DO SERVIDOR***
+                Verificar controller 
+                ` });
+        });
+    }
 }
 
 
 module.exports = {
-    cadastrar
+    cadastrar,
+    pegarCpuRamPorcentagem
 };

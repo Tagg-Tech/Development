@@ -29,7 +29,7 @@ VALUES (
 
 
 
-INSERT INTO usuarioresponsavelmaquina VALUES (1,1),(1,2),(1,3);
+-- INSERT INTO usuarioresponsavelmaquina VALUES (1,1),(1,2),(1,3);
 
 
 -- EXEMPLO INSERT REGISTROS
@@ -80,7 +80,8 @@ INSERT INTO registros (percentualMemoria, gigaBytesMemoria, qtdUtilizadaDisco, p
 (74.50, 14.91, 130410, 69.42, 59.40, 3.86, '2024-11-19 08:03:25', 1),
 (74.55, 14.92, 130420, 69.45, 59.50, 3.87, '2024-11-19 08:03:30', 1),
 (74.60, 14.93, 130430, 69.47, 59.60, 3.88, '2024-11-19 08:03:35', 1),
-(74.65, 14.94, 130440, 69.50, 59.70, 3.89, '2024-11-19 08:03:40', 1);
+(74.65, 14.94, 130440, 69.50, 59.70, 3.89, '2024-11-19 08:03:40', 1),
+(69.40, 15.00, 130000, 65.17, 43.13, 3.13, '2024-11-22 10:55:13', 1);
 
 INSERT INTO usuarioResponsavelMaquina VALUES
 (1,1);
@@ -100,15 +101,16 @@ select * from registros;
 
 
 -- Grafico de linhas
-SELECT percentualCPU, percentualMemoria FROM registros WHERE fkMaquina = 1;
+SELECT percentualCPU, percentualMemoria FROM registros AS r 
+	JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = u.fkMaquina
+    WHERE u.fkUsuario = 1;
 
 -- Métrica de gigas
 SELECT gigaBytesMemoria FROM registros WHERE fkMaquina = 1;
 
 -- Métrica grafico de pizza
 SELECT qtdTotalDisco, qtdUtilizadaDisco FROM maquina AS m 
-	JOIN registros AS r WHERE m.idMaquina = r.fkMaquina;
+	JOIN registros AS r ON m.idMaquina = r.fkMaquina;
  
-
 
 

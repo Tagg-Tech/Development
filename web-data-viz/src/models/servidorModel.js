@@ -9,6 +9,17 @@ function cadastrar(placaderede, memoria, sistemaOperacional, cpu, disco, porcent
     return database.executar(instrucaoSql);
 }
 
+function pegarCpuRamPorcentagem(id_usuario, fk_maquina){
+    var instrucaoSql = `
+        SELECT percentualCPU, percentualMemoria FROM registros AS r 
+	        JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = '${fk_maquina}'
+            WHERE u.fkUsuario = '${id_usuario}';
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
-    cadastrar
+    cadastrar,
+    pegarCpuRamPorcentagem
 };

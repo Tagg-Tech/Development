@@ -1,5 +1,5 @@
-var ambiente_processo = 'producao';
-// var ambiente_processo = 'desenvolvimento';
+// var ambiente_processo = 'producao';
+var ambiente_processo = 'desenvolvimento';
 
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 // Acima, temos o uso do operador ternário para definir o caminho do arquivo .env
@@ -20,7 +20,8 @@ var empresaRouter = require("./src/routes/empresas");
 //Conexão cadastro do funcionário
 var funcionarioRouter = require("./src/routes/funcionarios");
 //Conexão cadastro do servidor
-var servidorRouter = require("./src/routes/servidores");
+var servidoresRouter = require("./src/routes/servidores");
+var servidorRouter = require("./src/routes/servidor");
 //Conexão gerente(dados Servidores CPU) para GERENTE
 var gerenteRouter = require("./src/routes/gerente.js");
 
@@ -37,7 +38,8 @@ app.use(cors());
 
 app.use("/empresas", empresaRouter);
 app.use("/funcionarios", funcionarioRouter);
-app.use("/servidores", servidorRouter);
+app.use("/servidores", servidoresRouter);
+app.use("/servidor", servidorRouter);
 app.use("/gerente", gerenteRouter)
 
 app.listen(PORTA_APP, function () {
