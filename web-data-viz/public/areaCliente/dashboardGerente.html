@@ -327,6 +327,7 @@ function selecionarDados() {
   .then(data => {
       console.log('Dados recebidos CPU:', data);
       atualizarGraficoCpu(data);
+      alertarLimite(data);
       
   })
   .catch(error => {
@@ -369,7 +370,16 @@ function buscarLimites(){
   });
 }
 
-function alertarLimite(data3){
-console.log(data3)
+function alertarLimite(data,data3){
+  console.log()
+  const limiteCpu = data3.map(item => item.alertaCPU);
+  const limiteRAM = data3.map(item => item.alertaRAM);
+  const mediaPercentualCpu = data.map(item => item.mediaPercentualCPU);
+  
+  if(mediaPercentualCpu>=limiteCpu){
+    console.error("CPU ACIMA DO LIMITE EM ALGUM SERVIDOR")
+  }
+
+
 }
 </script>
