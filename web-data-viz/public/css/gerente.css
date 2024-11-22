@@ -2,16 +2,15 @@
     overflow-y: hidden;
 }
 
-
-
 .container_gerente{
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    height: 98vh;
+    height: 91vh;
     padding-top: 10vh;
-    margin-left: 32vh;
+    justify-content: center;
+    margin-left: 20vh;
 }
 .faq{
     display: flex;
