@@ -125,11 +125,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+
+        //--------------Gráfico de linhas------------------------------------//
         //Instanciando gráfico de linahs
         let ctxLine = document.getElementById("LineChart").getContext("2d");
 
         //Corpo do gráfico
-        var graficoLinha = new Chart(
+        let graficoLinha = new Chart(
             ctxLine, {
                 type: "line",
                 data: {
@@ -170,109 +172,40 @@
             }
         );
 
-        //valores temporários atribuidos para testes
-        let fk_maquina = 1;
-        let id_usuario = 1;
-        // let fk_maquina = sessionStorage.getItem('FK_MAQUINA');
-        // let id_usuario = sessionStorage.getItem('ID_USUARIO');
-        
         //arrays que vão armazenar os dados vindos do banco para compor o gráfico de linhas
         let listaDadosHora = [];
         let percentuaisCPU = [];
         let percentuaisRAM = [];
-        
-        //função para atualizar os valores plotados no gráfico de linhas
-        function graficoDinamico() {
 
-            //fetch para trazer os dados do banco
-            fetch(`../servidor/pegarCpuRamPorcentagem`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    idUsuarioServer: id_usuario,
-                    fkMaquinaServer: fk_maquina
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then((response) => {
-                if(!response.ok) {
-                    throw new Error("rede n ok")
-                }
-                response.json().then(dados => {
-                    //mapeando a primeira coluna
-                    const valoresCPU = dados.map(dado => dado.percentualCPU);
-                    //mapeando a segunda coluna
-                    const valoresMemoria = dados.map(dado => dado.percentualMemoria);
+        //--------------Gráfico de linhas-------------------------------------------------//
 
-                    //pegando o ultimo valor da coluna CPU
-                    ultimoValorCPU = valoresCPU[valoresCPU.length - 1]
-                    ultimoValorRAM = valoresMemoria[valoresMemoria.length - 1]
+        //--------------------------------------------------------------------------------//
 
-                    //colocando os ultimos 5 valores da cpu num array
-                    for(var i = dados.length - 5; i < dados.length; i++){
-                        percentuaisCPU.push(ultimoValorCPU)
-                        percentuaisRAM.push(ultimoValorRAM)
-                    }
+        //--------------Gráfico de pizza--------------------------------------------------//
 
-                    //preparando o grafico para guardar 5 valores
-                    if (listaDadosHora.length > 5) {
-                        percentuaisCPU.shift();
-                        percentuaisRAM.shift();
-                        listaDadosHora.shift();
-                    }
-
-                    //Compondo o corpo do gráfico com os valores puxados do banco
-                    graficoLinha.data.labels = listaDadosHora;
-                    graficoLinha.data.datasets[0].data = percentuaisCPU;
-                    graficoLinha.data.datasets[1].data = percentuaisRAM;
-                    graficoLinha.update();
-                });
-            })
-            .catch(error => {
-                console.error('Erro ao enviar os dados:', error);
-            }); 
-
-            //eixo X do gráfico de linhas com hora atual
-            listaDadosHora.push(new Date().toLocaleTimeString());
-        
-            // Schedule next update
-            setTimeout(graficoDinamico, 3000);
-        }
-
-
-
-
-
-
-
-
-
-
-
-       // Gráfico de Pizza
-       const ctxPizza = document.getElementById('meuGrafico').getContext('2d');
-        const meuGrafico = new Chart(ctxPizza, {
+        let ctxPizza = document.getElementById('meuGrafico').getContext('2d');
+        let meuGrafico = new Chart(ctxPizza, {
             type: 'pie',
             data: {
                 labels: ['Livre','Ocupado'],
                 datasets: 
                 [
                     {
-                        data: ["90","10"],
+                        // data: [90,10],
                         backgroundColor: ["#fe914c","#8b5736"],
                     }
                 ]
             },
             options: {
                 tooltips:{
-                    enable: false
+                    enable: false,
+                    tooltipTemplate: '<%= value + "%" %>'
                 },
                 plugins: {
                     datalabels: {
-                        formatter: (value, ctx) => {
+                        formatter: (value, ctxPizza) => {
                             let sum = 0;
-                            let dataArr = ctx.chart.data.datasets[0].data;
+                            let dataArr = ctxPizza.chart.data.datasets[0].data[0];
                             dataArr.map(data => {
                                 sum += data;
                             });
@@ -304,6 +237,119 @@
                 maintainAspectRatio: true
             },
         });    
+
+
+
+        //--------------Gráfico de pizza--------------------------------------------------//
+
+        //valores temporários atribuidos para testes
+        let fk_maquina = 1;
+        let id_usuario = 1;
+        // let fk_maquina = sessionStorage.getItem('FK_MAQUINA');
+        // let id_usuario = sessionStorage.getItem('ID_USUARIO');
+        
+
+        
+        //função para atualizar os valores plotados no gráfico de linhas e pizza
+        function graficoDinamico() {
+
+            //------------------------Gráfico de linhas---------------------------------//
+
+            //fetch para trazer os dados do banco do grafico de linhas
+            fetch(`../servidor/pegarCpuRamPorcentagem`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    idUsuarioServer: id_usuario,
+                    fkMaquinaServer: fk_maquina
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                if(!response.ok) {
+                    throw new Error("rede n ok")
+                }
+                response.json().then(dados => {
+                    //mapeando a primeira coluna
+                    const valoresCPU = dados.map(dado => dado.percentualCPU);
+                    //mapeando a segunda coluna
+                    const valoresMemoria = dados.map(dado => dado.percentualMemoria);
+
+                    //pegando o ultimo valor da coluna CPU
+                    ultimoValorCPU = valoresCPU[valoresCPU.length - 1]
+                    ultimoValorRAM = valoresMemoria[valoresMemoria.length - 1]
+
+                    //colocando os ultimos 5 valores da cpu num array
+                    percentuaisCPU.push(ultimoValorCPU)
+                    percentuaisRAM.push(ultimoValorRAM)
+                    
+                    console.log("pra q esse for serve: ", percentuaisCPU)
+
+                    //preparando o grafico para guardar 5 valores
+                    if (listaDadosHora.length > 5) {
+                        percentuaisCPU.shift();
+                        percentuaisRAM.shift();
+                        listaDadosHora.shift();
+                    }
+
+                    //Compondo o corpo do gráfico com os valores puxados do banco
+                    graficoLinha.data.labels = listaDadosHora;
+                    graficoLinha.data.datasets[0].data = percentuaisCPU;
+                    graficoLinha.data.datasets[1].data = percentuaisRAM;
+                    graficoLinha.update();
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+            }); 
+
+            //eixo X do gráfico de linhas com hora atual
+            listaDadosHora.push(new Date().toLocaleTimeString());
+
+            //------------------------Gráfico de linhas---------------------------------//
+
+            //------------------------Gráfico de pizza---------------------------------//
+
+            fetch(`../servidor/pegarUsoDisco`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    idUsuarioServer: id_usuario,
+                    fkMaquinaServer: fk_maquina
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                if(!response.ok) {
+                    throw new Error("rede n ok")
+                }
+                response.json().then(dados => {
+                    //mapeando a primeira coluna
+                    const atualDisco = dados.map(dado => dado.percentualDisco);
+
+                    //pegando o ultimo valor da coluna do disco
+                    ultimoValorDisco = atualDisco[atualDisco.length - 1]
+
+                    //cálculo para espaço livre
+                    let espaco_livre = 100 - ultimoValorCPU;
+
+                    //Compondo o corpo do gráfico com os valores puxados do banco
+                    meuGrafico.data.datasets[0].data[0] = espaco_livre;
+                    meuGrafico.data.datasets[0].data[1] = ultimoValorDisco;
+                    meuGrafico.update();
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+            }); 
+
+            //------------------------Gráfico de pizza---------------------------------//
+        
+            // Schedule next update
+            setTimeout(graficoDinamico, 3000);
+        }
 
     </script>
 </body>

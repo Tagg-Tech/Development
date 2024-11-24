@@ -15,11 +15,22 @@ function pegarCpuRamPorcentagem(id_usuario, fk_maquina){
 	        JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = '${fk_maquina}'
             WHERE u.fkUsuario = '${id_usuario}';
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    //console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function pegarUsoDisco(fk_maquina){
+    var instrucaoSql = `
+        SELECT percentualDisco FROM registros AS r
+        	JOIN usuarioResponsavelMaquina AS u ON r.fkMaquina = u.fkMaquina
+            WHERE u.fkMaquina = '${fk_maquina}'; 
+    `;
+    //console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 module.exports = {
     cadastrar,
-    pegarCpuRamPorcentagem
+    pegarCpuRamPorcentagem,
+    pegarUsoDisco
 };
