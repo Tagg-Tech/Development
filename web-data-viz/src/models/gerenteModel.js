@@ -1,3 +1,4 @@
+const { buscarTodos } = require("../controllers/gerenteController");
 var database = require("../database/config");
 
 function reqDados(idUsuario) {
@@ -19,7 +20,16 @@ function reqDadosRam(idUsuario){
 function reqLimites(idUsuario){
 
     var instrucaoSql = `
-       SELECT maq.alertaCPU, maq.alertaRAM FROM usuarioResponsavelMaquina JOIN maquina AS maq ON fkMaquina = idMaquina WHERE fkUsuario = ${idUsuario};
+       SELECT maq.idMaquina, maq.alertaCPU, maq.alertaRAM FROM usuarioResponsavelMaquina JOIN maquina AS maq ON fkMaquina = idMaquina WHERE fkUsuario = ${idUsuario};
+    `;
+    console.log("Executando a instrução SQL(ram): \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+function buscarSemMedia(idUsuario){
+
+    var instrucaoSql = `
+        SELECT reg.fkMaquina AS maquina, reg.percentualCPU AS regCpu, reg.percentualMemoria as regRAM FROM registros reg JOIN usuarioResponsavelMaquina assoc ON reg.fkMaquina = assoc.fkMaquina WHERE assoc.fkUsuario = ${idUsuario} AND reg.dataHora >= CURDATE() AND reg.dataHora <= NOW() ORDER BY regCpu DESC;
+
     `;
     console.log("Executando a instrução SQL(ram): \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -29,5 +39,6 @@ function reqLimites(idUsuario){
 module.exports = {
     reqDados,
     reqDadosRam,
-    reqLimites
+    reqLimites,
+    buscarSemMedia
 };
