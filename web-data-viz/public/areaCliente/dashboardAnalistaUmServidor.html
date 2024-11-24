@@ -31,6 +31,10 @@
                 <link rel="icon" href="../assets/TagTech/img/logo1.png" />
                 <script src="../js/sessao.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.4.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
 
 </head>
 
@@ -130,7 +134,7 @@
         //Instanciando gráfico de linahs
         let ctxLine = document.getElementById("LineChart").getContext("2d");
 
-        //Corpo do gráfico
+        //Corpo do gráfico de linhas
         let graficoLinha = new Chart(
             ctxLine, {
                 type: "line",
@@ -141,6 +145,7 @@
                             label: "CPU",
                             // data: [4, 5, 6],
                             borderColor: "#fe914c",
+                            color: 'black',
                             backgroundColor: "#fe914c",
                         },
                         {
@@ -158,14 +163,16 @@
                         legend: {
                             position: "top",
                             labels: {
-                                font: { size: 18 }
+                                font: { size: 18 },
+                                color: 'black'
                             },
                         },
                         title: {
                             display: true,
                             text: "Uso de CPU e RAM (%)",
                             font: { size: 24 },
-                            padding: { bottom: 30 }
+                            padding: { bottom: 30 },
+                            color: 'black'
                         },
                     },
                 },
@@ -181,13 +188,14 @@
 
         //--------------------------------------------------------------------------------//
 
-        //--------------Gráfico de pizza--------------------------------------------------//
+        //--------------Gráfico de pizza-------------------------COMEÇO--------------------//
 
         let ctxPizza = document.getElementById('meuGrafico').getContext('2d');
+        //Corpo do gráfico de pizza
         let meuGrafico = new Chart(ctxPizza, {
             type: 'pie',
             data: {
-                labels: ['Livre','Ocupado'],
+                // labels: ['Livre','Ocupado'],
                 datasets: 
                 [
                     {
@@ -198,39 +206,36 @@
             },
             options: {
                 tooltips:{
-                    enable: false,
-                    tooltipTemplate: '<%= value + "%" %>'
+                    enable: true,
                 },
                 plugins: {
                     datalabels: {
-                        formatter: (value, ctxPizza) => {
+                        formatter: (value, ctx) => {
                             let sum = 0;
-                            let dataArr = ctxPizza.chart.data.datasets[0].data[0];
+                            let dataArr = ctx.chart.data.datasets[0].data[0];
                             dataArr.map(data => {
-                                sum += data;
-                            });
-                            let percentage = (value * 100 / sum).toFixed(2) + "%";
-                            return percentage;
-                        },
-                        color: 'white',
-                        font: {
-                            size: 16
-                        },
-                        // formatter: (value, context) => {
-                        //     return value + '%';
-                        // },
+                                 sum += data;
+                         });
+                        let percentage = (value*100 / sum).toFixed(2)+"%";
+                        return percentage;
+                    },
                     },
                     legend: {
                         position: 'left',
                         labels: {
-                            font: { size: 18 }
+                            font: { 
+                                size: 21,
+                                wight: 'bold' 
+                            },
+                            color: 'black'
                         },
                     },
                     title: {
                         display: true,
                         text: 'Disco Usado x Livre (%)',
                         font: { size: 24 },
-                        padding: { bottom: 30 }
+                        padding: { bottom: 30 },
+                        color: 'black'
                     }
                 },
                 responsive: false,
@@ -238,17 +243,13 @@
             },
         });    
 
-
-
-        //--------------Gráfico de pizza--------------------------------------------------//
+        //--------------Gráfico de pizza-------------------FIM----------------------------//
 
         //valores temporários atribuidos para testes
         let fk_maquina = 1;
         let id_usuario = 1;
         // let fk_maquina = sessionStorage.getItem('FK_MAQUINA');
         // let id_usuario = sessionStorage.getItem('ID_USUARIO');
-        
-
         
         //função para atualizar os valores plotados no gráfico de linhas e pizza
         function graficoDinamico() {
@@ -283,8 +284,6 @@
                     //colocando os ultimos 5 valores da cpu num array
                     percentuaisCPU.push(ultimoValorCPU)
                     percentuaisRAM.push(ultimoValorRAM)
-                    
-                    console.log("pra q esse for serve: ", percentuaisCPU)
 
                     //preparando o grafico para guardar 5 valores
                     if (listaDadosHora.length > 5) {
@@ -297,6 +296,8 @@
                     graficoLinha.data.labels = listaDadosHora;
                     graficoLinha.data.datasets[0].data = percentuaisCPU;
                     graficoLinha.data.datasets[1].data = percentuaisRAM;
+                    graficoLinha.data.datasets[0].label = "CPU: " + ultimoValorCPU + " %";
+                    graficoLinha.data.datasets[1].label = "RAM: " + ultimoValorRAM + " %";
                     graficoLinha.update();
                 });
             })
@@ -333,11 +334,13 @@
                     ultimoValorDisco = atualDisco[atualDisco.length - 1]
 
                     //cálculo para espaço livre
-                    let espaco_livre = 100 - ultimoValorCPU;
+                    let espaco_livre = 100 - ultimoValorDisco;
 
                     //Compondo o corpo do gráfico com os valores puxados do banco
                     meuGrafico.data.datasets[0].data[0] = espaco_livre;
                     meuGrafico.data.datasets[0].data[1] = ultimoValorDisco;
+                    meuGrafico.data.labels[0] = "Livre: " + espaco_livre + " %";
+                    meuGrafico.data.labels[1] = "Ocupado: " + ultimoValorDisco + " %";
                     meuGrafico.update();
                 });
             })
