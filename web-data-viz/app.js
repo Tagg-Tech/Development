@@ -38,11 +38,13 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 
+//Configuração de rotas
 app.use("/empresas", empresaRouter);
 app.use("/funcionarios", funcionarioRouter);
 app.use("/servidores", servidoresRouter);
 app.use("/servidor", servidorRouter);
 app.use("/gerente", gerenteRouter)
+app.use("/tomtom", dash5);
 
 app.listen(PORTA_APP, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n`)
