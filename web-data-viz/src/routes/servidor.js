@@ -12,4 +12,8 @@ router.post("/pegarCpuRamPorcentagem", function (req, res){
     servidorController.pegarCpuRamPorcentagem(req, res);
 })
 
+router.post("/pegarUsoDisco", function (req, res){
+    servidorController.pegarUsoDisco(req, res);
+})
+
 module.exports = router;

@@ -64,8 +64,33 @@ function pegarCpuRamPorcentagem(req, res){
     }
 }
 
+function pegarUsoDisco(req, res){
+    var fk_maquina = req.body.fkMaquinaServer;
+
+    console.log('controler')
+    if(!fk_maquina){
+        return res.status(400).send({message: 'fk máquina não foram encontrados ou não foram passados, verificar controller servidor function pegarUsoDisco'})
+    }
+    else{
+        console.log('model')
+        servidorModel.pegarUsoDisco(fk_maquina)
+        .then(dados => {
+            console.log("SQL aceitou! Retornando dados com a resposta")
+            res.status(200).send(dados);  
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).send({ message: `
+                ***ERRO INTERNO DO SERVIDOR***
+                Verificar controller 
+                ` });
+        });
+    }
+}
+
 
 module.exports = {
     cadastrar,
-    pegarCpuRamPorcentagem
+    pegarCpuRamPorcentagem,
+    pegarUsoDisco
 };
