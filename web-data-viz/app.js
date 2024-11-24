@@ -24,9 +24,11 @@ var servidoresRouter = require("./src/routes/servidores");
 var servidorRouter = require("./src/routes/servidor");
 //Conexão gerente(dados Servidores CPU) para GERENTE
 var gerenteRouter = require("./src/routes/gerente.js");
+//Conexão 5º Dash(Dados TomTom)
+var dash5 = require("./src/routes/tomtom.js");
+
 
 const getIssues = require('./src/routes/get-issues.js');
-
 
 
 
