@@ -26,9 +26,9 @@ var servidorRouter = require("./src/routes/servidor");
 var gerenteRouter = require("./src/routes/gerente.js");
 //Conexão analista(tdados Servidores CPU,RAM e Disco) para GERENTE
 var analistaRouter = require("./src/routes/analista.js")
-
+//Conexão 5º Dash(Dados TomTom)
+var dash5 = require("./src/routes/tomtom.js");
 const getIssues = require('./src/routes/get-issues.js');
-
 
 
 
@@ -38,12 +38,12 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 
+//Configuração de rotas
 app.use("/empresas", empresaRouter);
 app.use("/funcionarios", funcionarioRouter);
 app.use("/servidores", servidoresRouter);
 app.use("/servidor", servidorRouter);
 app.use("/gerente", gerenteRouter)
-app.use("/analista",analistaRouter)
 
 app.listen(PORTA_APP, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n`)
