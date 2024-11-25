@@ -17,19 +17,18 @@ function listarMaquinas(req, res) {
         });
 }
 
-function listarRegistros(req, res) {
-    var idEmpresa = req.params.idEmpresa;
-    var intervalo = req.query.intervalo || 'DIARIO'; // Diário como padrão
+function listarRegistros(req, res, idEmpresa, filtro) {
+    var componente = filtro || 'CPU'; // Define 'CPU' como padrão caso o filtro não seja fornecido
 
-    analistaModel.buscarRegistros(idEmpresa, intervalo)
-        .then(function (resultado) {
+    analistaModel.buscarUltimosRegistros(idEmpresa, componente)
+        .then((resultado) => {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
             } else {
                 res.status(404).send("Nenhum registro encontrado.");
             }
         })
-        .catch(function (erro) {
+        .catch((erro) => {
             console.error("Erro ao buscar registros:", erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);
         });

@@ -6,7 +6,7 @@
     <title>Dashboard | Servidores</title>
     <link rel="stylesheet" href="areaCliente.css" />
     <link rel="stylesheet" href="../css/areaCliente/notificacaoAlerta.css">
-    <link rel="icon" href="./assets/icon/favicon2.ico">
+    <link rel="icon" href="../assets/TagTech/img/logo1.png" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <script src="../js/sessao.js"></script>
@@ -18,11 +18,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
         integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-     <link rel="icon" href="../assets/TagTech/img/logo1.png" />
-
-    
-     <script src="../js/alerta.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="../js/alerta.js"></script>
 </head>
 
 <body onload="atualizacaoPeriodica()">
@@ -30,15 +27,15 @@
         <nav>
             <div class="menu">
                 <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
-                <span style="font-size: 40px; font-weight: bold; margin-left: 16%; color: white;">DashBoard Analista</span>
+                <span style="font-size: 40px; font-weight: bold; margin-left: 5%; color: white;">DashBoard Analista</span>
                 <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
                     <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
                     <p id="pAlerta"></p>
                 </div>
-                
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
                 <ul class="navbar">
-                    <li><a href="dashboardAnalista.html"><strong>Dashboard</strong></a></li>
+                    <li><a href="gerenciar_servidor.html"><strong>Baixar relatório</strong></a></li>
+                    <li><a href="gerenciar_servidor.html"><strong>Cadastro de Servidor</strong></a></li>
                     <li><a href="alerta.html"><strong>Alertas</strong></a></li>
                     <li><a href="index.html#cards"><strong>Help Desk</strong></a></li>
                     <li><a href="perfil.html"><strong>Perfil</strong></a></li>
@@ -52,66 +49,32 @@
             </div>
         </nav>
     </div>
-    
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h1>TAG TECH</h1>
-        <p>Olá, Fernando!</p>
-        <div class="metrics buttons">
-            <h2>Filtros</h2>
-            <select id="amostraTempo" onchange="alterarValores()">
-                <option selected disabled>Escolha a amostra</option>
-                <option value="dia">Dia</option>
-                <option value="semana">Semana</option>
-                <option value="mes">Mês</option>
-            </select>
-            <button>Baixar relatório</button>
-            <div class="escolha-servidor">
-                <div>
-                    <span>Escolha o servidor</span>
-                    <select id="selecionaServidor">
-                        <option selected disabled>Nº</option>
-                        <option id="1">1</option>
-                        <option id="2">2</option>
-                        <option id="3">3</option>
-                    </select>
-                </div>
-            </div>
-            <button onclick="mudarTela()">Acessar</button>
-            <div class="escolha-componente">
-                <div>
-                    <span>Escolha o componente</span>
-                    <select id="selecionaComponente" onchange="atualizarGraficoComponente()">
-                        <option disabled>Componente</option>
-                        <option value="CPU" selected>CPU</option>
-                        <option value="RAM">RAM</option>
-                        <option value="DISCO">DISCO</option>
-                    </select>
-                </div>
-            </div>
-          
-        </div>
-       <div class="buttons">
-    <a href="gerenciar_servidor.html">
-        <button>Cadastro de Servidor</button>
-    </a>
-   </div>
-
-    </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <div class="chart-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
             
-            <div class="card-alertas">
-                <h2>Servidores em Alerta</h2>
-                <div id="alertas" style="font-size: 24px; font-weight: bold; margin-top: 10px;"></div>
+            <div class="kpis">
+                <div class="card-alertas">
+                    <h2>Servidores em Alerta</h2>
+                    <div id="alertas" style="font-size: 24px; font-weight: bold; margin-top: 10px;"></div>
+                </div> 
+                <div class="card-alertas">
+                    <h3>Desvio Padrão Geral</h3>
+                    <span id="desvio-padrao">Calculando...</span>
+                </div>
             </div>
-            
-            <!-- Ranking de tempo fora do ar -->
-            <div class="ranking" style="width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;">
+
+            <div class="ranking" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-right: 5%;">
+                <h2>Filtros</h2>
+                <select id="amostraTempo" onchange="alterarValores()">
+                    <option selected disabled>Escolha a amostra</option>
+                    <option value="dia">Dia</option>
+                    <option value="semana">Semana</option>
+                    <option value="mes">Mês</option>
+                </select>
                 <h3>Ranking de tempo fora do ar</h3>
-                <div style="max-height: 200px; overflow-y: auto;">
+                <div style="max-height: 180px; overflow-y: auto;">
                     <table style="width: 100%;">
                         <tr>
                             <th>Ranking</th>
@@ -146,177 +109,121 @@
                     </table>
                 </div>
             </div>
-            <!-- Gráfico de Barras -->
-<canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 48%; height: 280px; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; "></canvas>
-             <!-- Gráfico de Barras Horizontais -->
-             <canvas id="horizontalBarChart" style="aspect-ratio: 16/9; width: 48%; height: 280px; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
+
+            <canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 40%; height: 280px; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-left: 5%; "></canvas>
+            <canvas id="horizontalBarChart" style="aspect-ratio: 16/9; width: 40%; height: 280px; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-right: 5%;"></canvas>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <select id="filtroComponente">
+        <option value="CPU">CPU</option>
+        <option value="RAM">RAM</option>
+        <option value="Disco">Disco</option>
+    </select>
     
-</body>
+    </body>
 </html>
+    <script>
+        // Declaração da variável para controle do timeout
+      
 
-<script>
-    // Dados fictícios para os servidores
-    const servidores = [
-        { id: 1, alerta: true },
-        { id: 2, alerta: true },
-        { id: 3, alerta: false }
-    ];
+        // Dados fictícios para os servidores
+        const servidores = [
+            { id: 1, alerta: true },
+            { id: 2, alerta: true },
+            { id: 3, alerta: false }
+        ];
 
-    // Atualizar o número de alertas no card
-    function atualizarAlertas() {
-        const totalServidores = servidores.length;
-        const servidoresComAlerta = servidores.filter(s => s.alerta).length;
-        document.getElementById('alertas').innerText = `${servidoresComAlerta}/${totalServidores}`;
-    }
+        // Atualizar o número de alertas no card
+        function atualizarAlertas() {
+            const totalServidores = servidores.length;
+            const servidoresComAlerta = servidores.filter(s => s.alerta).length;
+            document.getElementById('alertas').innerText = `${servidoresComAlerta}/${totalServidores}`;
+        }
 
-    // Chamada para atualizar o card na inicialização
-    atualizarAlertas();
-</script>
+        // Chamada para atualizar o card na inicialização
+        atualizarAlertas();
+       
+    let grafico;
+    let proximaAtualizacao;
 
-<script>
-    // Dados por servidor
-    const dataServidores = {
-        CPU: [38, 45, 56],
-        RAM: [21, 18, 20],
-        DISCO: [80, 75, 92]
-    };
-
-    // Gráfico de Pizza
-     // Configuração do Gráfico de Barras
-const ctxBarras = document.getElementById('meuGrafico').getContext('2d');
-let dataBarras = {
-    labels: ['Servidor 1', 'Servidor 2', 'Servidor 3'],
-    datasets: [{
-        label: 'Uso por Servidor',
-        data: dataServidores['CPU'], // CPU como valor padrão
-        backgroundColor: ['#ff914c', '#8b5736', '#f64b00'],
-    }]
-};
-
-let configBarras = {
-    type: 'bar', 
-    data: dataBarras,
-    options: {
-        plugins: {
-            tooltip: {
-                callbacks: {
-                    font: {
-                        weight: 'bold',
-                        size: 18,
-                    },
-                    label: context => {
-                        return context.label + ': ' + context.raw.toLocaleString('pt-BR', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }) + '%';
-                    }
-                }
-
+    // Função para obter os dados do gráfico via API
+    function obterDadosGrafico(filtro = "CPU") {
+        fetch(`/analisa/registros?idEmpresa&filtro=${filtro}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
             },
-            title: {
-                display: true,
-                text: 'Uso dos componentes (por servidor)',
-                font: { size: 24 },
-                padding: { bottom: 30 }
-            }
-        },
-        responsive: false,
-        maintainAspectRatio: false,
-        scales: {
-            x: { beginAtZero: true },
-            y: { beginAtZero: true }
-        }
-    }
-};
-
-let meuGrafico = new Chart(ctxBarras, configBarras);
-
-
-    // Gráfico de Barras Horizontais
-    const dataComponentesMinMax = {
-        CPU: { min: [30, 40, 50], max: [38, 45, 61] },
-        RAM: { min: [15, 10, 18], max: [21, 18, 20] },
-        DISCO: { min: [70, 65, 80], max: [80, 75, 92] }
-    };
-
-    const ctxBar = document.getElementById('horizontalBarChart').getContext('2d');
-    let dataBar = {
-        labels: ['Server 1', 'Server 2', 'Server 3'],
-        datasets: [{
-            label: 'Mínimo',
-            data: dataComponentesMinMax['CPU'].min,
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: '#ff914c',
-        }, {
-            label: 'Máximo',
-            data: dataComponentesMinMax['CPU'].max,
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: '#f64b00',
-        }]
-    };
-
-    let configBar = {
-        type: 'bar',
-        data: dataBar,
-        options: {
-            indexAxis: 'y',
-            elements: { bar: { borderWidth: 2 } },
-            responsive: false,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { position: 'right' },
-                title: {
-                    display: true,
-                    text: 'Variação de cada componente por servidor',
-                    font: { size: 24 },
-                    padding: { bottom: 30 }
-                }
-            },
-            scales: {
-                x: { beginAtZero: true }
-            }
-        }
-    };
-
-    let horizontalBarChart = new Chart(ctxBar, configBar);
-
-    // Função para atualizar os gráfico de barras verticais e barras horizontais ao trocar o componente
-    function atualizarGraficoComponente() {
-        const componenteSelecionado = document.getElementById("selecionaComponente").value;
-
-        // Atualizando dados do gráfico de barras verticais
-        meuGrafico.data.datasets[0].data = dataServidores[componenteSelecionado];
-        meuGrafico.update();
-
-        // Atualizando dados do gráfico de barras horizontais com valores mínimos e máximos
-        horizontalBarChart.data.datasets[0].data = dataComponentesMinMax[componenteSelecionado].min;
-        horizontalBarChart.data.datasets[1].data = dataComponentesMinMax[componenteSelecionado].max;
-        horizontalBarChart.update();
-    }
-
-    // Gráfico de Colunas Empilhadas
-    const ctxStackedBar = document.getElementById('stackedBarChart').getContext('2d');
-    
-
-    function mudarTela() {
-        const select = document.getElementById('selecionaServidor').value;
-        if (select == 1 || select == 2 || select == 3) {
-            window.location = "dashboardAnalistaUmServidor.html";
-        }
-    }
-</script>
-
-<script>
-    //menu hamburguer
-    const menuButton = document.querySelector('.menu-button');
-    const navbar = document.querySelector('.navbar');
-
-    menuButton.addEventListener('click',
-        () => {
-            navbar.classList.toggle('active');
-
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Dados recebidos:", data);
+            plotarGrafico(data, filtro);
+        })
+        .catch((error) => {
+            console.error("Erro ao buscar os dados:", error);
         });
+    }
+
+    // Função para plotar o gráfico
+    function plotarGrafico(dados, filtro) {
+        const labels = dados.map((registro) => `Máquina ${registro.idMaquina}`);
+        const valores = dados.map((registro) => registro.percentual);
+
+        const ctx = document.getElementById("meuGrafico").getContext("2d");
+
+        // Limpa o gráfico anterior, se existente
+        if (grafico) {
+            grafico.destroy();
+        }
+
+        // Cria o gráfico atualizado
+        grafico = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: `Uso de ${filtro}`,
+                    data: valores,
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    fill: false,
+                }],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                },
+            },
+        });
+    }
+
+    // Função de atualização periódica
+    function atualizacaoPeriodica() {
+        const filtroComponente = document.getElementById("filtroComponente");
+        if (!filtroComponente) {
+            console.error("Elemento #filtroComponente não encontrado!");
+            return;
+        }
+
+        const filtro = filtroComponente.value || "CPU"; // Valor padrão caso não exista um filtro selecionado
+        obterDadosGrafico(filtro);
+
+        // Configura nova chamada de atualização após 2 segundos
+        proximaAtualizacao = setTimeout(atualizacaoPeriodica, 2000);
+    }
+
+    // Evento para iniciar atualização quando o filtro for alterado
+    document.getElementById("filtroComponente").addEventListener("change", atualizacaoPeriodica);
+
+    // Inicia a atualização periódica após o carregamento da página
+    document.addEventListener("DOMContentLoaded", () => {
+        atualizacaoPeriodica();
+    });
 </script>
+
+
