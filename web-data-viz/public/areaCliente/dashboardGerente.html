@@ -49,6 +49,7 @@
         <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
           <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
           <p id="pAlerta"></p>
+          <!-- <button class="fechar" href="" onclick="fechar()">X</button> -->
         </div>
         <button class="menu-button"><i class='bx bx-menu'></i></button>
         <ul class="navbar">
@@ -176,7 +177,7 @@
 
         if (eficienciaRam < 2) {
           efficency.style.color = "yellow"
-        } else if (eficienciaRam < 1) {
+        } else if (eficienciaRam < 1.5) {
           efficency.style.color = "red"
         }
         efficency.style.padding = '5vh'
@@ -320,7 +321,7 @@
       .then(data => {
         console.log('Dados recebidos CPU:', data);
         atualizarGraficoCpu(data);
-
+        buscarLimites()
       })
       .catch(error => {
         console.error('Erro ao enviar os dados:', error);
@@ -352,7 +353,7 @@
     .then(([limites, dadosServidores]) => { // Desestruturação correta dos resultados
     console.log('Limites recebidos:', limites);
     console.log('Dados dos servidores recebidos:', dadosServidores);
-    verificarLimites(dadosServidores, limites); // Ajuste na ordem de parâmetros
+    verificarLimites(dadosServidores, limites); 
   })
   .catch(error => {
     console.error('Erro ao buscar dados ou limites:', error);
@@ -363,7 +364,7 @@
     console.log('Dados dos Servidores:', dadosServidores);
 
     for (const servidor of dadosServidores){
-  console.log('Servidor:', servidor);
+    console.log('Servidor:', servidor);
     const limiteAtual = limites.find(limite => limite.idMaquina === servidor.maquina);
     console.log('Servidor:', servidor.maquina, 'Limite encontrado:', limiteAtual);
 
@@ -391,9 +392,10 @@
     const alertaTexto = document.getElementById("pAlerta");
         
         alertaTexto.textContent = mensagem;
-
-
 }
 
+function fechar(){
+  alertaDiv.style.display = "block";
+}
 
 </script>

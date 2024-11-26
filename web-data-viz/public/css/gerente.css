@@ -139,6 +139,15 @@
     }
 }
 
+.fechar{
+    position: absolute;
+    top: 0;
+    left: 95%;
+    color: white;
+    background-color: red;
+    cursor: pointer;
+}
+
 /*APENAS PARA MARCAÇÃO
 
     TO-DO:

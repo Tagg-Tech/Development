@@ -1,4 +1,3 @@
-const { buscarTodos } = require("../controllers/gerenteController");
 var database = require("../database/config");
 
 function reqDados(idUsuario) {
