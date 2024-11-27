@@ -132,8 +132,13 @@ SELECT percentualCPU, percentualMemoria FROM registros AS r
 SELECT gigaBytesMemoria FROM registros WHERE fkMaquina = 1;
 
 -- Métrica grafico de pizza
-SELECT qtdTotalDisco, qtdUtilizadaDisco FROM maquina AS m 
-	JOIN registros AS r ON m.idMaquina = r.fkMaquina;
+-- SELECT qtdTotalDisco, percentualDisco FROM maquina AS m 
+--  	JOIN registros AS r ON m.idMaquina = r.fkMaquina;
+
+-- Métrica grafico de pizza
+SELECT percentualDisco FROM registros AS r
+	JOIN usuarioResponsavelMaquina AS u ON r.fkMaquina = u.fkMaquina
+    WHERE u.fkMaquina = 1;  
  
 
 
