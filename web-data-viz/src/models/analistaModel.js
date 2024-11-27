@@ -22,37 +22,38 @@ function buscarMaquinas(idEmpresa) {
     return database.executar(instrucaoSql);
 }
 
-function buscarRegistros(idEmpresa, intervalo = 'DIARIO') {
-    let agrupamentoData;
-    switch (intervalo.toUpperCase()) {
-        case 'SEMANAL':
-            agrupamentoData = "YEARWEEK(r.dataHora)";
-            break;
-        case 'MENSAL':
-            agrupamentoData = "DATE_FORMAT(r.dataHora, '%Y-%m')";
-            break;
-        default:
-            agrupamentoData = "DATE(r.dataHora)";
-            break;
+function buscarUltimosRegistros(idEmpresa, componente) {
+    let colunaPercentual = "";
+    if (componente === "CPU") {
+        colunaPercentual = "percentualCPU";
+    } else if (componente === "RAM") {
+        colunaPercentual = "percentualMemoria";
+    } else if (componente === "Disco") {
+        colunaPercentual = "percentualDisco";
     }
 
     var instrucaoSql = `
         SELECT 
-            ${agrupamentoData} AS periodo, 
-            AVG(r.percentualCPU) AS mediaCPU,
-            AVG(r.percentualMemoria) AS mediaMemoria,
-            AVG(r.percentualDisco) AS mediaDisco
-        FROM registros r
-        JOIN maquina m ON r.fkMaquina = m.idMaquina
-        WHERE m.fkEmpresa = ${idEmpresa}
-        GROUP BY periodo
-        ORDER BY periodo;
+            m.idMaquina, 
+            r.${colunaPercentual} AS percentual,
+            r.dataHora AS ultimaAtualizacao
+        FROM maquina m
+        LEFT JOIN registros r 
+            ON r.fkMaquina = m.idMaquina 
+            AND r.dataHora = (
+                SELECT MAX(dataHora)
+                FROM registros
+                WHERE fkMaquina = m.idMaquina
+            )
+        WHERE m.fkEmpresa = ${idEmpresa};
     `;
+
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
+
 module.exports = {
     buscarMaquinas,
-    buscarRegistros
+    buscarUltimosRegistros
 };

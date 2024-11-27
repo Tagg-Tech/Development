@@ -49,6 +49,7 @@
         <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
           <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
           <p id="pAlerta"></p>
+          <!-- <button class="fechar" href="" onclick="fechar()">X</button> -->
         </div>
         <button class="menu-button"><i class='bx bx-menu'></i></button>
         <ul class="navbar">
@@ -95,7 +96,7 @@
             d="M10 20A10 10 0 1 0 0 10a10 10 0 0 0 10 10zM8.711 4.3l5.7 5.766L8.7 15.711l-1.4-1.422 4.289-4.242-4.3-4.347z" />
         </svg></button>
       <div class="container_graphic">
-        <h5><b>Distribuição de CPU(%)</b></h5>
+        <h5><b>Distribuição de CPU Mensal (%)</b></h5>
         <div id="chart2">SEM DADOS</div>
       </div>
       <button id="btn_graphic_cpu_next" style="display: none;" class="nav-btn next"><svg
@@ -176,7 +177,7 @@
 
         if (eficienciaRam < 2) {
           efficency.style.color = "yellow"
-        } else if (eficienciaRam < 1) {
+        } else if (eficienciaRam < 1.5) {
           efficency.style.color = "red"
         }
         efficency.style.padding = '5vh'
@@ -200,7 +201,7 @@
       var textoDados = document.getElementById('chart2')
       textoDados.innerHTML = ''
       const mediaPercentualCpu = data.map(item => item.mediaPercentualCPU);
-      const maquina = data.map(item => item.maquina);
+      const maquina = data.map(item => item.placaDeRede);
 
 
       if (data.length != 0) {
@@ -320,7 +321,7 @@
       .then(data => {
         console.log('Dados recebidos CPU:', data);
         atualizarGraficoCpu(data);
-
+        buscarLimites()
       })
       .catch(error => {
         console.error('Erro ao enviar os dados:', error);
@@ -352,7 +353,7 @@
     .then(([limites, dadosServidores]) => { // Desestruturação correta dos resultados
     console.log('Limites recebidos:', limites);
     console.log('Dados dos servidores recebidos:', dadosServidores);
-    verificarLimites(dadosServidores, limites); // Ajuste na ordem de parâmetros
+    verificarLimites(dadosServidores, limites); 
   })
   .catch(error => {
     console.error('Erro ao buscar dados ou limites:', error);
@@ -363,8 +364,8 @@
     console.log('Dados dos Servidores:', dadosServidores);
 
     for (const servidor of dadosServidores){
-  console.log('Servidor:', servidor);
-    const limiteAtual = limites.find(limite => limite.idMaquina === servidor.maquina);
+    console.log('Servidor:', servidor);
+    const limiteAtual = limites.find(limite => limite.PlacaDeRede === servidor.PlacaDeRede);
     console.log('Servidor:', servidor.maquina, 'Limite encontrado:', limiteAtual);
 
     if (limiteAtual) { 
@@ -372,16 +373,16 @@
         const limiteCpu = limiteAtual.alertaCPU;
 
         if (cpuAtual > limiteCpu) {
-            exibirAlerta(`CPU do servidor ${servidor.maquina} está acima do limite!`);
+            exibirAlerta(`CPU do servidor ${servidor.PlacaDeRede} está acima do limite!`);
             return;
         }
 
         if (servidor.regRAM && parseFloat(servidor.regRAM) > limiteAtual.alertaRAM) {
-            exibirAlerta(`RAM do servidor ${servidor.maquina} está acima do limite!`);
+            exibirAlerta(`RAM do servidor ${servidor.PlacaDeRede} está acima do limite!`);
             return;
         }
     } else {
-        console.error(`Limite para a máquina ${servidor.maquina} não encontrado!`);
+        console.error(`Limite para a máquina ${servidor.PlacaDeRede} não encontrado!`);
     }
 };
   }
@@ -391,9 +392,10 @@
     const alertaTexto = document.getElementById("pAlerta");
         
         alertaTexto.textContent = mensagem;
-
-
 }
 
+function fechar(){
+  alertaDiv.style.display = "block";
+}
 
 </script>
