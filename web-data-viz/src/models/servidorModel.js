@@ -29,8 +29,19 @@ function pegarUsoDisco(fk_maquina){
     return database.executar(instrucaoSql);
 }
 
+function pegarRAM(fk_maquina){
+    var instrucaoSql = `
+        SELECT r.gigaBytesMemoria, m.qtdTotalRAM FROM registros AS r
+        	JOIN maquina AS m ON m.idMaquina = r.fkMaquina
+            WHERE fkMaquina = '${fk_maquina}';
+    `;
+    //console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     cadastrar,
     pegarCpuRamPorcentagem,
-    pegarUsoDisco
+    pegarUsoDisco,
+    pegarRAM
 };

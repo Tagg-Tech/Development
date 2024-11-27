@@ -16,4 +16,8 @@ router.post("/pegarUsoDisco", function (req, res){
     servidorController.pegarUsoDisco(req, res);
 })
 
+router.post("/pegarRAM", function (req, res){
+    servidorController.pegarRAM(req, res);
+})
+
 module.exports = router;

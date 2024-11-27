@@ -51,7 +51,7 @@ function pegarCpuRamPorcentagem(req, res){
         console.log('model')
         servidorModel.pegarCpuRamPorcentagem(id_usuario, fk_maquina)
         .then(dados => {
-            console.log("SQL aceitou! Retornando dados com a resposta")
+            //console.log("SQL aceitou! Retornando dados com a resposta")
             res.status(200).send(dados);  
         })
         .catch(error => {
@@ -75,7 +75,31 @@ function pegarUsoDisco(req, res){
         console.log('model')
         servidorModel.pegarUsoDisco(fk_maquina)
         .then(dados => {
-            console.log("SQL aceitou! Retornando dados com a resposta")
+            //console.log("SQL aceitou! Retornando dados com a resposta")
+            res.status(200).send(dados);  
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).send({ message: `
+                ***ERRO INTERNO DO SERVIDOR***
+                Verificar controller 
+                ` });
+        });
+    }
+}
+
+function pegarRAM(req, res){
+    var fk_maquina = req.body.fkMaquinaServer;
+
+    console.log('controler')
+    if(!fk_maquina){
+        return res.status(400).send({message: 'fk máquina não foram encontrados ou não foram passados, verificar controller servidor function pegarRAM'})
+    }
+    else{
+        console.log('model')
+        servidorModel.pegarRAM(fk_maquina)
+        .then(dados => {
+            //console.log("SQL aceitou! Retornando dados com a resposta")
             res.status(200).send(dados);  
         })
         .catch(error => {
@@ -92,5 +116,6 @@ function pegarUsoDisco(req, res){
 module.exports = {
     cadastrar,
     pegarCpuRamPorcentagem,
-    pegarUsoDisco
+    pegarUsoDisco,
+    pegarRAM
 };

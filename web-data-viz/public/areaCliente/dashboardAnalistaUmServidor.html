@@ -44,6 +44,7 @@
             <nav>
                 <div class="menu">
                     <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
+                    <span style="font-size: 40px; position: fixed; font-weight: bold; left: 15%; top: 1%; color: white;">Dashboard Analista</span>
                     <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
                         <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
                         <p id="pAlerta"></p>
@@ -90,7 +91,11 @@
                 <!-- Métrica 2 -->
                 <div class = "metrica-dois" >
                     <div class = "div-picos-2" >RAM</div>
-                    <div class = "valor-pico-2" >8/12 GB</div>
+                    <div class = "valor-pico-2" >
+                        <span id="atual_ram" ></span>
+                        <span>/</span>
+                        <span id="maximo_ram"></span>
+                    </div>
                 </div>
 
                 <!-- Métrica 3 -->
@@ -349,6 +354,62 @@
             }); 
 
             //------------------------Gráfico de pizza---------------------------------//
+
+            //------------------------KPI RAM------------------INÍCIO------------------//
+
+            fetch(`../servidor/pegarRAM`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    fkMaquinaServer: fk_maquina
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                if(!response.ok) {
+                    throw new Error("rede n ok")
+                }
+                response.json().then(dados => {
+                    //mapeando a primeira coluna
+                    const atualRAM = dados.map(dado => dado.gigaBytesMemoria);
+                    const maxRAM = dados.map(dado => dado.qtdTotalRAM);
+
+                    //pegando o ultimo valor da coluna de RAM
+                    ultimoValorAtualRAM = atualRAM[atualRAM.length - 1]
+                    maximoRAMServidor = maxRAM[maxRAM.length - 1]
+                    console.log("ram atual: ", ultimoValorAtualRAM);
+                    
+
+                    //Transformando o total de ram de MB para GB
+                    let ramEmGB = (maximoRAMServidor / 1000).toFixed(2);
+                    console.log("ram max: ", ramEmGB);
+
+                    //Cálculo de alteração de cor 
+                    let limite = (ultimoValorAtualRAM / ramEmGB) * 100;
+
+                    //Mostrando no html
+                    let showRAMAtual = document.getElementById('atual_ram');
+
+                    if(limite >= 80){
+                        showRAMAtual.innerHTML = ultimoValorAtualRAM; 
+                        showRAMAtual.style.color = 'red';   
+                    } else {
+                        showRAMAtual.innerHTML = ultimoValorAtualRAM;
+                        showRAMAtual.style.color = 'black'; 
+                    }
+
+                    let showRAMMax = document.getElementById('maximo_ram');
+                    showRAMMax.innerHTML = ramEmGB;
+
+                    //Plotando no HTML
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+            });             
+
+            //------------------------KPI RAM--------------------FIM-------------------//
         
             // Schedule next update
             setTimeout(graficoDinamico, 3000);

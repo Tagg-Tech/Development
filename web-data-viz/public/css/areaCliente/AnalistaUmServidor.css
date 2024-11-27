@@ -2061,8 +2061,11 @@
 }
 
 .valor-pico-2{
-  width: 5vw;
+  text-align: center;
+  width: 10vw;
   padding: 10% 1% 1% 1%;
+  /* font-weight: bold; */
+  font-size: 20px;
 }
 
 .valor-pico-3{
