@@ -197,6 +197,7 @@
     if (data.length === 0) {
       const chart2 = document.getElementById('chart2')
       chart2.innerHTML = 'SEM DADOS'
+
     } else {
       var textoDados = document.getElementById('chart2')
       textoDados.innerHTML = ''
@@ -229,9 +230,12 @@
           colors: ["#8b5736"], // Cor das barras
           dataLabels: {
             enabled: true, // Exibe os valores nas barras
+            formatter: function(val){
+              return val.toFixed(0);
+            },
             style: {
               colors: ['#fff'],
-              fontSize: '25px'
+              fontSize: '18px'
             }
           },
           xaxis: {
@@ -362,6 +366,7 @@
   function verificarLimites(dadosServidores, limites){
     console.log("Acessei verificarLimites");
     console.log('Dados dos Servidores:', dadosServidores);
+
 
     for (const servidor of dadosServidores){
     console.log('Servidor:', servidor);

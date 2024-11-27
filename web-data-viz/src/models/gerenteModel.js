@@ -4,7 +4,7 @@ var database = require("../database/config");
 function reqDados(idUsuario) {
 
     var instrucaoSql = `
-SELECT reg.fkMaquina AS maquina, maquina.PlacaDeRede AS placaDeRede, ROUND(AVG(reg.percentualCPU), 2) AS mediaPercentualCPU FROM registros reg JOIN usuarioResponsavelMaquina assoc ON reg.fkMaquina = assoc.fkMaquina JOIN maquina ON reg.fkMaquina = maquina.idMaquina WHERE assoc.fkUsuario = ${idUsuario} AND reg.dataHora >= DATE_FORMAT(CURDATE(),'%Y-%m-01') AND reg.dataHora <= NOW() GROUP BY reg.fkMaquina;
+SELECT reg.fkMaquina AS maquina, maquina.PlacaDeRede AS placaDeRede, ROUND(AVG(reg.percentualCPU), 2) AS mediaPercentualCPU FROM registros reg JOIN usuarioResponsavelMaquina assoc ON reg.fkMaquina = assoc.fkMaquina JOIN maquina ON reg.fkMaquina = maquina.idMaquina WHERE assoc.fkUsuario = ${idUsuario} AND reg.dataHora >= DATE_FORMAT(CURDATE(),'%Y-%m-01') AND reg.dataHora <= NOW() GROUP BY reg.fkMaquina ORDER BY mediaPercentualCPU DESC;
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
