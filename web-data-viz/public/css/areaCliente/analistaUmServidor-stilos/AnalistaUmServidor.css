@@ -2048,8 +2048,10 @@
   align-items: center;
 }
 
-.div-picos-1{
-  background-color:#FF914C;
+.div-picos-1{ 
+  background-color: #ff914c;
+  color: #000;
+  border-radius: 8px;
   text-align: center;
   font-weight: bold;
   font-size: larger;

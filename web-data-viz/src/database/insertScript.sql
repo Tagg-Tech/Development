@@ -81,7 +81,9 @@ INSERT INTO registros (percentualMemoria, gigaBytesMemoria, qtdUtilizadaDisco, p
 (74.55, 14.92, 130420, 69.45, 59.50, 3.87, '2024-11-19 08:03:30', 1),
 (74.60, 14.93, 130430, 69.47, 59.60, 3.88, '2024-11-19 08:03:35', 1),
 (74.65, 14.94, 130440, 69.50, 59.70, 3.89, '2024-11-19 08:03:40', 1),
-(69.40, 15.00, 130000, 65.17, 43.13, 3.13, '2024-11-22 10:55:13', 1);
+(69.40, 15.00, 130000, 65.17, 43.13, 3.13, '2024-11-22 10:55:13', 1),
+(69.40, 15.95, 130000, 65.17, 43.13, 3.13, '2024-11-22 10:55:13', 1),
+(69.40, 15.95, 130000, 65.17, 90.13, 3.13, '2024-11-22 10:55:13', 1);
 
 INSERT INTO registros (percentualMemoria, gigaBytesMemoria, qtdUtilizadaDisco, percentualDisco, percentualCPU, frequenciaCPU, dataHora, fkMaquina) 
 VALUES 
@@ -123,13 +125,16 @@ select * from usuarioresponsavelmaquina;
 select * from registros;
 
 
+-- Selects da DashBoard de um servidor --
 -- Grafico de linhas
 SELECT percentualCPU, percentualMemoria FROM registros AS r 
 	JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = u.fkMaquina
     WHERE u.fkUsuario = 1;
 
--- Métrica de gigas
-SELECT gigaBytesMemoria FROM registros WHERE fkMaquina = 1;
+-- Métrica de RAM 
+SELECT r.gigaBytesMemoria, m.qtdTotalRAM FROM registros AS r
+	JOIN maquina AS m ON m.idMaquina = r.fkMaquina
+    WHERE fkMaquina = 1;
 
 -- Métrica grafico de pizza
 -- SELECT qtdTotalDisco, percentualDisco FROM maquina AS m 
@@ -139,6 +144,11 @@ SELECT gigaBytesMemoria FROM registros WHERE fkMaquina = 1;
 SELECT percentualDisco FROM registros AS r
 	JOIN usuarioResponsavelMaquina AS u ON r.fkMaquina = u.fkMaquina
     WHERE u.fkMaquina = 1;  
- 
+    
+-- Métrica isInstable
+SELECT percentualCPU FROM registros AS r 
+	JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = 1
+    WHERE u.fkUsuario = 1;
+
 
 

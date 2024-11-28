@@ -50,6 +50,11 @@ body {
   display: none;
 }
 
+/* Escondendo botão para voltar para a tela do gasp */
+#link_caspa {
+  display: none;
+}
+
 .navbar {
   height: 70px;
   position: absolute;

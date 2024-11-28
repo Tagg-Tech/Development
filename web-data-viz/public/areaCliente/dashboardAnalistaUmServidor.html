@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Servidor</title>
-    <link rel="stylesheet" href="../css/areaCliente/AnalistaUmServidor.css" />
+    <link rel="stylesheet" href="../css/areaCliente/analistaUmServidor-stilos/AnalistaUmServidor.css" />
+    <link rel="stylesheet" href="../css/areaCliente/analistaUmServidor-stilos/Alerta-analista-um-servidor.css" />
     <!-- favIcon -->
     <script src="../js/alerta.js"></script>
     <link rel="stylesheet" href="../css/style.css" />
@@ -52,7 +53,9 @@
                     <button class="menu-button"><i class='bx bx-menu'></i></button>
 
                     <ul class="navbar">
-                        <li><a href="dashboardAnalista.html"><strong>Dashboard</strong></a></li>
+                        <!-- Colocando botão para a tela do gasp -->
+                        <li id="link_caspa" ><a href="dashboardGerente.html"><strong>Retornar para Gerência</strong></a></li>
+                        <li><a href="dashboardAnalista.html"><strong>Dashboards</strong></a></li>
                         <li><a href="alerta.html"><strong>Alertas</strong></a></li>
                         <li><a href="https://tagtech.atlassian.net/jira/servicedesk/projects/THD/issues?jql=project%20%3D%20%22THD%22%20ORDER%20BY%20created%20DESC" target="blank"><strong>Help Desk</strong></a></li>
                         <li><a href="perfil.html"><strong>Perfil</strong></a></li>
@@ -88,20 +91,30 @@
                     </div>
                 </div>
 
+                <!-- alerta da metrica 2 -->
+                <div class="alertaLimite" id="alertaRAM">
+                    <p id="pLimite"></p>
+                </div>
+
                 <!-- Métrica 2 -->
                 <div class = "metrica-dois" >
                     <div class = "div-picos-2" >RAM</div>
                     <div class = "valor-pico-2" >
-                        <span id="atual_ram" ></span>
+                        <span title="Atenção! A memória RAM está em mais de 80% de sua capacidade" id="atual_ram" ></span>
                         <span>/</span>
                         <span id="maximo_ram"></span>
                     </div>
                 </div>
 
+                <!-- alerta da metrica 3 -->
+                <div class="alertaLimite" id="alertaInstavel">
+                    <p id="pInst"></p>
+                </div>
+
                 <!-- Métrica 3 -->
                  <div class="metrica-tres" >
                     <div class = "div-picos-3" >Estado atual</div>
-                    <div class = "valor-pico-3" >Estável</div>
+                    <div class = "valor-pico-3" id="estabilidade" ></div>
                  </div>
 
             </div>
@@ -131,6 +144,7 @@
 
         </main>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
@@ -320,7 +334,6 @@
             fetch(`../servidor/pegarUsoDisco`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    idUsuarioServer: id_usuario,
                     fkMaquinaServer: fk_maquina
                 }),
                 headers: {
@@ -378,25 +391,30 @@
                     //pegando o ultimo valor da coluna de RAM
                     ultimoValorAtualRAM = atualRAM[atualRAM.length - 1]
                     maximoRAMServidor = maxRAM[maxRAM.length - 1]
-                    console.log("ram atual: ", ultimoValorAtualRAM);
                     
 
                     //Transformando o total de ram de MB para GB
                     let ramEmGB = (maximoRAMServidor / 1000).toFixed(2);
-                    console.log("ram max: ", ramEmGB);
 
                     //Cálculo de alteração de cor 
                     let limite = (ultimoValorAtualRAM / ramEmGB) * 100;
 
                     //Mostrando no html
                     let showRAMAtual = document.getElementById('atual_ram');
+                    let showAlerta = document.getElementById('alertaRAM');
+                    const showFrase = document.getElementById('pLimite');
 
                     if(limite >= 80){
                         showRAMAtual.innerHTML = ultimoValorAtualRAM; 
-                        showRAMAtual.style.color = 'red';   
+                        showRAMAtual.style.color = 'red';
+                        showAlerta.style.display = 'block';
+                        showAlerta.style.display = 'flex';
+                        showFrase.textContent = "Alerta! A memória RAM está acima de 80% de sua capacidade";
+                        
                     } else {
                         showRAMAtual.innerHTML = ultimoValorAtualRAM;
                         showRAMAtual.style.color = 'black'; 
+                        showAlerta.style.display = 'none';
                     }
 
                     let showRAMMax = document.getElementById('maximo_ram');
@@ -410,6 +428,54 @@
             });             
 
             //------------------------KPI RAM--------------------FIM-------------------//
+
+            //------------------------KPI ESTABILIDADE-----------INC-------------------//
+
+            fetch(`../servidor/isInstable`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    idUsuarioServer: id_usuario,
+                    fkMaquinaServer: fk_maquina
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                if(!response.ok) {
+                    throw new Error("rede n ok")
+                }
+                response.json().then(dados => {
+                    //mapeando a primeira coluna
+                    const colunaCPU = dados.map(dado => dado.percentualCPU);
+
+
+                    //pegando o ultimo valor da coluna CPU
+                    last_value_cpu = colunaCPU[colunaCPU.length - 1]
+
+                    let showInstabilidade = document.getElementById('estabilidade');
+                    let showAlertaInst = document.getElementById('alertaInstavel');
+                    const showFraseInst = document.getElementById('pInst');
+
+                    if(last_value_cpu > 80){
+                        showInstabilidade.innerHTML = 'Instável';
+                        showInstabilidade.style.color = 'red';
+                        showAlertaInst.style.display = 'block';
+                        showAlertaInst.style.display = 'flex';
+                        showFraseInst.textContent = 'Alerta! A memória CPU está acima de 80% de sua capacidade'
+                    } else {
+                        showInstabilidade.innerHTML = 'Estável';
+                        showInstabilidade.style.color = 'black';
+                        showAlertaInst.style.display = 'none';
+                    }
+
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+            });  
+
+            //------------------------KPI ESTABILIDADE-----------FIM-------------------//
         
             // Schedule next update
             setTimeout(graficoDinamico, 3000);

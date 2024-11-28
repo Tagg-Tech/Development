@@ -20,4 +20,8 @@ router.post("/pegarRAM", function (req, res){
     servidorController.pegarRAM(req, res);
 })
 
+router.post("/isInstable", function (req, res){
+    servidorController.isInstable(req, res);
+})
+
 module.exports = router;
