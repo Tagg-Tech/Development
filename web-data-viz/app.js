@@ -28,7 +28,7 @@ var gerenteRouter = require("./src/routes/gerente.js");
 var analistaRouter = require("./src/routes/analista.js")
 //Conexão 5º Dash(Dados TomTom)
 var dash5 = require("./src/routes/tomtom.js");
-
+var analistaDadosRouter = require("./src/routes/analistadados");
 const getIssues = require('./src/routes/get-issues.js');
 
 
@@ -47,6 +47,8 @@ app.use("/servidor", servidorRouter);
 app.use("/gerente", gerenteRouter)
 app.use("/analista",analistaRouter)
 app.use("/tomtom", dash5);
+
+app.use("/analistadados", analistaDadosRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n`)
@@ -79,7 +81,6 @@ const getIssuesFunc = async () => {
 
     
   };
-
 
 
   app.post("/verChamados", async (req, res) => {
