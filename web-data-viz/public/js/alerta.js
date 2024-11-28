@@ -212,6 +212,33 @@ async function rankingForaDoAr(){
   return listaChamadosDown;
 }
 
-function qtdAlertasMensal(){
 
+async function qtdAlertasMensal(){
+
+        
+  const response = await fetch("/verChamados", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  const issues = data.resultado.issues; // Aqui estamos acessando o array de issues
+  var contChamados = 0
+
+  issues.forEach(issue => {
+
+
+    const chamadoAtual = issue.fields;
+    const tipoChamado = chamadoAtual.project.key;
+    
+
+    if (tipoChamado != "DOWN"){
+      contChamados ++
+    }})
+
+
+    return contChamados
 }

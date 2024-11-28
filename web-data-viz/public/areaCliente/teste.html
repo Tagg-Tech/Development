@@ -7,11 +7,16 @@
     <script src="../js/alerta.js"></script>
     <link rel="stylesheet" href="../css/areaCliente/notificacaoAlerta.css">
 </head>
-<body onload = "testeRanking()">
+<body onload = "testeRanking(), testeQtdAlerta()">
     <input type="text" id="inputData" maxlength="10" placeholder="DD/MM/YYYY" onkeyup="mascaraData(event)">
 </body >
 </html>
 <script>
+
+    async function testeQtdAlerta(){
+        var qtd = await qtdAlertasMensal()
+        alert(qtd)
+    }
 
     async function testeRanking(){
         var listaDownTimes = await rankingForaDoAr()
