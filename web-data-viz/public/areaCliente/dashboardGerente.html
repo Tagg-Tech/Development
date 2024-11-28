@@ -377,6 +377,10 @@ document.getElementById('btn_graphic_cpu_next').addEventListener('click',proximo
       .then(response => response.json())
       .then(data => {
         console.log('Dados recebidos CPU:', data);
+        if(data.length > 5){
+         botao = document.getElementById('btn_graphic_cpu_next');
+         botao.style.display = 'block';
+        }
 
         dadosAgrupados = _.chunk(data,5)
 

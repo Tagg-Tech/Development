@@ -91,7 +91,7 @@
     border: none; 
     border-radius: 50%;  
     cursor: pointer;
-    margin: 20px; 
+    margin-left: 15vh;  
 }
 
 .nav-btn svg {
