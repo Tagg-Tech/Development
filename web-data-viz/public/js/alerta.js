@@ -33,6 +33,7 @@ async function getChamadosAlerta(){
       // Acessando o array de issues
       const issues = data.resultado.issues; // Aqui estamos acessando o array de issues
       
+      console.log(data.resultado.issues)
 
       if(primeiraChamada == true){
         console.log("troquei")
@@ -85,7 +86,8 @@ function exibirAlerta(tipoChamado, servidorAtual){
 
 
 function irParaAlertas(){
-    window.location.href = 'alerta.html';
+
+    window.location.href = 'dashboardAnalistaUmServidor.html';
 }
 
 

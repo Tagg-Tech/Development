@@ -6,3 +6,4 @@ env
 .github
 .env.dev
 env.dev
+package.json

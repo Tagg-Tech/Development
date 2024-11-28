@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Servidor</title>
-    <link rel="stylesheet" href="../css/areaCliente/AnalistaUmServidor.css" />
+    <link rel="stylesheet" href="../css/areaCliente/analistaUmServidor-stilos/AnalistaUmServidor.css" />
+    <link rel="stylesheet" href="../css/areaCliente/analistaUmServidor-stilos/Alerta-analista-um-servidor.css" />
     <!-- favIcon -->
     <script src="../js/alerta.js"></script>
     <link rel="stylesheet" href="../css/style.css" />
@@ -31,17 +32,20 @@
                 <link rel="icon" href="../assets/TagTech/img/logo1.png" />
                 <script src="../js/sessao.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script> -->
-                <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js"></script> -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.4.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
 
 </head>
 
-<body onload=" atualizacaoPeriodica(), initializeData(), graficoDinamico(), pegarPorcentagens()">
+<body onload=" atualizacaoPeriodica(), graficoDinamico()">
     <div class = "container_" >
         <div class="header">
             <nav>
                 <div class="menu">
                     <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
+                    <span style="font-size: 40px; position: fixed; font-weight: bold; left: 15%; top: 1%; color: white;">Dashboard Analista</span>
                     <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
                         <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
                         <p id="pAlerta"></p>
@@ -49,7 +53,9 @@
                     <button class="menu-button"><i class='bx bx-menu'></i></button>
 
                     <ul class="navbar">
-                        <li><a href="dashboardAnalista.html"><strong>Dashboard</strong></a></li>
+                        <!-- Colocando botão para a tela do gasp -->
+                        <li id="link_caspa" ><a href="dashboardGerente.html"><strong>Retornar para Gerência</strong></a></li>
+                        <li><a href="dashboardAnalista.html"><strong>Dashboards</strong></a></li>
                         <li><a href="alerta.html"><strong>Alertas</strong></a></li>
                         <li><a href="https://tagtech.atlassian.net/jira/servicedesk/projects/THD/issues?jql=project%20%3D%20%22THD%22%20ORDER%20BY%20created%20DESC" target="blank"><strong>Help Desk</strong></a></li>
                         <li><a href="perfil.html"><strong>Perfil</strong></a></li>
@@ -85,16 +91,30 @@
                     </div>
                 </div>
 
+                <!-- alerta da metrica 2 -->
+                <div class="alertaLimite" id="alertaRAM">
+                    <p id="pLimite"></p>
+                </div>
+
                 <!-- Métrica 2 -->
                 <div class = "metrica-dois" >
                     <div class = "div-picos-2" >RAM</div>
-                    <div class = "valor-pico-2" >8/12 GB</div>
+                    <div class = "valor-pico-2" >
+                        <span title="Atenção! A memória RAM está em mais de 80% de sua capacidade" id="atual_ram" ></span>
+                        <span>/</span>
+                        <span id="maximo_ram"></span>
+                    </div>
+                </div>
+
+                <!-- alerta da metrica 3 -->
+                <div class="alertaLimite" id="alertaInstavel">
+                    <p id="pInst"></p>
                 </div>
 
                 <!-- Métrica 3 -->
                  <div class="metrica-tres" >
                     <div class = "div-picos-3" >Estado atual</div>
-                    <div class = "valor-pico-3" >Estável</div>
+                    <div class = "valor-pico-3" id="estabilidade" ></div>
                  </div>
 
             </div>
@@ -124,69 +144,38 @@
 
         </main>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        let LineChart;  // To store the chart instance
-        let ctxLine;    // To store the canvas context
-        
-        // Initialize data arrays
-        let listaDadosCPU = [];
-        let listaDadosRAM = [];
-        let listaDadosHora = ["15:10:22", "15:10:26", "15:10:30", "15:10:34", "15:10:38"];
-        
-        // Initialize data
-        function initializeData() {
-            for (let i = 0; i < 5; i++) {
-                let numRAM = Math.floor(Math.random() * 80 + 1);
-                let numCPU = Math.floor(Math.random() * 80 + 1);
-                listaDadosCPU.push(numCPU);
-                listaDadosRAM.push(numRAM);
-            }
-        }
-        
-        function graficoDinamico() {
-            // Initialize ctxLine only once
-            if (!ctxLine) {
-                ctxLine = document.getElementById("LineChart").getContext("2d");
-            }
-        
-            // Generate new data
-            const novosDadosCPU = Math.floor(Math.random() * 80 + 1);
-            const novosDadosRAM = Math.floor(Math.random() * 80 + 1);
-            
-            listaDadosCPU.push(novosDadosCPU);
-            listaDadosRAM.push(novosDadosRAM);
-            listaDadosHora.push(new Date().toLocaleTimeString());
-        
-            // Keep only the last 5 data points
-            if (listaDadosCPU.length > 5) {
-                listaDadosCPU.shift();
-                listaDadosRAM.shift();
-                listaDadosHora.shift();
-            }
-        
-            const dataLine = {
-                labels: listaDadosHora,
-                datasets: [
-                    {
-                        label: "CPU",
-                        data: listaDadosCPU,
-                        borderColor: "#fe914c",
-                        backgroundColor: "#fe914c",
-                    },
-                    {
-                        label: "RAM",
-                        data: listaDadosRAM,
-                        borderColor: "#8b5736",
-                        backgroundColor: "#8b5736",
-                    },
-                ],
-            };
-        
-            const configLine = {
+               let fk_maquina = sessionStorage.getItem('fk_maquina');
+               let id_usuario = sessionStorage.getItem('ID_USUARIO');
+        //--------------Gráfico de linhas------------------------------------//
+        //Instanciando gráfico de linahs
+        let ctxLine = document.getElementById("LineChart").getContext("2d");
+
+        //Corpo do gráfico de linhas
+        let graficoLinha = new Chart(
+            ctxLine, {
                 type: "line",
-                data: dataLine,
+                data: {
+                    // labels: [1, 2, 3],
+                    datasets: [
+                        {
+                            label: "",
+                            // data: [4, 5, 6],
+                            borderColor: "#fe914c",
+                            color: 'black',
+                            backgroundColor: "#fe914c",
+                        },
+                        {
+                            label: "",
+                            // data: [7, 8, 9],
+                            borderColor: "#8b5736",
+                            backgroundColor: "#8b5736",
+                        },
+                    ],
+                },
                 options: {
                     responsive: false,
                     maintainAspectRatio: true,
@@ -194,112 +183,302 @@
                         legend: {
                             position: "top",
                             labels: {
-                                font: { size: 18 }
+                                font: { size: 18 },
+                                color: 'black'
                             },
                         },
                         title: {
                             display: true,
                             text: "Uso de CPU e RAM (%)",
                             font: { size: 24 },
-                            padding: { bottom: 30 }
+                            padding: { bottom: 30 },
+                            color: 'black'
                         },
                     },
                 },
-            };
-        
-            if (LineChart) {
-                // Update existing chart
-                LineChart.data = dataLine;
-                LineChart.update();
-            } else {
-                // Create new chart
-                LineChart = new Chart(ctxLine, configLine);
             }
-        
-            // Schedule next update
-            setTimeout(graficoDinamico, 3000);
-        }
-        
-        // Initialize data and start the dynamic graph when the page loads
-        window.onload = function() {
-            initializeData();
-            graficoDinamico();
-            atualizacaoPeriodica();
-        };
+        );
 
-       // Gráfico de Pizza
-       const ctxPizza = document.getElementById('meuGrafico').getContext('2d');
-        const meuGrafico = new Chart(ctxPizza, {
+        //arrays que vão armazenar os dados vindos do banco para compor o gráfico de linhas
+        let listaDadosHora = [];
+        let percentuaisCPU = [];
+        let percentuaisRAM = [];
+
+        //--------------Gráfico de linhas-------------------------------------------------//
+
+        //--------------------------------------------------------------------------------//
+
+        //--------------Gráfico de pizza-------------------------COMEÇO--------------------//
+
+        let ctxPizza = document.getElementById('meuGrafico').getContext('2d');
+        //Corpo do gráfico de pizza
+        let meuGrafico = new Chart(ctxPizza, {
             type: 'pie',
             data: {
-                labels: ['Livre','Ocupado'],
+                // labels: ['Livre','Ocupado'],
                 datasets: 
                 [
                     {
-                        data: ["90","10"],
+                        // data: [90,10],
                         backgroundColor: ["#fe914c","#8b5736"],
                     }
                 ]
             },
             options: {
                 tooltips:{
-                    enable: false
+                    enable: true,
                 },
                 plugins: {
                     datalabels: {
                         formatter: (value, ctx) => {
                             let sum = 0;
-                            let dataArr = ctx.chart.data.datasets[0].data;
+                            let dataArr = ctx.chart.data.datasets[0].data[0];
                             dataArr.map(data => {
-                                sum += data;
-                            });
-                            let percentage = (value * 100 / sum).toFixed(2) + "%";
-                            return percentage;
-                        },
-                        color: 'white',
-                        font: {
-                            size: 16
-                        },
-                        // formatter: (value, context) => {
-                        //     return value + '%';
-                        // },
+                                 sum += data;
+                         });
+                        let percentage = (value*100 / sum).toFixed(2)+"%";
+                        return percentage;
+                    },
                     },
                     legend: {
                         position: 'left',
                         labels: {
-                            font: { size: 18 }
+                            font: { 
+                                size: 21,
+                                wight: 'bold' 
+                            },
+                            color: 'black'
                         },
                     },
                     title: {
                         display: true,
                         text: 'Disco Usado x Livre (%)',
                         font: { size: 24 },
-                        padding: { bottom: 30 }
+                        padding: { bottom: 30 },
+                        color: 'black'
                     }
                 },
                 responsive: false,
                 maintainAspectRatio: true
             },
         });    
-        
-        
-        function pegarPorcentagens(){
-            //pegar também o servidor específico
-            let user_maquina = sessionStorage.getItem('ID_USUARIO');
 
-            fetch(`servidor/pegarCpuRamPorcentagem`, {
-                method: 'GET',
+        //--------------Gráfico de pizza-------------------FIM----------------------------//
+
+        //valores temporários atribuidos para testes
+ 
+        // let fk_maquina = sessionStorage.getItem('FK_MAQUINA');
+        // let id_usuario = sessionStorage.getItem('ID_USUARIO');
+        
+        //função para atualizar os valores plotados no gráfico de linhas e pizza
+        function graficoDinamico() {
+
+            //------------------------Gráfico de linhas---------------------------------//
+
+            //fetch para trazer os dados do banco do grafico de linhas
+            fetch(`../servidor/pegarCpuRamPorcentagem`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    idUsuarioServer: id_usuario,
+                    fkMaquinaServer: fk_maquina
+                }),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
-            .then(response => response.json())
-            .then(dataCPU => {
-                console.log('% da cpu: ', dataCPU);
+            .then((response) => {
+                if(!response.ok) {
+                    throw new Error("rede n ok")
+                }
+                response.json().then(dados => {
+                    //mapeando a primeira coluna
+                    const valoresCPU = dados.map(dado => dado.percentualCPU);
+                    //mapeando a segunda coluna
+                    const valoresMemoria = dados.map(dado => dado.percentualMemoria);
+
+                    //pegando o ultimo valor da coluna CPU
+                    ultimoValorCPU = valoresCPU[valoresCPU.length - 1]
+                    ultimoValorRAM = valoresMemoria[valoresMemoria.length - 1]
+
+                    //colocando os ultimos 5 valores da cpu num array
+                    percentuaisCPU.push(ultimoValorCPU)
+                    percentuaisRAM.push(ultimoValorRAM)
+
+                    //preparando o grafico para guardar 5 valores
+                    if (listaDadosHora.length > 5) {
+                        percentuaisCPU.shift();
+                        percentuaisRAM.shift();
+                        listaDadosHora.shift();
+                    }
+
+                    //Compondo o corpo do gráfico com os valores puxados do banco
+                    graficoLinha.data.labels = listaDadosHora;
+                    graficoLinha.data.datasets[0].data = percentuaisCPU;
+                    graficoLinha.data.datasets[1].data = percentuaisRAM;
+                    graficoLinha.data.datasets[0].label = "CPU: " + ultimoValorCPU + " %";
+                    graficoLinha.data.datasets[1].label = "RAM: " + ultimoValorRAM + " %";
+                    graficoLinha.update();
+                });
             })
             .catch(error => {
                 console.error('Erro ao enviar os dados:', error);
-            });      
+            }); 
+
+            //eixo X do gráfico de linhas com hora atual
+            listaDadosHora.push(new Date().toLocaleTimeString());
+
+            //------------------------Gráfico de linhas---------------------------------//
+
+            //------------------------Gráfico de pizza---------------------------------//
+
+            fetch(`../servidor/pegarUsoDisco`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    fkMaquinaServer: fk_maquina
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                if(!response.ok) {
+                    throw new Error("rede n ok")
+                }
+                response.json().then(dados => {
+                    //mapeando a primeira coluna
+                    const atualDisco = dados.map(dado => dado.percentualDisco);
+
+                    //pegando o ultimo valor da coluna do disco
+                    ultimoValorDisco = atualDisco[atualDisco.length - 1]
+
+                    //cálculo para espaço livre
+                    let espaco_livre = 100 - ultimoValorDisco;
+
+                    //Compondo o corpo do gráfico com os valores puxados do banco
+                    meuGrafico.data.datasets[0].data[0] = espaco_livre;
+                    meuGrafico.data.datasets[0].data[1] = ultimoValorDisco;
+                    meuGrafico.data.labels[0] = "Livre: " + espaco_livre + " %";
+                    meuGrafico.data.labels[1] = "Ocupado: " + ultimoValorDisco + " %";
+                    meuGrafico.update();
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+            }); 
+
+            //------------------------Gráfico de pizza---------------------------------//
+
+            //------------------------KPI RAM------------------INÍCIO------------------//
+
+            fetch(`../servidor/pegarRAM`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    fkMaquinaServer: fk_maquina
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                if(!response.ok) {
+                    throw new Error("rede n ok")
+                }
+                response.json().then(dados => {
+                    //mapeando a primeira coluna
+                    const atualRAM = dados.map(dado => dado.gigaBytesMemoria);
+                    const maxRAM = dados.map(dado => dado.qtdTotalRAM);
+
+                    //pegando o ultimo valor da coluna de RAM
+                    ultimoValorAtualRAM = atualRAM[atualRAM.length - 1]
+                    maximoRAMServidor = maxRAM[maxRAM.length - 1]
+                    
+
+                    //Transformando o total de ram de MB para GB
+                    let ramEmGB = (maximoRAMServidor / 1000).toFixed(2);
+
+                    //Cálculo de alteração de cor 
+                    let limite = (ultimoValorAtualRAM / ramEmGB) * 100;
+
+                    //Mostrando no html
+                    let showRAMAtual = document.getElementById('atual_ram');
+                    let showAlerta = document.getElementById('alertaRAM');
+                    const showFrase = document.getElementById('pLimite');
+
+                    if(limite >= 80){
+                        showRAMAtual.innerHTML = ultimoValorAtualRAM; 
+                        showRAMAtual.style.color = 'red';
+                        showAlerta.style.display = 'block';
+                        showAlerta.style.display = 'flex';
+                        showFrase.textContent = "Alerta! A memória RAM está acima de 80% de sua capacidade";
+                        
+                    } else {
+                        showRAMAtual.innerHTML = ultimoValorAtualRAM;
+                        showRAMAtual.style.color = 'black'; 
+                        showAlerta.style.display = 'none';
+                    }
+
+                    let showRAMMax = document.getElementById('maximo_ram');
+                    showRAMMax.innerHTML = ramEmGB;
+
+                    //Plotando no HTML
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+            });             
+
+            //------------------------KPI RAM--------------------FIM-------------------//
+
+            //------------------------KPI ESTABILIDADE-----------INC-------------------//
+
+            fetch(`../servidor/isInstable`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    idUsuarioServer: id_usuario,
+                    fkMaquinaServer: fk_maquina
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                if(!response.ok) {
+                    throw new Error("rede n ok")
+                }
+                response.json().then(dados => {
+                    //mapeando a primeira coluna
+                    const colunaCPU = dados.map(dado => dado.percentualCPU);
+
+
+                    //pegando o ultimo valor da coluna CPU
+                    last_value_cpu = colunaCPU[colunaCPU.length - 1]
+
+                    let showInstabilidade = document.getElementById('estabilidade');
+                    let showAlertaInst = document.getElementById('alertaInstavel');
+                    const showFraseInst = document.getElementById('pInst');
+
+                    if(last_value_cpu > 80){
+                        showInstabilidade.innerHTML = 'Instável';
+                        showInstabilidade.style.color = 'red';
+                        showAlertaInst.style.display = 'block';
+                        showAlertaInst.style.display = 'flex';
+                        showFraseInst.textContent = 'Alerta! A memória CPU está acima de 80% de sua capacidade'
+                    } else {
+                        showInstabilidade.innerHTML = 'Estável';
+                        showInstabilidade.style.color = 'black';
+                        showAlertaInst.style.display = 'none';
+                    }
+
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+            });  
+
+            //------------------------KPI ESTABILIDADE-----------FIM-------------------//
+        
+            // Schedule next update
+            setTimeout(graficoDinamico, 3000);
         }
 
     </script>

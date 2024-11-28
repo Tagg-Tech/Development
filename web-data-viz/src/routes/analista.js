@@ -1,11 +1,14 @@
 var express = require("express");
 var router = express.Router();
+
 var analistaController = require("../controllers/analistaController");
 
-// Rota para listar máquinas de uma empresa
-router.get("/maquinas/:idEmpresa", analistaController.listarMaquinas);
+router.get("/alertas/:idEmpresa", analistaController.buscarServidoresEmAlerta);
+router.get("/desvio-padrao/:idEmpresa", analistaController.calcularDesvioPadrao);
+router.get("/grafico-barras/:idEmpresa/:componente", analistaController.graficoBarras);
+router.get("/grafico-horizontais/:idEmpresa/:componente", analistaController.graficoHorizontais);
+// Rota para acessar KPIs
+router.get('/kpis', analistaController.kpis);
 
-// Rota para listar registros agregados (com base no intervalo de tempo)
-router.get("/registros/:idEmpresa", analistaController.listarRegistros);
 
 module.exports = router;

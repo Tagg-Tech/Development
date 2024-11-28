@@ -19,4 +19,9 @@ router.get("/selectLimite", function(req, res){
     gerenteController.reqLimites(req,res,idUsuario);
 })
 
+router.get("/buscarSemMedia", function(req, res){
+    const idUsuario = req.query.idUsuario
+    gerenteController.buscarSemMedia(req,res,idUsuario);
+})
+
 module.exports = router;

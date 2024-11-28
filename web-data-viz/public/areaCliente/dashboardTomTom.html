@@ -46,7 +46,8 @@
     <title>Tag Tech</title>
 </head>
 
-<body onload="getS3(), atualizacaoPeriodica()">
+<!-- <body onload="getS3(), atualizacaoPeriodica()"> -->
+<body>
     <!-- Lembrem-se de colocar o aws-sdk como script na página de vocês para que importem bibliotecas -->
     <div class="header">
         <nav>
@@ -152,10 +153,10 @@
                         </div>
                     </div>
                     <div class="indicadoresDashPed">
-                        <div onclick="showMaisUti()" id="indMped">
+                        <div onclick="showMaisUti()" id="indMaxped">
                             <span>Mais utilizado</span>
                         </div>
-                        <div>
+                        <div onclick="showMaisUti()" id="indMinped">
                             <span>Menos utilizado</span>
                         </div>
                     </div>
@@ -184,6 +185,41 @@
 </body>
 
 </html>
+
+<!-- Fetch para consulta de dados dashboards -->
+<script>
+    const url = '/tomtom';
+    async function tomtomData(params) {
+        try {
+            let resposta = await fetch(url);
+            
+            if(!resposta.ok){
+                console.error("Erro de requisição: ", resposta.statusText);
+                return;
+            }
+    
+            let respJson = await resposta.json();
+            let data = respJson.data;
+            // Criando novo vetor com a diferença de velocidade das rodovias
+            let dataDif = data.map(item => ({
+                // (...item) Operador de espalhamento, ele espelha todos os atributos do objeto
+                ...item,
+                diferenca: item.velocidadeLivre - item.velocidadeAtual
+            }))
+            .sort((a, b) => b.diferenca - a.diferenca);
+            console.log(dataDif);
+
+
+        } catch (error) {
+            console.error("Erro no servidor!");
+        }
+    }
+
+    // Organizando dados do vetor em ordem decrescente
+    function orgData(pedArr) {
+        return pedArr.sort()
+    }
+</script>
 
 <script>
     // Indicadores gráfico pedágios:

@@ -1,0 +1,33 @@
+
+.alertaLimite {
+    display: none;
+    background-color: #ff5722;
+    width: 15vw;
+    height: 15vh;
+    border: 5px solid #f5b14c; 
+    border-radius: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    box-shadow: 0 4px 8px rgba(0.8, 0.8, 0.8, 0.5);
+    text-align: center;
+  }
+  
+  .alertaLimite img {
+    display: flex;
+    width: 19%;
+    
+  }
+  
+  .alertaLimite p {
+    color: #fff;
+    font-size: 1em;
+    font-weight: bold;
+    text-align:center;
+    margin: 0;
+    /* padding-left: 2em;
+    margin-bottom: 10em; */
+  }
+  
+  

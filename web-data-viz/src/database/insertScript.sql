@@ -29,7 +29,7 @@ VALUES (
 
 
 
-INSERT INTO usuarioresponsavelmaquina VALUES (1,1),(1,2),(1,3);
+-- INSERT INTO usuarioresponsavelmaquina VALUES (1,1),(1,2),(1,3);
 
 
 -- EXEMPLO INSERT REGISTROS
@@ -80,7 +80,33 @@ INSERT INTO registros (percentualMemoria, gigaBytesMemoria, qtdUtilizadaDisco, p
 (74.50, 14.91, 130410, 69.42, 59.40, 3.86, '2024-11-19 08:03:25', 1),
 (74.55, 14.92, 130420, 69.45, 59.50, 3.87, '2024-11-19 08:03:30', 1),
 (74.60, 14.93, 130430, 69.47, 59.60, 3.88, '2024-11-19 08:03:35', 1),
-(74.65, 14.94, 130440, 69.50, 59.70, 3.89, '2024-11-19 08:03:40', 1);
+(74.65, 14.94, 130440, 69.50, 59.70, 3.89, '2024-11-19 08:03:40', 1),
+(69.40, 15.00, 130000, 65.17, 43.13, 3.13, '2024-11-22 10:55:13', 1),
+(69.40, 15.95, 130000, 65.17, 43.13, 3.13, '2024-11-22 10:55:13', 1),
+(69.40, 15.95, 130000, 65.17, 90.13, 3.13, '2024-11-22 10:55:13', 1);
+
+INSERT INTO registros (percentualMemoria, gigaBytesMemoria, qtdUtilizadaDisco, percentualDisco, percentualCPU, frequenciaCPU, dataHora, fkMaquina) 
+VALUES 
+(58.34, 8.50, 150, 45.67, 34.50, 2.4, NOW(), 1),
+(70.12, 7.80, 200, 51.45, 60.20, 2.5, NOW(), 1),
+(54.89, 6.20, 100, 30.45, 15.30, 2.2, NOW(), 1),
+(80.56, 12.50, 300, 65.00, 85.40, 3.0, NOW(), 1),
+(62.78, 9.00, 180, 55.90, 42.10, 2.7, NOW(), 1),
+(75.43, 11.00, 220, 59.80, 47.00, 2.8, NOW(), 1),
+(66.92, 8.75, 210, 60.50, 52.30, 2.3, NOW(), 1),
+(50.20, 5.80, 140, 39.20, 20.10, 2.0, NOW(), 1),
+(67.34, 9.50, 160, 50.30, 39.20, 2.6, NOW(), 1),
+(58.90, 6.50, 180, 47.00, 28.00, 2.4, NOW(), 1),
+(82.60, 10.00, 250, 62.30, 75.90, 3.1, NOW(), 1),
+(63.40, 7.90, 190, 52.50, 45.50, 2.5, NOW(), 1),
+(72.30, 8.60, 210, 58.40, 55.30, 2.9, NOW(), 1),
+(68.20, 6.00, 170, 45.10, 37.80, 2.3, NOW(), 1),
+(79.10, 11.50, 280, 63.20, 78.00, 3.0, NOW(), 1),
+(65.50, 9.20, 230, 57.50, 49.40, 2.8, NOW(), 1),
+(51.30, 7.00, 160, 42.10, 22.00, 2.1, NOW(), 1),
+(77.90, 12.00, 270, 61.90, 67.20, 3.0, NOW(), 1),
+(59.60, 6.80, 150, 48.70, 34.10, 2.2, NOW(), 1),
+(70.00, 8.40, 210, 53.90, 48.30, 2.7, NOW(), 1);
 
 INSERT INTO usuarioResponsavelMaquina VALUES
 (1,1);
@@ -99,16 +125,30 @@ select * from usuarioresponsavelmaquina;
 select * from registros;
 
 
+-- Selects da DashBoard de um servidor --
 -- Grafico de linhas
-SELECT percentualCPU, percentualMemoria FROM registros WHERE fkMaquina = 1;
+SELECT percentualCPU, percentualMemoria FROM registros AS r 
+	JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = u.fkMaquina
+    WHERE u.fkUsuario = 1;
 
--- Métrica de gigas
-SELECT gigaBytesMemoria FROM registros WHERE fkMaquina = 1;
+-- Métrica de RAM 
+SELECT r.gigaBytesMemoria, m.qtdTotalRAM FROM registros AS r
+	JOIN maquina AS m ON m.idMaquina = r.fkMaquina
+    WHERE fkMaquina = 1;
 
 -- Métrica grafico de pizza
-SELECT qtdTotalDisco, qtdUtilizadaDisco FROM maquina AS m 
-	JOIN registros AS r WHERE m.idMaquina = r.fkMaquina;
- 
+-- SELECT qtdTotalDisco, percentualDisco FROM maquina AS m 
+--  	JOIN registros AS r ON m.idMaquina = r.fkMaquina;
+
+-- Métrica grafico de pizza
+SELECT percentualDisco FROM registros AS r
+	JOIN usuarioResponsavelMaquina AS u ON r.fkMaquina = u.fkMaquina
+    WHERE u.fkMaquina = 1;  
+    
+-- Métrica isInstable
+SELECT percentualCPU FROM registros AS r 
+	JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = 1
+    WHERE u.fkUsuario = 1;
 
 
 

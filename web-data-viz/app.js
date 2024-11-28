@@ -20,12 +20,16 @@ var empresaRouter = require("./src/routes/empresas");
 //Conexão cadastro do funcionário
 var funcionarioRouter = require("./src/routes/funcionarios");
 //Conexão cadastro do servidor
-var servidorRouter = require("./src/routes/servidores");
+var servidoresRouter = require("./src/routes/servidores");
+var servidorRouter = require("./src/routes/servidor");
 //Conexão gerente(dados Servidores CPU) para GERENTE
 var gerenteRouter = require("./src/routes/gerente.js");
-
+//Conexão analista(tdados Servidores CPU,RAM e Disco) para GERENTE
+var analistaRouter = require("./src/routes/analista.js")
+//Conexão 5º Dash(Dados TomTom)
+var dash5 = require("./src/routes/tomtom.js");
+var analistaDadosRouter = require("./src/routes/analistadados");
 const getIssues = require('./src/routes/get-issues.js');
-
 
 
 
@@ -35,10 +39,16 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 
+//Configuração de rotas
 app.use("/empresas", empresaRouter);
 app.use("/funcionarios", funcionarioRouter);
-app.use("/servidores", servidorRouter);
+app.use("/servidores", servidoresRouter);
+app.use("/servidor", servidorRouter);
 app.use("/gerente", gerenteRouter)
+app.use("/analista",analistaRouter)
+app.use("/tomtom", dash5);
+
+app.use("/analistadados", analistaDadosRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n`)
@@ -71,7 +81,6 @@ const getIssuesFunc = async () => {
 
     
   };
-
 
 
   app.post("/verChamados", async (req, res) => {

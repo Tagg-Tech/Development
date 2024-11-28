@@ -6,7 +6,7 @@
     <title>Dashboard | Servidores</title>
     <link rel="stylesheet" href="areaCliente.css" />
     <link rel="stylesheet" href="../css/areaCliente/notificacaoAlerta.css">
-    <link rel="icon" href="./assets/icon/favicon2.ico">
+    <link rel="icon" href="../assets/TagTech/img/logo1.png" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <script src="../js/sessao.js"></script>
@@ -18,27 +18,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
         integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-     <link rel="icon" href="../assets/TagTech/img/logo1.png" />
-
-    
-     <script src="../js/alerta.js"></script>
+    <!-- Carregar a biblioteca ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="../js/alerta.js"></script>
 </head>
 
-<body onload="atualizacaoPeriodica()">
+<body onload="iniciarDashboard()">
     <div class="header">
-        <nav>
+ <nav>
             <div class="menu">
                 <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
-                <span style="font-size: 40px; font-weight: bold; margin-left: 16%; color: white;">DashBoard Analista</span>
+                <span style="font-size: 40px; font-weight: bold; margin-left: 5%; color: white;">DashBoard Analista</span>
                 <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
                     <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
                     <p id="pAlerta"></p>
                 </div>
-                
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
                 <ul class="navbar">
-                    <li><a href="dashboardAnalista.html"><strong>Dashboard</strong></a></li>
+                    <li><a href="gerenciar_servidor.html"><strong>Baixar relatório</strong></a></li>
+                    <li><a href="gerenciar_servidor.html"><strong>Cadastro de Servidor</strong></a></li>
                     <li><a href="alerta.html"><strong>Alertas</strong></a></li>
                     <li><a href="index.html#cards"><strong>Help Desk</strong></a></li>
                     <li><a href="perfil.html"><strong>Perfil</strong></a></li>
@@ -51,67 +49,32 @@
                 </ul>
             </div>
         </nav>
-    </div>
-    
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h1>TAG TECH</h1>
-        <p>Olá, Fernando!</p>
-        <div class="metrics buttons">
-            <h2>Filtros</h2>
-            <select id="amostraTempo" onchange="alterarValores()">
-                <option selected disabled>Escolha a amostra</option>
-                <option value="dia">Dia</option>
-                <option value="semana">Semana</option>
-                <option value="mes">Mês</option>
-            </select>
-            <button>Baixar relatório</button>
-            <div class="escolha-servidor">
-                <div>
-                    <span>Escolha o servidor</span>
-                    <select id="selecionaServidor">
-                        <option selected disabled>Nº</option>
-                        <option id="1">1</option>
-                        <option id="2">2</option>
-                        <option id="3">3</option>
-                    </select>
-                </div>
             </div>
-            <button onclick="mudarTela()">Acessar</button>
-            <div class="escolha-componente">
-                <div>
-                    <span>Escolha o componente</span>
-                    <select id="selecionaComponente" onchange="atualizarGraficoComponente()">
-                        <option disabled>Componente</option>
-                        <option value="CPU" selected>CPU</option>
-                        <option value="RAM">RAM</option>
-                        <option value="DISCO">DISCO</option>
-                    </select>
-                </div>
-            </div>
-          
-        </div>
-       <div class="buttons">
-    <a href="gerenciar_servidor.html">
-        <button>Cadastro de Servidor</button>
-    </a>
-   </div>
-
-    </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <div class="chart-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
-            
-            <div class="card-alertas">
-                <h2>Servidores em Alerta</h2>
-                <div id="alertas" style="font-size: 24px; font-weight: bold; margin-top: 10px;"></div>
+            <div class="kpis" style="display: flex; flex-direction: row; gap: 20px;">
+                <div class="card-alertas">
+                    <h2>Servidores em Alerta</h2>
+                    <div id="alertas" style="font-size: 24px; font-weight: bold; margin-top: 10px;"></div>
+                </div> 
+                <div class="card-alertas">
+                    <h3>Desvio Padrão Geral</h3>
+                    <span id="desvio-padrao" style="font-size: 24px; font-weight: bold;"></span>
+                </div>
             </div>
-            
-            <!-- Ranking de tempo fora do ar -->
-            <div class="ranking" style="width: 48%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;">
+
+            <div class="ranking" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-right: 5%;">
+                <h2>Filtros</h2>
+                <select id="amostraTempo" onchange="alterarValores()">
+                    <option selected disabled>Escolha a amostra</option>
+                    <option value="dia">Dia</option>
+                    <option value="semana">Semana</option>
+                    <option value="mes">Mês</option>
+                </select>
                 <h3>Ranking de tempo fora do ar</h3>
-                <div style="max-height: 200px; overflow-y: auto;">
+                <div style="max-height: 180px; overflow-y: auto;">
                     <table style="width: 100%;">
                         <tr>
                             <th>Ranking</th>
@@ -144,179 +107,190 @@
                             <td>22:39</td>
                         </tr>
                     </table>
-                </div>
-            </div>
-            <!-- Gráfico de Barras -->
-<canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 48%; height: 280px; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; "></canvas>
-             <!-- Gráfico de Barras Horizontais -->
-             <canvas id="horizontalBarChart" style="aspect-ratio: 16/9; width: 48%; height: 280px; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 10px;"></canvas>
-    </div>
+                 </div>
+              </div>
+         <div class="charts" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-left: 5%; margin-top: 20px;">
+            <h3>Uso dos componentes (por servidor)</h3>
+            <label for="componente">Selecione o Componente:</label>
+          <select id="componente">
+            <option value="CPU">CPU</option>
+            <option value="RAM">RAM</option>
+            <option value="DISCO">DISCO</option>
+           </select>
+           
+            <div id="grafico">
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+            </div>
+        </div>
+
+        <div class="charts" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-right: 5%; margin-top: 20px;">
+            <h3>Variância de cada componente (por servidor)</h3>
+            <label for="componente-maxmin">Selecione o Componente:</label>
+            <select id="componente-maxmin">
+                <option value="CPU">CPU</option>
+                <option value="RAM">RAM</option>
+                <option value="DISCO">DISCO</option>
+            </select>
+            <div id="grafico-maxmin"></div>
+        </div>
+
+    </div>
+</div> 
+    <script>
+        window.onload = function() {
+            let grafico;
+            let servidores = {}; // Armazenar os dados de cada servidor
+            let graficoMaxMin; // Gráfico de máximo e mínimo
+
+            async function fetchData(componente) {
+                const response = await fetch(`http://localhost:3333/analistadados/${componente}`);
+                return response.json();
+            }
+
+            function atualizarGrafico(dados, componente) {
+                // Atualiza os dados armazenados para cada servidor
+                dados.forEach(d => {
+                    servidores[d.idMaquina] = d.valor;
+                });
+
+                // Preparando as novas séries para o gráfico
+                const labels = Object.keys(servidores).map(id => `Servidor ${id}`);
+                const valores = Object.values(servidores);
+
+                const options = {
+                    chart: {
+                        type: 'bar',
+                        height: 280, // Ajustando o tamanho do gráfico
+                    },
+                    series: [{
+                        name: `Uso de ${componente}`,
+                        data: valores
+                    }],
+                    xaxis: {
+                        categories: labels, // Servidores no eixo X
+                    },
+                    yaxis: {
+                        title: {
+                            text: `${componente} (%)`
+                        },
+                        min: 0,
+                        max: 100,
+                    }
+                };
+
+                if (grafico) {
+                    grafico.updateOptions(options); // Atualiza o gráfico existente
+                } else {
+                    grafico = new ApexCharts(document.querySelector("#grafico"), options);
+                    grafico.render();
+                }
+            }
+
+            document.getElementById('componente').addEventListener('change', async (e) => {
+                const componente = e.target.value;
+                const dados = await fetchData(componente);
+                atualizarGrafico(dados, componente);
+            });
+
+            // Atualizar gráfico a cada 2 segundos
+            setInterval(async () => {
+                const componente = document.getElementById('componente').value;
+                const dados = await fetchData(componente);
+                atualizarGrafico(dados, componente);
+            }, 2000);
+        
+         // Função para buscar os dados de máximo e mínimo
+         async function fetchMaxMinData(componente) {
+            const response = await fetch(`http://localhost:3333/analistadados/${componente}/maxmin`);
+            return response.json();
+        }
+
+        // Função para criar ou atualizar o gráfico de máximos e mínimos
+        function criarGraficoMaxMin(dados, componente) {
+            const labels = dados.map(d => `Servidor ${d.idMaquina}`); // Eixo Y
+            const maxValores = dados.map(d => parseFloat(d.maxValor) || 0); // Valores Máximos
+            const minValores = dados.map(d => parseFloat(d.minValor) || 0); // Valores Mínimos
+
+            const options = {
+                chart: {
+                    type: 'bar',
+                    height: 280,
+                },
+                series: [
+                    { name: `Máximo de ${componente}`, data: maxValores },
+                    { name: `Mínimo de ${componente}`, data: minValores },
+                ],
+                plotOptions: {
+                    bar: {
+                        horizontal: true, // Barras horizontais
+                        barHeight: '50%',
+                    },
+                },
+                xaxis: {
+                    title: {
+                        text: `${componente} (%)`,
+                    },
+                    min: 0,
+                    max: 100, // Ajusta o eixo X entre 0 e 100%
+                },
+                yaxis: {
+                    categories: labels, // Nomes dos servidores no eixo Y
+                },
+                dataLabels: {
+                    enabled: false, // Desativado para melhorar a performance
+                },
+                colors: ['#FF4560', '#00E396'], // Cores para Máximo e Mínimo
+            };
+
+            if (graficoMaxMin) {
+                graficoMaxMin.updateOptions(options); // Atualiza o gráfico existente
+            } else {
+                graficoMaxMin = new ApexCharts(document.querySelector("#grafico-maxmin"), options);
+                graficoMaxMin.render();
+            }
+        }
+
+        // Atualizar o gráfico de máximos e mínimos ao selecionar um componente
+        document.getElementById('componente-maxmin').addEventListener('change', async (e) => {
+            const componente = e.target.value;
+            const dados = await fetchMaxMinData(componente);
+            criarGraficoMaxMin(dados, componente);
+        });
+
+        // Atualização periódica do gráfico de máximos e mínimos
+        setInterval(async () => {
+            const componenteMaxMin = document.getElementById('componente-maxmin').value;
+            if (componenteMaxMin) {
+                const maxMinDados = await fetchMaxMinData(componenteMaxMin);
+                criarGraficoMaxMin(maxMinDados, componenteMaxMin);
+            }
+        }, 2000);
+
+        async function fetchDesvioPadraoGlobal() {
+    const response = await fetch("http://localhost:3333/analistadados/desviopadrao");
+    return response.json();
+}
+
+async function atualizarDesvioPadraoGlobal() {
+    try {
+        const dados = await fetchDesvioPadraoGlobal();
+        const desvioPadrao = dados.desvioPadraoGlobal || 0;
+const desvioPadraoExibido = desvioPadrao < 0.01 ? '0.01' : desvioPadrao.toFixed(2); // Exibe no mínimo 0.01
+document.getElementById("desvio-padrao").textContent = desvioPadraoExibido;
+
+    } catch (error) {
+        console.error("Erro ao atualizar desvio padrão global:", error);
+    }
+}
+
+// Atualizar o desvio padrão global a cada 2 segundos
+setInterval(atualizarDesvioPadraoGlobal, 2000);
+
+// Atualizar ao carregar a página
+atualizarDesvioPadraoGlobal();
+
+   
+    };
+    </script>
 </body>
 </html>
-
-<script>
-    // Dados fictícios para os servidores
-    const servidores = [
-        { id: 1, alerta: true },
-        { id: 2, alerta: true },
-        { id: 3, alerta: false }
-    ];
-
-    // Atualizar o número de alertas no card
-    function atualizarAlertas() {
-        const totalServidores = servidores.length;
-        const servidoresComAlerta = servidores.filter(s => s.alerta).length;
-        document.getElementById('alertas').innerText = `${servidoresComAlerta}/${totalServidores}`;
-    }
-
-    // Chamada para atualizar o card na inicialização
-    atualizarAlertas();
-</script>
-
-<script>
-    // Dados por servidor
-    const dataServidores = {
-        CPU: [38, 45, 56],
-        RAM: [21, 18, 20],
-        DISCO: [80, 75, 92]
-    };
-
-    // Gráfico de Pizza
-     // Configuração do Gráfico de Barras
-const ctxBarras = document.getElementById('meuGrafico').getContext('2d');
-let dataBarras = {
-    labels: ['Servidor 1', 'Servidor 2', 'Servidor 3'],
-    datasets: [{
-        label: 'Uso por Servidor',
-        data: dataServidores['CPU'], // CPU como valor padrão
-        backgroundColor: ['#ff914c', '#8b5736', '#f64b00'],
-    }]
-};
-
-let configBarras = {
-    type: 'bar', 
-    data: dataBarras,
-    options: {
-        plugins: {
-            tooltip: {
-                callbacks: {
-                    font: {
-                        weight: 'bold',
-                        size: 18,
-                    },
-                    label: context => {
-                        return context.label + ': ' + context.raw.toLocaleString('pt-BR', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }) + '%';
-                    }
-                }
-
-            },
-            title: {
-                display: true,
-                text: 'Uso dos componentes (por servidor)',
-                font: { size: 24 },
-                padding: { bottom: 30 }
-            }
-        },
-        responsive: false,
-        maintainAspectRatio: false,
-        scales: {
-            x: { beginAtZero: true },
-            y: { beginAtZero: true }
-        }
-    }
-};
-
-let meuGrafico = new Chart(ctxBarras, configBarras);
-
-
-    // Gráfico de Barras Horizontais
-    const dataComponentesMinMax = {
-        CPU: { min: [30, 40, 50], max: [38, 45, 61] },
-        RAM: { min: [15, 10, 18], max: [21, 18, 20] },
-        DISCO: { min: [70, 65, 80], max: [80, 75, 92] }
-    };
-
-    const ctxBar = document.getElementById('horizontalBarChart').getContext('2d');
-    let dataBar = {
-        labels: ['Server 1', 'Server 2', 'Server 3'],
-        datasets: [{
-            label: 'Mínimo',
-            data: dataComponentesMinMax['CPU'].min,
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: '#ff914c',
-        }, {
-            label: 'Máximo',
-            data: dataComponentesMinMax['CPU'].max,
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: '#f64b00',
-        }]
-    };
-
-    let configBar = {
-        type: 'bar',
-        data: dataBar,
-        options: {
-            indexAxis: 'y',
-            elements: { bar: { borderWidth: 2 } },
-            responsive: false,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { position: 'right' },
-                title: {
-                    display: true,
-                    text: 'Variação de cada componente por servidor',
-                    font: { size: 24 },
-                    padding: { bottom: 30 }
-                }
-            },
-            scales: {
-                x: { beginAtZero: true }
-            }
-        }
-    };
-
-    let horizontalBarChart = new Chart(ctxBar, configBar);
-
-    // Função para atualizar os gráfico de barras verticais e barras horizontais ao trocar o componente
-    function atualizarGraficoComponente() {
-        const componenteSelecionado = document.getElementById("selecionaComponente").value;
-
-        // Atualizando dados do gráfico de barras verticais
-        meuGrafico.data.datasets[0].data = dataServidores[componenteSelecionado];
-        meuGrafico.update();
-
-        // Atualizando dados do gráfico de barras horizontais com valores mínimos e máximos
-        horizontalBarChart.data.datasets[0].data = dataComponentesMinMax[componenteSelecionado].min;
-        horizontalBarChart.data.datasets[1].data = dataComponentesMinMax[componenteSelecionado].max;
-        horizontalBarChart.update();
-    }
-
-    // Gráfico de Colunas Empilhadas
-    const ctxStackedBar = document.getElementById('stackedBarChart').getContext('2d');
-    
-
-    function mudarTela() {
-        const select = document.getElementById('selecionaServidor').value;
-        if (select == 1 || select == 2 || select == 3) {
-            window.location = "dashboardAnalistaUmServidor.html";
-        }
-    }
-</script>
-
-<script>
-    //menu hamburguer
-    const menuButton = document.querySelector('.menu-button');
-    const navbar = document.querySelector('.navbar');
-
-    menuButton.addEventListener('click',
-        () => {
-            navbar.classList.toggle('active');
-
-        });
-</script>
