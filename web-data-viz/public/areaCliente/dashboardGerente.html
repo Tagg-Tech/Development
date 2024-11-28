@@ -76,8 +76,8 @@
   <section class="container_gerente">
     <div class="kpi">
       <div class="container_kpi">
-        <h3><b>Uptime Médio Do Mês</b></h3>
-        <div class="uptime"><span id="uptime_number">100%</span></div>
+        <h3><b>Uptime do Mês</b></h3>
+        <div class="uptime"><span id="uptime_number">SEM DADOS</span></div>
       </div>
       <div class="container_kpi">
         <h3><b>Eficiência de memória</b></h3>
@@ -118,13 +118,12 @@
 
 
   <section class="faq_page">
-    <h1>MÉTRICAS</h1>
     <div class="container_faq">
       <div class="box1">
         <h1>Quantidade de alertas por servidor
        (mensal)</h1>
        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum eaque eos.</span>
-       <h1> Uptime Médio do mês</h1>
+       <h1> Uptime do mês</h1>
        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum eaque eos.</span>
 
      </div>
@@ -430,5 +429,42 @@
 function fechar(){
   alertaDiv.style.display = "block";
 }
+
+async function atualizarUptime(){
+  let servidoresDowntime = await rankingForaDoAr() 
+  var kpi = document.getElementById('uptime_number')
+
+  console.log(servidoresDowntime)
+  let uptime_percentual = 0
+
+  const horasMes = 720;
+  var downtime = 0;
+  for(var i = 0;i < servidoresDowntime.length;i++){
+    let servidorAtual = servidoresDowntime[i];
+    downtime += servidorAtual.downtime;
+    console.log(servidorAtual)
+  }
+
+  uptime_percentual = ((horasMes - downtime)/horasMes) *100
+
+  if(uptime_percentual < 0){
+    console.error("Algum servidor passou horas de downtime maiores que o tempo mensal, isso significa que a média do downtime é 100%+calculado, verificar Jira")
+    uptime_percentual = 0;
+  }
+
+
+  console.log(uptime_percentual + '%')
+
+  // ESSE VALOR DE 98 É DEFINIDO PELA REGRA DE NEGOCIO, CONSIDERE QUE 2% DE UPTIME SERÁ: 14 HORAS.
+  if(uptime_percentual < 98){
+    kpi.style.color = 'red'
+  }
+  else if(uptime_percentual <= 99){
+    kpi.style.color = 'yellow'
+  }
+
+  kpi.innerHTML = uptime_percentual + '%'
+}
+atualizarUptime()
 
 </script>
