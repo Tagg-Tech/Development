@@ -265,6 +265,30 @@
                 criarGraficoMaxMin(maxMinDados, componenteMaxMin);
             }
         }, 2000);
+
+        async function fetchDesvioPadraoGlobal() {
+    const response = await fetch("http://localhost:3333/analistadados/desviopadrao");
+    return response.json();
+}
+
+async function atualizarDesvioPadraoGlobal() {
+    try {
+        const dados = await fetchDesvioPadraoGlobal();
+        const desvioPadrao = dados.desvioPadraoGlobal || 0;
+const desvioPadraoExibido = desvioPadrao < 0.01 ? '0.01' : desvioPadrao.toFixed(2); // Exibe no mínimo 0.01
+document.getElementById("desvio-padrao").textContent = desvioPadraoExibido;
+
+    } catch (error) {
+        console.error("Erro ao atualizar desvio padrão global:", error);
+    }
+}
+
+// Atualizar o desvio padrão global a cada 2 segundos
+setInterval(atualizarDesvioPadraoGlobal, 2000);
+
+// Atualizar ao carregar a página
+atualizarDesvioPadraoGlobal();
+
    
     };
     </script>

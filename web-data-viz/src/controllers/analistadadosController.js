@@ -23,7 +23,18 @@ async function buscarMaxMinComponente(req, res) {
   }
 }
 
+async function buscarDesvioPadraoGlobal(req, res) {
+  try {
+      const resultado = await analistaDadosModel.calcularDesvioPadraoGlobal();
+      return res.status(200).json(resultado);
+  } catch (error) {
+      console.error("Erro ao calcular desvio padrão global:", error);
+      return res.status(500).json({ error: "Erro ao calcular desvio padrão global" });
+  }
+}
+
 module.exports = {
   buscarDadosComponente,
-  buscarMaxMinComponente
+  buscarMaxMinComponente,
+  buscarDesvioPadraoGlobal
 };
