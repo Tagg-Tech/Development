@@ -134,7 +134,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-
+               let fk_maquina = sessionStorage.getItem('fk_maquina');
+               let id_usuario = sessionStorage.getItem('ID_USUARIO');
         //--------------Gráfico de linhas------------------------------------//
         //Instanciando gráfico de linahs
         let ctxLine = document.getElementById("LineChart").getContext("2d");
@@ -251,8 +252,7 @@
         //--------------Gráfico de pizza-------------------FIM----------------------------//
 
         //valores temporários atribuidos para testes
-        let fk_maquina = 1;
-        let id_usuario = 1;
+ 
         // let fk_maquina = sessionStorage.getItem('FK_MAQUINA');
         // let id_usuario = sessionStorage.getItem('ID_USUARIO');
         

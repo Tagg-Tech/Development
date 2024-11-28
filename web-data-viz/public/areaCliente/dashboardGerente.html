@@ -129,6 +129,8 @@
 
 
 <script>
+  const paginaAtual = 0;
+  const itensPorPagina = 5;
   // Configurações do primeiro gráfico (gráfico de barras horizontal)
   var options = {
     chart: {
@@ -193,16 +195,24 @@
 
   function atualizarGraficoCpu(data) {
     console.log(data)
+    const botao = document.getElementById("btn_graphic_cpu_next")
+
 
     if (data.length === 0) {
       const chart2 = document.getElementById('chart2')
       chart2.innerHTML = 'SEM DADOS'
+      botao.style.display = 'none'
+      return
 
     } else {
       var textoDados = document.getElementById('chart2')
       textoDados.innerHTML = ''
+      const inicio = paginaAtual * itensPorPagina;
+      const fim = inicio + itensPorPagina;
+      const dadosPagina = data.slice(inicio, fim);
       const mediaPercentualCpu = data.map(item => item.mediaPercentualCPU);
       const maquina = data.map(item => item.placaDeRede);
+ 
 
 
       if (data.length != 0) {
@@ -277,15 +287,12 @@
             }
           }
         };
-
-
-        // Cria e renderiza o gráfico no elemento #chart
-
-        var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
-        chart2.render();
-
-
       }
+
+  window.chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+  window.chart2.render();
+  
+  const botao = document.getElementById('btn_graphic_cpu_next');
     }
   }
 
@@ -378,6 +385,7 @@
         const limiteCpu = limiteAtual.alertaCPU;
 
         if (cpuAtual > limiteCpu) {
+            sessionStorage.setItem('FK_MAQUINA',servidor.maquina)
             exibirAlerta(`CPU do servidor ${servidor.PlacaDeRede} está acima do limite!`);
             return;
         }
