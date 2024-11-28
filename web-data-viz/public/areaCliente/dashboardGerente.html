@@ -338,7 +338,32 @@
 
 </script>
 <script>  
-  
+
+var indiceGrupoAtual = 0; 
+var dadosAgrupados = []; 
+
+document.getElementById('btn_graphic_cpu_next').addEventListener('click',proximoGrupo);
+
+  function exibirGrupoAtual(){
+    if(dadosAgrupados.length > 0){
+      const grupoAtual = dadosAgrupados[indiceGrupoAtual];
+      atualizarGraficoCpu(grupoAtual)
+    }
+  }
+
+  function proximoGrupo(){
+    if(indiceGrupoAtual < dadosAgrupados - 1){
+      indiceGrupoAtual++;
+      exibirGrupoAtual()
+    }
+
+  function voltarGrupo(){
+    if(indiceGrupoAtual > 0){
+      indiceGrupoAtual--;
+      exibirGrupoAtual();
+    }
+  }
+  }
 
   function selecionarDados() {
     const idUsuario = sessionStorage.getItem('ID_USUARIO');
@@ -353,12 +378,12 @@
       .then(data => {
         console.log('Dados recebidos CPU:', data);
 
-        let agrupaData = _.chunk(data,5)
+        dadosAgrupados = _.chunk(data,5)
 
-        console.log(agrupaData)
+        console.log(dadosAgrupados)
 
 
-        atualizarGraficoCpu(agrupaData);
+        exibirGrupoAtual(dadosAgrupados)
         buscarLimites()
       })
       .catch(error => {
