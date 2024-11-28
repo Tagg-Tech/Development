@@ -7,4 +7,7 @@ var analistaDadosController = require("../controllers/analistadadosController");
 // Rota para retornar dados para o gráfico
 router.get("/:componente", analistaDadosController.buscarDadosComponente);
 
+// Nova rota para pegar máximo e mínimo de cada servidor
+router.get("/:componente/maxmin", analistaDadosController.buscarMaxMinComponente);
+
 module.exports = router;

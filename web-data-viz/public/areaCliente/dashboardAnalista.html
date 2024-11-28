@@ -110,6 +110,7 @@
                  </div>
               </div>
          <div class="charts" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-left: 5%; margin-top: 20px;">
+            <h3>Uso dos componentes (por servidor)</h3>
             <label for="componente">Selecione o Componente:</label>
           <select id="componente">
             <option value="CPU">CPU</option>
@@ -121,11 +122,25 @@
 
             </div>
         </div>
+
+        <div class="charts" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-right: 5%; margin-top: 20px;">
+            <h3>Variância de cada componente (por servidor)</h3>
+            <label for="componente-maxmin">Selecione o Componente:</label>
+            <select id="componente-maxmin">
+                <option value="CPU">CPU</option>
+                <option value="RAM">RAM</option>
+                <option value="DISCO">DISCO</option>
+            </select>
+            <div id="grafico-maxmin"></div>
+        </div>
+
     </div>
+</div> 
     <script>
         window.onload = function() {
             let grafico;
             let servidores = {}; // Armazenar os dados de cada servidor
+            let graficoMaxMin; // Gráfico de máximo e mínimo
 
             async function fetchData(componente) {
                 const response = await fetch(`http://localhost:3333/analistadados/${componente}`);
@@ -183,7 +198,75 @@
                 const dados = await fetchData(componente);
                 atualizarGrafico(dados, componente);
             }, 2000);
-        };
+        
+         // Função para buscar os dados de máximo e mínimo
+         async function fetchMaxMinData(componente) {
+            const response = await fetch(`http://localhost:3333/analistadados/${componente}/maxmin`);
+            return response.json();
+        }
+
+        // Função para criar ou atualizar o gráfico de máximos e mínimos
+        function criarGraficoMaxMin(dados, componente) {
+            const labels = dados.map(d => `Servidor ${d.idMaquina}`); // Eixo Y
+            const maxValores = dados.map(d => parseFloat(d.maxValor) || 0); // Valores Máximos
+            const minValores = dados.map(d => parseFloat(d.minValor) || 0); // Valores Mínimos
+
+            const options = {
+                chart: {
+                    type: 'bar',
+                    height: 280,
+                },
+                series: [
+                    { name: `Máximo de ${componente}`, data: maxValores },
+                    { name: `Mínimo de ${componente}`, data: minValores },
+                ],
+                plotOptions: {
+                    bar: {
+                        horizontal: true, // Barras horizontais
+                        barHeight: '50%',
+                    },
+                },
+                xaxis: {
+                    title: {
+                        text: `${componente} (%)`,
+                    },
+                    min: 0,
+                    max: 100, // Ajusta o eixo X entre 0 e 100%
+                },
+                yaxis: {
+                    categories: labels, // Nomes dos servidores no eixo Y
+                },
+                dataLabels: {
+                    enabled: false, // Desativado para melhorar a performance
+                },
+                colors: ['#FF4560', '#00E396'], // Cores para Máximo e Mínimo
+            };
+
+            if (graficoMaxMin) {
+                graficoMaxMin.updateOptions(options); // Atualiza o gráfico existente
+            } else {
+                graficoMaxMin = new ApexCharts(document.querySelector("#grafico-maxmin"), options);
+                graficoMaxMin.render();
+            }
+        }
+
+        // Atualizar o gráfico de máximos e mínimos ao selecionar um componente
+        document.getElementById('componente-maxmin').addEventListener('change', async (e) => {
+            const componente = e.target.value;
+            const dados = await fetchMaxMinData(componente);
+            criarGraficoMaxMin(dados, componente);
+        });
+
+        // Atualização periódica do gráfico de máximos e mínimos
+        setInterval(async () => {
+            const componenteMaxMin = document.getElementById('componente-maxmin').value;
+            if (componenteMaxMin) {
+                const maxMinDados = await fetchMaxMinData(componenteMaxMin);
+                criarGraficoMaxMin(maxMinDados, componenteMaxMin);
+            }
+        }, 2000);
+   
+    };
     </script>
 </body>
 </html>
