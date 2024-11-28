@@ -18,13 +18,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
         integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Carregar a biblioteca ApexCharts -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="../js/alerta.js"></script>
 </head>
 
-<body onload="atualizacaoPeriodica()">
+<body onload="iniciarDashboard()">
     <div class="header">
-        <nav>
+ <nav>
             <div class="menu">
                 <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
                 <span style="font-size: 40px; font-weight: bold; margin-left: 5%; color: white;">DashBoard Analista</span>
@@ -48,20 +49,19 @@
                 </ul>
             </div>
         </nav>
-    </div>
+            </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <div class="chart-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
-            
-            <div class="kpis">
+            <div class="kpis" style="display: flex; flex-direction: row; gap: 20px;">
                 <div class="card-alertas">
                     <h2>Servidores em Alerta</h2>
                     <div id="alertas" style="font-size: 24px; font-weight: bold; margin-top: 10px;"></div>
                 </div> 
                 <div class="card-alertas">
                     <h3>Desvio Padrão Geral</h3>
-                    <span id="desvio-padrao">Calculando...</span>
+                    <span id="desvio-padrao" style="font-size: 24px; font-weight: bold;"></span>
                 </div>
             </div>
 
@@ -107,123 +107,83 @@
                             <td>22:39</td>
                         </tr>
                     </table>
-                </div>
-            </div>
+                 </div>
+              </div>
+         <div class="charts" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-left: 5%; margin-top: 20px;">
+            <label for="componente">Selecione o Componente:</label>
+          <select id="componente">
+            <option value="CPU">CPU</option>
+            <option value="RAM">RAM</option>
+            <option value="DISCO">DISCO</option>
+           </select>
+           
+            <div id="grafico">
 
-            <canvas id="meuGrafico" style="aspect-ratio: 16/9; width: 40%; height: 280px; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-left: 5%; "></canvas>
-            <canvas id="horizontalBarChart" style="aspect-ratio: 16/9; width: 40%; height: 280px; margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-right: 5%;"></canvas>
+            </div>
         </div>
     </div>
-
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      <select id="filtroComponente">
-        <option value="CPU">CPU</option>
-        <option value="RAM">RAM</option>
-        <option value="Disco">Disco</option>
-    </select>
-    
-    </body>
-</html>
     <script>
-        // Declaração da variável para controle do timeout
-      
+        window.onload = function() {
+            let grafico;
+            let servidores = {}; // Armazenar os dados de cada servidor
 
-        // Dados fictícios para os servidores
-        const servidores = [
-            { id: 1, alerta: true },
-            { id: 2, alerta: true },
-            { id: 3, alerta: false }
-        ];
+            async function fetchData(componente) {
+                const response = await fetch(`http://localhost:3333/analistadados/${componente}`);
+                return response.json();
+            }
 
-        // Atualizar o número de alertas no card
-        function atualizarAlertas() {
-            const totalServidores = servidores.length;
-            const servidoresComAlerta = servidores.filter(s => s.alerta).length;
-            document.getElementById('alertas').innerText = `${servidoresComAlerta}/${totalServidores}`;
-        }
+            function atualizarGrafico(dados, componente) {
+                // Atualiza os dados armazenados para cada servidor
+                dados.forEach(d => {
+                    servidores[d.idMaquina] = d.valor;
+                });
 
-        // Chamada para atualizar o card na inicialização
-        atualizarAlertas();
-       
-    let grafico;
-    let proximaAtualizacao;
+                // Preparando as novas séries para o gráfico
+                const labels = Object.keys(servidores).map(id => `Servidor ${id}`);
+                const valores = Object.values(servidores);
 
-    // Função para obter os dados do gráfico via API
-    function obterDadosGrafico(filtro = "CPU") {
-        fetch(`/analisa/registros?idEmpresa&filtro=${filtro}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("Dados recebidos:", data);
-            plotarGrafico(data, filtro);
-        })
-        .catch((error) => {
-            console.error("Erro ao buscar os dados:", error);
-        });
-    }
-
-    // Função para plotar o gráfico
-    function plotarGrafico(dados, filtro) {
-        const labels = dados.map((registro) => `Máquina ${registro.idMaquina}`);
-        const valores = dados.map((registro) => registro.percentual);
-
-        const ctx = document.getElementById("meuGrafico").getContext("2d");
-
-        // Limpa o gráfico anterior, se existente
-        if (grafico) {
-            grafico.destroy();
-        }
-
-        // Cria o gráfico atualizado
-        grafico = new Chart(ctx, {
-            type: "line",
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: `Uso de ${filtro}`,
-                    data: valores,
-                    borderColor: "rgba(75, 192, 192, 1)",
-                    fill: false,
-                }],
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
+                const options = {
+                    chart: {
+                        type: 'bar',
+                        height: 280, // Ajustando o tamanho do gráfico
                     },
-                },
-            },
-        });
-    }
+                    series: [{
+                        name: `Uso de ${componente}`,
+                        data: valores
+                    }],
+                    xaxis: {
+                        categories: labels, // Servidores no eixo X
+                    },
+                    yaxis: {
+                        title: {
+                            text: `${componente} (%)`
+                        },
+                        min: 0,
+                        max: 100,
+                    }
+                };
 
-    // Função de atualização periódica
-    function atualizacaoPeriodica() {
-        const filtroComponente = document.getElementById("filtroComponente");
-        if (!filtroComponente) {
-            console.error("Elemento #filtroComponente não encontrado!");
-            return;
-        }
+                if (grafico) {
+                    grafico.updateOptions(options); // Atualiza o gráfico existente
+                } else {
+                    grafico = new ApexCharts(document.querySelector("#grafico"), options);
+                    grafico.render();
+                }
+            }
 
-        const filtro = filtroComponente.value || "CPU"; // Valor padrão caso não exista um filtro selecionado
-        obterDadosGrafico(filtro);
+            document.getElementById('componente').addEventListener('change', async (e) => {
+                const componente = e.target.value;
+                const dados = await fetchData(componente);
+                atualizarGrafico(dados, componente);
+            });
 
-        // Configura nova chamada de atualização após 2 segundos
-        proximaAtualizacao = setTimeout(atualizacaoPeriodica, 2000);
-    }
-
-    // Evento para iniciar atualização quando o filtro for alterado
-    document.getElementById("filtroComponente").addEventListener("change", atualizacaoPeriodica);
-
-    // Inicia a atualização periódica após o carregamento da página
-    document.addEventListener("DOMContentLoaded", () => {
-        atualizacaoPeriodica();
-    });
-</script>
-
-
+            // Atualizar gráfico a cada 2 segundos
+            setInterval(async () => {
+                const componente = document.getElementById('componente').value;
+                const dados = await fetchData(componente);
+                atualizarGrafico(dados, componente);
+            }, 2000);
+        };
+    </script>
+</body>
+</html>

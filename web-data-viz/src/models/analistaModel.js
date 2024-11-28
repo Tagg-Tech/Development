@@ -1,59 +1,54 @@
-var database = require("../database/config");
-
-function buscarMaquinas(idEmpresa) {
-    var instrucaoSql = `
-        SELECT 
-            m.idMaquina, 
-            m.placaDeRede, 
-            m.sistemaOperacional, 
-            m.qtdTotalRAM, 
-            m.qtdCpu, 
-            m.qtdTotalDisco,
-            r.percentualMemoria, 
-            r.percentualDisco, 
-            r.percentualCPU, 
-            r.dataHora
+function servidoresEmAlerta(idEmpresa) {
+    const query = `
+        SELECT COUNT(*) AS alertas
         FROM maquina m
-        LEFT JOIN registros r ON r.fkMaquina = m.idMaquina
-        WHERE m.fkEmpresa = ${idEmpresa} 
-        ORDER BY r.dataHora DESC;
+        JOIN registros r ON r.fkMaquina = m.idMaquina
+        WHERE m.fkEmpresa = ${idEmpresa} AND 
+              (r.percentualCPU >= m.porcentagemAlarme OR 
+               r.percentualMemoria >= m.porcentagemAlarme OR 
+               r.percentualDisco >= m.porcentagemAlarme);
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executar(query);
 }
 
-function buscarUltimosRegistros(idEmpresa, componente) {
-    let colunaPercentual = "";
-    if (componente === "CPU") {
-        colunaPercentual = "percentualCPU";
-    } else if (componente === "RAM") {
-        colunaPercentual = "percentualMemoria";
-    } else if (componente === "Disco") {
-        colunaPercentual = "percentualDisco";
-    }
-
-    var instrucaoSql = `
-        SELECT 
-            m.idMaquina, 
-            r.${colunaPercentual} AS percentual,
-            r.dataHora AS ultimaAtualizacao
+function desvioPadrao(idEmpresa) {
+    const query = `
+        SELECT STDDEV_SAMP(r.percentualCPU) AS desvioCPU,
+               STDDEV_SAMP(r.percentualMemoria) AS desvioMemoria,
+               STDDEV_SAMP(r.percentualDisco) AS desvioDisco
         FROM maquina m
-        LEFT JOIN registros r 
-            ON r.fkMaquina = m.idMaquina 
-            AND r.dataHora = (
-                SELECT MAX(dataHora)
-                FROM registros
-                WHERE fkMaquina = m.idMaquina
-            )
+        JOIN registros r ON r.fkMaquina = m.idMaquina
         WHERE m.fkEmpresa = ${idEmpresa};
     `;
-
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executar(query);
 }
 
+function dadosGraficoBarras(idEmpresa, componente) {
+    const coluna = componente === 'CPU' ? 'percentualCPU' : componente === 'RAM' ? 'percentualMemoria' : 'percentualDisco';
+    const query = `
+        SELECT m.idMaquina, r.${coluna} AS valor
+        FROM maquina m
+        JOIN registros r ON r.fkMaquina = m.idMaquina
+        WHERE m.fkEmpresa = ${idEmpresa};
+    `;
+    return database.executar(query);
+}
+
+function dadosGraficoHorizontais(idEmpresa, componente) {
+    const coluna = componente === 'CPU' ? 'percentualCPU' : componente === 'RAM' ? 'percentualMemoria' : 'percentualDisco';
+    const query = `
+        SELECT m.idMaquina, MIN(r.${coluna}) AS minimo, MAX(r.${coluna}) AS maximo
+        FROM maquina m
+        JOIN registros r ON r.fkMaquina = m.idMaquina
+        WHERE m.fkEmpresa = ${idEmpresa}
+        GROUP BY m.idMaquina;
+    `;
+    return database.executar(query);
+}
 
 module.exports = {
-    buscarMaquinas,
-    buscarUltimosRegistros
+    servidoresEmAlerta,
+    desvioPadrao,
+    dadosGraficoBarras,
+    dadosGraficoHorizontais
 };
