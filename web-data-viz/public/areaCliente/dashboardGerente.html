@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="../css/areaCliente/notificacaoAlerta.css">
   <link rel="stylesheet" href="../css/gerente.css">
   <script src="../js/alerta.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
 
   <!-- <link rel="stylesheet" href="areaCliente.css" /> -->
   <link rel="icon" href="../assets/icon/favicon2.ico" />
@@ -40,7 +42,7 @@
   <title>Tag Tech</title>
 </head>
 
-<body onload="atualizacaoPeriodica(), selecionarDados(), buscarLimites()">
+<body onload="atualizacaoPeriodica(), selecionarDados(), buscarLimites(),atualizarUptime()">
 
   <div class="header">
     <nav>
@@ -49,6 +51,7 @@
         <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
           <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
           <p id="pAlerta"></p>
+          
           <!-- <button class="fechar" href="" onclick="fechar()">X</button> -->
         </div>
         <button class="menu-button"><i class='bx bx-menu'></i></button>
@@ -226,9 +229,6 @@
     } else {
       var textoDados = document.getElementById('chart2')
       textoDados.innerHTML = ''
-      const inicio = paginaAtual * itensPorPagina;
-      const fim = inicio + itensPorPagina;
-      const dadosPagina = data.slice(inicio, fim);
       const mediaPercentualCpu = data.map(item => item.mediaPercentualCPU);
       const maquina = data.map(item => item.placaDeRede);
  
@@ -337,7 +337,9 @@
   document.getElementById("here_b").addEventListener('click', show_dash);
 
 </script>
-<script>
+<script>  
+  
+
   function selecionarDados() {
     const idUsuario = sessionStorage.getItem('ID_USUARIO');
 
@@ -350,11 +352,19 @@
       .then(response => response.json())
       .then(data => {
         console.log('Dados recebidos CPU:', data);
-        atualizarGraficoCpu(data);
+
+        let agrupaData = _.chunk(data,5)
+
+        console.log(agrupaData)
+
+
+        atualizarGraficoCpu(agrupaData);
         buscarLimites()
       })
       .catch(error => {
         console.error('Erro ao enviar os dados:', error);
+        // window.location.html = `https://httpcats.com/${error}`
+        
       });
 
 
@@ -373,6 +383,8 @@
       });
   }
   setInterval(selecionarDados, 60000);
+
+
 
   async function buscarLimites() {
     const idUsuario = sessionStorage.getItem('ID_USUARIO');
@@ -463,8 +475,10 @@ async function atualizarUptime(){
     kpi.style.color = 'yellow'
   }
 
-  kpi.innerHTML = uptime_percentual + '%'
-}
-atualizarUptime()
+  kpi.innerHTML = uptime_percentual + '%' 
+
+  setInterval( atualizarUptime, 60000)
+} 
+
 
 </script>
