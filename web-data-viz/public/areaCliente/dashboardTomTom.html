@@ -100,7 +100,7 @@
         <section class="container_gerenteV1">
             <section class="container_dash_gerenteV1">
                 <div class="dash1">
-                    <h2>10 pedágios mais utilizados</h2>
+                    <h2>10 pedágios com maiores fluxos</h2>
                     <div class="dashPed">
                         <div class="tableDash1">
                             <table>
@@ -189,7 +189,7 @@
 <!-- Fetch para consulta de dados dashboards -->
 <script>
     const url = '/tomtom';
-    async function tomtomData(params) {
+    async function tomtomData() {
         try {
             let resposta = await fetch(url);
             
@@ -201,23 +201,45 @@
             let respJson = await resposta.json();
             let data = respJson.data;
             // Criando novo vetor com a diferença de velocidade das rodovias
-            let dataDif = data.map(item => ({
-                // (...item) Operador de espalhamento, ele espelha todos os atributos do objeto
-                ...item,
-                diferenca: item.velocidadeLivre - item.velocidadeAtual
-            }))
+            let dataDif = data.map(item => {
+                var traf;
+                if((item.velocidadeLivre - item.velocidadeAtual) != 0){
+                    traf = Math.round((item.velocidadeAtual / item.velocidadeLivre) * 100, 0);
+                } else {
+                    traf = 0;
+                }
+                
+                return {
+                    // (...item) Operador de espelhamento, ele espelha todos os atributos do objeto
+                    ...item,
+                    diferenca: item.velocidadeLivre - item.velocidadeAtual,
+                    trafegoRedu: traf
+                };
+            })
             .sort((a, b) => b.diferenca - a.diferenca);
             console.log(dataDif);
 
+            // Pegando range do vetor: de 0 a 9, não inclui índice 10
+            var resp = orgData(dataDif.slice(1, 10));
 
         } catch (error) {
             console.error("Erro no servidor!");
         }
     }
 
-    // Organizando dados do vetor em ordem decrescente
-    function orgData(pedArr) {
-        return pedArr.sort()
+
+    function orgData(vetor) {
+        var dataForGraf = {
+            nomePed: [],
+            percTraf: []
+        };
+
+        vetor.forEach(element => {
+            dataForGraf.nomePed.push(element.concessionaria);
+            dataForGraf.percTraf.push(element.trafegoRedu);
+        });
+
+        plotChart(dataForGraf);
     }
 </script>
 
@@ -269,12 +291,12 @@
 <script>
     // Script gráfico 1
     window.addEventListener('onloadend', plotChart());
-    function plotChart() {
+    function plotChart(object) {
         var options = {
             chart: {
                 height: 300,
                 width: 700,
-                type: "line",
+                type: "bar",
                 stacked: false
             },
             dataLabels: {
@@ -284,11 +306,7 @@
             series: [
                 {
                     name: "Series A",
-                    data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
-                },
-                {
-                    name: "Series B",
-                    data: [20, 29, 37, 36, 44, 45, 50, 58]
+                    data: object.percTraf
                 }
             ],
             stroke: {
@@ -296,11 +314,11 @@
             },
             plotOptions: {
                 bar: {
-                    columnWidth: "20%"
+                    columnWidth: "35%"
                 }
             },
             xaxis: {
-                categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016]
+                categories: object.nomePed
             },
             yaxis: [
                 {
@@ -317,30 +335,9 @@
                         }
                     },
                     title: {
-                        text: "Series A",
+                        text: "0 a 100%",
                         style: {
                             color: "#FF1654"
-                        }
-                    }
-                },
-                {
-                    opposite: true,
-                    axisTicks: {
-                        show: true
-                    },
-                    axisBorder: {
-                        show: true,
-                        color: "#247BA0"
-                    },
-                    labels: {
-                        style: {
-                            colors: "#247BA0"
-                        }
-                    },
-                    title: {
-                        text: "Series B",
-                        style: {
-                            color: "#247BA0"
                         }
                     }
                 }
@@ -350,6 +347,14 @@
                 intersect: true,
                 x: {
                     show: false
+                },
+                custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                    // Obtendo o valor atual e adicionando o símbolo de porcentagem
+                    const value = series[seriesIndex][dataPointIndex];
+                    return `<div style="padding: 10px;">
+                                <strong>${object.nomePed[dataPointIndex]}</strong><br>
+                                <span>${value}%</span>
+                            </div>`;
                 }
             },
             legend: {
