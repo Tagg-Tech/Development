@@ -51,7 +51,7 @@
         <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
           <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
           <p id="pAlerta"></p>
-          
+
           <!-- <button class="fechar" href="" onclick="fechar()">X</button> -->
         </div>
         <button class="menu-button"><i class='bx bx-menu'></i></button>
@@ -98,7 +98,13 @@
           <path
             d="M10 20A10 10 0 1 0 0 10a10 10 0 0 0 10 10zM8.711 4.3l5.7 5.766L8.7 15.711l-1.4-1.422 4.289-4.242-4.3-4.347z" />
         </svg></button>
+
       <div class="container_graphic">
+        <button id="btn_graphic_cpu_prev" style="display: none;" class="nav-btn next"><svg
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M10 20A10 10 0 1 0 0 10a10 10 0 0 0 10 10zM8.711 4.3l5.7 5.766L8.7 15.711l-1.4-1.422 4.289-4.242-4.3-4.347z" />
+          </svg></button>
         <h5><b>Distribuição de CPU Mensal (%)</b></h5>
         <div id="chart2">SEM DADOS</div>
       </div>
@@ -124,23 +130,31 @@
     <div class="container_faq">
       <div class="box1">
         <h1>Quantidade de alertas por servidor
-       (mensal)</h1>
-       <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum eaque eos.</span>
-       <h1> Uptime do mês</h1>
-       <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum eaque eos.</span>
+          (mensal)</h1>
+        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo
+          velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum
+          eaque eos.</span>
+        <h1> Uptime do mês</h1>
+        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo
+          velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum
+          eaque eos.</span>
 
-     </div>
-     <div class="box2">
-      <h1>Distribuição de CPU mensal</h1>
-      <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum eaque eos.</span>
-      <h1>Eficiência de memória</h1>
-      <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum eaque eos.</span>
+      </div>
+      <div class="box2">
+        <h1>Distribuição de CPU mensal</h1>
+        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo
+          velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum
+          eaque eos.</span>
+        <h1>Eficiência de memória</h1>
+        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo
+          velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum
+          eaque eos.</span>
+
+      </div>
+    </div>
 
     </div>
-    </div>
-   
-    </div>
-   
+
     <span id="here_b">Voltar</span>
   </section>
 
@@ -179,7 +193,7 @@
   chart.render();
 
   function atualizarKPI(data2) {
-    console.log(data2)
+    // console.log(data2)
     if (data2.length != 0) {
       data2.forEach((item) => {
         const servidor = item.servidor;
@@ -192,11 +206,11 @@
 
         const eficienciaRam = 24 / mediaRam;
 
-        console.log(eficienciaRam)
+        // console.log(eficienciaRam)
 
         const eficienciaRamFormat = eficienciaRam.toFixed(2)
 
-        console.log(eficienciaRamFormat)
+        // console.log(eficienciaRamFormat)
 
 
         if (eficienciaRam < 2) {
@@ -216,7 +230,7 @@
   ////////////////////////////////////////////////////////////////////////
 
   function atualizarGraficoCpu(data) {
-    console.log(data)
+    // console.log(data)
     const botao = document.getElementById("btn_graphic_cpu_next")
 
 
@@ -231,7 +245,7 @@
       textoDados.innerHTML = ''
       const mediaPercentualCpu = data.map(item => item.mediaPercentualCPU);
       const maquina = data.map(item => item.placaDeRede);
- 
+
 
 
       if (data.length != 0) {
@@ -259,7 +273,7 @@
           colors: ["#8b5736"], // Cor das barras
           dataLabels: {
             enabled: true, // Exibe os valores nas barras
-            formatter: function(val){
+            formatter: function (val) {
               return val.toFixed(0);
             },
             style: {
@@ -308,10 +322,9 @@
         };
       }
 
-  window.chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
-  window.chart2.render();
-  
-  const botao = document.getElementById('btn_graphic_cpu_next');
+      window.chart2Instance = new ApexCharts(document.querySelector("#chart2"), options2);
+      window.chart2Instance.render();
+
     }
   }
 
@@ -337,177 +350,195 @@
   document.getElementById("here_b").addEventListener('click', show_dash);
 
 </script>
-<script>  
+<script>
 
-var indiceGrupoAtual = 0; 
-var dadosAgrupados = []; 
+  var indiceGrupoAtual = 0;
+  var dadosAgrupados = [];
 
-document.getElementById('btn_graphic_cpu_next').addEventListener('click',proximoGrupo);
 
-  function exibirGrupoAtual(){
-    if(dadosAgrupados.length > 0){
+   async function exibirGrupoAtual() {
+    if (dadosAgrupados.length > 0) {
+      // console.log(indiceGrupoAtual)
+      // console.log( 'DADOS AGRUPADOS LINHA 362:',dadosAgrupados)
+
       const grupoAtual = dadosAgrupados[indiceGrupoAtual];
+
+      // console.log( 'GRUPO ATUAL LINHA 366:', grupoAtual)
+
+      // await selecionarDados()
+      // console.log(grupoAtual)
       atualizarGraficoCpu(grupoAtual)
+      document.getElementById('btn_graphic_cpu_prev').style.display = indiceGrupoAtual > 0 ? 'block' : 'none';
+      document.getElementById('btn_graphic_cpu_next').style.display = indiceGrupoAtual < dadosAgrupados.length - 1 ? 'block' : 'none';
     }
   }
 
-  function proximoGrupo(){
-    if(indiceGrupoAtual < dadosAgrupados - 1){
+  async function proximoGrupo() {
+    chart2Instance.destroy();
+    if (indiceGrupoAtual < dadosAgrupados.length - 1) {
       indiceGrupoAtual++;
-      exibirGrupoAtual()
+     await exibirGrupoAtual()
     }
-
-  function voltarGrupo(){
-    if(indiceGrupoAtual > 0){
+  }
+  async function voltarGrupo() {
+    chart2Instance.destroy();
+    if (indiceGrupoAtual > 0) {
       indiceGrupoAtual--;
-      exibirGrupoAtual();
+      await exibirGrupoAtual();
     }
   }
-  }
 
-  function selecionarDados() {
+
+  async function selecionarDados() {
     const idUsuario = sessionStorage.getItem('ID_USUARIO');
 
-    fetch(`/gerente?idUsuario=${idUsuario}`, {
+    const responseGerente = await fetch(`/gerente?idUsuario=${idUsuario}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Dados recebidos CPU:', data);
-        if(data.length > 5){
-         botao = document.getElementById('btn_graphic_cpu_next');
-         botao.style.display = 'block';
-        }
+    // TODO JSON É FUNÇÃO ASSÍNCRONA
+    
+    const dataGerente = await responseGerente.json();
+    // console.log('Dados recebidos CPU:', dataGerente);
 
-        dadosAgrupados = _.chunk(data,5)
-
-        console.log(dadosAgrupados)
-
-
-        exibirGrupoAtual(dadosAgrupados)
-        buscarLimites()
-      })
-      .catch(error => {
-        console.error('Erro ao enviar os dados:', error);
-        // window.location.html = `https://httpcats.com/${error}`
-        
-      });
+    const indiceGrupoAtualAnterior = indiceGrupoAtual;
+    if (dataGerente.length > 5) {
+      botao = document.getElementById('btn_graphic_cpu_next');
+      botao.style.display = 'block';
+    }
 
 
-    fetch(`/gerente/selectRam?idUsuario=${idUsuario}`, {
+    dadosAgrupados = _.chunk(dataGerente, 5)
+    indiceGrupoAtual = Math.min(indiceGrupoAtualAnterior, dadosAgrupados.length - 1)
+    // console.log(dadosAgrupados)
+
+
+    await exibirGrupoAtual()
+    await buscarLimites()
+
+
+    const responseRam = await fetch(`/gerente/selectRam?idUsuario=${idUsuario}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then(response => response.json())
-      .then(data2 => {
-        console.log('Dados recebidos RAM:', data2);
-        atualizarKPI(data2);
-      })
-      .catch(error => {
-        console.error('Erro ao enviar os dados:', error);
-      });
+    })
+    const dataRam = await responseRam.json();
+    // .then(data => {
+    // console.log('Dados recebidos RAM:', dataRam);
+    atualizarKPI(dataRam);
+    // })
+    // .catch(error => {
+    //   console.error('Erro ao enviar os dados:', error);
+    // });
   }
-  setInterval(selecionarDados, 60000);
+
 
 
 
   async function buscarLimites() {
     const idUsuario = sessionStorage.getItem('ID_USUARIO');
-    Promise.all([
-    fetch(`/gerente/selectLimite?idUsuario=${idUsuario}`).then(response => response.json()),
-    fetch(`/gerente/buscarSemMedia?idUsuario=${idUsuario}`).then(response => response.json())
-    ])
-    .then(([limites, dadosServidores]) => { // Desestruturação correta dos resultados
-    console.log('Limites recebidos:', limites);
-    console.log('Dados dos servidores recebidos:', dadosServidores);
-    verificarLimites(dadosServidores, limites); 
-  })
-  .catch(error => {
-    console.error('Erro ao buscar dados ou limites:', error);
-  });
-}
-  function verificarLimites(dadosServidores, limites){
-    console.log("Acessei verificarLimites");
-    console.log('Dados dos Servidores:', dadosServidores);
+    // Promise.all([
+    //   fetch(`/gerente/selectLimite?idUsuario=${idUsuario}`).then(response => response.json()),
+    //   fetch(`/gerente/buscarSemMedia?idUsuario=${idUsuario}`).then(response => response.json())
+    // ])
+    //   .then(([limites, dadosServidores]) => { // Desestruturação correta dos resultados
+        console.log('Limites recebidos:', limites);
+        console.log('Dados dos servidores recebidos:', dadosServidores);
+    //     verificarLimites(dadosServidores, limites);
+    //   })
+    //   .catch(error => {
+    //     console.error('Erro ao buscar dados ou limites:', error);
+    //   });
+    const limites = await fetch(`/gerente/selectLimite?idUsuario=${idUsuario}`).then(response => response.json())
+    const dadosServidores = await fetch(`/gerente/buscarSemMedia?idUsuario=${idUsuario}`).then(response => response.json())
+    // console.log('Limites recebidos:', limites);
+    // console.log('Dados dos servidores recebidos:', dadosServidores);
+    verificarLimites(dadosServidores, limites);
+  }
+  function verificarLimites(dadosServidores, limites) {
+    // console.log("Acessei verificarLimites");
+    // console.log('Dados dos Servidores:', dadosServidores);
 
 
-    for (const servidor of dadosServidores){
-    console.log('Servidor:', servidor);
-    const limiteAtual = limites.find(limite => limite.PlacaDeRede === servidor.PlacaDeRede);
-    console.log('Servidor:', servidor.maquina, 'Limite encontrado:', limiteAtual);
+    for (const servidor of dadosServidores) {
+      // console.log('Servidor:', servidor);
+      const limiteAtual = limites.find(limite => limite.PlacaDeRede === servidor.PlacaDeRede);
+      // console.log('Servidor:', servidor.maquina, 'Limite encontrado:', limiteAtual);
 
-    if (limiteAtual) { 
+      if (limiteAtual) {
         const cpuAtual = parseFloat(servidor.regCpu);
         const limiteCpu = limiteAtual.alertaCPU;
 
         if (cpuAtual > limiteCpu) {
-            sessionStorage.setItem('FK_MAQUINA',servidor.maquina)
-            exibirAlerta(`CPU do servidor ${servidor.PlacaDeRede} está acima do limite!`);
-            return;
+          sessionStorage.setItem('FK_MAQUINA', servidor.maquina)
+          exibirAlerta(`CPU do servidor ${servidor.PlacaDeRede} está acima do limite!`);
+          return;
         }
 
         if (servidor.regRAM && parseFloat(servidor.regRAM) > limiteAtual.alertaRAM) {
-            exibirAlerta(`RAM do servidor ${servidor.PlacaDeRede} está acima do limite!`);
-            return;
+          exibirAlerta(`RAM do servidor ${servidor.PlacaDeRede} está acima do limite!`);
+          return;
         }
-    } else {
+      } else {
         console.error(`Limite para a máquina ${servidor.PlacaDeRede} não encontrado!`);
-    }
-};
+      }
+    };
   }
   function exibirAlerta(mensagem) {
     const alertaDiv = document.getElementById("alertaJira");
     alertaDiv.style.display = "flex";
     const alertaTexto = document.getElementById("pAlerta");
-        
-        alertaTexto.textContent = mensagem;
-}
 
-function fechar(){
-  alertaDiv.style.display = "block";
-}
-
-async function atualizarUptime(){
-  let servidoresDowntime = await rankingForaDoAr() 
-  var kpi = document.getElementById('uptime_number')
-
-  console.log(servidoresDowntime)
-  let uptime_percentual = 0
-
-  const horasMes = 720;
-  var downtime = 0;
-  for(var i = 0;i < servidoresDowntime.length;i++){
-    let servidorAtual = servidoresDowntime[i];
-    downtime += servidorAtual.downtime;
-    console.log(servidorAtual)
+    alertaTexto.textContent = mensagem;
   }
 
-  uptime_percentual = ((horasMes - downtime)/horasMes) *100
-
-  if(uptime_percentual < 0){
-    console.error("Algum servidor passou horas de downtime maiores que o tempo mensal, isso significa que a média do downtime é 100%+calculado, verificar Jira")
-    uptime_percentual = 0;
+  function fechar() {
+    alertaDiv.style.display = "block";
   }
 
+  async function atualizarUptime() {
+    let servidoresDowntime = await rankingForaDoAr()
+    var kpi = document.getElementById('uptime_number')
 
-  console.log(uptime_percentual + '%')
+    // console.log(servidoresDowntime)
+    let uptime_percentual = 0
 
-  // ESSE VALOR DE 98 É DEFINIDO PELA REGRA DE NEGOCIO, CONSIDERE QUE 2% DE UPTIME SERÁ: 14 HORAS.
-  if(uptime_percentual < 98){
-    kpi.style.color = 'red'
+    const horasMes = 720;
+    var downtime = 0;
+    for (var i = 0; i < servidoresDowntime.length; i++) {
+      let servidorAtual = servidoresDowntime[i];
+      downtime += servidorAtual.downtime;
+      // console.log(servidorAtual)
+    }
+
+    uptime_percentual = ((horasMes - downtime) / horasMes) * 100
+
+    if (uptime_percentual < 0) {
+      console.error("Algum servidor passou horas de downtime maiores que o tempo mensal, isso significa que a média do downtime é 100%+calculado, verificar Jira")
+      uptime_percentual = 0;
+    }
+
+
+    // console.log(uptime_percentual + '%')
+
+    // ESSE VALOR DE 98 É DEFINIDO PELA REGRA DE NEGOCIO, CONSIDERE QUE 2% DE UPTIME SERÁ: 14 HORAS.
+    if (uptime_percentual < 98) {
+      kpi.style.color = 'red'
+    }
+    else if (uptime_percentual <= 99) {
+      kpi.style.color = 'yellow'
+    }
+
+    kpi.innerHTML = uptime_percentual + '%'
+
   }
-  else if(uptime_percentual <= 99){
-    kpi.style.color = 'yellow'
-  }
-
-  kpi.innerHTML = uptime_percentual + '%' 
-
-  setInterval( atualizarUptime, 60000)
-} 
+  // setInterval(selecionarDados, 60000);
+  // setInterval(atualizarUptime, 60000);
+  document.getElementById('btn_graphic_cpu_next').addEventListener('click', proximoGrupo);
+  document.getElementById('btn_graphic_cpu_prev').addEventListener('click', voltarGrupo);
 
 
 </script>
