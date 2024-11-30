@@ -10,7 +10,7 @@
     height: 90vh;
     padding-top: 10vh;
     justify-content: center;
-    margin-left: 20vh;
+    margin-left: 15vh;
 }
 .faq{
     display: flex;
@@ -80,7 +80,7 @@
     /* margin-top: 6vh; */
 }
 
-.nav-btn {
+#btn_graphic_cpu_next {
     width: 30px;  
     height: 30px;  
     display: flex;
@@ -94,16 +94,33 @@
     margin-left: 15vh;  
 }
 
-.nav-btn svg {
+#btn_graphic_cpu_prev{
+    width: 30px;  
+    height: 30px;  
+    display: flex;
+    justify-content: center;  
+    align-items: center;  
+    background-color: transparent;  
+    /* border: 2px solid #000;   */
+    border: none; 
+    border-radius: 50%;  
+    cursor: pointer;
+    /* margin-left: 15vh;  */
+    margin-right: 24vh;
+    transform: rotate(180deg);
+}
+
+
+
+#btn_graphic_cpu_prev svg,
+#btn_graphic_cpu_next svg {
     scale: 2.0; 
     height: 100%;  
     fill: #949292;  
-    /* transition: transform 0.3s ease;  */
+    /* transform: scale(1.0); */
+
 }
 
-.nav-btn:hover svg {
-    transform: scale(1.05);  
-}
 
 #here{
     text-decoration: underline; 
@@ -156,9 +173,7 @@
     position: fixed;
     padding-top: 3vh;
     }
-    .faq{
-    /* margin-left: 50vh; */
-    }
+
 }
 
 .fechar{
@@ -170,12 +185,4 @@
     cursor: pointer;
 }
 
-/*APENAS PARA MARCAÇÃO
 
-    TO-DO:
-    Página FAQ
-    Integração wdv
-    Alertas
-
-
-*/

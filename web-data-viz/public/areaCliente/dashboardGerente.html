@@ -93,22 +93,17 @@
         <h5><b>Quantidade de Alertas de cada servidor(Mensal)</b></h5>
         <div id="chart">SEM DADOS</div>
       </div>
-      <button id="btn_graphic_alerts_next" style="display: none;" class="nav-btn next"><svg
-          xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M10 20A10 10 0 1 0 0 10a10 10 0 0 0 10 10zM8.711 4.3l5.7 5.766L8.7 15.711l-1.4-1.422 4.289-4.242-4.3-4.347z" />
-        </svg></button>
-
+      <button id="btn_graphic_cpu_prev" style="display: none;"><svg
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M10 20A10 10 0 1 0 0 10a10 10 0 0 0 10 10zM8.711 4.3l5.7 5.766L8.7 15.711l-1.4-1.422 4.289-4.242-4.3-4.347z" />
+      </svg></button>
       <div class="container_graphic">
-        <button id="btn_graphic_cpu_prev" style="display: none;" class="nav-btn next"><svg
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M10 20A10 10 0 1 0 0 10a10 10 0 0 0 10 10zM8.711 4.3l5.7 5.766L8.7 15.711l-1.4-1.422 4.289-4.242-4.3-4.347z" />
-          </svg></button>
+
         <h5><b>Distribuição de CPU Mensal (%)</b></h5>
         <div id="chart2">SEM DADOS</div>
       </div>
-      <button id="btn_graphic_cpu_next" style="display: none;" class="nav-btn next"><svg
+      <button id="btn_graphic_cpu_next" style="display: none;"><svg
           xmlns="http://www.w3.org/2000/svg">
           <path
             d="M10 20A10 10 0 1 0 0 10a10 10 0 0 0 10 10zM8.711 4.3l5.7 5.766L8.7 15.711l-1.4-1.422 4.289-4.242-4.3-4.347z" />
@@ -168,7 +163,9 @@
   const paginaAtual = 0;
   const itensPorPagina = 5;
   // Configurações do primeiro gráfico (gráfico de barras horizontal)
-  var options = {
+
+  function constructJiraChart(){
+    var options = {
     chart: {
       type: 'bar', // Define o tipo de gráfico como "bar"
       height: 250, // Altura do gráfico
@@ -192,6 +189,8 @@
   var chart = new ApexCharts(document.querySelector("#chart"), options);
   chart.render();
 
+  }
+  
   function atualizarKPI(data2) {
     // console.log(data2)
     if (data2.length != 0) {
@@ -401,7 +400,7 @@
     // TODO JSON É FUNÇÃO ASSÍNCRONA
     
     const dataGerente = await responseGerente.json();
-    // console.log('Dados recebidos CPU:', dataGerente);
+    // console.log('Dados recebidos CPU:', dataGerente);  
 
     const indiceGrupoAtualAnterior = indiceGrupoAtual;
     if (dataGerente.length > 5) {
@@ -445,8 +444,7 @@
     //   fetch(`/gerente/buscarSemMedia?idUsuario=${idUsuario}`).then(response => response.json())
     // ])
     //   .then(([limites, dadosServidores]) => { // Desestruturação correta dos resultados
-        console.log('Limites recebidos:', limites);
-        console.log('Dados dos servidores recebidos:', dadosServidores);
+        
     //     verificarLimites(dadosServidores, limites);
     //   })
     //   .catch(error => {
@@ -456,6 +454,8 @@
     const dadosServidores = await fetch(`/gerente/buscarSemMedia?idUsuario=${idUsuario}`).then(response => response.json())
     // console.log('Limites recebidos:', limites);
     // console.log('Dados dos servidores recebidos:', dadosServidores);
+    console.log('Limites recebidos:', limites);
+    console.log('Dados dos servidores recebidos:', dadosServidores);
     verificarLimites(dadosServidores, limites);
   }
   function verificarLimites(dadosServidores, limites) {

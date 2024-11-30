@@ -19,7 +19,6 @@ function atualizacaoPeriodica() {
 
 async function getChamadosAlerta(){
 
-        
       const response = await fetch("/verChamados", {
         method: "POST",
         headers: {
