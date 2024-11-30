@@ -8,7 +8,7 @@ O objetivo do projeto é garantir a **alta disponibilidade** e o **desempenho** 
 
 ## 🚗 Por que a TagTech é necessária?
 
-A taxa de vendas de carros no Brasil aumentou em **35%**. Esse crescimento gerou um aumento significativo na demanda por serviços automatizados, como os sistemas de pagamento de pedágios e controle de acesso em estradas. Empresas que oferecem esses serviços precisam garantir que seus servidores funcionem 100% do tempo, sem falhas, para evitar prejuízos e garantir a satisfação dos clientes.
+A taxa de vendas de carros no Brasil aumentou em **35%** em um periodo entre 2010 e 2020. Esse crescimento gerou um aumento significativo na demanda por serviços automatizados, como os sistemas de pagamento de pedágios e controle de acesso em estradas. Empresas que oferecem esses serviços precisam garantir que seus servidores funcionem próximo de 100% do tempo, sem falhas, para evitar prejuízos e garantir a satisfação dos clientes.
 
 **TagTech** foi desenvolvida para **monitorar a infraestrutura de servidores** dessas empresas e garantir que o tempo de inatividade (downtime) seja minimizado, permitindo que os responsáveis tomem decisões rápidas e eficazes.
 
