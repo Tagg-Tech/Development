@@ -15,6 +15,13 @@ const listaLocalizacoes = [
     '-22.476441,-42.088519', '-21.552594,-41.331597', '-22.687469,-42.539855', '-22.774713,-42.945500', '-22.049750,-41.685157'
 ];
 
+const listaLocalizacoes1 = [
+       '-27.185065,-48.612362', '-27.885105,-48.647677', '-27.010584,-50.374335', '-25.713458,-49.318037', '-26.570363,-50.221795', '-26.070580,-49.739911',
+        '-27.010584,-50.428716', '-23.787647,-46.913922', '-24.157869,-47.326280', '-24.389325,-47.722391', '-24.722483,-48.082580', '-24.964044,-48.412000',
+         '-25.289252,-48.933841', '-16.115707,-48.589240', '-19.617614,-47.346547', '-19.776951,-48.458219', '-16.438631,-49.019137', 
+          '-17.163180,-49.212582', '-18.268544,-49.245811', '-19.471586,-48.871046', '-20.142521,-49.110488', '-19.909615,-44.506725', '-19.788259,-45.584630',
+];
+
 
 
 // Carregar o CSV com as informações dos trechos de rodovias
@@ -62,7 +69,7 @@ async function consultarDadosTrafego(req, res) {
     console.log(`Chave da API : ${apiKey}`);
 
     //Monta as requisições iterando a partir da listaLocalizacoes
-    for (const localizacao of listaLocalizacoes) {
+    for (const localizacao of listaLocalizacoes1) {
         const params = new URLSearchParams({
             key: apiKey,
             point: localizacao,
