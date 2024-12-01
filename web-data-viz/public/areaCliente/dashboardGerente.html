@@ -164,7 +164,20 @@
   const itensPorPagina = 5;
   // Configurações do primeiro gráfico (gráfico de barras horizontal)
 
-  function constructJiraChart(){
+  function constructJiraChart(qtd){
+
+    if (qtd.length === 0) {
+      const chart2 = document.getElementById('chart2')
+      chart2.innerHTML = 'SEM DADOS'
+      botao.style.display = 'none'
+      return
+
+    } else {
+      var textoDados = document.getElementById('chart2')
+      textoDados.innerHTML = ''
+      const alertas = qtd.map(item => item.alertas);
+      const maquina = qtd.map(item => item.servidor);
+
     var options = {
     chart: {
       type: 'bar', // Define o tipo de gráfico como "bar"
@@ -178,9 +191,8 @@
       }
     },
     series: [{
-      data: [
-
-      ]
+      name: 'Servidores em alerta',
+      data: alertas
     }],
     colors: ["#8b5736"] // Define a cor das barras
   };
@@ -190,6 +202,8 @@
   chart.render();
 
   }
+}
+
   
   function atualizarKPI(data2) {
     // console.log(data2)
@@ -225,6 +239,7 @@
       efficency_number.innerHTML = `SEM DADOS`
     }
   }
+  
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -546,12 +561,13 @@
   document.getElementById('btn_graphic_cpu_next').addEventListener('click', proximoGrupo);
   document.getElementById('btn_graphic_cpu_prev').addEventListener('click', voltarGrupo);
 
-  async function testeQtdAlerta(){
+  async function QtdAlerta(){
         var qtd = await qtdAlertasTempo(3)
         console.log(qtd)
+        constructJiraChart(qtd)
     }
 
-    testeQtdAlerta()
+    QtdAlerta()
 
     function alertarSemDados(){
       const chart1 = document.getElementById("chart")
