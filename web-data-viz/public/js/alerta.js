@@ -19,6 +19,7 @@ function atualizacaoPeriodica() {
 
 async function getChamadosAlerta(){
 
+        
       const response = await fetch("/verChamados", {
         method: "POST",
         headers: {
@@ -189,21 +190,17 @@ async function rankingForaDoAr(){
 
       var tempoDownTime = dataAtual - dataFechamento;
 
-      // Convertendo milissegundos para minutos
       var diferencaHoras = Math.floor(tempoDownTime / (1000 * 60));
 
       diferencaHoras = Math.round(diferencaHoras / 60, 2)
 
-      //Deixando o valor positivo
       diferencaHoras = Math.abs(diferencaHoras)
 
       var servidor = listaChamadosDown.find(item => item.nome === servidorAtual);
 
       if (servidor) {
-        // Incrementa o downtime se o nome já estiver na lista
         servidor.downtime += diferencaHoras;
       } else {
-        // Adiciona um novo servidor na lista se ele não existir
         listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
       }
 
@@ -214,8 +211,21 @@ async function rankingForaDoAr(){
 }
 
 
-async function qtdAlertasMensal(){
+async function qtdAlertasTempo(tempo){
 
+  var dataAtual = new Date()
+
+
+  if (tempo == 1) {
+    var dataMinima = new Date(dataAtual);
+    dataMinima.setDate(dataAtual.getDate() - 1);
+  } else if (tempo == 2) {
+    var dataMinima = new Date(dataAtual);
+    dataMinima.setDate(dataAtual.getDate() - 7);
+  } else{
+    var dataMinima = new Date(dataAtual);
+    dataMinima.setMonth(dataAtual.getMonth() - 1);
+  } 
         
   const response = await fetch("/verChamados", {
     method: "POST",
@@ -226,7 +236,7 @@ async function qtdAlertasMensal(){
 
   const data = await response.json();
 
-  const issues = data.resultado.issues; // Aqui estamos acessando o array de issues
+  const issues = data.resultado.issues; 
   var contChamados = 0
 
   issues.forEach(issue => {
@@ -236,8 +246,18 @@ async function qtdAlertasMensal(){
     const tipoChamado = chamadoAtual.project.key;
     
 
+    
+
     if (tipoChamado != "DOWN"){
-      contChamados ++
+      const chamado = chamadoAtual.description;
+      index = chamado.indexOf("**");
+      var dtAtual = chamado.substring(index + 2, index + 19);
+      dtAtual = new Date(dtAtual) 
+      if(dtAtual > dataMinima ){
+        contChamados ++
+      }
+
+
     }})
 
 
