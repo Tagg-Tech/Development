@@ -164,7 +164,20 @@
   const itensPorPagina = 5;
   // Configurações do primeiro gráfico (gráfico de barras horizontal)
 
-  function constructJiraChart(){
+  function constructJiraChart(qtd){
+
+    if (qtd.length === 0) {
+      const chart2 = document.getElementById('chart2')
+      chart2.innerHTML = 'SEM DADOS'
+      botao.style.display = 'none'
+      return
+
+    } else {
+      var textoDados = document.getElementById('chart2')
+      textoDados.innerHTML = ''
+      const alertas = qtd.map(item => item.alertas);
+      const maquina = qtd.map(item => item.servidor);
+
     var options = {
     chart: {
       type: 'bar', // Define o tipo de gráfico como "bar"
@@ -178,9 +191,8 @@
       }
     },
     series: [{
-      data: [
-
-      ]
+      name: 'Servidores em alerta',
+      data: alertas
     }],
     colors: ["#8b5736"] // Define a cor das barras
   };
@@ -190,6 +202,8 @@
   chart.render();
 
   }
+}
+
   
   function atualizarKPI(data2) {
     // console.log(data2)
@@ -225,6 +239,7 @@
       efficency_number.innerHTML = `SEM DADOS`
     }
   }
+  
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -493,6 +508,12 @@
     const alertaTexto = document.getElementById("pAlerta");
 
     alertaTexto.textContent = mensagem;
+
+    if(alertaTexto.textContent = "Parece que você esta tendo problemas com o recebimento de dados! Nos contate para verificar a situação"){
+      var caixa = document.getElementById('alertaJira');
+      caixa.onclick = ''
+      caixa.style.cursor = 'default'
+    }
   }
 
   function fechar() {
@@ -535,10 +556,31 @@
     kpi.innerHTML = uptime_percentual + '%'
 
   }
-  // setInterval(selecionarDados, 60000);
-  // setInterval(atualizarUptime, 60000);
+  setInterval(selecionarDados, 60000);
+  setInterval(atualizarUptime, 60000);
   document.getElementById('btn_graphic_cpu_next').addEventListener('click', proximoGrupo);
   document.getElementById('btn_graphic_cpu_prev').addEventListener('click', voltarGrupo);
 
+  async function QtdAlerta(){
+        var qtd = await qtdAlertasTempo(3)
+        console.log(qtd)
+        constructJiraChart(qtd)
+    }
+
+    QtdAlerta()
+
+    function alertarSemDados(){
+      const chart1 = document.getElementById("chart")
+      const chart2 = document.getElementById("chart2")
+      const efficiency_number = document.getElementById("efficiency_number")
+      const uptime_number = document.getElementById("uptime_number")
+      
+
+      if(chart1.innerHTML == 'SEM DADOS' || chart2.innerHTML == 'SEM DADOS' || efficiency_number.innerHTML == 'SEM DADOS' || uptime_number == 'SEM DADOS'){
+        var mensagem = 'Parece que você esta tendo problemas com o recebimento de dados! Nos contate para verificar a situação'
+        exibirAlerta(mensagem)
+      }
+    }
+    alertarSemDados()
 
 </script>
