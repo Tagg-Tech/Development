@@ -165,9 +165,72 @@ function associar(req, res){
     }
 }
 
+
+
+function desassociar(req, res){
+    // Crie uma variável que vá recuperar os valores do arquivo perfil.html
+    var codFuncionarioAssociar = req.body.codFuncionarioAssociarServer;
+    var codServidorReferencia = req.body.codServidorReferenciaServer;
+    
+    // Faça as validações dos valores
+    if (codFuncionarioAssociar == undefined) {
+        res.status(400).send("Seu código de funcionário está undefined!");
+    } else if (codServidorReferencia == undefined) {
+        res.status(400).send("Seu servidor de referência está undefined!");
+    } else {
+
+        funcionarioModel.desassociar(codFuncionarioAssociar, codServidorReferencia)
+            .then(
+                function (resultado) {
+                    res.status(200).json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao desassociar este funcionário a este servidor",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
+
+function excluir(req, res){
+    // Crie uma variável que vá recuperar os valores do arquivo perfil.html
+    var codFuncionarioAssociar = req.body.codFuncionarioAssociarServer;
+    
+    // Faça as validações dos valores
+    if (codFuncionarioAssociar == undefined) {
+        res.status(400).send("Seu código de funcionário está undefined!");
+    }else {
+
+        funcionarioModel.excluir(codFuncionarioAssociar)
+            .then(
+                function (resultado) {
+                    res.status(200).json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao desassociar este funcionário a este servidor",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
+
 module.exports = {
     autenticar,
     cadastrar,
     alterar,
-    associar
+    associar,
+    desassociar,
+    excluir
 }

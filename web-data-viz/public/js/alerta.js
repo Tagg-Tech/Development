@@ -85,6 +85,8 @@ function exibirAlerta(tipoChamado, servidorAtual){
 
 
 
+
+
 function irParaAlertas(){
 
     window.location.href = 'dashboardAnalistaUmServidor.html';
@@ -136,6 +138,10 @@ async function numeroPicosPorServidor(idServidor){
   return contPicos;
 
 }
+
+
+
+
 
 async function rankingForaDoAr(){
   
@@ -270,4 +276,45 @@ async function qtdAlertasTempo(tempo) {
   });
 
   return alertasPorServidor; // Retorna o objeto JSON com o nome do servidor e a quantidade de alertas
+}
+
+
+async function numPicosCadaServidor(){
+  const response = await fetch("/verChamados", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  const issues = data.resultado.issues;
+
+  const listaPicosPorServidor = [];
+
+  issues.forEach(issue => {
+    const chamadoAtual = issue.fields;
+    const tipoChamado = chamadoAtual.project.key;
+
+    if (tipoChamado == "TTCS"){
+      const chamado = chamadoAtual.description;
+
+      const index = chamado.indexOf("''");
+      if (index !== -1) {  
+        var servidorAtual = chamado.substring(index + 2);
+      } else {
+        var servidorAtual = null;
+      }
+
+      var servidor = listaPicosPorServidor.find(item => item.NomeServidor === servidorAtual);
+
+      if (servidor) {
+        servidor.numPicos++;
+      } else {
+        listaPicosPorServidor.push({ NomeServidor: servidorAtual, numPicos: 1 });
+      }
+    }
+  });
+
+  return listaPicosPorServidor;
 }
