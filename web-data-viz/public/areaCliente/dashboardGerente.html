@@ -520,9 +520,7 @@ setInterval(constructJiraChart, 50000)
     }
   }
 
-  function fechar() {
-    alertaDiv.style.display = "block";
-  }
+
 
   async function atualizarUptime() {
     let servidoresDowntime = await rankingForaDoAr()
@@ -569,11 +567,12 @@ setInterval(constructJiraChart, 50000)
     function alertarSemDados(){
       const chart1 = document.getElementById("chart")
       const chart2 = document.getElementById("chart2")
-      const efficiency_number = document.getElementById("efficiency_number")
+      const efficiency_number = document.getElementById("efficency_number")
       const uptime_number = document.getElementById("uptime_number")
+      const alertaDiv = document.getElementById("alertaJira"); 
       
 
-      if(chart1.innerHTML == 'SEM DADOS' || chart2.innerHTML == 'SEM DADOS' || efficiency_number.innerHTML == 'SEM DADOS' || uptime_number == 'SEM DADOS'){
+      if(chart1.innerHTML == 'SEM DADOS' || chart2.innerHTML == 'SEM DADOS' || efficiency_number.innerHTML == 'SEM DADOS' || uptime_number.innerHTML == 'SEM DADOS'){
         var mensagem = 'Parece que você esta tendo problemas com o recebimento de dados! Nos contate para verificar a situação'
         exibirAlerta(mensagem)
       }else{
