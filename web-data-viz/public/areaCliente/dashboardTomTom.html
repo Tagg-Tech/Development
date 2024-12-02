@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/areaCliente/notificacaoAlerta.css">
     <link rel="stylesheet" href="../css/dashTomTom.css">
     <script src="../js/alerta.js"></script>
+    <script src="../js/tomScript.js"></script>
 
     <!-- <link rel="stylesheet" href="areaCliente.css" /> -->
     <link rel="icon" href="../assets/icon/favicon2.ico" />
@@ -97,50 +98,16 @@
                 <button>Alertas</button>
             </div>
         </div>
+        <!-- Tabela de fluxo de pedágios completa -->
+        <div class="tableDash1Comp">
+            <!-- Elementos gerados por javascript -->
+        </div>
         <section class="container_gerenteV1">
+            <!-- Primeria dashboard, fluxo de pedágios -->
             <section class="container_dash_gerenteV1">
                 <div class="dash1">
                     <h2>10 pedágios com maiores fluxos</h2>
                     <div class="dashPed">
-                        <div class="tableDash1">
-                            <table>
-                                <caption>Uso Estimado dos Pedágios</caption>
-                                <thead>
-                                    <tr>
-                                        <th>Concessionária</th>
-                                        <th>Quilômetro</th>
-                                        <th>Uso Estimado (%)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Pedágio Alfa</td>
-                                        <td>km 45</td>
-                                        <td>95%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pedágio Beta</td>
-                                        <td>km 30</td>
-                                        <td>85%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pedágio Gama</td>
-                                        <td>km 60</td>
-                                        <td>75%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pedágio Delta</td>
-                                        <td>km 20</td>
-                                        <td>50%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pedágio Épsilon</td>
-                                        <td>km 10</td>
-                                        <td>30%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                         <div class="graf1">
                             <!-- Gráfico de pedágios -->
                             <div id="chart1"></div>
@@ -149,7 +116,10 @@
                                 <input type="range" min="1" max="12" value="6" class="slider" id="myRange">
                                 <div class="slider-value" id="sliderValue">Mês: 6</div>
                             </div>
-                            <button>Expandir tabela</button>
+                            <button onclick="closeTable(false)">Expandir tabela</button>
+                        </div>
+                        <div class="tableDash1">
+                            <!-- Elementos gerados por javascript -->
                         </div>
                     </div>
                     <div class="indicadoresDashPed">
@@ -186,261 +156,30 @@
 
 </html>
 
-<!-- Fetch para consulta de dados dashboards -->
 <script>
-    const url = '/tomtom';
-    async function tomtomData() {
-        try {
-            let resposta = await fetch(url);
-            
-            if(!resposta.ok){
-                console.error("Erro de requisição: ", resposta.statusText);
-                return;
-            }
-    
-            let respJson = await resposta.json();
-            let data = respJson.data;
-            // Criando novo vetor com a diferença de velocidade das rodovias
-            let dataDif = data.map(item => {
-                var traf;
-                if((item.velocidadeLivre - item.velocidadeAtual) != 0){
-                    traf = Math.round((item.velocidadeAtual / item.velocidadeLivre) * 100, 0);
-                } else {
-                    traf = 0;
-                }
-                
-                return {
-                    // (...item) Operador de espelhamento, ele espelha todos os atributos do objeto
-                    ...item,
-                    diferenca: item.velocidadeLivre - item.velocidadeAtual,
-                    trafegoRedu: traf
-                };
-            })
-            .sort((a, b) => b.diferenca - a.diferenca);
-            console.log(dataDif);
+//menu hamburguer
+const menuButton = document.querySelector('.menu-button');
+const navbar = document.querySelector('.navbar');
 
-            // Pegando range do vetor: de 0 a 9, não inclui índice 10
-            var resp = orgData(dataDif.slice(1, 10));
+menuButton.addEventListener('click',
+    () => {
+        navbar.classList.toggle('active');
 
-        } catch (error) {
-            console.error("Erro no servidor!");
-        }
-    }
-
-
-    function orgData(vetor) {
-        var dataForGraf = {
-            nomePed: [],
-            percTraf: []
-        };
-
-        vetor.forEach(element => {
-            dataForGraf.nomePed.push(element.concessionaria);
-            dataForGraf.percTraf.push(element.trafegoRedu);
-        });
-
-        plotChart(dataForGraf);
-    }
-</script>
-
-<script>
-    // Indicadores gráfico pedágios:
-    var maisUti = "<span>CCR</span><span>80%</span>";
-    var menosUti = "<span>EcoVias</span><span>50%</span>";
-
-    function showMaisUti() {
-        if (!indMped.innerHTML.includes(maisUti)) {
-            indMped.innerHTML += maisUti;
-        } else{
-            indMped.innerHTML = "<span>Mais utilizado</span>";
-        }
-    }
-</script>
-
-<script>
-    //menu hamburguer
-    const menuButton = document.querySelector('.menu-button');
-    const navbar = document.querySelector('.navbar');
-
-    menuButton.addEventListener('click',
-        () => {
-            navbar.classList.toggle('active');
-
-        });
-</script>
-
-<script>
-    async function getS3() {
-
-        const response = await fetch("/viewS3", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        const issues = await response.json();
-        console.log(issues);
-
-        console.log(JSON.stringify(issues, null, 2));
-    }
-
-
-</script>
-
-<script>
-    // Script gráfico 1
-    window.addEventListener('onloadend', plotChart());
-    function plotChart(object) {
-        var options = {
-            chart: {
-                height: 300,
-                width: 700,
-                type: "bar",
-                stacked: false
-            },
-            dataLabels: {
-                enabled: false
-            },
-            colors: ["#FF1654", "#247BA0"],
-            series: [
-                {
-                    name: "Series A",
-                    data: object.percTraf
-                }
-            ],
-            stroke: {
-                width: [4, 4]
-            },
-            plotOptions: {
-                bar: {
-                    columnWidth: "35%"
-                }
-            },
-            xaxis: {
-                categories: object.nomePed
-            },
-            yaxis: [
-                {
-                    axisTicks: {
-                        show: true
-                    },
-                    axisBorder: {
-                        show: true,
-                        color: "#FF1654"
-                    },
-                    labels: {
-                        style: {
-                            colors: "#FF1654"
-                        }
-                    },
-                    title: {
-                        text: "0 a 100%",
-                        style: {
-                            color: "#FF1654"
-                        }
-                    }
-                }
-            ],
-            tooltip: {
-                shared: false,
-                intersect: true,
-                x: {
-                    show: false
-                },
-                custom: function({ series, seriesIndex, dataPointIndex, w }) {
-                    // Obtendo o valor atual e adicionando o símbolo de porcentagem
-                    const value = series[seriesIndex][dataPointIndex];
-                    return `<div style="padding: 10px;">
-                                <strong>${object.nomePed[dataPointIndex]}</strong><br>
-                                <span>${value}%</span>
-                            </div>`;
-                }
-            },
-            legend: {
-                horizontalAlign: "left",
-                offsetX: 40
-            }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#chart1"), options);
-
-        chart.render();
-    }
-</script>
-
-
-<!-- script gráfico 2 -->
-
-<script>
-    // Dados de exemplo
-    const scatterData = [
-      { x: 1, y: 2 },
-      { x: 2, y: 3 },
-      { x: 3, y: 5 },
-      { x: 4, y: 7 },
-      { x: 5, y: 8 },
-    ];
-
-    // Cálculo da regressão linear (simples, para fins de demonstração)
-    const xValues = scatterData.map(point => point.x);
-    const yValues = scatterData.map(point => point.y);
-    const n = xValues.length;
-
-    const sumX = xValues.reduce((a, b) => a + b, 0);
-    const sumY = yValues.reduce((a, b) => a + b, 0);
-    const sumXY = xValues.reduce((sum, x, i) => sum + x * yValues[i], 0);
-    const sumX2 = xValues.reduce((sum, x) => sum + x * x, 0);
-
-    const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-    const intercept = (sumY - slope * sumX) / n;
-
-    // Dados da linha de regressão
-    const regressionLine = xValues.map(x => ({ x, y: slope * x + intercept }));
-
-    // Configuração do gráfico
-    const options = {
-      chart: {
-        type: 'line',
-        height: 300,
-        width: 500
-      },
-      series: [
-        {
-          name: 'Data Points',
-          type: 'line',
-          data: scatterData,
-        },
-        {
-          name: 'Regression Line',
-          type: 'line',
-          data: regressionLine,
-        },
-      ],
-      xaxis: {
-        title: {
-          text: 'X-Axis',
-        },
-      },
-      yaxis: {
-        title: {
-          text: 'Y-Axis',
-        },
-      },
-    };
-
-    // Renderizar o gráfico
-    const chart = new ApexCharts(document.querySelector("#chart2"), options);
-    chart.render();
-  </script>
-
-
-<!-- script slider -->
-<script>
-    const slider = document.getElementById("myRange");
-    const sliderValue = document.getElementById("sliderValue");
-
-    slider.addEventListener("input", () => {
-      sliderValue.textContent = "Mês: " + slider.value + " de 2024";
     });
+
+
+async function getS3() {
+
+    const response = await fetch("/viewS3", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    const issues = await response.json();
+    console.log(issues);
+
+    console.log(JSON.stringify(issues, null, 2));
+}
 </script>
