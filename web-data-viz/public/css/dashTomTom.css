@@ -38,13 +38,19 @@ table {
     font-family: Arial, sans-serif;
 }
 
+thead{
+    background-color: #6b6a6a;
+    color: #ddd;
+}
+
 th, td {
     border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
+    color: black;
 }
 
-th {
+/* th {
     background-color: #6b6a6a;
     color: #fff;
 }
@@ -55,7 +61,7 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: #f1f1f1;
-}
+} */
 
 caption {
     caption-side: top;
@@ -63,6 +69,29 @@ caption {
     margin-bottom: 10px;
 }
 
+
+/* Tabela completa */
+.tableDash1Comp{
+    position: absolute;
+    height: 90%;
+    width: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    overflow: auto;
+    display: none;
+    z-index: 3;
+}
+
+/* Botão para fechar tabela */
+.bi-x-circle{
+    position: absolute;
+    right: 5%;
+    font-size: 25px;
+    cursor: pointer;
+}
 
 /* Campo gráfico pedágios */
 .graf1{

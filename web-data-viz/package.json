@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon --exec node app.js"
+    "dev": "nodemon --exec node app.js --ignore public/"
   },
   "author": "Feito pelos desenvolvedores @ São Paulo Tech School / Bandtec Digital School",
   "license": "MIT",
@@ -17,6 +17,7 @@
     "date-holidays": "^3.23.12",
     "dotenv": "^16.4.5",
     "express": "^4.17.1",
+    "iconv-lite": "^0.6.3",
     "lodash": "^4.17.21",
     "mysql2": "^3.9.4",
     "node-fetch": "^3.3.2",

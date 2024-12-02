@@ -216,23 +216,21 @@ async function rankingForaDoAr(){
   return listaChamadosDown;
 }
 
+async function qtdAlertasTempo(tempo) {
+  var dataAtual = new Date();
 
-async function qtdAlertasTempo(tempo){
-
-  var dataAtual = new Date()
-
-
+  // Define a data mínima com base no tempo (1: último dia, 2: última semana, outro: último mês)
   if (tempo == 1) {
     var dataMinima = new Date(dataAtual);
     dataMinima.setDate(dataAtual.getDate() - 1);
   } else if (tempo == 2) {
     var dataMinima = new Date(dataAtual);
     dataMinima.setDate(dataAtual.getDate() - 7);
-  } else{
+  } else {
     var dataMinima = new Date(dataAtual);
     dataMinima.setMonth(dataAtual.getMonth() - 1);
-  } 
-        
+  }
+
   const response = await fetch("/verChamados", {
     method: "POST",
     headers: {
@@ -241,33 +239,43 @@ async function qtdAlertasTempo(tempo){
   });
 
   const data = await response.json();
-
-  const issues = data.resultado.issues; 
-  var contChamados = 0
+  const issues = data.resultado.issues;
+  let alertasPorServidor = [];
 
   issues.forEach(issue => {
-
-
     const chamadoAtual = issue.fields;
     const tipoChamado = chamadoAtual.project.key;
-    
 
-    
+    const chamado = chamadoAtual.description;
+    let nomeServidor = 'ServidorDesconhecido'; // Nome padrão caso não consiga extrair
 
-    if (tipoChamado != "DOWN"){
-      const chamado = chamadoAtual.description;
-      index = chamado.indexOf("**");
+  
+    const regex = /servidor ''(\w+)/; 
+    const match = chamado.match(regex);
+
+    if (match) {
+      nomeServidor = match[1]; // Nome do servidor capturado
+    }
+
+    if (tipoChamado != "DOWN") {
+      const index = chamado.indexOf("**");
       var dtAtual = chamado.substring(index + 2, index + 19);
-      dtAtual = new Date(dtAtual) 
-      if(dtAtual > dataMinima ){
-        contChamados ++
+      dtAtual = new Date(dtAtual);
+
+      if (dtAtual > dataMinima) {
+
+        const servidorExistente = alertasPorServidor.find(item => item.servidor === nomeServidor)
+
+        if (servidorExistente) {
+          servidorExistente.alertas++
+        } else {
+          alertasPorServidor.push({ servidor: nomeServidor, alertas: 1 });
+        }
       }
+    }
+  });
 
-
-    }})
-
-
-    return contChamados
+  return alertasPorServidor; // Retorna o objeto JSON com o nome do servidor e a quantidade de alertas
 }
 
 
