@@ -75,6 +75,7 @@ caption {
     position: absolute;
     height: 90%;
     width: 70%;
+    top: 5%;
     left: 50%;
     transform: translateX(-50%);
     background-color: white;

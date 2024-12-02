@@ -37,8 +37,8 @@ const listaLoc45 = [
 function loadCsv(filePath) {
     return new Promise((resolve, reject) => {
         const results = [];
-        fs.createReadStream(filePath) // Estrutura do leitor do CSV, semelhante ao do Java
-            .pipe(iconv.decodeStream('ISO-8859-1'))
+        fs.createReadStream(filePath, {encoding: 'utf-8'}) // Estrutura do leitor do CSV, semelhante ao do Java
+            // .pipe(iconv.decodeStream('ISO-8859-1'))
             .pipe(csv({ separator: ';' }))
             .on('data', (data) => results.push(data))
             .on('end', () => resolve(results))
@@ -79,7 +79,7 @@ async function consultarDadosTrafego(req, res) {
     console.log(`Chave da API : ${apiKey}`);
 
     //Monta as requisições iterando a partir da listaLocalizacoes
-    for (const localizacao of listaLoc10) {
+    for (const localizacao of listaLoc45) {
         const params = new URLSearchParams({
             key: apiKey,
             point: localizacao,
