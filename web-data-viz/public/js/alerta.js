@@ -306,5 +306,6 @@ async function numPicosCadaServidor(){
     }
   });
 
+  console.log(listaPicosPorServidor)
   return listaPicosPorServidor;
 }
