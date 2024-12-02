@@ -42,7 +42,7 @@
   <title>Tag Tech</title>
 </head>
 
-<body onload="atualizacaoPeriodica(), selecionarDados(), buscarLimites(),atualizarUptime()">
+<body onload="atualizacaoPeriodica(), selecionarDados(), buscarLimites(),atualizarUptime(),alertarSemDados(),QtdAlerta()">
 
   <div class="header">
     <nav>
@@ -167,13 +167,13 @@
   function constructJiraChart(qtd){
 
     if (qtd.length === 0) {
-      const chart2 = document.getElementById('chart2')
+      const chart2 = document.getElementById('chart')
       chart2.innerHTML = 'SEM DADOS'
       botao.style.display = 'none'
       return
 
     } else {
-      var textoDados = document.getElementById('chart2')
+      var textoDados = document.getElementById('chart')
       textoDados.innerHTML = ''
       const alertas = qtd.map(item => item.alertas);
       const maquina = qtd.map(item => item.servidor);
@@ -191,7 +191,7 @@
       }
     },
     series: [{
-      name: 'Servidores em alerta',
+      name: maquina,
       data: alertas
     }],
     colors: ["#8b5736"] // Define a cor das barras
@@ -567,7 +567,6 @@
         constructJiraChart(qtd)
     }
 
-    QtdAlerta()
 
     function alertarSemDados(){
       const chart1 = document.getElementById("chart")
@@ -579,8 +578,10 @@
       if(chart1.innerHTML == 'SEM DADOS' || chart2.innerHTML == 'SEM DADOS' || efficiency_number.innerHTML == 'SEM DADOS' || uptime_number == 'SEM DADOS'){
         var mensagem = 'Parece que você esta tendo problemas com o recebimento de dados! Nos contate para verificar a situação'
         exibirAlerta(mensagem)
+      }else{
+        alertaDiv.style.display = 'none'
       }
     }
-    alertarSemDados()
+    setInterval(alertarSemDados,1000);
 
 </script>
