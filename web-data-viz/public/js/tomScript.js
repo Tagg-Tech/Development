@@ -1,12 +1,21 @@
 // Script dashboard 1
-window.addEventListener('DOMContentLoaded', tomtomData);
+window.addEventListener('DOMContentLoaded', ()=>{
+    var cond = sessionStorage.getItem("condition") === "true";
+    tomtomData(cond);    
+    sessionStorage.setItem("condition", "false")
+});
 
 
-// Buscando dados da API
-const url = '/tomtom';
-async function tomtomData() {
+function upData(cond){
+    sessionStorage.setItem("condition", cond.toString());
+    window.location.reload();
+}
+
+// Buscando dados de API
+async function tomtomData(condition) {
+
     try {
-        let resposta = await fetch(url);
+        let resposta = await fetch(`/tomtom/${condition}`);
 
         if (!resposta.ok) {
             console.error("Erro de requisição: ", resposta.statusText);
@@ -47,7 +56,22 @@ async function tomtomData() {
     }
 }
 
+// Organizando dados de API
+function orgData(vetor) {
+    var dataForGraf = {
+        nomePed: [],
+        percTraf: []
+    };
 
+    vetor.forEach(element => {
+        dataForGraf.nomePed.push(element.concessionaria);
+        dataForGraf.percTraf.push(element.nivelTransito);
+    });
+
+    plotChart(dataForGraf);
+}
+
+// Construção de tabela
 function plotTable(vetor){
     // Conteúdo tabela principal
     let line = "";
@@ -120,21 +144,7 @@ function plotTable(vetor){
     document.querySelector('.tableDash1Comp').innerHTML = confTable;
 }
 
-
-function orgData(vetor) {
-    var dataForGraf = {
-        nomePed: [],
-        percTraf: []
-    };
-
-    vetor.forEach(element => {
-        dataForGraf.nomePed.push(element.concessionaria);
-        dataForGraf.percTraf.push(element.nivelTransito);
-    });
-
-    plotChart(dataForGraf);
-}
-
+// Construção de gráfico
 function plotChart(object) {
     var options = {
         chart: {
