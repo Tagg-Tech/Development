@@ -20,4 +20,13 @@ router.post("/associar", function (req, res) {
     funcionarioController.associar(req, res);
 })
 
+router.post("/desassociar", function (req, res) {
+    funcionarioController.desassociar(req, res);
+})
+
+router.post("/excluir", function (req, res) {
+    funcionarioController.excluir(req, res);
+})
+
+
 module.exports = router;

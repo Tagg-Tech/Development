@@ -27,8 +27,8 @@
     
     
 </head>
-
-<body class="background" onload="atualizacaoPeriodica()">
+<!-- atualizacaoPeriodica() -->
+<body class="background" onload="">
     <div class="banner">
         <div class="header">
             <nav>
@@ -127,8 +127,8 @@
                 </div>
                 <div class="btn_fnc" >
                     <button onclick="associar()">Associar</button>
-                    <button>Desassociar</button>
-                    <button>Excluir</button>
+                    <button onclick="desassociar()">Desassociar</button>
+                    <button onclick="excluir()">Excluir</button>
                 </div>
                 <div id="confirm_cadastro_fnc" class="sucesso"></div>
                 <!-- <div>
@@ -210,7 +210,7 @@
 
     function associar(){
         let codFuncionarioAssociar = input_cod_funcionario.value;
-        let codServidorReferencia = input_cod_servidor.value; 
+        let codServidorReferencia = input_cod_servidor.value;
 
         fetch('/funcionarios/associar', {
             method: 'POST',
@@ -229,10 +229,40 @@
     }
 
     function desassociar(){
+        let codFuncionarioAssociar = input_cod_funcionario.value;
+        let codServidorReferencia = input_cod_servidor.value;
+        fetch('/funcionarios/desassociar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                codFuncionarioAssociarServer: codFuncionarioAssociar, 
+                codServidorReferenciaServer: codServidorReferencia,
+            })
+        }).then(response => response.json())
+          .then(data => {
+              document.getElementById('confirm_cadastro').innerText = "Funcionário desassociado com sucesso!";
+            })
+          .catch(error => console.error('Erro:', error));
 
     }
 
     function excluir(){
+        let codFuncionarioAssociar = input_cod_funcionario.value;
+        fetch('/funcionarios/excluir', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                codFuncionarioAssociarServer: codFuncionarioAssociar, 
+            })
+        }).then(response => response.json())
+          .then(data => {
+              document.getElementById('confirm_cadastro').innerText = "Funcionário excluido com sucesso!";
+            })
+          .catch(error => console.error('Erro:', error));
 
     }
 

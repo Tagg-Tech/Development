@@ -7,14 +7,14 @@
     <script src="../js/alerta.js"></script>
     <link rel="stylesheet" href="../css/areaCliente/notificacaoAlerta.css">
 </head>
-<body onload = "testeRanking(), testeQtdAlerta()">
+<body onload = "testeRanking(), testeQtdAlerta(), grafGerente()">
     <input type="text" id="inputData" maxlength="10" placeholder="DD/MM/YYYY" onkeyup="mascaraData(event)">
 </body >
 </html>
 <script>
 
     async function testeQtdAlerta(){
-        var qtd = await qtdAlertasMensal()
+        var qtd = await qtdAlertasTempo(2)
         alert(qtd)
     }
 
@@ -41,5 +41,10 @@
             }
             input.value = data; 
         }
+    }
+
+    async function grafGerente(){
+        var listaPicos = await numPicosCadaServidor()
+        console.log(listaPicos)
     }
 </script>

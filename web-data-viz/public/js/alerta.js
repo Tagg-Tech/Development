@@ -85,6 +85,8 @@ function exibirAlerta(tipoChamado, servidorAtual){
 
 
 
+
+
 function irParaAlertas(){
 
     window.location.href = 'dashboardAnalistaUmServidor.html';
@@ -136,6 +138,10 @@ async function numeroPicosPorServidor(idServidor){
   return contPicos;
 
 }
+
+
+
+
 
 async function rankingForaDoAr(){
   
@@ -189,21 +195,17 @@ async function rankingForaDoAr(){
 
       var tempoDownTime = dataAtual - dataFechamento;
 
-      // Convertendo milissegundos para minutos
       var diferencaHoras = Math.floor(tempoDownTime / (1000 * 60));
 
       diferencaHoras = Math.round(diferencaHoras / 60, 2)
 
-      //Deixando o valor positivo
       diferencaHoras = Math.abs(diferencaHoras)
 
       var servidor = listaChamadosDown.find(item => item.nome === servidorAtual);
 
       if (servidor) {
-        // Incrementa o downtime se o nome já estiver na lista
         servidor.downtime += diferencaHoras;
       } else {
-        // Adiciona um novo servidor na lista se ele não existir
         listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
       }
 
@@ -212,10 +214,21 @@ async function rankingForaDoAr(){
 
   return listaChamadosDown;
 }
+async function qtdAlertasTempo(tempo){
+
+  var dataAtual = new Date()
 
 
-async function qtdAlertasMensal(){
-
+  if (tempo == 1) {
+    var dataMinima = new Date(dataAtual);
+    dataMinima.setDate(dataAtual.getDate() - 1);
+  } else if (tempo == 2) {
+    var dataMinima = new Date(dataAtual);
+    dataMinima.setDate(dataAtual.getDate() - 7);
+  } else{
+    var dataMinima = new Date(dataAtual);
+    dataMinima.setMonth(dataAtual.getMonth() - 1);
+  } 
         
   const response = await fetch("/verChamados", {
     method: "POST",
@@ -226,7 +239,7 @@ async function qtdAlertasMensal(){
 
   const data = await response.json();
 
-  const issues = data.resultado.issues; // Aqui estamos acessando o array de issues
+  const issues = data.resultado.issues; 
   var contChamados = 0
 
   issues.forEach(issue => {
@@ -236,10 +249,62 @@ async function qtdAlertasMensal(){
     const tipoChamado = chamadoAtual.project.key;
     
 
+    
+
     if (tipoChamado != "DOWN"){
-      contChamados ++
+      const chamado = chamadoAtual.description;
+      index = chamado.indexOf("**");
+      var dtAtual = chamado.substring(index + 2, index + 19);
+      dtAtual = new Date(dtAtual) 
+      if(dtAtual > dataMinima ){
+        contChamados ++
+      }
+
+
     }})
 
-
+    //console.log("Quantidade de chamados: ", contChamados)
     return contChamados
+}
+
+
+async function numPicosCadaServidor(){
+  const response = await fetch("/verChamados", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  const issues = data.resultado.issues;
+
+  const listaPicosPorServidor = [];
+
+  issues.forEach(issue => {
+    const chamadoAtual = issue.fields;
+    const tipoChamado = chamadoAtual.project.key;
+
+    if (tipoChamado == "TTCS"){
+      const chamado = chamadoAtual.description;
+
+      const index = chamado.indexOf("''");
+      if (index !== -1) {  
+        var servidorAtual = chamado.substring(index + 2);
+      } else {
+        var servidorAtual = null;
+      }
+
+      var servidor = listaPicosPorServidor.find(item => item.NomeServidor === servidorAtual);
+
+      if (servidor) {
+        servidor.numPicos++;
+      } else {
+        listaPicosPorServidor.push({ NomeServidor: servidorAtual, numPicos: 1 });
+      }
+    }
+  });
+
+  console.log(listaPicosPorServidor)
+  return listaPicosPorServidor;
 }
