@@ -136,8 +136,26 @@ caption {
     height: auto;
 }
 
+.dataContainer{
+    position: relative;
+    top: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    column-gap: 30px;
+}
+
+.btnUpdata{
+    height: 50px;
+    background-color: black !important;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+
 /* Indicadores da dashboard crash */
-.indicadoresDashCrash{
+/* .indicadoresDashCrash{
     position: relative;
     display: flex;
     align-items: center;
@@ -164,4 +182,4 @@ caption {
     font-size: 35px;
     margin-left: 10px;
     color: black;
-}
+} */
