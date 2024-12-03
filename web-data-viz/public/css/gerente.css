@@ -118,7 +118,7 @@
 }
 
 #btn_graphic_cpu_next {
-    width: 30px;  
+    width: 5px;  
     height: 30px;  
     display: flex;
     justify-content: center;  
@@ -128,11 +128,11 @@
     border: none; 
     border-radius: 50%;  
     cursor: pointer;
-    margin-left: 15vh;  
+    margin-left: 10vh;  
 }
 
 #btn_graphic_cpu_prev{
-    width: 30px;  
+    width: 5px;  
     height: 30px;  
     display: flex;
     justify-content: center;  
@@ -143,7 +143,7 @@
     border-radius: 50%;  
     cursor: pointer;
     /* margin-left: 15vh;  */
-    margin-right: 24vh;
+    margin-right: 10vh;
     transform: rotate(180deg);
 }
 
@@ -151,7 +151,7 @@
 
 #btn_graphic_cpu_prev svg,
 #btn_graphic_cpu_next svg {
-    scale: 2.0; 
+    scale: 1.8; 
     height: 100%;  
     fill: #949292;  
     /* transform: scale(1.0); */
