@@ -36,11 +36,16 @@ const listaLoc45 = [
 
 
 async function consultarDadosTrafego(req, res) {
+    // Verificando se o cliente deseja ou não atualizar os dados de API
+    const reqType = req.params.condition == "true";
     // Requisitando dados da API armazenados em cache
     const dataApi = cache.get("dadosApi");
 
+    console.log(dataApi == undefined)
+    console.log(reqType)
+
     // Verificando se há dados de API
-    if (dataApi == undefined) {
+    if (dataApi == undefined || reqType) {
         console.log("Enviando dados quentes!");
         //Constante para armazenar os resultados da localização:
         const resultados = [];
