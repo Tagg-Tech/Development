@@ -145,7 +145,6 @@ async function numeroPicosPorServidor(idServidor){
 
 async function rankingForaDoAr(){
   
-
   const response = await fetch("/verChamados", {
     method: "POST",
     headers: {

@@ -204,7 +204,7 @@ canvas {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 10px;
-  background-color: #f9f9f9;
+  background-color: transparent;
   margin-left: 5%; ;
 }
 
@@ -220,7 +220,7 @@ canvas {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    background-color: #f9f9f9;
+    background-color: #c8c2c2;
     margin-left: 5%; ;
 }
 

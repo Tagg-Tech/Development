@@ -28,7 +28,7 @@
  <nav>
             <div class="menu">
                 <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
-                <span style="font-size: 40px; font-weight: bold; margin-left: 5%; color: white;">DashBoard Analista</span>
+            
                 <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
                     <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
                     <p id="pAlerta"></p>
@@ -53,7 +53,7 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <div class="chart-container" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+        <div class="chart-container" style="display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap;">
             <div class="kpis" style="display: flex; flex-direction: row; gap: 20px;">
                 <div class="card-alertas">
                     <h2>Servidores em Alerta</h2>
@@ -197,7 +197,7 @@
                 const componente = document.getElementById('componente').value;
                 const dados = await fetchData(componente);
                 atualizarGrafico(dados, componente);
-            }, 2000);
+            }, 1000);
         
          // Função para buscar os dados de máximo e mínimo
          async function fetchMaxMinData(componente) {
@@ -264,7 +264,7 @@
                 const maxMinDados = await fetchMaxMinData(componenteMaxMin);
                 criarGraficoMaxMin(maxMinDados, componenteMaxMin);
             }
-        }, 2000);
+        }, 1000);
 
         async function fetchDesvioPadraoGlobal() {
     const response = await fetch("http://localhost:3333/analistadados/desviopadrao");
@@ -284,7 +284,7 @@ document.getElementById("desvio-padrao").textContent = desvioPadraoExibido;
 }
 
 // Atualizar o desvio padrão global a cada 2 segundos
-setInterval(atualizarDesvioPadraoGlobal, 2000);
+setInterval(atualizarDesvioPadraoGlobal, 1000);
 
 // Atualizar ao carregar a página
 atualizarDesvioPadraoGlobal();
