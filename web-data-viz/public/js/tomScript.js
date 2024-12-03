@@ -39,6 +39,8 @@ async function tomtomData() {
         plotTable(dataDif);
         // Pegando range do vetor: de 0 a 9, não inclui índice 10
         orgData(dataDif.slice(0, 10));
+        // Exibindo data de geração de dados
+        firstData(dataDif[0].dataHora);
 
     } catch (error) {
         console.error("Erro no servidor!");
@@ -213,6 +215,17 @@ function plotChart(object) {
     chart.render();
 }
 
+// Exibindo data em que os dados foram capturados
+function firstData(dataRaw){
+    const data = new Date(dataRaw);
+    const day = data.toLocaleDateString("pt-BR", { weekday : "long" });
+    const time = data.toLocaleTimeString("pt-BR", { hour : "2-digit", minute : "2-digit" });
+    console.log(dataRaw);
+    let template = document.querySelector(".labelDataDay");
+
+    template.innerHTML += `${day}, às ${time}.`
+}
+
 // Função para fechar ou abrir tabela completa
 function closeTable(valid){
     let element = document.querySelector('.tableDash1Comp');
@@ -239,12 +252,12 @@ function showMaisUti() {
 
 // <!-- script gráfico 2 -->
 // Dados de exemplo
-const scatterData = [
-    { x: 1, y: 2 },
-    { x: 2, y: 3 },
-    { x: 3, y: 5 },
-    { x: 4, y: 7 },
-    { x: 5, y: 8 },
+/*const scatterData = [
+//     { x: 1, y: 2 },
+//     { x: 2, y: 3 },
+//     { x: 3, y: 5 },
+//     { x: 4, y: 7 },
+//     { x: 5, y: 8 },
 ];
 
 // Cálculo da regressão linear (simples, para fins de demonstração)
@@ -297,7 +310,7 @@ const options = {
 // Renderizar o gráfico
 const chart = new ApexCharts(document.querySelector("#chart2"), options);
 chart.render();
-
+*/
 
 // <!-- script slider -->
 const slider = document.getElementById("myRange");
