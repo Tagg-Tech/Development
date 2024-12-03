@@ -264,7 +264,7 @@ async function qtdAlertasTempo(tempo){
 
     }})
 
-
+    //console.log("Quantidade de chamados: ", contChamados)
     return contChamados
 }
 
