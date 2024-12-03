@@ -221,5 +221,18 @@
     background-color: red;
     cursor: pointer;
 }
+.tooltip{
+    border: 1px solid black;
+    width: 4vh;
+    border-radius: 100%;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.tippy-box {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
 
 

@@ -83,12 +83,12 @@
   <section class="container_gerente">
     <div class="kpi">
       <div class="container_kpi">
-        <h3><b>Uptime do Mês</b> <button id="myButton" data-tippy-content="pknjodouduofhewuibhrwbpirhrfpbpbsbib">?</button></h3>
+        <h3><b>Uptime do Mês</b> <button id="myButton" class="tooltip" data-tippy-content="Com este indicador chave de performance você pode verificar se algum servidor está afetando seu uptime mensal, quando isso ocorrer, mostraremos um simbolo de atenção ao lado do número">?</button></h3>
         <div class="uptime"><span id="uptime_number">SEM DADOS</span></div>
         <img src="../assets/warning-sign-30915_640.png" id="warning_uptime" style="height: 15vh;width: 20vh;position: absolute;top: 100px;left: 700px;display: none;" alt="">
       </div>
       <div class="container_kpi">
-        <h3><b>Eficiência de memória</b> <span data-tooltip="tooltip2" data-position="top">?</span></h3>
+        <h3><b>Eficiência de memória</b> <button id="myButton2" class="tooltip" data-tippy-content="Outro indicador chave importante! Ao observar este indicador, você terá uma noção de 'quão rápido' seus servidores estão consumindo de memória. Quer saber mais? Verifique nosso guia abaixo da tela">?</button></h3>
         <div class="efficency"><span id="efficency_number">SEM DADOS</span></div>
         <img src="../assets/warning-sign-30915_640.png" id="warning_efficiency" style="height: 15vh;width: 20vh;position: absolute;top: 100px;left: 1260px;display: none;" alt="">
 
@@ -172,7 +172,7 @@
   // Configurações do primeiro gráfico (gráfico de barras horizontal)
 
   tippy('#myButton');
-
+  tippy('#myButton2')
   async function constructJiraChart() {
     var qtd = await numPicosCadaServidor();
     
