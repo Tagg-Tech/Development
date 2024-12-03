@@ -1,0 +1,47 @@
+<div class="sidebar">
+    <h1>TAG TECH</h1>
+    <p>Olá, Fernando!</p>
+    <div class="metrics buttons">
+        <h2>Filtros</h2>
+        <select id="amostraTempo" onchange="alterarValores()">
+            <option selected disabled>Escolha a amostra</option>
+            <option value="dia">Dia</option>
+            <option value="semana">Semana</option>
+            <option value="mes">Mês</option>
+        </select>
+        <button>Baixar relatório</button>
+        <div class="escolha-servidor">
+            <div>
+                <span>Escolha o servidor</span>
+                <select id="selecionaServidor">
+                    <option selected disabled>Nº</option>
+                    <option id="1">1</option>
+                    <option id="2">2</option>
+                    <option id="3">3</option>
+                </select>
+            </div>
+        </div>
+        <button onclick="mudarTela()">Acessar</button>
+        <div class="escolha-componente">
+            <div>
+                <span>Escolha o componente</span>
+                <select id="selecionaComponente" onchange="atualizarGraficoComponente()">
+                    <option disabled>Componente</option>
+                    <option value="CPU" selected>CPU</option>
+                    <option value="RAM">RAM</option>
+                    <option value="DISCO">DISCO</option>
+                </select>
+            </div>
+        </div>
+      
+    </div>
+   <div class="buttons">
+<a href="gerenciar_servidor.html">
+    <button>Cadastro de Servidor</button>
+</a>
+</div>
+
+</div>
+
+
+
