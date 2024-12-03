@@ -2,6 +2,8 @@ const dotenv = require('dotenv');
 const csv = require('csv-parser');
 const fs = require('fs');
 const iconv = require('iconv-lite');
+const NodeCache = require('node-cache');
+const cache = new NodeCache();
 
 // Carregar variáveis de ambiente
 dotenv.config({ path: ".env" });
@@ -33,11 +35,91 @@ const listaLoc45 = [
 ];
 
 
+async function consultarDadosTrafego(req, res) {
+    // Requisitando dados da API armazenados em cache
+    const dataApi = cache.get("dadosApi");
+
+    // Verificando se há dados de API
+    if (dataApi == undefined) {
+        console.log("Enviando dados quentes!");
+        //Constante para armazenar os resultados da localização:
+        const resultados = [];
+        // Constante de localizações de arquivo de praças de pedágios
+        const caminhoCsv = __dirname + '/pracas.csv';
+        console.log(`Chave da API : ${apiKey}`);
+
+        //Monta as requisições iterando a partir da listaLocalizacoes
+        for (const localizacao of listaLoc10) {
+            const params = new URLSearchParams({
+                key: apiKey,
+                point: localizacao,
+                unit: 'KMPH',
+            });
+
+            try {
+                const response = await fetch(`${url}?${params}`);
+                if (response.ok) {
+                    // Convertendo a resposta da requisição
+                    const data = await response.json();
+                    // Verificar se os dados esperados estão disponíveis, nesse caso o if se encarrega de verificar se o elemento existe
+                    if (data.flowSegmentData && data.flowSegmentData.coordinates) {
+                        const coordinates = data.flowSegmentData.coordinates.coordinate;
+                        const filteredCoordinates = [coordinates[0], coordinates[coordinates.length - 1]];
+
+
+                        // Consultar informações da rodovia no CSV
+                        const highwayInfo = await getInfoDeRodovia(localizacao, caminhoCsv);
+
+                        // Criação de objeto com dados de tráfego e informações de pedágios correspondentes
+                        resultados.push({
+                            localizacao,
+                            rodovia: highwayInfo ? highwayInfo.rodovia : 'Desconhecida',
+                            municipio: highwayInfo ? highwayInfo.municipio : 'Desconhecido',
+                            uf: highwayInfo ? highwayInfo.uf : 'Desconhecido',
+                            concessionaria: highwayInfo ? highwayInfo.concessionaria : 'Desconhecida',
+                            velocidadeAtual: data.flowSegmentData.currentSpeed,
+                            velocidadeLivre: data.flowSegmentData.freeFlowSpeed,
+                            confiabilidade: data.flowSegmentData.confidence,
+                            coordenadas_inicial: filteredCoordinates[0],
+                            coordenadas_final: filteredCoordinates[1],
+                            dataHora: new Date().toISOString(),
+                        });
+                    } else {
+                        console.error('Dados insuficientes para a localização: ', localizacao);
+                    }
+                } else {
+                    console.error(`Erro na requisição para ${localizacao}: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Erro ao processar a requisição:', error);
+            }
+        }
+
+        resultados.forEach(result => console.log("Notação: " + result.municipio));
+
+        // Armazenando dados da API no cache do servidor
+        cache.set("dadosApi", resultados, 0); // O tempo foi setado como zero, ou seja, não expira
+
+        // Enviando resultados ao termino do for
+        res.status(200).send({
+            msg: "Requisição bem sucedida!",
+            data: resultados
+        });
+    } else {
+        // Enviando dados armazenados em cache
+        console.log("Enviando dados de cache!");
+        res.status(200).send({
+            msg: "Requisição bem sucedida!",
+            data: dataApi
+        });
+    }
+};
+
 // Carregar o CSV com as informações dos trechos de rodovias
 function loadCsv(filePath) {
     return new Promise((resolve, reject) => {
         const results = [];
-        fs.createReadStream(filePath, {encoding: 'utf-8'}) // Estrutura do leitor do CSV, semelhante ao do Java
+        fs.createReadStream(filePath, { encoding: 'utf-8' }) // Estrutura do leitor do CSV, semelhante ao do Java
             // .pipe(iconv.decodeStream('ISO-8859-1'))
             .pipe(csv({ separator: ';' }))
             .on('data', (data) => results.push(data))
@@ -69,69 +151,6 @@ async function getInfoDeRodovia(coordinates, caminhoCsv) {
 
     return null; // Caso nenhuma correspondência seja encontrada
 }
-
-
-async function consultarDadosTrafego(req, res) {
-    //Constante para armazenar os resultados da localização:
-    const resultados = [];
-    // Constante de localizações de arquivo de praças de pedágios
-    const caminhoCsv = __dirname + '/pracas.csv';
-    console.log(`Chave da API : ${apiKey}`);
-
-    //Monta as requisições iterando a partir da listaLocalizacoes
-    for (const localizacao of listaLoc45) {
-        const params = new URLSearchParams({
-            key: apiKey,
-            point: localizacao,
-            unit: 'KMPH',
-        });
-
-        try {
-            const response = await fetch(`${url}?${params}`);
-            if (response.ok) {
-                // Convertendo a resposta da requisição
-                const data = await response.json();
-                // Verificar se os dados esperados estão disponíveis, nesse caso o if se encarrega de verificar se o elemento existe
-                if (data.flowSegmentData && data.flowSegmentData.coordinates) {
-                    const coordinates = data.flowSegmentData.coordinates.coordinate;
-                    const filteredCoordinates = [coordinates[0], coordinates[coordinates.length - 1]];
-
-
-                    // Consultar informações da rodovia no CSV
-                    const highwayInfo = await getInfoDeRodovia(localizacao, caminhoCsv);
-
-                    // Criação de objeto com dados de tráfego e informações de pedágios correspondentes
-                    resultados.push({
-                        localizacao,
-                        rodovia: highwayInfo ? highwayInfo.rodovia : 'Desconhecida',
-                        municipio: highwayInfo ? highwayInfo.municipio : 'Desconhecido',
-                        uf: highwayInfo ? highwayInfo.uf : 'Desconhecido',
-                        concessionaria: highwayInfo ? highwayInfo.concessionaria : 'Desconhecida',
-                        velocidadeAtual: data.flowSegmentData.currentSpeed,
-                        velocidadeLivre: data.flowSegmentData.freeFlowSpeed,
-                        confiabilidade: data.flowSegmentData.confidence,
-                        coordenadas_inicial: filteredCoordinates[0],
-                        coordenadas_final: filteredCoordinates[1],
-                        dataHora: new Date().toISOString(),
-                    });
-                } else {
-                    console.error('Dados insuficientes para a localização: ', localizacao);
-                }
-            } else {
-                console.error(`Erro na requisição para ${localizacao}: ${response.status}`);
-            }
-        } catch (error) {
-            console.error('Erro ao processar a requisição:', error);
-        }
-    }
-
-    resultados.forEach(result => console.log("Notação: " + result.municipio));
-    // Enviando resultados ao termino do for
-    res.status(200).send({
-        msg: "Requisição bem sucedida!",
-        data: resultados
-    });
-};
 
 module.exports = {
     consultarDadosTrafego
