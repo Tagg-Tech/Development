@@ -81,10 +81,13 @@
       <div class="container_kpi">
         <h3><b>Uptime do Mês</b></h3>
         <div class="uptime"><span id="uptime_number">SEM DADOS</span></div>
+        <img src="../assets/warning-sign-30915_640.png" id="warning_uptime" style="height: 15vh;width: 22vh;position: absolute;top: 170px;left: 700px;display: none;" alt="">
       </div>
       <div class="container_kpi">
         <h3><b>Eficiência de memória</b></h3>
         <div class="efficency"><span id="efficency_number">SEM DADOS</span></div>
+        <img src="../assets/warning-sign-30915_640.png" id="warning_efficiency" style="height: 15vh;width: 22vh;position: absolute;top: 170px;left: 1300px;display: none;" alt="">
+
       </div>
     </div>
     <div class="graphics">
@@ -232,8 +235,12 @@ setInterval(constructJiraChart, 50000)
 
         if (eficienciaRam < 2) {
           efficency.style.color = "yellow"
+          warning_efficiency.style.display = 'block'
         } else if (eficienciaRam < 1.5) {
           efficency.style.color = "red"
+        }else{
+          warning_efficiency.style.display = 'none'
+
         }
         efficency.style.padding = '5vh'
         efficency_number.innerHTML = `${eficienciaRamFormat}hr/GB`
@@ -550,9 +557,18 @@ setInterval(constructJiraChart, 50000)
     // ESSE VALOR DE 98 É DEFINIDO PELA REGRA DE NEGOCIO, CONSIDERE QUE 2% DE UPTIME SERÁ: 14 HORAS.
     if (uptime_percentual < 98) {
       kpi.style.color = 'red'
+      warning_uptime.style.display = 'block'
+
+      // var mensagem = 'Existe algum servidor com downtime alto, clique aqui para verificar'
+      // exibirAlerta(mensagem)
     }
     else if (uptime_percentual <= 99) {
       kpi.style.color = 'yellow'
+      warning_uptime.style.display = 'block'
+
+    }else{
+      warning_uptime.style.display = 'none'
+
     }
 
     kpi.innerHTML = uptime_percentual + '%'
@@ -579,6 +595,6 @@ setInterval(constructJiraChart, 50000)
         alertaDiv.style.display = 'none'
       }
     }
-    setInterval(alertarSemDados,1000);
+    setInterval(alertarSemDados,500);
 
 </script>
