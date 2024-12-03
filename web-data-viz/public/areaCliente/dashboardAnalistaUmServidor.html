@@ -39,13 +39,12 @@
 
 </head>
 
-<body onload=" atualizacaoPeriodica(), graficoDinamico(), qtdAlertasMensal()">
+<body onload=" atualizacaoPeriodica(), graficoDinamico(), qtdAlertasDia(), qtdAlertasSemana(), qtdAlertasMensal()">
     <div class = "container_" >
         <div class="header">
             <nav>
                 <div class="menu">
                     <a href="#home"><img src="../assets/TagTech/img/CarroNavBar.png" alt="logo" id="logo"></a>
-                    <span style="font-size: 40px; position: fixed; font-weight: bold; left: 15%; top: 1%; color: white;">Dashboard Analista</span>
                     <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
                         <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
                         <p id="pAlerta"></p>
@@ -87,7 +86,7 @@
                     </div>
                     <div class = "sub-metrica-um-parte2">
                         <div class = "div-picos-1" >Quantidade de alertas</div>
-                        <div class = "valor-pico-1"></div>
+                        <div id = "batata" class = "valor-pico-1">-</div>
                     </div>
                 </div>
 
@@ -98,7 +97,7 @@
 
                 <!-- Métrica 2 -->
                 <div class = "metrica-dois" >
-                    <div class = "div-picos-2" >RAM(GB)</div>
+                    <div tooltip = "Seu limite é 80% de uso" class = "div-picos-2" >RAM(GB)</div>
                     <div class = "valor-pico-2" >
                         <span title="Atenção! A memória RAM está em mais de 80% de sua capacidade" id="atual_ram" ></span>
                         <span>/</span>
@@ -128,7 +127,8 @@
                                width: 45%; 
                             height: 280px;  
                  border: 1px solid #ddd; 
-                      border-radius: 10px;">
+                      border-radius: 10px;
+                      box-shadow: 0 4px 8px rgba(0.8, 0.8, 0.8, 0.5);">
 
                 </canvas>
                 <!-- Gráfico de Linhas -->
@@ -137,7 +137,8 @@
                                    width: 45%; 
                                 height: 280px; 
                      border: 1px solid #ddd; 
-                          border-radius: 10px;">
+                          border-radius: 10px;
+                          box-shadow: 0 4px 8px rgba(0.8, 0.8, 0.8, 0.5);">
                 </canvas>  
 
             </div>
@@ -466,7 +467,7 @@
                         showInstabilidade.style.color = 'red';
                         showAlertaInst.style.display = 'block';
                         showAlertaInst.style.display = 'flex';
-                        showFraseInst.textContent = 'Alerta! A memória CPU está acima de 80% de sua capacidade'
+                        showFraseInst.textContent = 'Alerta! A CPU está acima de 80% de sua capacidade'
                     } else {
                         showInstabilidade.innerHTML = 'Estável';
                         showInstabilidade.style.color = 'black';
@@ -483,12 +484,12 @@
 
             //------------------------KPI QTD PICOS--------------INC-------------------//
 
-            let pegarNumero = document.getElementById('valor-pico-1');
+            
 
             if(select_geral.value == 1){
-                qtdAlertasDia()
+                qtdAlertasDia();
             } else if(select_geral.value == 2){
-                //pegar qtd semana
+                qtdAlertasSemana();
             } else if(select_geral.value == 3){
                 qtdAlertasMensal();
             }
@@ -499,20 +500,30 @@
             setTimeout(graficoDinamico, 3000);
         }
 
+        
 
         async function qtdAlertasDia(){
-            var qtdD = await numeroPicosPorServidor(fk_maquina)
-            pegarNumero.innerHTML = qtdD
+           let pegarNumero = document.getElementById('batata');
+           var qtdD = await qtdAlertasTempo(1);
+           //alert(qtdD)
+           console.log("Dia", qtdD)
+           pegarNumero.innerHTML = qtdD;
         }        
 
         async function qtdAlertasSemana(){
-            var qtdS
+            let pegarNumero = document.getElementById('batata');
+            var qtdS = await qtdAlertasTempo(2);
+            //alert(qtdS)
+            console.log("Semana", qtdS)
+            pegarNumero.innerHTML = qtdS;
         }
 
         async function qtdAlertasMensal(){
-            var qtdM = await qtdAlertasMensal()
-            console.log(qtdM);
-            pegarNumero.innerHTML = qtdM
+            let pegarNumero = document.getElementById('batata');
+            var qtdM = await qtdAlertasTempo(3);
+            console.log("Mês", qtdM)
+            //alert(qtdM)
+            pegarNumero.innerHTML = qtdM;
         }
 
     </script>
