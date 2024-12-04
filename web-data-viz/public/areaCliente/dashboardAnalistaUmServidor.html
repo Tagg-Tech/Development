@@ -53,8 +53,8 @@
 
                     <ul class="navbar">
                         <!-- Colocando botão para a tela do gasp -->
-                        <li id="link_caspa" ><a href="dashboardGerente.html"><strong>Retornar para Gerência</strong></a></li>
-                        <li><a href="dashboardAnalista.html"><strong>Dashboards</strong></a></li>
+                        <li id="link_caspa"><a href="dashboardGerente.html"><strong>Retornar para Gerência</strong></a></li>
+                        <li id="link_analista"><a href="dashboardAnalista.html"><strong>Dashboards</strong></a></li>
                         <li><a href="alerta.html"><strong>Alertas</strong></a></li>
                         <li><a href="https://tagtech.atlassian.net/jira/servicedesk/projects/THD/issues?jql=project%20%3D%20%22THD%22%20ORDER%20BY%20created%20DESC" target="blank"><strong>Help Desk</strong></a></li>
                         <li><a href="perfil.html"><strong>Perfil</strong></a></li>
@@ -155,6 +155,26 @@
         let fk_maquina = 1;
         let id_usuario = 1;
         
+        function verificarGerencia(){
+            console.log('ENTREI GERENCIA')
+            var cargo = sessionStorage.getItem('CARGO')
+            console.log('Cargo:', cargo); 
+
+            var link_analista = document.getElementById('link_analista')
+            var link_gaspa = document.getElementById("link_caspa")
+            if (cargo =='Gerente'){
+                console.log('gerente')
+               link_analista.style.display = 'none'
+               link_gaspa.style.display = 'block'
+            }
+            else{
+                console.log('analista')
+               link_analista.style.display = 'block'
+               link_gaspa.style.display = 'none'
+            }
+        }
+        verificarGerencia()
+
         //--------------Gráfico de linhas------------------------------------//
         //Instanciando gráfico de linahs
         let ctxLine = document.getElementById("LineChart").getContext("2d");
