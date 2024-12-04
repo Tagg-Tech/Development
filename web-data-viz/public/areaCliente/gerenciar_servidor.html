@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TagTech | Cadastro do Servidor</title>
+
     <!-- boxIcons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../css/areaCliente/notificacaoAlerta.css">
@@ -12,19 +13,18 @@
 
     <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <!-- Swiper -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
         integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- favIcon -->
     <link rel="icon" href="../assets/TagTech/img/logo1.png" />
     <script src="../js/sessao.js"></script>
+
     <!-- meuCSS -->
     <link rel="stylesheet" href="../css/GerenciarServidor/gerenciarServidor.css">
-    
-
-
-    
     
 </head>
 <!-- atualizacaoPeriodica() -->
@@ -71,12 +71,19 @@
                     <div>
                         <input id="input_placaderede" type="text" placeholder="Placa de Rede:">
                         <div id="erro_plcaderede" class="error"></div>
-                        <input id="input_memoria" type="text" placeholder="Memoria:">
-                        <div id="erro_memoria" class="error"></div>
-                        <input id="input_porcentagemAlarme" type="number" placeholder="Porcentagem alarme (%)" min="1" max="100">
-                        <div id="erro_porcentagemAlarme" class="error"></div>
+                       
+                        <input id="input_porcentagemAlarmeCPU" type="number" placeholder="Porcentagem Alarme CPU (%)" min="1" max="100">
+                        <div id="erro_porcentagemAlarmeCPU" class="error"></div>
+
+                        <input id="input_porcentagemAlarmeRAM" type="number" placeholder="Porcentagem Alarme RAM (%)" min="1" max="100">
+                        <div id="erro_porcentagemAlarmeRAM" class="error"></div>
+
+                        <input id="input_porcentagemAlarmeDisco" type="number" placeholder="Porcentagem Alarme Disco (%)" min="1" max="100">
+                        <div id="erro_porcentagemAlarmeDisco" class="error"></div>
                     </div>
                     <div>
+                        <input id="input_memoria" type="text" placeholder="Memoria:">
+                        <div id="erro_memoria" class="error"></div>
                         <input id="input_sistemaoperacional" type="text" placeholder="Sistema Operacional:">
                         <div id="erro_sistemaoperacional" class="error"></div>
                         <input id="input_cpu" type="text" placeholder="CPU:">
@@ -149,26 +156,38 @@
         let memoria = input_memoria.value;
         let sistemaoperacional = input_sistemaoperacional.value;
         let cpu = input_cpu.value;
-        let disco = input_disco.value;
-        let porcentagemAlarme = input_porcentagemAlarme.value;
+        let disco = input_disco.value;;
+        let porcentagemAlarmeCPU = input_porcentagemAlarmeCPU.value;
+        let porcentagemAlarmeRAM = input_porcentagemAlarmeRAM.value;
+        let porcentagemAlarmeDisco = input_porcentagemAlarmeDisco.value;
+
         let validacao = 0;
 
         // Verificações básicas
-        if (placaderede === "" || memoria === "" || sistemaoperacional === "" || cpu === "" || disco === "" || porcentagemAlarme === "") {
+        if (placaderede === "" || memoria === "" || sistemaoperacional === "" || cpu === "" || disco === "" ) {
             confirm_cadastro.innerHTML = '<span style="color: red;">Todos os campos devem estar preenchidos corretamente!</span>';
             return false;
         }
 
-        // Validações individuais
-        if (porcentagemAlarme < 1 || porcentagemAlarme > 100 || isNaN(Number(porcentagemAlarme))) {
-            erro_porcentagemAlarme.innerHTML = "Porcentagem inválida (deve ser entre 1 e 100)";
-            return false;
-        } else {
-            erro_porcentagemAlarme.innerHTML = "";
-            validacao++;
-        }
+        if (!porcentagemAlarmeCPU || porcentagemAlarmeCPU < 1 || porcentagemAlarmeCPU > 100 || isNaN(Number(porcentagemAlarmeCPU))) {
+        erro_porcentagemAlarmeCPU.innerHTML = "Porcentagem inválida (1 a 100)";
+        return false;
+        } else erro_porcentagemAlarmeCPU.innerHTML = ""
+        validacao++;;
 
-        if (validacao === 1) {
+        if (!porcentagemAlarmeRAM || porcentagemAlarmeRAM < 1 || porcentagemAlarmeRAM > 100 || isNaN(Number(porcentagemAlarmeRAM))) {
+        erro_porcentagemAlarmeRAM.innerHTML = "Porcentagem inválida (1 a 100)";
+        return false;
+        } else erro_porcentagemAlarmeRAM.innerHTML = ""
+        validacao++;;
+
+        if (!porcentagemAlarmeDisco || porcentagemAlarmeDisco < 1 || porcentagemAlarmeDisco > 100 || isNaN(Number(porcentagemAlarmeDisco))) {
+        erro_porcentagemAlarmeDisco.innerHTML = "Porcentagem inválida (1 a 100)";
+        return false;
+        } else erro_porcentagemAlarmeDisco.innerHTML = ""
+        validacao++;;
+
+        if (validacao === 3) {
             fetch('/servidores/cadastrar', {
                 method: 'POST',
                 headers: {
@@ -180,7 +199,9 @@
                     sistemaoperacionalServer: sistemaoperacional,
                     cpuServer: cpu,
                     discoServer: disco,
-                    porcentagemAlarmeServer: porcentagemAlarme
+                    porcentagemAlarmeCPU,
+                    porcentagemAlarmeRAM,
+                    porcentagemAlarmeDisco
                 })
             }).then(response => response.json())
               .then(data => {
@@ -198,7 +219,7 @@
         navbar.classList.toggle('active');
     });
 
-
+    
     //função para mudar a atividade na página
     function mudarCaixa(id){
         caixa_cadastro.style.display = 'none';

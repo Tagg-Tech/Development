@@ -66,49 +66,29 @@
             </div>
 
             <div class="ranking" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-right: 5%;">
-                <h2>Filtros</h2>
-                <select id="amostraTempo" onchange="alterarValores()">
-                    <option selected disabled>Escolha a amostra</option>
+                <h2>Ranking de Servidores - Tempo Fora do Ar</h2>
+                <label for="filtro-ranking">Filtrar por:</label>
+                <select id="filtro-ranking" onchange="atualizarRanking()">
                     <option value="dia">Dia</option>
                     <option value="semana">Semana</option>
                     <option value="mes">Mês</option>
                 </select>
-                <h3>Ranking de tempo fora do ar</h3>
-                <div style="max-height: 180px; overflow-y: auto;">
-                    <table style="width: 100%;">
-                        <tr>
-                            <th>Ranking</th>
-                            <th>Servidor</th>
-                            <th>Tempo fora do ar (min)</th>
-                        </tr>
-                        <tr>
-                            <td>1°</td>
-                            <td>Servidor 2</td>
-                            <td>53:03</td>
-                        </tr>
-                        <tr>
-                            <td>2°</td>
-                            <td>Servidor 1</td>
-                            <td>45:23</td>
-                        </tr>
-                        <tr>
-                            <td>3°</td>
-                            <td>Servidor 3</td>
-                            <td>36:12</td>
-                        </tr>
-                        <tr>
-                            <td>4°</td>
-                            <td>Servidor 4</td>
-                            <td>29:45</td>
-                        </tr>
-                        <tr>
-                            <td>5°</td>
-                            <td>Servidor 5</td>
-                            <td>22:39</td>
-                        </tr>
+                <div style="margin-top: 20px;">
+                    <table id="ranking-tabela" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid #ddd; padding: 8px;">Posição</th>
+                                <th style="border: 1px solid #ddd; padding: 8px;">Servidor</th>
+                                <th style="border: 1px solid #ddd; padding: 8px;">Tempo Fora do Ar (min)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ranking-dados">
+                            <!-- Dados serão carregados aqui -->
+                        </tbody>
                     </table>
-                 </div>
-              </div>
+                </div>
+            </div>
+           
          <div class="charts" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-left: 5%; margin-top: 20px;">
             <h3>Uso dos componentes (por servidor)</h3>
             <label for="componente">Selecione o Componente:</label>
@@ -136,71 +116,125 @@
 
     </div>
 </div> 
-    <script>
-        window.onload = function() {
-            let grafico;
-            let servidores = {}; // Armazenar os dados de cada servidor
-            let graficoMaxMin; // Gráfico de máximo e mínimo
+<script>
+    window.onload = function() {
+        let grafico;
+        let graficoMaxMin; // Gráfico de máximo e mínimo
+        let servidores = {}; // Armazenar os dados de cada servidor
 
-            async function fetchData(componente) {
-                const response = await fetch(`http://localhost:3333/analistadados/${componente}`);
-                return response.json();
-            }
+        async function fetchRanking(filtro) {
+            try {
+                const response = await fetch(`http://localhost:3333/ranking/${filtro}`);
+                const data = await response.json();
 
-            function atualizarGrafico(dados, componente) {
-                // Atualiza os dados armazenados para cada servidor
-                dados.forEach(d => {
-                    servidores[d.idMaquina] = d.valor;
+                // Filtrar dados para mostrar apenas o maior tempo fora do ar por servidor
+                const servidoresRanking = {}; // Renomeado para evitar conflito com a variável global
+
+                data.forEach(item => {
+                    if (!servidoresRanking[item.idMaquina]) {
+                        servidoresRanking[item.idMaquina] = item.tempoForaDoAr;
+                    } else {
+                        servidoresRanking[item.idMaquina] = Math.max(servidoresRanking[item.idMaquina], item.tempoForaDoAr);
+                    }
                 });
 
-                // Preparando as novas séries para o gráfico
-                const labels = Object.keys(servidores).map(id => `Servidor ${id}`);
-                const valores = Object.values(servidores);
+                // Transformar o objeto em um array para ordenação
+                const ranking = Object.keys(servidoresRanking).map(idMaquina => ({
+                    idMaquina,
+                    tempoForaDoAr: servidoresRanking[idMaquina]
+                }));
 
-                const options = {
-                    chart: {
-                        type: 'bar',
-                        height: 280, // Ajustando o tamanho do gráfico
-                    },
-                    series: [{
-                        name: `Uso de ${componente}`,
-                        data: valores
-                    }],
-                    xaxis: {
-                        categories: labels, // Servidores no eixo X
-                    },
-                    yaxis: {
-                        title: {
-                            text: `${componente} (%)`
-                        },
-                        min: 0,
-                        max: 100,
-                    }
-                };
+                ranking.sort((a, b) => b.tempoForaDoAr - a.tempoForaDoAr); // Ordenar do maior para o menor tempo fora do ar
 
-                if (grafico) {
-                    grafico.updateOptions(options); // Atualiza o gráfico existente
-                } else {
-                    grafico = new ApexCharts(document.querySelector("#grafico"), options);
-                    grafico.render();
-                }
+                return ranking;
+            } catch (error) {
+                console.error("Erro ao buscar ranking:", error);
+                return [];
             }
+        }
 
-            document.getElementById('componente').addEventListener('change', async (e) => {
-                const componente = e.target.value;
-                const dados = await fetchData(componente);
-                atualizarGrafico(dados, componente);
+        async function atualizarRanking() {
+            const filtro = document.getElementById('filtro-ranking').value;
+            const rankingDados = await fetchRanking(filtro);
+
+            const tabelaBody = document.getElementById('ranking-dados');
+            tabelaBody.innerHTML = ''; // Limpa os dados atuais
+
+            rankingDados.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="border: 1px solid #ddd; padding: 8px;">${index + 1}°</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">Servidor ${item.idMaquina}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${item.tempoForaDoAr} min</td>
+                `;
+                tabelaBody.appendChild(row);
+            });
+        }
+
+        // Carregar ranking ao iniciar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            atualizarRanking();
+        });
+
+        async function fetchData(componente) {
+            const response = await fetch(`http://localhost:3333/analistadados/${componente}`);
+            return response.json();
+        }
+
+        function atualizarGrafico(dados, componente) {
+            // Atualiza os dados armazenados para cada servidor
+            dados.forEach(d => {
+                servidores[d.idMaquina] = d.valor;
             });
 
-            // Atualizar gráfico a cada 2 segundos
-            setInterval(async () => {
-                const componente = document.getElementById('componente').value;
-                const dados = await fetchData(componente);
-                atualizarGrafico(dados, componente);
-            }, 1000);
-        
-         // Função para buscar os dados de máximo e mínimo
-         async function fetchMaxMinData(componente) {
+            // Preparando as novas séries para o gráfico
+            const labels = Object.keys(servidores).map(id => `Servidor ${id}`);
+            const valores = Object.values(servidores);
+
+            const options = {
+                chart: {
+                    type: 'bar',
+                    height: 280, // Ajustando o tamanho do gráfico
+                },
+                series: [{
+                    name: `Uso de ${componente}`,
+                    data: valores
+                }],
+                xaxis: {
+                    categories: labels, // Servidores no eixo X
+                },
+                yaxis: {
+                    title: {
+                        text: `${componente} (%)`
+                    },
+                    min: 0,
+                    max: 100,
+                }
+            };
+
+            if (grafico) {
+                grafico.updateOptions(options); // Atualiza o gráfico existente
+            } else {
+                grafico = new ApexCharts(document.querySelector("#grafico"), options);
+                grafico.render();
+            }
+        }
+
+        document.getElementById('componente').addEventListener('change', async (e) => {
+            const componente = e.target.value;
+            const dados = await fetchData(componente);
+            atualizarGrafico(dados, componente);
+        });
+
+        // Atualizar gráfico a cada 10 segundos
+        setInterval(async () => {
+            const componente = document.getElementById('componente').value;
+            const dados = await fetchData(componente);
+            atualizarGrafico(dados, componente);
+        }, 1000); // Ajuste no intervalo
+
+        // Função para buscar os dados de máximo e mínimo
+        async function fetchMaxMinData(componente) {
             const response = await fetch(`http://localhost:3333/analistadados/${componente}/maxmin`);
             return response.json();
         }
@@ -264,33 +298,31 @@
                 const maxMinDados = await fetchMaxMinData(componenteMaxMin);
                 criarGraficoMaxMin(maxMinDados, componenteMaxMin);
             }
-        }, 1000);
+        }, 2000); // Ajuste no intervalo
 
         async function fetchDesvioPadraoGlobal() {
-    const response = await fetch("http://localhost:3333/analistadados/desviopadrao");
-    return response.json();
-}
+            const response = await fetch("http://localhost:3333/analistadados/desviopadrao");
+            return response.json();
+        }
 
-async function atualizarDesvioPadraoGlobal() {
-    try {
-        const dados = await fetchDesvioPadraoGlobal();
-        const desvioPadrao = dados.desvioPadraoGlobal || 0;
-const desvioPadraoExibido = desvioPadrao < 0.01 ? '0.01' : desvioPadrao.toFixed(2); // Exibe no mínimo 0.01
-document.getElementById("desvio-padrao").textContent = desvioPadraoExibido;
+        async function atualizarDesvioPadraoGlobal() {
+            try {
+                const dados = await fetchDesvioPadraoGlobal();
+                const desvioPadrao = dados.desvioPadraoGlobal || 0;
+                const desvioPadraoExibido = desvioPadrao < 0.01 ? '0.01' : desvioPadrao.toFixed(2); // Exibe no mínimo 0.01
+                document.getElementById("desvio-padrao").textContent = desvioPadraoExibido;
+            } catch (error) {
+                console.error("Erro ao atualizar desvio padrão global:", error);
+            }
+        }
 
-    } catch (error) {
-        console.error("Erro ao atualizar desvio padrão global:", error);
-    }
-}
+        // Atualizar o desvio padrão global a cada 10 segundos
+        setInterval(atualizarDesvioPadraoGlobal, 1000); // Ajuste no intervalo
 
-// Atualizar o desvio padrão global a cada 2 segundos
-setInterval(atualizarDesvioPadraoGlobal, 1000);
-
-// Atualizar ao carregar a página
-atualizarDesvioPadraoGlobal();
-
-   
+        // Atualizar ao carregar a página
+        atualizarDesvioPadraoGlobal();
     };
-    </script>
+</script>
+
 </body>
 </html>
