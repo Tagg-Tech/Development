@@ -164,19 +164,41 @@
     cursor: pointer;
     font-weight: bold;
 }
-#here_b{
-    text-decoration: underline; 
+#here_b {
+    padding: 10px 20px;
+    background-color: #fe914c; /* Azul */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
     cursor: pointer;
-    font-weight: bold;
-}
+    transition: background-color 0.3s ease;
+    position: fixed;
+    bottom: 25px;
+
+  }
+  
+  #here_b:hover {
+    background-color: #000000;
+  }
+  
+  #here_b:focus {
+    outline: none;
+    background-color: #000000;
+  }
+  
 .faq_page{
     display: none;
     flex-direction: column;
     justify-content: center;
     text-align: center;
     align-items: center;
+    /* height: 100%; */
     /* margin-top: 120px; */
 
+}
+.faq_page span{
+    font-size: 1.25rem;
 }
 .container_faq{
     display: flex;
@@ -184,19 +206,20 @@
     gap: 10vh;
     align-items: center;
     justify-content: space-around;
-    margin-top: 18%;
+    margin-top:5%;
+    /* height: 100%; */
 }
 .box1{
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align:justify ;
+    text-align:center ;
 }
 .box2{
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align:justify ;
+    text-align:center ;
 }
 @media(max-width:1366px){
     .container_gerente{
@@ -221,5 +244,18 @@
     background-color: red;
     cursor: pointer;
 }
+.tooltip{
+    border: 1px solid black;
+    width: 4vh;
+    border-radius: 100%;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.tippy-box {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
 
 

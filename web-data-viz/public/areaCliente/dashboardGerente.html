@@ -83,12 +83,12 @@
   <section class="container_gerente">
     <div class="kpi">
       <div class="container_kpi">
-        <h3><b>Uptime do Mês</b> <button id="myButton" data-tippy-content="pknjodouduofhewuibhrwbpirhrfpbpbsbib">?</button></h3>
+        <h3><b>Uptime do Mês</b> <button id="myButton" class="tooltip" data-tippy-content="Com este indicador chave de performance você pode verificar se algum servidor está afetando seu uptime mensal, quando isso ocorrer, mostraremos um simbolo de atenção ao lado do número">?</button></h3>
         <div class="uptime"><span id="uptime_number">SEM DADOS</span></div>
         <img src="../assets/warning-sign-30915_640.png" id="warning_uptime" style="height: 15vh;width: 20vh;position: absolute;top: 100px;left: 700px;display: none;" alt="">
       </div>
       <div class="container_kpi">
-        <h3><b>Eficiência de memória</b> <span data-tooltip="tooltip2" data-position="top">?</span></h3>
+        <h3><b>Eficiência de memória</b> <button id="myButton2" class="tooltip" data-tippy-content="Outro indicador chave importante! Ao observar este indicador, você terá uma noção de 'quão rápido' seus servidores estão consumindo de memória. Quer saber mais? Verifique nosso guia abaixo da tela">?</button></h3>
         <div class="efficency"><span id="efficency_number">SEM DADOS</span></div>
         <img src="../assets/warning-sign-30915_640.png" id="warning_efficiency" style="height: 15vh;width: 20vh;position: absolute;top: 100px;left: 1260px;display: none;" alt="">
 
@@ -133,24 +133,36 @@
       <div class="box1">
         <h1>Quantidade de alertas por servidor
           (mensal)</h1>
-        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo
-          velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum
-          eaque eos.</span>
+        <span>Este gráfico lhe trará a visão de como os servidores
+          se relacionam entre si com os alertas do sistema JIRA<br>
+          é recomendado que este valor nunca esteja muito alto
+          (por exemplo: mais que 30 alertas no mês) .<br>
+          Nota: A visualização que você vê é de no máximo 5 por vez,
+          se estiverem mais cadastrados, clique na seta azul para avançar</span>
         <h1> Uptime do mês</h1>
-        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo
-          velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum
-          eaque eos.</span>
+        <span>Este indicador chave de performance é praticamente essencial para sua rotina, 
+          com ele você pode verificar se algum servidor está afetando seu uptime mensal<br>, 
+          quando isso ocorrer, enviaremos um alerta a você!</span>
 
       </div>
       <div class="box2">
         <h1>Distribuição de CPU mensal</h1>
-        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo
-          velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum
-          eaque eos.</span>
+        <span>Tal métrica é essencial para visualizar a carga 
+          de trabalho de um servidor sobre sua posse,
+          quanto mais alto esse numero, maior a carga <br>  
+          de trabalho do servidor, nós iremos te alertar 
+          quando esta métrica passar do recomendado 
+          ajustado por você na tela de cadastro de servidor!
+          <br> 
+          <br> 
+          Nota: A visualização que você vê é de no máximo 5 por vez,
+          se estiverem mais cadastrados,<br>  clique na seta cinza para avançar ou retroceder
+          </span>
         <h1>Eficiência de memória</h1>
-        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>Itaque, inventore? Laudantium dolorem, illo
-          velit quis rem nostrum animi molestiae <br> odit asperiores qui minima aperiam distinctio quos unde earum
-          eaque eos.</span>
+        <span>Outro indicador chave de performance importantíssimo!<br> Este indicador te mostra o quanto de memória o
+           seu servidor necessita por hora,<br> é uma média para mostrar a eficiência por
+            hora das memorias em 30 dias de capturamento, <br>também te enviaremos um alerta 
+            caso esta métrica abaixe de 2hr por Gb.</span>
 
       </div>
     </div>
@@ -158,6 +170,8 @@
     </div>
 
     <span id="here_b">Voltar</span>
+
+
   </section>
 
 
@@ -172,7 +186,7 @@
   // Configurações do primeiro gráfico (gráfico de barras horizontal)
 
   tippy('#myButton');
-
+  tippy('#myButton2')
   async function constructJiraChart() {
     var qtd = await numPicosCadaServidor();
     

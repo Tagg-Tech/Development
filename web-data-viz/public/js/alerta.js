@@ -218,7 +218,6 @@ async function qtdAlertasTempo(tempo){
 
   var dataAtual = new Date()
 
-
   if (tempo == 1) {
     var dataMinima = new Date(dataAtual);
     dataMinima.setDate(dataAtual.getDate() - 1);
@@ -244,13 +243,9 @@ async function qtdAlertasTempo(tempo){
 
   issues.forEach(issue => {
 
-
     const chamadoAtual = issue.fields;
     const tipoChamado = chamadoAtual.project.key;
-    
-
-    
-
+  
     if (tipoChamado != "DOWN"){
       const chamado = chamadoAtual.description;
       index = chamado.indexOf("**");
@@ -260,14 +255,13 @@ async function qtdAlertasTempo(tempo){
         contChamados ++
       }
 
-
     }})
 
     //console.log("Quantidade de chamados: ", contChamados)
     return contChamados
 }
 
-
+//Gasp ta usando
 async function numPicosCadaServidor(){
   const response = await fetch("/verChamados", {
     method: "POST",
@@ -307,4 +301,45 @@ async function numPicosCadaServidor(){
 
   console.log(listaPicosPorServidor)
   return listaPicosPorServidor;
+}
+
+//Alves ta usando
+async function numPicosPorServidor(idServidor){
+  
+  const response = await fetch("/verChamados", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  const issues = data.resultado.issues;
+  
+  var contPicos = 0;
+  
+  console.log(issues)
+
+  // Processando as issues
+  issues.forEach(issue => {
+
+    const chamadoAtual = issue.fields;
+    const descAtual = chamadoAtual.description;
+
+    const tipoChamado = chamadoAtual.project.key;
+
+    const index = descAtual.indexOf("''");
+    if (index !== -1) {  
+        var servidorAtual = descAtual.substring(index + 2);
+    }
+
+
+    if(tipoChamado == "DOWM" || tipoChamado == "TTCS" && servidorAtual == idServidor){
+        contPicos ++;
+    }
+
+  });
+
+  //console.log("Tipos chamados ", tipoChamado)
+  return contPicos;
 }

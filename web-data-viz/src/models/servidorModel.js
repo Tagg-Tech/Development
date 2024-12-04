@@ -33,7 +33,7 @@ function pegarUsoDisco(fk_maquina){
 
 function pegarRAM(fk_maquina){
     var instrucaoSql = `
-        SELECT r.gigaBytesMemoria, m.qtdTotalRAM FROM registros AS r
+        SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria FROM registros AS r
         	JOIN maquina AS m ON m.idMaquina = r.fkMaquina
             WHERE fkMaquina = '${fk_maquina}';
     `;
