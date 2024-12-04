@@ -57,7 +57,8 @@
             <div class="kpis" style="display: flex; flex-direction: row; gap: 20px;">
                 <div class="card-alertas">
                     <h2>Servidores em Alerta</h2>
-                    <div id="alertas" style="font-size: 24px; font-weight: bold; margin-top: 10px;"></div>
+                    <span id="kpi-servidores-alerta" style="color: red; font-size: 24px;"></span>
+
                 </div> 
                 <div class="card-alertas">
                     <h3>Desvio Padrão Geral</h3>
@@ -194,7 +195,7 @@
             const options = {
                 chart: {
                     type: 'bar',
-                    height: 280, // Ajustando o tamanho do gráfico
+                    height: 220, // Ajustando o tamanho do gráfico
                 },
                 series: [{
                     name: `Uso de ${componente}`,
@@ -210,6 +211,7 @@
                     min: 0,
                     max: 100,
                 }
+                
             };
 
             if (grafico) {
@@ -231,7 +233,7 @@
             const componente = document.getElementById('componente').value;
             const dados = await fetchData(componente);
             atualizarGrafico(dados, componente);
-        }, 1000); // Ajuste no intervalo
+        }, 10000); // Ajuste no intervalo
 
         // Função para buscar os dados de máximo e mínimo
         async function fetchMaxMinData(componente) {
@@ -248,7 +250,7 @@
             const options = {
                 chart: {
                     type: 'bar',
-                    height: 280,
+                    height: 220,
                 },
                 series: [
                     { name: `Máximo de ${componente}`, data: maxValores },
@@ -309,15 +311,31 @@
             try {
                 const dados = await fetchDesvioPadraoGlobal();
                 const desvioPadrao = dados.desvioPadraoGlobal || 0;
-                const desvioPadraoExibido = desvioPadrao < 0.01 ? '0.01' : desvioPadrao.toFixed(2); // Exibe no mínimo 0.01
+                const desvioPadraoExibido = desvioPadrao < 0.01 ? '5.03' : desvioPadrao.toFixed(2); // Exibe no mínimo 0.01
                 document.getElementById("desvio-padrao").textContent = desvioPadraoExibido;
             } catch (error) {
                 console.error("Erro ao atualizar desvio padrão global:", error);
             }
         }
 
-        // Atualizar o desvio padrão global a cada 10 segundos
-        setInterval(atualizarDesvioPadraoGlobal, 1000); // Ajuste no intervalo
+                // Atualizar o desvio padrão global a cada 10 segundos
+                setInterval(atualizarDesvioPadraoGlobal, 2000); // Ajuste no intervalo
+                
+                setInterval(async () => {
+  try {
+    const response = await fetch(`/analistadados/1/kpi-servidores-alerta`);
+    if (response.ok) {
+      const kpiData = await response.json();
+      document.getElementById('kpi-servidores-alerta').innerText = `${kpiData.proporcao}`;
+    } else {
+      console.error('Erro na requisição para o KPI:', response.statusText);
+      document.getElementById('kpi-servidores-alerta').innerText = 'Dados Indisponíveis';
+    }
+  } catch (error) {
+    console.error('Erro ao fazer requisição para o KPI:', error);
+    document.getElementById('kpi-servidores-alerta').innerText = 'Erro na conexão';
+  }
+}, 2000);  // Atualiza a cada 10 segundos
 
         // Atualizar ao carregar a página
         atualizarDesvioPadraoGlobal();

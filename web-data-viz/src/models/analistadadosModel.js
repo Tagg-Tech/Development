@@ -62,9 +62,52 @@ async function calcularDesvioPadraoGlobal() {
   }
 }
 
+async function calcularKpiServidoresAlerta(idUsuario) {
+  const query = `
+    SELECT 
+      COUNT(DISTINCT um.fkMaquina) AS totalServidores,
+      SUM(
+        CASE 
+          WHEN (r.percentualCPU > m.porcentagemAlarmeCPU) OR 
+               (r.percentualMemoria > m.porcentagemAlarmeRAM) OR 
+               (r.percentualDisco > m.porcentagemAlarmeDisco) 
+          THEN 1 ELSE 0 
+        END
+      ) AS servidoresEmAlerta
+    FROM usuarioResponsavelMaquina um
+    JOIN registros r ON r.fkMaquina = um.fkMaquina
+    JOIN maquina m ON m.idMaquina = um.fkMaquina
+    WHERE um.fkUsuario = 1
+    GROUP BY um.fkUsuario;
+  `;
+
+  try {
+    // Execute a consulta com o ID do usuário
+    const resultado = await database.executar(query, [idUsuario]);
+    
+    if (resultado.length === 0) {
+      return { totalServidores: 0, servidoresEmAlerta: 0 };
+    }
+
+    // Desestruturar o resultado da consulta
+    const { totalServidores, servidoresEmAlerta } = resultado[0];
+
+    // Retornar o KPI com a proporção
+    return {
+      totalServidores,
+      servidoresEmAlerta,
+      proporcao: totalServidores > 0 ? `${servidoresEmAlerta}/${totalServidores}` : "0/0"
+    };
+  } catch (error) {
+    console.error("Erro ao calcular KPI de servidores em alerta:", error);
+    throw error;
+  }
+}
 
 module.exports = {
   buscarDadosGrafico,
   buscarMaxMinGrafico,
-  calcularDesvioPadraoGlobal
+  calcularDesvioPadraoGlobal,
+  calcularKpiServidoresAlerta, // Nova função adicionada
 };
+

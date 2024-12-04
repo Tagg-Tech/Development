@@ -13,4 +13,8 @@ router.get("/:componente/maxmin", analistaDadosController.buscarMaxMinComponente
 // Rota para calcular o desvio padrão global
 router.get("/desviopadrao", analistaDadosController.buscarDesvioPadraoGlobal);
 
+// Rota para KPI de servidores em alerta
+router.get("/:idUsuario/kpi-servidores-alerta", analistaDadosController.kpiServidoresAlerta);
+
+
 module.exports = router;
