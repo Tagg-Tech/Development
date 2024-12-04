@@ -34,7 +34,7 @@
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.4.0/dist/chartjs-plugin-datalabels.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
 
 </head>
@@ -283,15 +283,11 @@
                 },
                 plugins: {
                     datalabels: {
-                        enabled: true,
-                        formatter: (value, ctx) => {
-                            let sum = 0;
-                            let dataArr = ctx.chart.data.datasets[0].data[0];
-                            dataArr.map(data => {
-                                 sum += data;
-                         });
-                        let percentage = (value*100 / sum).toFixed(2)+"%";
-                        return percentage;
+                        formatter: (value) => value + '%',
+                        color: 'black',
+                        font: {
+                    weight: 'bold',
+                    size: 18,
                     },
                     },
                     legend: {
@@ -299,7 +295,7 @@
                         labels: {
                             font: { 
                                 size: 21,
-                                wight: 'bold' 
+                                weight: 'bold' 
                             },
                             color: 'black'
                         },
@@ -315,6 +311,7 @@
                 responsive: false,
                 maintainAspectRatio: true
             },
+            // plugins: [ChartDataLabels],
         });    
 
         //--------------Gráfico de pizza-------------------FIM----------------------------//
