@@ -253,7 +253,7 @@ function infoPed(i){
             <span>Velocidade livre: ${vetor.velocidadeLivre} KM</span>
             <span>Valocidade atual: ${vetor.velocidadeAtual} KM</span>
             <span>Trânsito: ${vetor.nivelTransito}%</span>
-            <span>Confiabilidade do dado: ${vetor.confiabilidade * 100}%</span>
+            <span>Confiabilidade do dado: ${Math.round(vetor.confiabilidade * 100, 0)}%</span>
         </div>
     `;
 }
