@@ -92,8 +92,14 @@
                         <h2 class="labelDataDay">Ultima atualização: </h2>
                         <button class="btnUpdata" onclick="upData(true)">Atualizar dados</button>
                     </div>
+
+                    <div class="insights">
+                        <div class="maisUti">
+                            
+                        </div>
+                    </div>
                     <div class="dashPed">
-                        <div class="graf1">
+                        <div class="graf1 contConfig">
                             <h2>10 pedágios com maiores fluxos</h2>
                             <!-- Gráfico de pedágios -->
                             <div id="chart1"></div>
@@ -102,20 +108,19 @@
                                 <input type="range" min="1" max="12" value="6" class="slider" id="myRange">
                                 <div class="slider-value" id="sliderValue">Mês: 6</div>
                             </div> -->
-                            <button onclick="closeTable(false)">Expandir tabela</button>
                         </div>
-                        <div class="tableDash1">
+                        <div class="tableDash1 contConfig">
                             <!-- Elementos gerados por javascript -->
                         </div>
                     </div>
-                    <div class="indicadoresDashPed">
+                    <!-- <div class="indicadoresDashPed">
                         <div onclick="showMaisUti()" id="indMaxped">
                             <span>Mais utilizado</span>
                         </div>
                         <div onclick="showMaisUti()" id="indMinped">
                             <span>Menos utilizado</span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </section>
 
