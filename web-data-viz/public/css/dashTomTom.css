@@ -9,11 +9,24 @@
 }
 
 .dashPed{
+    position: relative;
+    top: 30px;
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-around;
     height: auto;
 }
+
+
+/* Configuração de containers */
+.contConfig{
+    background-color: white;
+    border: 1.5px solid black;
+    border-radius: 5px;
+    padding: 20px;
+}
+
 
 /* Estilização de tabelas */
 #chart1{
@@ -27,9 +40,17 @@
 }
 
 .tableDash1{
-    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
+.tableDash1 button{
+    height: 40px;
+    background-color: black;
+    color: white;
+    border: none;
+}
 
 /* Estilização tabela */
 table {
@@ -90,11 +111,12 @@ caption {
 .bi-x-circle{
     position: absolute;
     right: 5%;
-    font-size: 25px;
+    top: 2px;
+    font-size: 30px;
     cursor: pointer;
 }
 
-/* Campo gráfico pedágios */
+/* Container gráfico pedágios */
 .graf1{
     display: flex;
     flex-direction: column;
@@ -136,6 +158,7 @@ caption {
     height: auto;
 }
 
+/* Container com atualização e data de dados */
 .dataContainer{
     position: relative;
     top: 20px;
@@ -143,10 +166,12 @@ caption {
     width: 100%;
     justify-content: center;
     column-gap: 30px;
+    align-items: center;
 }
 
 .btnUpdata{
     height: 50px;
+    width: 200px;
     background-color: black !important;
     border: none;
     border-radius: 5px;
