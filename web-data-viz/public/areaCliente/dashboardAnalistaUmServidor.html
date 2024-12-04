@@ -39,7 +39,7 @@
 
 </head>
 
-<body onload=" atualizacaoPeriodica(), graficoDinamico(), qtdAlertasDia(), qtdAlertasSemana(), qtdAlertasMensal()">
+<body onload=" atualizacaoPeriodica(), graficoDinamico(), qtdAlertasDesteServidor()">
     <div class = "container_" >
         <div class="header">
             <nav>
@@ -72,7 +72,7 @@
 
                 <!-- Métrica 1 -->
                 <div class = "metrica-um" >
-                    <div class = "sub-metrica-um">
+                    <!-- <div class = "sub-metrica-um">
                         <div class = "titulo-sub-metrica-um" >
                             Selecione o intervalo
                             desejado
@@ -83,11 +83,16 @@
                             <option value="2">Semana</option>
                             <option value="3">Mês</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div class = "sub-metrica-um-parte2">
-                        <div class = "div-picos-1" >Quantidade de alertas</div>
+                        <div class = "div-picos-1" >Quantidade de alertas deste servidor</div>
                         <div id = "batata" class = "valor-pico-1">-</div>
                     </div>
+
+                    <button class="tooltip">?
+                        <span class="tooltiptext">Quantidade referente a todo seu tempo de uso</span>
+                    </button>
+
                 </div>
 
                 <!-- alerta da metrica 2 -->
@@ -95,26 +100,41 @@
                     <p id="pLimite"></p>
                 </div>
 
+
                 <!-- Métrica 2 -->
-                <div class = "metrica-dois" >
-                    <div tooltip = "Seu limite é 80% de uso" class = "div-picos-2" >RAM(GB)</div>
-                    <div class = "valor-pico-2" >
-                        <span title="Atenção! A memória RAM está em mais de 80% de sua capacidade" id="atual_ram" ></span>
-                        <span>/</span>
-                        <span id="maximo_ram"></span>
+                <div class="metrica-toogle">
+                    <div class = "metrica-dois" >
+                        <div tooltip = "Seu limite é 80% de uso" class = "div-picos-2" >RAM(GB)</div>
+                        <div class = "valor-pico-2" >
+                            <span title="Atenção! A memória RAM está em mais de 80% de sua capacidade" id="atual_ram" ></span>
+                            <span>/</span>
+                            <span id="maximo_ram"></span>
+                        </div>
                     </div>
+    
+                    <button class="tooltip">?
+                        <span class="tooltiptext">Caso sua quantidade de utilização ultrapasse 80%, um alerta será disparado</span>
+                    </button>                 
                 </div>
+
 
                 <!-- alerta da metrica 3 -->
                 <div class="alertaLimite" id="alertaInstavel">
                     <p id="pInst"></p>
                 </div>
 
-                <!-- Métrica 3 -->
-                 <div class="metrica-tres" >
-                    <div class = "div-picos-3" >Estado atual</div>
-                    <div class = "valor-pico-3" id="estabilidade" ></div>
-                 </div>
+                <div class="metrica-toogle">
+                    <!-- Métrica 3 -->
+                    <div class="metrica-tres" >
+                        <div class = "div-picos-3" >Estado atual</div>
+                        <div class = "valor-pico-3" id="estabilidade" ></div>
+                     </div>
+
+                     <button class="tooltip">?
+                        <span class="tooltiptext">Caso sua quantidade de utilização ultrapasse 80%, um alerta será disparado</span>
+                    </button>
+                </div>
+
 
             </div>
 
@@ -147,10 +167,18 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.4.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>  -->
 
     <script>
-        // let fk_maquina = sessionStorage.getItem('fk_maquina');
-        // let id_usuario = sessionStorage.getItem('ID_USUARIO');
+       //let fk_maquina = sessionStorage.getItem('fk_maquina');
+       //let id_usuario = sessionStorage.getItem('ID_USUARIO');
+       let cargo = sessionStorage.getItem('CARGO');
+
+       if(cargo == "Gerente"){
+          link_caspa.style.display = "block";
+       } 
 
         let fk_maquina = 1;
         let id_usuario = 1;
@@ -251,10 +279,11 @@
             },
             options: {
                 tooltips:{
-                    enable: true,
+                    enabled: false,
                 },
                 plugins: {
                     datalabels: {
+                        enabled: true,
                         formatter: (value, ctx) => {
                             let sum = 0;
                             let dataArr = ctx.chart.data.datasets[0].data[0];
@@ -289,11 +318,6 @@
         });    
 
         //--------------Gráfico de pizza-------------------FIM----------------------------//
-
-        //valores temporários atribuidos para testes
- 
-        // let fk_maquina = sessionStorage.getItem('FK_MAQUINA');
-        // let id_usuario = sessionStorage.getItem('ID_USUARIO');
         
         //função para atualizar os valores plotados no gráfico de linhas e pizza
         function graficoDinamico() {
@@ -382,7 +406,7 @@
                     //Compondo o corpo do gráfico com os valores puxados do banco
                     meuGrafico.data.datasets[0].data[0] = espaco_livre;
                     meuGrafico.data.datasets[0].data[1] = ultimoValorDisco;
-                    meuGrafico.data.labels[0] = "Livre: " + espaco_livre + " %";
+                    meuGrafico.data.labels[0] = "Livre: " + espaco_livre.toFixed(2) + " %";
                     meuGrafico.data.labels[1] = "Ocupado: " + ultimoValorDisco + " %";
                     meuGrafico.update();
                 });
@@ -412,24 +436,28 @@
                     //mapeando a primeira coluna
                     const atualRAM = dados.map(dado => dado.gigaBytesMemoria);
                     const maxRAM = dados.map(dado => dado.qtdTotalRAM);
+                    const AtualRamPorcentagem = dados.map(dado => dado.percentualMemoria)
 
                     //pegando o ultimo valor da coluna de RAM
                     ultimoValorAtualRAM = atualRAM[atualRAM.length - 1]
                     maximoRAMServidor = maxRAM[maxRAM.length - 1]
-                    
+                    ultimoValorAtualRamPercentagem = AtualRamPorcentagem[AtualRamPorcentagem.length - 1]
 
                     //Transformando o total de ram de MB para GB
                     let ramEmGB = (maximoRAMServidor / 1000).toFixed(2);
 
                     //Cálculo de alteração de cor 
-                    let limite = (ultimoValorAtualRAM / ramEmGB) * 100;
+                    // let limite = (ultimoValorAtualRAM / ramEmGB) * 100;
+                    // alert(ultimoValorAtualRAM)
+                    // alert(ramEmGB)
+                    // alert(limite)
 
                     //Mostrando no html
                     let showRAMAtual = document.getElementById('atual_ram');
                     let showAlerta = document.getElementById('alertaRAM');
                     const showFrase = document.getElementById('pLimite');
 
-                    if(limite >= 80){
+                    if(ultimoValorAtualRamPercentagem >= 80){
                         showRAMAtual.innerHTML = ultimoValorAtualRAM; 
                         showRAMAtual.style.color = 'red';
                         showAlerta.style.display = 'block';
@@ -504,15 +532,15 @@
 
             //------------------------KPI QTD PICOS--------------INC-------------------//
 
-            
+            // if(select_geral.value == 1){
+            //     qtdAlertasDia();
+            // } else if(select_geral.value == 2){
+            //     qtdAlertasSemana();
+            // } else if(select_geral.value == 3){
+            //     qtdAlertasMensal();
+            // }
 
-            if(select_geral.value == 1){
-                qtdAlertasDia();
-            } else if(select_geral.value == 2){
-                qtdAlertasSemana();
-            } else if(select_geral.value == 3){
-                qtdAlertasMensal();
-            }
+
 
             //------------------------KPI QTD PICOS--------------FIM-------------------//
         
@@ -520,31 +548,37 @@
             setTimeout(graficoDinamico, 3000);
         }
 
-        
-
-        async function qtdAlertasDia(){
+        async function qtdAlertasDesteServidor(){
            let pegarNumero = document.getElementById('batata');
-           var qtdD = await qtdAlertasTempo(1);
+           var qtdD = await numPicosPorServidor(fk_maquina);
            //alert(qtdD)
-           console.log("Dia", qtdD)
+           console.log("qtd: ", qtdD)
            pegarNumero.innerHTML = qtdD;
-        }        
-
-        async function qtdAlertasSemana(){
-            let pegarNumero = document.getElementById('batata');
-            var qtdS = await qtdAlertasTempo(2);
-            //alert(qtdS)
-            console.log("Semana", qtdS)
-            pegarNumero.innerHTML = qtdS;
         }
 
-        async function qtdAlertasMensal(){
-            let pegarNumero = document.getElementById('batata');
-            var qtdM = await qtdAlertasTempo(3);
-            console.log("Mês", qtdM)
-            //alert(qtdM)
-            pegarNumero.innerHTML = qtdM;
-        }
+        // async function qtdAlertasDia(){
+        //    let pegarNumero = document.getElementById('batata');
+        //    var qtdD = await qtdAlertasTempo(1);
+        //    //alert(qtdD)
+        //    console.log("Dia", qtdD)
+        //    pegarNumero.innerHTML = qtdD;
+        // }        
+
+        // async function qtdAlertasSemana(){
+        //     let pegarNumero = document.getElementById('batata');
+        //     var qtdS = await qtdAlertasTempo(2);
+        //     //alert(qtdS)
+        //     console.log("Semana", qtdS)
+        //     pegarNumero.innerHTML = qtdS;
+        // }
+
+        // async function qtdAlertasMensal(){
+        //     let pegarNumero = document.getElementById('batata');
+        //     var qtdM = await qtdAlertasTempo(3);
+        //     console.log("Mês", qtdM)
+        //     //alert(qtdM)
+        //     pegarNumero.innerHTML = qtdM;
+        // }
 
     </script>
 </body>

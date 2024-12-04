@@ -2001,6 +2001,39 @@
 /* Gráficos */
 
 /* Continuação - Dash projeto individual */
+
+.metrica-toogle{
+  display: flex;
+  flex-direction: row;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  height: 5vh;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color:#ff914c;
+  color: #000;
+  text-align: center;
+  border-radius: 6px;
+  border: 2px solid black;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 125%; /*Posiciona abaixo do elemento */
+  left: 50%;
+  margin-left: -60px;
+  box-shadow: 0 4px 8px rgba(0.8, 0.8, 0.8, 0.5);
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 .container_{
   display: flex;
   flex-direction: column;
