@@ -18,6 +18,27 @@
     height: auto;
 }
 
+.cardPed{
+    display: none;
+    position: absolute;
+    width: 20%;
+    height: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    justify-content: center;
+    background-color: #494949;
+    color: white;
+    z-index: 3;
+}
+
+.dadosPed{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+}
 
 /* Configuração de containers */
 .contConfig{
@@ -26,7 +47,6 @@
     border-radius: 5px;
     padding: 20px;
 }
-
 
 /* Estilização de tabelas */
 #chart1{
