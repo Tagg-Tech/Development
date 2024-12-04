@@ -92,7 +92,7 @@ function plotTable(vetor){
         `;
         
         // Tabela de conteúdo parcial
-        if(cont < 6){
+        if(cont < 5){
             lineParse += `
                 <tr>
                     <th>${element.concessionaria}</th>
@@ -100,8 +100,8 @@ function plotTable(vetor){
                     <th>${element.nivelTransito}</th>
                 </tr>
             `;
-            cont++;
         }
+        cont++;
     });
 
         // Configuração de tabela (header e estrutura)
@@ -115,7 +115,7 @@ function plotTable(vetor){
                         <th>Município</th>
                         <th>Concessionária</th>
                         <th>Rodovia</th>
-                        <th>Uso Estimado (%)</th>
+                        <th>Trânsito Estimado (%)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -131,13 +131,14 @@ function plotTable(vetor){
                     <tr>
                         <th>Concessionária</th>
                         <th>Rodovia</th>
-                        <th>Uso Estimado (%)</th>
+                        <th>Trânsito Estimado (%)</th>
                     </tr>
                 </thead>
                 <tbody>
                     ${lineParse}
                 </tbody>
             </table>
+            <button onclick="closeTable(false)">Expandir tabela</button>
         `;
 
     document.querySelector('.tableDash1').innerHTML = confTableParse;
@@ -228,7 +229,7 @@ function plotChart(object) {
 // Exibindo data em que os dados foram capturados
 function firstData(dataRaw){
     const data = new Date(dataRaw);
-    const day = data.toLocaleDateString("pt-BR", { weekday : "long" });
+    const day = data.toLocaleDateString("pt-BR", { day : "2-digit", month : "2-digit", year : "2-digit" });
     const time = data.toLocaleTimeString("pt-BR", { hour : "2-digit", minute : "2-digit" });
     console.log(dataRaw);
     let template = document.querySelector(".labelDataDay");
@@ -245,7 +246,6 @@ function closeTable(valid){
         element.style.display = "block";
     }
 }
-
 
 // Indicadores gráfico pedágios:
 var maisUti = "<span>CCR</span><span>80%</span>";
