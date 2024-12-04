@@ -5,7 +5,10 @@ window.addEventListener('DOMContentLoaded', ()=>{
     sessionStorage.setItem("condition", "false")
 });
 
+// Vetor com objetos de resposta em escopo global
+let dataDif;
 
+// Atualização de dados da API
 function upData(cond){
     sessionStorage.setItem("condition", cond.toString());
     window.location.reload();
@@ -13,7 +16,6 @@ function upData(cond){
 
 // Buscando dados de API
 async function tomtomData(condition) {
-
     try {
         let resposta = await fetch(`/tomtom/${condition}`);
 
@@ -25,7 +27,7 @@ async function tomtomData(condition) {
         let respJson = await resposta.json();
         let data = respJson.data;
         // Criando novo vetor com a diferença de velocidade das rodovias
-        let dataDif = data.map(item => {
+        dataDif = data.map(item => {
             var traf;
             // Se houver diferença de tráfego na área mapeada
             if ((item.velocidadeLivre - item.velocidadeAtual) != 0) {
@@ -41,7 +43,7 @@ async function tomtomData(condition) {
                 nivelTransito: traf
             };
         })
-            .sort((a, b) => b.nivelTransito - a.nivelTransito); // Operador de arrays, ordena os dados do maior para o menor com base na diferença de velocidade
+            .sort((a, b) => b.nivelTransito - a.nivelTransito); // Operador de arrays, ordena os dados do maior para o menor com base na diferença de percentual de velocidade
         console.log(dataDif);
 
         // Plot de tabela com pedágios mais utilizados
@@ -82,7 +84,7 @@ function plotTable(vetor){
     // Geração de contéudo das tabelas
     vetor.forEach(element =>{
         line += `
-            <tr>
+            <tr onclick="infoPed(${cont}); closeCard(false)">
                 <th>${element.uf}</th>
                 <th>${element.municipio}</th>
                 <th>${element.concessionaria}</th>
@@ -237,6 +239,25 @@ function firstData(dataRaw){
     template.innerHTML += `${day}, às ${time}.`
 }
 
+function infoPed(i){
+    console.log(`Índice do card: ${i}`);
+    let card = document.querySelector(".cardPed");
+
+    let vetor = dataDif[i];
+    card.innerHTML = `
+        <i class="bi bi-x-circle" onclick="closeCard(true)"></i>
+        <div class="dadosPed">
+            <span>Estado: ${vetor.uf}</span>
+            <span>Municípo: ${vetor.municipio}</span>
+            <span>Rodovia: ${vetor.rodovia}</span>
+            <span>Velocidade livre: ${vetor.velocidadeLivre} KM</span>
+            <span>Valocidade atual: ${vetor.velocidadeAtual} KM</span>
+            <span>Trânsito: ${vetor.nivelTransito}%</span>
+            <span>Confiabilidade do dado: ${vetor.confiabilidade * 100}%</span>
+        </div>
+    `;
+}
+
 // Função para fechar ou abrir tabela completa
 function closeTable(valid){
     let element = document.querySelector('.tableDash1Comp');
@@ -244,6 +265,15 @@ function closeTable(valid){
         element.style.display = "none";
     } else{
         element.style.display = "block";
+    }
+}
+
+function closeCard(valid){
+    let element = document.querySelector('.cardPed');
+    if(valid){
+        element.style.display = "none";
+    } else{
+        element.style.display = "flex";
     }
 }
 
