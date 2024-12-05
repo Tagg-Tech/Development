@@ -33,7 +33,7 @@ function pegarUsoDisco(fk_maquina){
 
 function pegarRAM(fk_maquina){
     var instrucaoSql = `
-        SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria FROM registros AS r
+        SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria, m.alertaRAM FROM registros AS r
         	JOIN maquina AS m ON m.idMaquina = r.fkMaquina
             WHERE fkMaquina = '${fk_maquina}';
     `;
@@ -43,8 +43,9 @@ function pegarRAM(fk_maquina){
 
 function isInstable(id_usuario, fk_maquina){
     var instrucaoSql = `
-        SELECT percentualCPU FROM registros AS r 
+        SELECT percentualCPU, alertaCPU FROM registros AS r 
         	JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = '${fk_maquina}'
+            JOIN maquina AS m ON m.idMaquina = r.fkMaquina
             WHERE u.fkUsuario = '${id_usuario}';
     `;
     //console.log("Executando a instrução SQL: \n" + instrucaoSql);
