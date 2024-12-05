@@ -83,11 +83,11 @@ async function consultarDadosTrafego(req, res) {
         //Constante para armazenar os resultados da localização:
         const resultados = [];
         // Constante de localizações de arquivo de praças de pedágios
-        const caminhoCsv = __dirname + '/pracas.csv';
+        const caminhoCsv = __dirname + '/pracasTeste.csv';
         console.log(`Chave da API : ${apiKey}`);
 
         //Monta as requisições iterando a partir da listaLocalizacoes
-        for (const localizacao of listaLoc10) {
+        for (const localizacao of listaLocCompleta) {
             const params = new URLSearchParams({
                 key: apiKey,
                 point: localizacao,
