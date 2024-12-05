@@ -294,3 +294,21 @@ canvas {
 /* #endregion */
 
 /* Ajustando a div onde o gráfico é renderizado */
+
+#card-alertas:hover #servidores-alerta-lista {
+  display: block;
+  cursor: pointer;
+}
+
+#servidores-alerta-lista li {
+  padding: 5px 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+#servidores-alerta-lista li:last-child {
+  border-bottom: none;
+}
+
+#servidores-alerta-lista li:hover {
+  background-color: #f0f0f0;
+}

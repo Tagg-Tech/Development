@@ -16,6 +16,12 @@ function upData(cond){
 
 // Buscando dados de API
 async function tomtomData(condition) {
+    // Elementos para carregamento de página
+    let gif = document.querySelector('.carregGif');
+    let visual = document.querySelector('.visual');
+    visual.style.opacity = '0.5';
+    gif.style.display = 'block';
+
     try {
         let resposta = await fetch(`/tomtom/${condition}`);
 
@@ -23,9 +29,13 @@ async function tomtomData(condition) {
             console.error("Erro de requisição: ", resposta.statusText);
             return;
         }
-
         let respJson = await resposta.json();
+
+        visual.style.opacity = '1';
+        gif.style.display = 'none';
+
         let data = respJson.data;
+        
         // Criando novo vetor com a diferença de velocidade das rodovias
         dataDif = data.map(item => {
             var traf;
@@ -239,6 +249,7 @@ function firstData(dataRaw){
     template.innerHTML += `${day}, às ${time}.`
 }
 
+// Criando card com as informações do pedágio conrespondente
 function infoPed(i){
     console.log(`Índice do card: ${i}`);
     let card = document.querySelector(".cardPed");
@@ -250,10 +261,11 @@ function infoPed(i){
             <span>Estado: ${vetor.uf}</span>
             <span>Municípo: ${vetor.municipio}</span>
             <span>Rodovia: ${vetor.rodovia}</span>
+            <span>Praça: ${vetor.praca}</span>
             <span>Velocidade livre: ${vetor.velocidadeLivre} KM</span>
             <span>Valocidade atual: ${vetor.velocidadeAtual} KM</span>
             <span>Trânsito: ${vetor.nivelTransito}%</span>
-            <span>Confiabilidade do dado: ${vetor.confiabilidade * 100}%</span>
+            <span>Confiabilidade do dado: ${Math.round(vetor.confiabilidade * 100, 0)}%</span>
         </div>
     `;
 }

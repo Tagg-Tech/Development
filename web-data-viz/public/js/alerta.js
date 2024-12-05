@@ -211,9 +211,10 @@ async function rankingForaDoAr(){
 
     }
   });
-
+console.log(listaChamadosDown)
   return listaChamadosDown;
 }
+
 async function qtdAlertasTempo(tempo){
 
   var dataAtual = new Date()

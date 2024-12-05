@@ -58,7 +58,9 @@
                 <div class="card-alertas">
                     <h2>Servidores em Alerta</h2>
                     <span id="kpi-servidores-alerta" style="color: red; font-size: 24px;"></span>
-
+                    <ul id="servidores-alerta-lista" style="display: none; position: absolute; background-color: white; border: 1px solid #ccc; padding: 10px; list-style: none; z-index: 10;">
+                        <!-- Itens serão inseridos dinamicamente aqui -->
+                    </ul>
                 </div> 
                 <div class="card-alertas">
                     <h3>Desvio Padrão Geral</h3>
@@ -69,7 +71,7 @@
             <div class="ranking" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-right: 5%;">
                 <h2>Ranking de Servidores - Tempo Fora do Ar</h2>
                 <label for="filtro-ranking">Filtrar por:</label>
-                <select id="filtro-ranking" onchange="atualizarRanking()">
+                <select id="filtro-ranking">
                     <option value="dia">Dia</option>
                     <option value="semana">Semana</option>
                     <option value="mes">Mês</option>
@@ -123,59 +125,150 @@
         let graficoMaxMin; // Gráfico de máximo e mínimo
         let servidores = {}; // Armazenar os dados de cada servidor
 
-        async function fetchRanking(filtro) {
-            try {
-                const response = await fetch(`http://localhost:3333/ranking/${filtro}`);
-                const data = await response.json();
+        document.addEventListener("DOMContentLoaded", function () {
+    const alertaSpan = document.getElementById("kpi-servidores-alerta");
+    const servidoresLista = document.getElementById("servidores-alerta-lista");
 
-                // Filtrar dados para mostrar apenas o maior tempo fora do ar por servidor
-                const servidoresRanking = {}; // Renomeado para evitar conflito com a variável global
+    // Exemplo de dados dos servidores (você deve obter isso do seu backend)
+    const servidoresEmAlerta = [
+        { nome: "Servidor 1", fk_maquina: 1 },
+        { nome: "Servidor 2", fk_maquina: 2 },
+        { nome: "Servidor 3", fk_maquina: 3 },
+    ];
 
-                data.forEach(item => {
-                    if (!servidoresRanking[item.idMaquina]) {
-                        servidoresRanking[item.idMaquina] = item.tempoForaDoAr;
-                    } else {
-                        servidoresRanking[item.idMaquina] = Math.max(servidoresRanking[item.idMaquina], item.tempoForaDoAr);
-                    }
-                });
+    // Atualizar o número de servidores em alerta
+    alertaSpan.textContent = servidoresEmAlerta.length;
 
-                // Transformar o objeto em um array para ordenação
-                const ranking = Object.keys(servidoresRanking).map(idMaquina => ({
-                    idMaquina,
-                    tempoForaDoAr: servidoresRanking[idMaquina]
-                }));
+    // Preencher a lista de servidores em alerta
+    servidoresEmAlerta.forEach((servidor) => {
+        const li = document.createElement("li");
+        li.textContent = servidor.nome;
 
-                ranking.sort((a, b) => b.tempoForaDoAr - a.tempoForaDoAr); // Ordenar do maior para o menor tempo fora do ar
+        // Adicionar evento de clique para redirecionar
+        li.addEventListener("click", () => {
+            // Armazenar a FK do servidor no sessionStorage
+            sessionStorage.setItem("fk_maquina", servidor.fk_maquina);
 
-                return ranking;
-            } catch (error) {
-                console.error("Erro ao buscar ranking:", error);
-                return [];
-            }
-        }
-
-        async function atualizarRanking() {
-            const filtro = document.getElementById('filtro-ranking').value;
-            const rankingDados = await fetchRanking(filtro);
-
-            const tabelaBody = document.getElementById('ranking-dados');
-            tabelaBody.innerHTML = ''; // Limpa os dados atuais
-
-            rankingDados.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td style="border: 1px solid #ddd; padding: 8px;">${index + 1}°</td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">Servidor ${item.idMaquina}</td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${item.tempoForaDoAr} min</td>
-                `;
-                tabelaBody.appendChild(row);
-            });
-        }
-
-        // Carregar ranking ao iniciar a página
-        document.addEventListener('DOMContentLoaded', () => {
-            atualizarRanking();
+            // Redirecionar para a página do servidor
+            window.location.href = "dashboardAnalistaUmServidor.html";
         });
+
+        servidoresLista.appendChild(li);
+    });
+});
+async function rankingForaDoAr(filtro = 'dia') {
+  const response = await fetch("/verChamados", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+  const issues = data.resultado.issues;
+
+  const listaChamadosDown = [];
+  const dataAtual = new Date();
+
+  // Definir a data mínima baseada no filtro
+  let dataMinima;
+  switch(filtro) {
+    case 'dia':
+      dataMinima = new Date(dataAtual);
+      dataMinima.setDate(dataAtual.getDate() - 1);
+      break;
+    case 'semana':
+      dataMinima = new Date(dataAtual);
+      dataMinima.setDate(dataAtual.getDate() - 7);
+      break;
+    case 'mes':
+      dataMinima = new Date(dataAtual);
+      dataMinima.setMonth(dataAtual.getMonth() - 1);
+      break;
+    default:
+      dataMinima = new Date(dataAtual);
+      dataMinima.setDate(dataAtual.getDate() - 1);
+  }
+
+  issues.forEach(issue => {
+    const chamadoAtual = issue.fields;
+    const tipoChamado = chamadoAtual.project.key;
+
+    if (tipoChamado == "DOWN"){
+      const chamado = chamadoAtual.description;
+
+      index = chamado.indexOf("''");
+      index2 = chamado.indexOf("ficou") - 1
+      if (index !== -1) {  
+          var servidorAtual = chamado.substring(index + 2,  index2  );
+      } else {
+        var servidorAtual = null
+      }
+     
+      var index = chamado.indexOf("**");
+      if (index !== -1) { 
+          var dataAtual = new Date(chamado.substring(index + 2, index + 19));
+      }
+
+      var fimDownTime = chamadoAtual.customfield_10046.completedCycles[0]  
+
+      if(fimDownTime == undefined){
+        var dataFechamento = new Date()
+      }else{
+        var dataFechamento = new Date(fimDownTime.stopTime.iso8601)
+      }
+
+      // Verificar se o downtime está dentro do período do filtro
+      if (dataAtual >= dataMinima) {
+        var tempoDownTime = dataAtual - dataFechamento;
+        var diferencaHoras = Math.floor(tempoDownTime / (1000 * 60));
+        diferencaHoras = Math.round(diferencaHoras / 60, 2)
+        diferencaHoras = Math.abs(diferencaHoras)
+
+        var servidor = listaChamadosDown.find(item => item.nome === servidorAtual);
+
+        if (servidor) {
+          servidor.downtime += diferencaHoras;
+        } else {
+          listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
+        }
+      }
+    }
+  });
+
+  // Ordenar do maior downtime para o menor
+  listaChamadosDown.sort((a, b) => b.downtime - a.downtime);
+
+  return listaChamadosDown;
+}
+
+// Função para atualizar o ranking na tabela
+async function atualizarRanking() {
+  const filtro = document.getElementById('filtro-ranking').value;
+  const rankingDados = await rankingForaDoAr(filtro);
+
+  const tabelaBody = document.getElementById('ranking-dados');
+  tabelaBody.innerHTML = ''; // Limpa os dados atuais
+
+  rankingDados.forEach((item, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td style="border: 1px solid #ddd; padding: 8px;">${index + 1}°</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">${item.nome}</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">${item.downtime.toFixed(2)} min</td>
+    `;
+    tabelaBody.appendChild(row);
+  });
+}
+
+// Inicializar o ranking ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+  atualizarRanking();
+});
+
+// Adicionar evento de mudança no filtro
+document.getElementById('filtro-ranking').addEventListener('change', atualizarRanking);
+
 
         async function fetchData(componente) {
             const response = await fetch(`http://localhost:3333/analistadados/${componente}`);
@@ -233,7 +326,7 @@
             const componente = document.getElementById('componente').value;
             const dados = await fetchData(componente);
             atualizarGrafico(dados, componente);
-        }, 10000); // Ajuste no intervalo
+        }, 2000); // Ajuste no intervalo
 
         // Função para buscar os dados de máximo e mínimo
         async function fetchMaxMinData(componente) {

@@ -83,7 +83,9 @@ INSERT INTO registros (percentualMemoria, gigaBytesMemoria, qtdUtilizadaDisco, p
 (74.65, 14.94, 130440, 69.50, 59.70, 3.89, '2024-11-19 08:03:40', 1),
 (69.40, 15.00, 130000, 65.17, 43.13, 3.13, '2024-11-22 10:55:13', 1),
 (69.40, 15.95, 130000, 65.17, 43.13, 3.13, '2024-11-22 10:55:13', 1),
-(69.40, 15.95, 130000, 65.17, 90.13, 3.13, '2024-11-22 10:55:13', 1);
+(69.40, 15.95, 130000, 65.17, 90.13, 3.13, '2024-11-22 10:55:13', 1),
+(74.15, 14.84, 130340, 69.25, 58.70, 3.79, '2024-11-19 08:02:50', 1),
+(84.15, 14.84, 130340, 69.25, 58.70, 3.79, '2024-11-19 08:02:50', 1);
 
 INSERT INTO registros (percentualMemoria, gigaBytesMemoria, qtdUtilizadaDisco, percentualDisco, percentualCPU, frequenciaCPU, dataHora, fkMaquina) 
 VALUES 
@@ -106,7 +108,9 @@ VALUES
 (51.30, 7.00, 160, 42.10, 22.00, 2.1, NOW(), 1),
 (77.90, 12.00, 270, 61.90, 67.20, 3.0, NOW(), 1),
 (59.60, 6.80, 150, 48.70, 34.10, 2.2, NOW(), 1),
-(70.00, 8.40, 210, 53.90, 48.30, 2.7, NOW(), 1);
+(70.00, 8.40, 210, 53.90, 48.30, 2.7, NOW(), 1),
+(70.00, 8.40, 210, 91.90, 91.30, 2.7, NOW(), 1),
+(91.00, 15.10, 210, 91.90, 91.30, 2.7, NOW(), 1);
 
 INSERT INTO usuarioResponsavelMaquina VALUES
 (1,1);
@@ -132,7 +136,7 @@ SELECT percentualCPU, percentualMemoria FROM registros AS r
     WHERE u.fkUsuario = 1;
 
 -- Métrica de RAM 
-SELECT r.gigaBytesMemoria, m.qtdTotalRAM FROM registros AS r
+SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria FROM registros AS r
 	JOIN maquina AS m ON m.idMaquina = r.fkMaquina
     WHERE fkMaquina = 1;
 

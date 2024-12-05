@@ -434,8 +434,10 @@
                     const atualRAM = dados.map(dado => dado.gigaBytesMemoria);
                     const maxRAM = dados.map(dado => dado.qtdTotalRAM);
                     const AtualRamPorcentagem = dados.map(dado => dado.percentualMemoria)
+                    const porcentagem_ram_limite = dados.map(dado => dado.alertaRAM)
 
                     //pegando o ultimo valor da coluna de RAM
+                    u_v_porcentagem_ram_limite = porcentagem_ram_limite[porcentagem_ram_limite.length - 1]
                     ultimoValorAtualRAM = atualRAM[atualRAM.length - 1]
                     maximoRAMServidor = maxRAM[maxRAM.length - 1]
                     ultimoValorAtualRamPercentagem = AtualRamPorcentagem[AtualRamPorcentagem.length - 1]
@@ -453,8 +455,10 @@
                     let showRAMAtual = document.getElementById('atual_ram');
                     let showAlerta = document.getElementById('alertaRAM');
                     const showFrase = document.getElementById('pLimite');
+                    
+                    console.log("limite de ram deste servidor: ", u_v_porcentagem_ram_limite)
 
-                    if(ultimoValorAtualRamPercentagem >= 80){
+                    if(ultimoValorAtualRamPercentagem >= u_v_porcentagem_ram_limite){
                         showRAMAtual.innerHTML = ultimoValorAtualRAM; 
                         showRAMAtual.style.color = 'red';
                         showAlerta.style.display = 'block';
@@ -498,16 +502,19 @@
                 response.json().then(dados => {
                     //mapeando a primeira coluna
                     const colunaCPU = dados.map(dado => dado.percentualCPU);
+                    const limite_cpu = dados.map(dado => dado.alertaCPU);
 
 
                     //pegando o ultimo valor da coluna CPU
-                    last_value_cpu = colunaCPU[colunaCPU.length - 1]
+                    last_value_cpu = colunaCPU[colunaCPU.length - 1];
+                    last_valuue_limite_cpu = limite_cpu[limite_cpu.length - 1];
 
                     let showInstabilidade = document.getElementById('estabilidade');
                     let showAlertaInst = document.getElementById('alertaInstavel');
                     const showFraseInst = document.getElementById('pInst');
 
-                    if(last_value_cpu > 80){
+                    console.log("limite cpu", last_valuue_limite_cpu)
+                    if(last_value_cpu > last_valuue_limite_cpu){
                         showInstabilidade.innerHTML = 'Instável';
                         showInstabilidade.style.color = 'red';
                         showAlertaInst.style.display = 'block';
