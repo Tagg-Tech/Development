@@ -257,10 +257,11 @@ setInterval(constructJiraChart, 50000)
 
 
         if (eficienciaRam < 2) {
-          efficency.style.color = "yellow"
-          warning_efficiency.style.display = 'block'
+          efficency.style.color = ""
+          warning_efficiency.style.display = 'none'
         } else if (eficienciaRam < 1.5) {
           efficency.style.color = "red"
+          warning_efficiency.style.display = 'block'
         }else{
           warning_efficiency.style.display = 'none'
 
@@ -508,8 +509,8 @@ setInterval(constructJiraChart, 50000)
     verificarLimites(dadosServidores, limites);
   }
   function verificarLimites(dadosServidores, limites) {
-    // console.log("Acessei verificarLimites");
-    // console.log('Dados dos Servidores:', dadosServidores);
+    console.log("Acessei verificarLimites");
+    console.log('Dados dos Servidores:', dadosServidores);
 
 
     for (const servidor of dadosServidores) {
@@ -537,17 +538,20 @@ setInterval(constructJiraChart, 50000)
     };
   }
   function exibirAlerta(mensagem) {
+    console.log('Acessei alerta:',mensagem)
     const alertaDiv = document.getElementById("alertaJira");
     alertaDiv.style.display = "flex";
     const alertaTexto = document.getElementById("pAlerta");
 
-    alertaTexto.textContent = mensagem;
+    
 
-    if(alertaTexto.textContent = "Parece que você esta tendo problemas com o recebimento de dados! Nos contate para verificar a situação"){
-      var caixa = document.getElementById('alertaJira');
-      caixa.onclick = ''
-      caixa.style.cursor = 'default'
-    }
+    // if(alertaTexto.textContent = "Parece que você esta tendo problemas com o recebimento de dados! Nos contate para verificar a situação"){
+    //   var caixa = document.getElementById('alertaJira');
+    //   caixa.onclick = ''
+    //   caixa.style.cursor = 'default'
+    // }
+      alertaTexto.textContent = mensagem;
+
   }
 
 
@@ -603,21 +607,21 @@ setInterval(constructJiraChart, 50000)
   document.getElementById('btn_graphic_cpu_prev').addEventListener('click', voltarGrupo);
 
 
-    function alertarSemDados(){
-      const chart1 = document.getElementById("chart")
-      const chart2 = document.getElementById("chart2")
-      const efficiency_number = document.getElementById("efficency_number")
-      const uptime_number = document.getElementById("uptime_number")
-      const alertaDiv = document.getElementById("alertaJira"); 
+    // function alertarSemDados(){
+    //   const chart1 = document.getElementById("chart")
+    //   const chart2 = document.getElementById("chart2")
+    //   const efficiency_number = document.getElementById("efficency_number")
+    //   const uptime_number = document.getElementById("uptime_number")
+    //   const alertaDiv = document.getElementById("alertaJira"); 
       
 
-      if(chart1.innerHTML == 'SEM DADOS' || chart2.innerHTML == 'SEM DADOS' || efficiency_number.innerHTML == 'SEM DADOS' || uptime_number.innerHTML == 'SEM DADOS'){
-        var mensagem = 'Parece que você esta tendo problemas com o recebimento de dados! Nos contate para verificar a situação'
-        exibirAlerta(mensagem)
-      }else{
-        alertaDiv.style.display = 'none'
-      }
-    }
-    setInterval(alertarSemDados,500);
+    //   if(chart1.innerHTML == 'SEM DADOS' || chart2.innerHTML == 'SEM DADOS' || efficiency_number.innerHTML == 'SEM DADOS' || uptime_number.innerHTML == 'SEM DADOS'){
+    //     var mensagem = 'Parece que você esta tendo problemas com o recebimento de dados! Nos contate para verificar a situação'
+    //     exibirAlerta(mensagem)
+    //   }else{
+    //     alertaDiv.style.display = 'none'
+    //   }
+    // }
+    // setInterval(alertarSemDados,500);
 
 </script>
