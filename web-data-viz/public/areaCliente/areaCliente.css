@@ -218,7 +218,7 @@ canvas {
     width: 200px; /* Mantendo o tamanho igual ao dos gráficos */
     height: 200px; /* Igual aos gráficos */
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 4px solid #ddd;
     border-radius: 10px;
     background-color: #c8c2c2;
     margin-left: 5%; ;
