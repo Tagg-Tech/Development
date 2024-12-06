@@ -106,7 +106,7 @@ function plotTable(vetor){
         // Tabela de conteúdo parcial
         if(cont < 5){
             lineParse += `
-                <tr>
+                <tr onclick="infoPed(${cont}); closeCard(false)">
                     <th>${element.concessionaria}</th>
                     <th>${element.rodovia}</th>
                     <th>${element.nivelTransito}</th>
@@ -170,7 +170,13 @@ function plotChart(object) {
             stacked: false
         },
         dataLabels: {
-            enabled: false
+            enabled: true,
+            formatter: function (val) { 
+                return val + "%";
+            },
+            style: {
+                colors: ["#fff"]
+            }
         },
         colors: ["#FF1654", "#247BA0"],
         series: [
@@ -184,7 +190,7 @@ function plotChart(object) {
         },
         plotOptions: {
             bar: {
-                columnWidth: "35%"
+                columnWidth: "55%"
             }
         },
         xaxis: {
@@ -289,10 +295,6 @@ function closeCard(valid){
     }
 }
 
-// Indicadores gráfico pedágios:
-var maisUti = "<span>CCR</span><span>80%</span>";
-var menosUti = "<span>EcoVias</span><span>50%</span>";
-
 function showMaisUti() {
     if (!indMped.innerHTML.includes(maisUti)) {
         indMped.innerHTML += maisUti;
@@ -363,11 +365,3 @@ const options = {
 const chart = new ApexCharts(document.querySelector("#chart2"), options);
 chart.render();
 */
-
-// <!-- script slider -->
-const slider = document.getElementById("myRange");
-const sliderValue = document.getElementById("sliderValue");
-
-slider.addEventListener("input", () => {
-    sliderValue.textContent = "Mês: " + slider.value + " de 2024";
-});
