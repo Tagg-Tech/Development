@@ -76,7 +76,7 @@ function orgData(vetor) {
     };
 
     vetor.forEach(element => {
-        dataForGraf.nomePed.push(element.concessionaria);
+        dataForGraf.nomePed.push(`${element.uf} / ${element.rodovia}`);
         dataForGraf.percTraf.push(element.nivelTransito);
     });
 
