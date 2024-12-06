@@ -52,13 +52,16 @@
             </div>
 
     <!-- Main Content -->
-    <div class="main-content">
-        <div class="chart-container" style="display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap;">
-            <div class="kpis" style="display: flex; flex-direction: row; gap: 20px;">
+    <div class="main-content" style="height: 90vh;">
+        <div class="chart-container" style="display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; height: 100%;">
+            <div class="kpis" style="display: flex; flex-direction: row; gap: 20px;border: 4px solid #ddd; background-color: white;">
                 <div class="card-alertas">
                     <h2>Servidores em Alerta</h2>
-                    <span id="kpi-servidores-alerta" style="color: red; font-size: 24px;"></span>
+                   <span id="kpi-servidores-alerta" style="color: red; font-size: 24px; font-weight: bold;"></span>
 
+                    <ul id="servidores-alerta-lista" style="display: none; position: absolute; background-color: white; border: 1px solid #ccc; padding: 10px; list-style: none; z-index: 10;">
+                        <!-- Itens serão inseridos dinamicamente aqui -->
+                    </ul>
                 </div> 
                 <div class="card-alertas">
                     <h3>Desvio Padrão Geral</h3>
@@ -66,10 +69,10 @@
                 </div>
             </div>
 
-            <div class="ranking" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-right: 5%;">
+            <div class="ranking" style="width: 40%; height: 300px; padding: 10px; border: 4px solid #ddd; border-radius: 10px; background-color: white;margin-right: 5%;">
                 <h2>Ranking de Servidores - Tempo Fora do Ar</h2>
                 <label for="filtro-ranking">Filtrar por:</label>
-                <select id="filtro-ranking" onchange="atualizarRanking()">
+                <select id="filtro-ranking">
                     <option value="dia">Dia</option>
                     <option value="semana">Semana</option>
                     <option value="mes">Mês</option>
@@ -90,7 +93,7 @@
                 </div>
             </div>
            
-         <div class="charts" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-left: 5%; margin-top: 20px;">
+         <div class="charts" style="width: 40%; height: 300px; padding: 10px; border: 4px solid #ddd; border-radius: 10px; background-color: white;margin-left: 5%; margin-top: 20px;">
             <h3>Uso dos componentes (por servidor)</h3>
             <label for="componente">Selecione o Componente:</label>
           <select id="componente">
@@ -104,7 +107,7 @@
             </div>
         </div>
 
-        <div class="charts" style="width: 40%; height: 280px; padding: 10px; border: 1px solid #ddd; border-radius: 10px; background-color: transparent;margin-right: 5%; margin-top: 20px;">
+        <div class="charts" style="width: 40%; height: 300px; padding: 10px; border: 4px solid #ddd; border-radius: 10px; background-color: white;margin-right: 5%; margin-top: 20px;">
             <h3>Variância de cada componente (por servidor)</h3>
             <label for="componente-maxmin">Selecione o Componente:</label>
             <select id="componente-maxmin">
@@ -123,40 +126,119 @@
         let graficoMaxMin; // Gráfico de máximo e mínimo
         let servidores = {}; // Armazenar os dados de cada servidor
 
-        async function fetchRanking(filtro) {
-            try {
-                const response = await fetch(`http://localhost:3333/ranking/${filtro}`);
-                const data = await response.json();
+        document.addEventListener("DOMContentLoaded", function () {
+            const alertaSpan = document.getElementById("kpi-servidores-alerta");
+            const servidoresLista = document.getElementById("servidores-alerta-lista");
 
-                // Filtrar dados para mostrar apenas o maior tempo fora do ar por servidor
-                const servidoresRanking = {}; // Renomeado para evitar conflito com a variável global
+            // Exemplo de dados dos servidores (você deve obter isso do seu backend)
+            const servidoresEmAlerta = [
+                { nome: "Servidor 1", fk_maquina: 1 },
+                { nome: "Servidor 2", fk_maquina: 2 },
+                { nome: "Servidor 3", fk_maquina: 3 },
+            ];
 
-                data.forEach(item => {
-                    if (!servidoresRanking[item.idMaquina]) {
-                        servidoresRanking[item.idMaquina] = item.tempoForaDoAr;
-                    } else {
-                        servidoresRanking[item.idMaquina] = Math.max(servidoresRanking[item.idMaquina], item.tempoForaDoAr);
-                    }
+            // Atualizar o número de servidores em alerta
+            alertaSpan.textContent = servidoresEmAlerta.length;
+
+            // Preencher a lista de servidores em alerta
+            servidoresEmAlerta.forEach((servidor) => {
+                const li = document.createElement("li");
+                li.textContent = servidor.nome;
+
+                // Adicionar evento de clique para redirecionar
+                li.addEventListener("click", () => {
+                    // Armazenar a FK do servidor no sessionStorage
+                    sessionStorage.setItem("fk_maquina", servidor.fk_maquina);
+
+                    // Redirecionar para a página do servidor
+                    window.location.href = "dashboardAnalistaUmServidor.html";
                 });
 
-                // Transformar o objeto em um array para ordenação
-                const ranking = Object.keys(servidoresRanking).map(idMaquina => ({
-                    idMaquina,
-                    tempoForaDoAr: servidoresRanking[idMaquina]
-                }));
+                servidoresLista.appendChild(li);
+            });
+        });
 
-                ranking.sort((a, b) => b.tempoForaDoAr - a.tempoForaDoAr); // Ordenar do maior para o menor tempo fora do ar
+        // Função para atualizar o ranking de downtime
+        async function rankingForaDoAr(filtro = 'dia') {
+            const response = await fetch("/verChamados", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
-                return ranking;
-            } catch (error) {
-                console.error("Erro ao buscar ranking:", error);
-                return [];
+            const data = await response.json();
+            const issues = data.resultado.issues;
+
+            const listaChamadosDown = [];
+            const dataAtual = new Date();
+
+            let dataMinima;
+            switch(filtro) {
+                case 'dia':
+                    dataMinima = new Date(dataAtual);
+                    dataMinima.setDate(dataAtual.getDate() - 1);
+                    break;
+                case 'semana':
+                    dataMinima = new Date(dataAtual);
+                    dataMinima.setDate(dataAtual.getDate() - 7);
+                    break;
+                case 'mes':
+                    dataMinima = new Date(dataAtual);
+                    dataMinima.setMonth(dataAtual.getMonth() - 1);
+                    break;
+                default:
+                    dataMinima = new Date(dataAtual);
+                    dataMinima.setDate(dataAtual.getDate() - 1);
             }
+
+            issues.forEach(issue => {
+                const chamadoAtual = issue.fields;
+                const tipoChamado = chamadoAtual.project.key;
+
+                if (tipoChamado == "DOWN"){
+                    const chamado = chamadoAtual.description;
+
+                    let index = chamado.indexOf("''");
+                    let index2 = chamado.indexOf("ficou") - 1;
+                    let servidorAtual = null;
+                    if (index !== -1) {
+                        servidorAtual = chamado.substring(index + 2, index2);
+                    }
+
+                    index = chamado.indexOf("**");
+                    if (index !== -1) {
+                        var dataAtual = new Date(chamado.substring(index + 2, index + 19));
+                    }
+
+                    const fimDownTime = chamadoAtual.customfield_10046.completedCycles[0];
+                    const dataFechamento = fimDownTime ? new Date(fimDownTime.stopTime.iso8601) : new Date();
+
+                    if (dataAtual >= dataMinima) {
+                        const tempoDownTime = dataAtual - dataFechamento;
+                        let diferencaHoras = Math.floor(tempoDownTime / (1000 * 60));
+                        diferencaHoras = Math.round(diferencaHoras / 60, 2);
+                        diferencaHoras = Math.abs(diferencaHoras);
+
+                        const servidor = listaChamadosDown.find(item => item.nome === servidorAtual);
+                        if (servidor) {
+                            servidor.downtime += diferencaHoras;
+                        } else {
+                            listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
+                        }
+                    }
+                }
+            });
+
+            listaChamadosDown.sort((a, b) => b.downtime - a.downtime);
+
+            return listaChamadosDown;
         }
 
+        // Função para atualizar o ranking na tabela
         async function atualizarRanking() {
             const filtro = document.getElementById('filtro-ranking').value;
-            const rankingDados = await fetchRanking(filtro);
+            const rankingDados = await rankingForaDoAr(filtro);
 
             const tabelaBody = document.getElementById('ranking-dados');
             tabelaBody.innerHTML = ''; // Limpa os dados atuais
@@ -165,18 +247,20 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td style="border: 1px solid #ddd; padding: 8px;">${index + 1}°</td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">Servidor ${item.idMaquina}</td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${item.tempoForaDoAr} min</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${item.nome}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px;">${item.downtime.toFixed(2)} min</td>
                 `;
                 tabelaBody.appendChild(row);
             });
         }
 
-        // Carregar ranking ao iniciar a página
+        // Inicializar o ranking ao carregar a página
         document.addEventListener('DOMContentLoaded', () => {
             atualizarRanking();
         });
 
+        // Adicionar evento de mudança no filtro
+        document.getElementById('filtro-ranking').addEventListener('change', atualizarRanking);
         async function fetchData(componente) {
             const response = await fetch(`http://localhost:3333/analistadados/${componente}`);
             return response.json();
@@ -195,7 +279,7 @@
             const options = {
                 chart: {
                     type: 'bar',
-                    height: 220, // Ajustando o tamanho do gráfico
+                    height: 230, // Ajustando o tamanho do gráfico
                 },
                 series: [{
                     name: `Uso de ${componente}`,
@@ -233,7 +317,7 @@
             const componente = document.getElementById('componente').value;
             const dados = await fetchData(componente);
             atualizarGrafico(dados, componente);
-        }, 10000); // Ajuste no intervalo
+        }, 2000); // Ajuste no intervalo
 
         // Função para buscar os dados de máximo e mínimo
         async function fetchMaxMinData(componente) {
@@ -250,7 +334,7 @@
             const options = {
                 chart: {
                     type: 'bar',
-                    height: 220,
+                    height: 225,
                 },
                 series: [
                     { name: `Máximo de ${componente}`, data: maxValores },
@@ -270,7 +354,7 @@
                     max: 100, // Ajusta o eixo X entre 0 e 100%
                 },
                 yaxis: {
-                    categories: labels, // Nomes dos servidores no eixo Y
+                    categories: labels, 
                 },
                 dataLabels: {
                     enabled: false, // Desativado para melhorar a performance
@@ -301,46 +385,76 @@
                 criarGraficoMaxMin(maxMinDados, componenteMaxMin);
             }
         }, 2000); // Ajuste no intervalo
-
+       
         async function fetchDesvioPadraoGlobal() {
-            const response = await fetch("http://localhost:3333/analistadados/desviopadrao");
-            return response.json();
-        }
+    const response = await fetch("http://localhost:3333/analistadados/desviopadrao");
+    return response.json();
+}
 
-        async function atualizarDesvioPadraoGlobal() {
-            try {
-                const dados = await fetchDesvioPadraoGlobal();
-                const desvioPadrao = dados.desvioPadraoGlobal || 0;
-                const desvioPadraoExibido = desvioPadrao < 0.01 ? '5.03' : desvioPadrao.toFixed(2); // Exibe no mínimo 0.01
-                document.getElementById("desvio-padrao").textContent = desvioPadraoExibido;
-            } catch (error) {
-                console.error("Erro ao atualizar desvio padrão global:", error);
+async function atualizarDesvioPadraoGlobal() {
+    try {
+        const response = await fetch("/analistadados/desviopadrao");
+        if (!response.ok) throw new Error("Erro ao buscar desvio padrão global");
+
+        const dados = await response.json();
+
+        // Extraindo os valores numéricos
+        const valores = dados.map(item => parseFloat(item.valor));
+
+        // Verificando se há valores válidos
+        if (valores.length > 0) {
+            // Calculando o desvio padrão (se necessário, no frontend)
+            const media = valores.reduce((acc, val) => acc + val, 0) / valores.length;
+            const variancia = valores.reduce((acc, val) => acc + Math.pow(val - media, 2), 0) / valores.length;
+            const desvioPadrao = Math.sqrt(variancia);
+
+            // Atualizando o elemento na tela
+            const elementoDesvioPadrao = document.getElementById("desvio-padrao");
+            elementoDesvioPadrao.textContent = desvioPadrao.toFixed(2);
+
+            // Alterando a cor com base no valor do desvio padrão
+            if (desvioPadrao < 10) {
+                elementoDesvioPadrao.style.color = "green"; // Verde
+            } else if (desvioPadrao >= 10 && desvioPadrao <= 25) {
+                elementoDesvioPadrao.style.color = "yellow"; // Amarelo
+            } else {
+                elementoDesvioPadrao.style.color = "red"; // Vermelho
             }
+        } else {
+            document.getElementById("desvio-padrao").textContent = "N/A";
         }
-
-                // Atualizar o desvio padrão global a cada 10 segundos
-                setInterval(atualizarDesvioPadraoGlobal, 2000); // Ajuste no intervalo
-                
-                setInterval(async () => {
-  try {
-    const response = await fetch(`/analistadados/1/kpi-servidores-alerta`);
-    if (response.ok) {
-      const kpiData = await response.json();
-      document.getElementById('kpi-servidores-alerta').innerText = `${kpiData.proporcao}`;
-    } else {
-      console.error('Erro na requisição para o KPI:', response.statusText);
-      document.getElementById('kpi-servidores-alerta').innerText = 'Dados Indisponíveis';
+    } catch (error) {
+        console.error("Erro ao atualizar desvio padrão global:", error);
+        document.getElementById("desvio-padrao").textContent = "Erro ao carregar";
     }
-  } catch (error) {
-    console.error('Erro ao fazer requisição para o KPI:', error);
-    document.getElementById('kpi-servidores-alerta').innerText = 'Erro na conexão';
-  }
-}, 2000);  // Atualiza a cada 10 segundos
+}
 
-        // Atualizar ao carregar a página
-        atualizarDesvioPadraoGlobal();
+// Atualiza a cada 2 segundos
+setInterval(atualizarDesvioPadraoGlobal, 2000);
+
+// Atualizar ao carregar a página
+atualizarDesvioPadraoGlobal();
+
+
+        // Atualizar o número de servidores em alerta a cada 10 segundos
+        setInterval(async () => {
+            try {
+                const response = await fetch(`/analistadados/1/kpi-servidores-alerta`);
+                if (response.ok) {
+                    const kpiData = await response.json();
+                    document.getElementById('kpi-servidores-alerta').innerText = `${kpiData.proporcao}`;
+                } else {
+                    console.error('Erro na requisição para o KPI:', response.statusText);
+                    document.getElementById('kpi-servidores-alerta').innerText = 'Dados Indisponíveis';
+                }
+            } catch (error) {
+                console.error('Erro ao fazer requisição para o KPI:', error);
+                document.getElementById('kpi-servidores-alerta').innerText = 'Erro na conexão';
+            }
+        }, 2000);  // Atualiza a cada 10 segundos
     };
 </script>
 
 </body>
 </html>
+

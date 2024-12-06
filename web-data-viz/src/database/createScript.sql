@@ -1,9 +1,6 @@
 CREATE DATABASE IF NOT EXISTS TagTech;
 USE TagTech;
 
-
-
-
 CREATE TABLE empresa (
   idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
   razaoSocial VARCHAR(80),
@@ -32,9 +29,9 @@ CREATE TABLE maquina (
   qtdTotalRAM BIGINT,
   qtdCpu INT,
   qtdTotalDisco BIGINT, 
-  alertaCPU INT,
-  alertaRAM INT,
-  alertaDisco INT,
+  porcentagemAlarmeCPU DECIMAL(5, 2) NOT NULL,
+  porcentagemAlarmeRAM DECIMAL(5, 2) NOT NULL,
+  porcentagemAlarmeDisco DECIMAL(5, 2) NOT NULL;
   fkEmpresa INT NOT NULL,
   FOREIGN KEY (fkEmpresa) REFERENCES empresa (idEmpresa)
 );

@@ -84,14 +84,17 @@
     <div class="kpi">
       <div class="container_kpi">
         <h3><b>Uptime do Mês</b> <button id="myButton" class="tooltip" data-tippy-content="Com este indicador chave de performance você pode verificar se algum servidor está afetando seu uptime mensal, quando isso ocorrer, mostraremos um simbolo de atenção ao lado do número">?</button></h3>
-        <div class="uptime"><span id="uptime_number">SEM DADOS</span></div>
-        <img src="../assets/warning-sign-30915_640.png" id="warning_uptime" style="height: 15vh;width: 20vh;position: absolute;top: 100px;left: 700px;display: none;" alt="">
+        <div class="kpi_cont">
+          <div class="uptime"><span id="uptime_number">SEM DADOS</span></div>
+          <img src="../assets/warning-sign-30915_640.png" id="warning_uptime" style="width: 10vh;height: 8vh;display: none;" alt="">
+        </div>
       </div>
       <div class="container_kpi">
         <h3><b>Eficiência de memória</b> <button id="myButton2" class="tooltip" data-tippy-content="Outro indicador chave importante! Ao observar este indicador, você terá uma noção de 'quão rápido' seus servidores estão consumindo de memória. Quer saber mais? Verifique nosso guia abaixo da tela">?</button></h3>
+        <div class="kpi_cont">
         <div class="efficency"><span id="efficency_number">SEM DADOS</span></div>
-        <img src="../assets/warning-sign-30915_640.png" id="warning_efficiency" style="height: 15vh;width: 20vh;position: absolute;top: 100px;left: 1260px;display: none;" alt="">
-
+        <img src="../assets/warning-sign-30915_640.png" id="warning_efficiency" style="width: 10vh;height: 8vh;display: none;" alt="">
+        </div>
       </div>
     </div>
     <div class="graphics">
@@ -185,8 +188,13 @@
   const itensPorPagina = 5;
   // Configurações do primeiro gráfico (gráfico de barras horizontal)
 
-  tippy('#myButton');
-  tippy('#myButton2')
+  tippy('#myButton',{
+    theme: 'laranja-theme'
+  });
+  tippy('#myButton2',{
+    theme: 'laranja-theme'
+  });
+  
   async function constructJiraChart() {
     var qtd = await numPicosCadaServidor();
     
@@ -257,10 +265,11 @@ setInterval(constructJiraChart, 50000)
 
 
         if (eficienciaRam < 2) {
-          efficency.style.color = "yellow"
-          warning_efficiency.style.display = 'block'
+          efficency.style.color = ""
+          warning_efficiency.style.display = 'none'
         } else if (eficienciaRam < 1.5) {
           efficency.style.color = "red"
+          warning_efficiency.style.display = 'block'
         }else{
           warning_efficiency.style.display = 'none'
 
@@ -508,8 +517,8 @@ setInterval(constructJiraChart, 50000)
     verificarLimites(dadosServidores, limites);
   }
   function verificarLimites(dadosServidores, limites) {
-    // console.log("Acessei verificarLimites");
-    // console.log('Dados dos Servidores:', dadosServidores);
+    console.log("Acessei verificarLimites");
+    console.log('Dados dos Servidores:', dadosServidores);
 
 
     for (const servidor of dadosServidores) {
@@ -537,17 +546,20 @@ setInterval(constructJiraChart, 50000)
     };
   }
   function exibirAlerta(mensagem) {
+    console.log('Acessei alerta:',mensagem)
     const alertaDiv = document.getElementById("alertaJira");
     alertaDiv.style.display = "flex";
     const alertaTexto = document.getElementById("pAlerta");
 
-    alertaTexto.textContent = mensagem;
+    
 
-    if(alertaTexto.textContent = "Parece que você esta tendo problemas com o recebimento de dados! Nos contate para verificar a situação"){
-      var caixa = document.getElementById('alertaJira');
-      caixa.onclick = ''
-      caixa.style.cursor = 'default'
-    }
+    // if(alertaTexto.textContent = "Parece que você esta tendo problemas com o recebimento de dados! Nos contate para verificar a situação"){
+    //   var caixa = document.getElementById('alertaJira');
+    //   caixa.onclick = ''
+    //   caixa.style.cursor = 'default'
+    // }
+      alertaTexto.textContent = mensagem;
+
   }
 
 
@@ -603,21 +615,21 @@ setInterval(constructJiraChart, 50000)
   document.getElementById('btn_graphic_cpu_prev').addEventListener('click', voltarGrupo);
 
 
-    function alertarSemDados(){
-      const chart1 = document.getElementById("chart")
-      const chart2 = document.getElementById("chart2")
-      const efficiency_number = document.getElementById("efficency_number")
-      const uptime_number = document.getElementById("uptime_number")
-      const alertaDiv = document.getElementById("alertaJira"); 
+    // function alertarSemDados(){
+    //   const chart1 = document.getElementById("chart")
+    //   const chart2 = document.getElementById("chart2")
+    //   const efficiency_number = document.getElementById("efficency_number")
+    //   const uptime_number = document.getElementById("uptime_number")
+    //   const alertaDiv = document.getElementById("alertaJira"); 
       
 
-      if(chart1.innerHTML == 'SEM DADOS' || chart2.innerHTML == 'SEM DADOS' || efficiency_number.innerHTML == 'SEM DADOS' || uptime_number.innerHTML == 'SEM DADOS'){
-        var mensagem = 'Parece que você esta tendo problemas com o recebimento de dados! Nos contate para verificar a situação'
-        exibirAlerta(mensagem)
-      }else{
-        alertaDiv.style.display = 'none'
-      }
-    }
-    setInterval(alertarSemDados,500);
+    //   if(chart1.innerHTML == 'SEM DADOS' || chart2.innerHTML == 'SEM DADOS' || efficiency_number.innerHTML == 'SEM DADOS' || uptime_number.innerHTML == 'SEM DADOS'){
+    //     var mensagem = 'Parece que você esta tendo problemas com o recebimento de dados! Nos contate para verificar a situação'
+    //     exibirAlerta(mensagem)
+    //   }else{
+    //     alertaDiv.style.display = 'none'
+    //   }
+    // }
+    // setInterval(alertarSemDados,500);
 
 </script>

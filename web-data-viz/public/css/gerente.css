@@ -253,9 +253,18 @@
     cursor: pointer;
 }
 
-.tippy-box {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.tippy-box[data-theme~='laranja-theme'] {
+    background-color: #ff914d;
+    color: black; 
+    border: 2px solid black; 
+    font-size: 20px;
+
   }
   
 
-
+.kpi_cont{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3vh;
+}

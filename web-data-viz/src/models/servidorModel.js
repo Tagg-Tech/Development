@@ -1,3 +1,4 @@
+//servidorModel.js
 var database = require("../database/config");
 
 function cadastrar(placaderede, memoria, sistemaOperacional, cpu, disco, porcentagemAlarmeCPU, 

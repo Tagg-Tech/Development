@@ -25,13 +25,20 @@ async function buscarMaxMinComponente(req, res) {
 
 async function buscarDesvioPadraoGlobal(req, res) {
   try {
-      const resultado = await analistaDadosModel.calcularDesvioPadraoGlobal();
-      return res.status(200).json(resultado);
+    const resultado = await analistaDadosModel.calcularDesvioPadraoGlobal();
+    if (!resultado || !resultado.desvioPadraoGlobal) {
+      return res.status(404).json({ error: "Nenhum dado encontrado" });
+    }
+
+    console.log("Desvio padrão global calculado:", resultado.desvioPadraoGlobal);
+    return res.status(200).json({ desvioPadraoGlobal: resultado.desvioPadraoGlobal });
   } catch (error) {
-      console.error("Erro ao calcular desvio padrão global:", error);
-      return res.status(500).json({ error: "Erro ao calcular desvio padrão global" });
+    console.error("Erro ao buscar desvio padrão global:", error);
+    return res.status(500).json({ error: "Erro ao buscar desvio padrão global" });
   }
 }
+
+
 async function kpiServidoresAlerta(req, res) {
   const { idUsuario } = req.params;
 

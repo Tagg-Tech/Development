@@ -1,41 +1,66 @@
+//servidorController.js
 var servidorModel = require("../models/servidorModel");
-
 function cadastrar(req, res) {
     var placaderede = req.body.placaderedeServer;
     var memoria = req.body.memoriaServer;
     var sistemaoperacional = req.body.sistemaoperacionalServer;
     var cpu = req.body.cpuServer;
     var disco = req.body.discoServer;
-    var porcentagemAlarme = req.body.porcentagemAlarmeServer;
+    var porcentagemAlarmeCPU = req.body.porcentagemAlarmeCPU;
+    var porcentagemAlarmeRAM = req.body.porcentagemAlarmeRAM;
+    var porcentagemAlarmeDisco = req.body.porcentagemAlarmeDisco;
 
-    if (placaderede == undefined) {
-        res.status(400).send("Sua Placa de Rede está indefinida!");
-    } else if (memoria == undefined) {
-        res.status(400).send("Sua memória está indefinida!");
-    } else if (sistemaoperacional == undefined) {
-        res.status(400).send("Seu Sistema Operacional está indefinido!");
-    } else if (cpu == undefined) {
-        res.status(400).send("Sua CPU está indefinida!");
-    } else if (disco == undefined) {
-        res.status(400).send("Seu disco está indefinido!");
-    } else if (porcentagemAlarme == undefined || porcentagemAlarme < 1 || porcentagemAlarme > 100) {
-        res.status(400).send("Porcentagem de alarme inválida!");
+    if (!placaderede) {
+        res.status(400).json({ error: "Sua Placa de Rede está indefinida!" });
+    } else if (!memoria) {
+        res.status(400).json({ error: "Sua memória está indefinida!" });
+    } else if (!sistemaoperacional) {
+        res.status(400).json({ error: "Seu Sistema Operacional está indefinido!" });
+    } else if (!cpu) {
+        res.status(400).json({ error: "Sua CPU está indefinida!" });
+    } else if (!disco) {
+        res.status(400).json({ error: "Seu disco está indefinido!" });
+    } else if (
+        !porcentagemAlarmeCPU ||
+        porcentagemAlarmeCPU < 1 ||
+        porcentagemAlarmeCPU > 100
+    ) {
+        res.status(400).json({ error: "Porcentagem de alarme de CPU inválida!" });
+    } else if (
+        !porcentagemAlarmeRAM ||
+        porcentagemAlarmeRAM < 1 ||
+        porcentagemAlarmeRAM > 100
+    ) {
+        res.status(400).json({ error: "Porcentagem de alarme de RAM inválida!" });
+    } else if (
+        !porcentagemAlarmeDisco ||
+        porcentagemAlarmeDisco < 1 ||
+        porcentagemAlarmeDisco > 100
+    ) {
+        res.status(400).json({ error: "Porcentagem de alarme de disco inválida!" });
     } else {
-        servidorModel.cadastrar(placaderede, memoria, sistemaoperacional, cpu, disco, porcentagemAlarme)
-            .then(
-                function (resultado) {
-                    res.status(200).json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
+        servidorModel
+            .cadastrar(
+                placaderede,
+                memoria,
+                sistemaoperacional,
+                cpu,
+                disco,
+                porcentagemAlarmeCPU,
+                porcentagemAlarmeRAM,
+                porcentagemAlarmeDisco
+            )
+            .then(function (resultado) {
+                res.status(200).json(resultado);
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json({ error: erro.sqlMessage });
+            });
     }
 }
 
