@@ -199,9 +199,9 @@
                     sistemaoperacionalServer: sistemaoperacional,
                     cpuServer: cpu,
                     discoServer: disco,
-                    porcentagemAlarmeCPU,
-                    porcentagemAlarmeRAM,
-                    porcentagemAlarmeDisco
+                    porcentagemAlarmeCPU: Number(porcentagemAlarmeCPU),
+                    porcentagemAlarmeRAM: Number(porcentagemAlarmeRAM),
+                    porcentagemAlarmeDisco: Number(porcentagemAlarmeDisco),
                 })
             }).then(response => response.json())
               .then(data => {
