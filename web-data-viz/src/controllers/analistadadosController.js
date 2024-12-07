@@ -54,9 +54,25 @@ async function kpiServidoresAlerta(req, res) {
   }
 }
 
+async function listarServidoresEmAlerta(req, res) {
+  const { idUsuario } = req.params;
+
+  try {
+    // Chama o model para obter os servidores em alerta
+    const servidoresEmAlerta = await analistaDadosModel.listarServidoresEmAlerta(idUsuario);
+
+    // Retorna a lista de servidores em alerta
+    return res.status(200).json(servidoresEmAlerta);
+  } catch (error) {
+    console.error("Erro ao listar servidores em alerta:", error);
+    return res.status(500).json({ error: "Erro ao listar servidores em alerta" });
+  }
+}
+
 module.exports = {
   buscarDadosComponente,
   buscarMaxMinComponente,
   buscarDesvioPadraoGlobal,
-  kpiServidoresAlerta, // Nova função adicionada
+  kpiServidoresAlerta,
+  listarServidoresEmAlerta, // Nova função adicionada
 };
