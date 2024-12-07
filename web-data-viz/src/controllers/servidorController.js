@@ -161,11 +161,36 @@ function isInstable(req, res){
     }
 }
 
+function qtdAlertas(req, res){
+    var id_usuario = req.body.idUsuarioServer;
+    var fk_maquina = req.body.fkMaquinaServer;
+
+    console.log('controler')
+    if(!id_usuario | !fk_maquina){
+        return res.status(400).send({message: 'id usuario ou fk máquina não foram encontrados ou não foram passados, verificar controller servidor function qtdAlertas'})
+    }
+    else{
+        servidorModel.qtdAlertas(id_usuario, fk_maquina)
+        .then(dados => {
+            //console.log("SQL aceitou! Retornando dados com a resposta")
+            res.status(200).send(dados);  
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).send({ message: `
+                ***ERRO INTERNO DO SERVIDOR***
+                Verificar controller 
+                ` });
+        });
+    }
+}
+
 
 module.exports = {
     cadastrar,
     pegarCpuRamPorcentagem,
     pegarUsoDisco,
     pegarRAM,
-    isInstable
+    isInstable,
+    qtdAlertas
 };

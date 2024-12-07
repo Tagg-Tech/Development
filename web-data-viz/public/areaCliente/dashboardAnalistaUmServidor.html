@@ -537,13 +537,7 @@
 
             //------------------------KPI QTD PICOS--------------INC-------------------//
 
-            // if(select_geral.value == 1){
-            //     qtdAlertasDia();
-            // } else if(select_geral.value == 2){
-            //     qtdAlertasSemana();
-            // } else if(select_geral.value == 3){
-            //     qtdAlertasMensal();
-            // }
+
 
 
 
@@ -554,11 +548,33 @@
         }
 
         async function qtdAlertasDesteServidor(){
-           let pegarNumero = document.getElementById('batata');
-           var qtdD = await numPicosPorServidor(fk_maquina);
+            fetch(`../servidor/qtdAlertas`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    idUsuarioServer: id_usuario,
+                    fkMaquinaServer: fk_maquina
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                if(!response.ok) {
+                    throw new Error("rede n ok")
+                }
+                response.json().then(dados => {
+
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao enviar os dados:', error);
+            });              
+
+           //let pegarNumero = document.getElementById('batata');
+           //var qtdD = await numPicosCadaServidorAnalista();
            //alert(qtdD)
-           console.log("qtd: ", qtdD)
-           pegarNumero.innerHTML = qtdD;
+           //console.log("qtd: ", qtdD)
+           //pegarNumero.innerHTML = qtdD;
         }
 
         // async function qtdAlertasDia(){
