@@ -72,14 +72,14 @@
                         <input id="input_placaderede" type="text" placeholder="Placa de Rede:">
                         <div id="erro_plcaderede" class="error"></div>
                        
-                        <input id="input_porcentagemAlarmeCPU" type="number" placeholder="Porcentagem Alarme CPU (%)" min="1" max="100">
-                        <div id="erro_porcentagemAlarmeCPU" class="error"></div>
+                        <input id="input_AlarmeCPU" type="number" placeholder="Porcentagem Alarme CPU (%)" min="1" max="100">
+                        <div id="erro_AlarmeCPU" class="error"></div>
 
-                        <input id="input_porcentagemAlarmeRAM" type="number" placeholder="Porcentagem Alarme RAM (%)" min="1" max="100">
-                        <div id="erro_porcentagemAlarmeRAM" class="error"></div>
+                        <input id="input_AlarmeRAM" type="number" placeholder="Porcentagem Alarme RAM (%)" min="1" max="100">
+                        <div id="erro_AlarmeRAM" class="error"></div>
 
-                        <input id="input_porcentagemAlarmeDisco" type="number" placeholder="Porcentagem Alarme Disco (%)" min="1" max="100">
-                        <div id="erro_porcentagemAlarmeDisco" class="error"></div>
+                        <input id="input_AlarmeDisco" type="number" placeholder="Porcentagem Alarme Disco (%)" min="1" max="100">
+                        <div id="erro_AlarmeDisco" class="error"></div>
                     </div>
                     <div>
                         <input id="input_memoria" type="text" placeholder="Memoria:">
@@ -157,9 +157,9 @@
         let sistemaoperacional = input_sistemaoperacional.value;
         let cpu = input_cpu.value;
         let disco = input_disco.value;;
-        let porcentagemAlarmeCPU = input_porcentagemAlarmeCPU.value;
-        let porcentagemAlarmeRAM = input_porcentagemAlarmeRAM.value;
-        let porcentagemAlarmeDisco = input_porcentagemAlarmeDisco.value;
+        let AlarmeCPU = input_AlarmeCPU.value;
+        let AlarmeRAM = input_AlarmeRAM.value;
+        let AlarmeDisco = input_AlarmeDisco.value;
 
         let validacao = 0;
 
@@ -169,22 +169,22 @@
             return false;
         }
 
-        if (!porcentagemAlarmeCPU || porcentagemAlarmeCPU < 1 || porcentagemAlarmeCPU > 100 || isNaN(Number(porcentagemAlarmeCPU))) {
-        erro_porcentagemAlarmeCPU.innerHTML = "Porcentagem inválida (1 a 100)";
+        if (!AlarmeCPU || AlarmeCPU < 1 || AlarmeCPU > 100 || isNaN(Number(AlarmeCPU))) {
+        erro_AlarmeCPU.innerHTML = "Porcentagem inválida (1 a 100)";
         return false;
-        } else erro_porcentagemAlarmeCPU.innerHTML = ""
+        } else erro_AlarmeCPU.innerHTML = ""
         validacao++;;
 
-        if (!porcentagemAlarmeRAM || porcentagemAlarmeRAM < 1 || porcentagemAlarmeRAM > 100 || isNaN(Number(porcentagemAlarmeRAM))) {
-        erro_porcentagemAlarmeRAM.innerHTML = "Porcentagem inválida (1 a 100)";
+        if (!AlarmeRAM || AlarmeRAM < 1 || AlarmeRAM > 100 || isNaN(Number(AlarmeRAM))) {
+        erro_AlarmeRAM.innerHTML = "Porcentagem inválida (1 a 100)";
         return false;
-        } else erro_porcentagemAlarmeRAM.innerHTML = ""
+        } else erro_AlarmeRAM.innerHTML = ""
         validacao++;;
 
-        if (!porcentagemAlarmeDisco || porcentagemAlarmeDisco < 1 || porcentagemAlarmeDisco > 100 || isNaN(Number(porcentagemAlarmeDisco))) {
-        erro_porcentagemAlarmeDisco.innerHTML = "Porcentagem inválida (1 a 100)";
+        if (!AlarmeDisco || AlarmeDisco < 1 || AlarmeDisco > 100 || isNaN(Number(AlarmeDisco))) {
+        erro_AlarmeDisco.innerHTML = "Porcentagem inválida (1 a 100)";
         return false;
-        } else erro_porcentagemAlarmeDisco.innerHTML = ""
+        } else erro_AlarmeDisco.innerHTML = ""
         validacao++;;
 
         if (validacao === 3) {
@@ -199,9 +199,9 @@
                     sistemaoperacionalServer: sistemaoperacional,
                     cpuServer: cpu,
                     discoServer: disco,
-                    porcentagemAlarmeCPU: Number(porcentagemAlarmeCPU),
-                    porcentagemAlarmeRAM: Number(porcentagemAlarmeRAM),
-                    porcentagemAlarmeDisco: Number(porcentagemAlarmeDisco),
+                    AlarmeCPU: Number(AlarmeCPU),
+                    AlarmeRAM: Number(AlarmeRAM),
+                    AlarmeDisco: Number(AlarmeDisco),
                 })
             }).then(response => response.json())
               .then(data => {
