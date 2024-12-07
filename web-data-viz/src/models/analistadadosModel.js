@@ -62,48 +62,48 @@ async function calcularDesvioPadraoGlobal() {
   }
 }
 
-
 async function calcularKpiServidoresAlerta(idUsuario) {
   const query = `
     SELECT 
       COUNT(DISTINCT um.fkMaquina) AS totalServidores,
-      SUM(
-        CASE 
-          WHEN (r.percentualCPU > m.porcentagemAlarmeCPU) OR 
-               (r.percentualMemoria > m.porcentagemAlarmeRAM) OR 
-               (r.percentualDisco > m.porcentagemAlarmeDisco) 
-          THEN 1 ELSE 0 
-        END
-      ) AS servidoresEmAlerta
+      COUNT(DISTINCT CASE 
+        WHEN (r.percentualCPU > m.porcentagemAlarmeCPU) OR 
+             (r.percentualMemoria > m.porcentagemAlarmeRAM) OR 
+             (r.percentualDisco > m.porcentagemAlarmeDisco) 
+        THEN um.fkMaquina 
+        ELSE NULL 
+      END) AS servidoresEmAlerta
     FROM usuarioResponsavelMaquina um
     JOIN registros r ON r.fkMaquina = um.fkMaquina
     JOIN maquina m ON m.idMaquina = um.fkMaquina
-    WHERE um.fkUsuario = 1
+    WHERE um.fkUsuario = ${idUsuario}
     GROUP BY um.fkUsuario;
   `;
 
   try {
-    // Execute a consulta com o ID do usuário
+    // Execute a consulta parametrizada
     const resultado = await database.executar(query, [idUsuario]);
-    
+
+    // Caso não haja resultados
     if (resultado.length === 0) {
-      return { totalServidores: 0, servidoresEmAlerta: 0 };
+      return { totalServidores: 0, servidoresEmAlerta: 0, proporcao: "0/0" };
     }
 
-    // Desestruturar o resultado da consulta
+    // Desestruturar os resultados
     const { totalServidores, servidoresEmAlerta } = resultado[0];
 
-    // Retornar o KPI com a proporção
+    // Retornar KPI
     return {
       totalServidores,
       servidoresEmAlerta,
-      proporcao: totalServidores > 0 ? `${servidoresEmAlerta}/${totalServidores}` : "0/0"
+      proporcao: totalServidores > 0 ? `${servidoresEmAlerta}/${totalServidores}` : "0/0",
     };
   } catch (error) {
     console.error("Erro ao calcular KPI de servidores em alerta:", error);
-    throw error;
+    throw new Error("Erro interno ao calcular o KPI");
   }
 }
+
 
 module.exports = {
   buscarDadosGrafico,

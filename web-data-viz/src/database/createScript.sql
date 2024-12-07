@@ -29,9 +29,9 @@ CREATE TABLE maquina (
   qtdTotalRAM BIGINT,
   qtdCpu INT,
   qtdTotalDisco BIGINT, 
-  porcentagemAlarmeCPU DECIMAL(5, 2) NOT NULL,
-  porcentagemAlarmeRAM DECIMAL(5, 2) NOT NULL,
-  porcentagemAlarmeDisco DECIMAL(5, 2) NOT NULL;
+  AlarmeCPU DECIMAL(5, 2) NOT NULL,
+  AlarmeRAM DECIMAL(5, 2) NOT NULL,
+  AlarmeDisco DECIMAL(5, 2) NOT NULL;
   fkEmpresa INT NOT NULL,
   FOREIGN KEY (fkEmpresa) REFERENCES empresa (idEmpresa)
 );
