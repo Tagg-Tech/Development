@@ -339,7 +339,7 @@
   var listaChamadosDown = [];
   var listaDatasDown = [];
   var listaServidoresDown = [];
-
+  var listaServidoresUnicos = []
 
   var rawlistaDeChaves = [];
   var rawlistaChamadosPico = [];
@@ -351,12 +351,60 @@
   var rawlistaDatasDown = [];
   var rawlistaServidoresDown = [];
 
-
-  function atualizarGrafico(){
-    
-    plotarGraficos()
-    
+  function atualizarGrafico() {
+    // Inicializar as listas filtradas
+    listaDeChaves = [];
+    listaChamadosPico = [];
+    listaPorcentagens = [];
+    listaComponentes = [];
+    listaDatas = [];
+    listaServidores = [];
+    listaChamadosDown = [];
+    listaDatasDown = [];
+    listaServidoresDown = [];
+  
+    const servEscolhido = filtroServ.value.trim(); // Normalizar valor do filtro
+    console.log(`Servidor Escolhido: ${servEscolhido}`);
+  
+    if (servEscolhido === "0") {
+      // Se "Todos" for selecionado
+      listaDeChaves = [...rawlistaDeChaves];
+      listaChamadosPico = [...rawlistaChamadosPico];
+      listaPorcentagens = [...rawlistaPorcentagens];
+      listaComponentes = [...rawlistaComponentes];
+      listaDatas = [...rawlistaDatas];
+      listaServidores = [...rawlistaServidores];
+      listaChamadosDown = [...rawlistaChamadosDown];
+      listaDatasDown = [...rawlistaDatasDown];
+      listaServidoresDown = [...rawlistaServidoresDown];
+    } else {
+      // Filtrar dados por servidor escolhido
+      for (let i = 0; i < rawlistaServidoresDown.length; i++) {
+        const servidorAtualDown = rawlistaServidoresDown[i].trim(); // Normalizar servidor atual
+        if (servidorAtualDown === servEscolhido) {
+          listaDeChaves.push(rawlistaDeChaves[i]);
+          listaChamadosDown.push(rawlistaChamadosDown[i]);
+          listaDatasDown.push(rawlistaDatasDown[i]);
+          listaServidoresDown.push(rawlistaServidoresDown[i]);
+        }
+      }
+  
+      for (let i = 0; i < rawlistaServidores.length; i++) {
+        const servidorAtualPico = rawlistaServidores[i].trim(); // Normalizar servidor atual
+        if (servidorAtualPico === servEscolhido) {
+          listaChamadosPico.push(rawlistaChamadosPico[i]);
+          listaPorcentagens.push(rawlistaPorcentagens[i]);
+          listaComponentes.push(rawlistaComponentes[i]);
+          listaDatas.push(rawlistaDatas[i]);
+          listaServidores.push(rawlistaServidores[i]);
+        }
+      }
+    }
+  
+    // Atualizar gráficos
+    plotarGraficos();
   }
+  
   function grafSemana() {
     var minRange = parseInt(document.getElementById("rangeMin").value, 10);
     var maxRange = parseInt(document.getElementById("rangeMax").value, 10);
@@ -539,15 +587,13 @@ function grafMes() {
     });
 
     const data = await response.json();
-    console.log(data);
 
     // Exibe a resposta completa
 
     // Acessando o array de issues
     const issues = data.resultado.issues; // Aqui estamos acessando o array de issues
 
-    console.log(issues);
-
+   
     // Processando as issues
     issues.forEach((issue) => {
       const chamadoAtual = issue.fields; // Acesse os campos do issue
@@ -557,10 +603,6 @@ function grafMes() {
 
       rawlistaDeChaves.push(issue.key);
 
-      console.log(chamadoAtual);
-
-      console.log(tipoChamado);
-      console.log(descAtual);
       if (tipoChamado == "TTCS") {
         rawlistaChamadosPico.push(descAtual);
       } else if (tipoChamado == "DOWN") {
@@ -601,10 +643,6 @@ function grafMes() {
         rawlistaServidores.push(servidorAtual);
       }
 
-      console.log(porcentAtual);
-      console.log(dataAtual);
-      console.log(componenteAtual);
-      console.log(servidorAtual);
     });
 
     rawlistaChamadosDown.forEach((chamado) => {
@@ -636,151 +674,187 @@ listaChamadosDown = rawlistaChamadosDown
 listaDatasDown = rawlistaDatasDown
 listaServidoresDown = rawlistaServidoresDown
 
+
+
+// Função para normalizar os nomes dos servidores
+const normalizarServidor = (servidor) => 
+    servidor.trim().replace(/\s+/g, " "); // Remove espaços extras e normaliza
+
+// Combinar listas com normalização
+const setServidores = new Set(
+    [...listaServidoresUnicos, ...listaServidoresDown, ...listaServidores]
+        .map(normalizarServidor) // Normaliza cada nome
+);
+
+// Converter de volta para uma lista
+listaServidoresUnicos.length = 0; // Limpa a lista original se necessário
+listaServidoresUnicos.push(...setServidores);
+
+console.log(listaServidoresUnicos);
+
+const filtroServ = document.getElementById("filtroServ");
+
+// Incrementar as opções
+listaServidoresUnicos.forEach((servidor) => {
+  filtroServ.innerHTML += `<option value="${servidor}">${servidor}</option>`;
+});
+
     plotarGraficos();
   }
 
   function plotarGraficos() {
-
     var picoCPU = 0;
     var picoDisco = 0;
     var picoRAM = 0;
 
     listaComponentes.forEach((componente) => {
-      console.log(componente);
-
-      if (componente == "CPU") picoCPU++;
-      if (componente == "disco") picoDisco++;
-      if (componente == "memória RAM") picoRAM++;
+        if (componente == "CPU") picoCPU++;
+        if (componente == "disco") picoDisco++;
+        if (componente == "memória RAM") picoRAM++;
     });
 
-
-
-    if(!toggleSwitch.checked){
-      grafSemana()
-    }else{
-      grafMes()
+    if (!toggleSwitch.checked) {
+        grafSemana();
+    } else {
+        grafMes();
     }
 
-    
+    // Gráfico de barras horizontais
+    const ctxBar = document.getElementById("horizontalBarChart").getContext("2d");
 
-    const ctxBar = document
-      .getElementById("horizontalBarChart")
-      .getContext("2d");
+    // Verifica se já existe um gráfico e o destrói
+    const existingBarChart = Chart.getChart("horizontalBarChart");
+    if (existingBarChart) {
+        existingBarChart.destroy();
+    }
+
     const dataBar = {
-      labels: ["CPU", "RAM", "DISCO"],
-      datasets: [
-        {
-          label: "DOWN TIME",
-          data: [
-            listaChamadosDown.length,
-            listaChamadosDown.length,
-            listaChamadosDown.length,
-          ],
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "#ff914c",
-        },
-        {
-          label: "SOBRECARGA",
-          data: [picoCPU, picoRAM, picoDisco],
-          backgroundColor: "#f64b00",
-        },
-      ],
+        labels: ["CPU", "RAM", "DISCO"],
+        datasets: [
+            {
+                label: "DOWN TIME",
+                data: [
+                    listaChamadosDown.length,
+                    listaChamadosDown.length,
+                    listaChamadosDown.length,
+                ],
+                borderColor: "rgb(255, 99, 132)",
+                backgroundColor: "#ff914c",
+            },
+            {
+                label: "SOBRECARGA",
+                data: [picoCPU, picoRAM, picoDisco],
+                backgroundColor: "#f64b00",
+            },
+        ],
     };
 
     const configBar = {
-      type: "bar",
-      data: dataBar,
-      options: {
-        indexAxis: "x", // Configuração para barras horizontais
-        elements: {
-          bar: {
-            borderWidth: 2,
-          },
+        type: "bar",
+        data: dataBar,
+        options: {
+            indexAxis: "x",
+            elements: {
+                bar: {
+                    borderWidth: 2,
+                },
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "bottom",
+                },
+                title: {
+                    display: true,
+                    text: "Distribuição de alerta por componente",
+                },
+            },
         },
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: "bottom", // Muda a posição da legenda para baixo
-          },
-          title: {
-            display: true,
-            text: "Distribuição de alerta por componente",
-          },
-        },
-      },
     };
 
     const horizontalBarChart = new Chart(ctxBar, configBar);
 
+    // Gráfico Rosca 1
     const ctxRosca = document.getElementById("RoscaChart").getContext("2d");
 
+    const existingRoscaChart = Chart.getChart("RoscaChart");
+    if (existingRoscaChart) {
+        existingRoscaChart.destroy();
+    }
+
     const dataRosca = {
-      labels: ["Critico", "DownTime"],
-      datasets: [
-        {
-          label: "Dataset 1",
-          data: [listaChamadosPico.length, listaChamadosDown.length],
-          backgroundColor: ["red", "orange"],
-        },
-      ],
+        labels: ["Critico", "DownTime"],
+        datasets: [
+            {
+                label: "Dataset 1",
+                data: [listaChamadosPico.length, listaChamadosDown.length],
+                backgroundColor: ["red", "orange"],
+            },
+        ],
     };
 
     const configRosca = {
-      type: "doughnut",
-      data: dataRosca,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: "top",
-          },
-          title: {
-            display: true,
-            text: "Tipos de alerta",
-          },
+        type: "doughnut",
+        data: dataRosca,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "top",
+                },
+                title: {
+                    display: true,
+                    text: "Tipos de alerta",
+                },
+            },
         },
-      },
     };
 
     const RoscaChart = new Chart(ctxRosca, configRosca);
 
+    // Gráfico Rosca 2
     const ctxRosca2 = document.getElementById("RoscaChart2").getContext("2d");
 
+    const existingRoscaChart2 = Chart.getChart("RoscaChart2");
+    if (existingRoscaChart2) {
+        existingRoscaChart2.destroy();
+    }
+
     const dataRosca2 = {
-      labels: ["Critico", "DownTime"],
-      datasets: [
-        {
-          label: "Dataset 1",
-          data: [2, 7],
-          backgroundColor: ["red", "orange"],
-        },
-      ],
+        labels: ["Critico", "DownTime"],
+        datasets: [
+            {
+                label: "Dataset 1",
+                data: [2, 7],
+                backgroundColor: ["red", "orange"],
+            },
+        ],
     };
 
     const configRosca2 = {
-      type: "doughnut",
-      data: dataRosca2,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: "top",
-          },
-          title: {
-            display: true,
-            text: "Tipos de alerta",
-          },
+        type: "doughnut",
+        data: dataRosca2,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "top",
+                },
+                title: {
+                    display: true,
+                    text: "Tipos de alerta",
+                },
+            },
         },
-      },
     };
 
     const RoscaChart2 = new Chart(ctxRosca2, configRosca2);
 
     incrementarTabela();
-  }
+}
 
   function contarPorDiaDaSemana(lista) {
     const diasDaSemana = Array(7).fill(0);
@@ -824,7 +898,6 @@ listaServidoresDown = rawlistaServidoresDown
   }
 
   const dataAtual = new Date();
-  console.log(formatarData(dataAtual));
 
   function incrementarTabela() {
     for (var i = 0; i < listaChamadosPico.length; i++) {

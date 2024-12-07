@@ -33,10 +33,8 @@ async function getChamadosAlerta(){
       // Acessando o array de issues
       const issues = data.resultado.issues; // Aqui estamos acessando o array de issues
       
-      console.log(data.resultado.issues)
 
       if(primeiraChamada == true){
-        console.log("troquei")
         numChamados = issues.length
         primeiraChamada = false
       }
@@ -107,7 +105,6 @@ async function numeroPicosPorServidor(idServidor){
   
   var contPicos = 0;
   
-  console.log(issues)
 
   // Processando as issues
   issues.forEach(issue => {
@@ -211,7 +208,6 @@ async function rankingForaDoAr(){
 
     }
   });
-console.log(listaChamadosDown)
   return listaChamadosDown;
 }
 
@@ -258,7 +254,6 @@ async function qtdAlertasTempo(tempo){
 
     }})
 
-    //console.log("Quantidade de chamados: ", contChamados)
     return contChamados
 }
 
@@ -300,7 +295,6 @@ async function numPicosCadaServidor(){
     }
   });
 
-  console.log(listaPicosPorServidor)
   return listaPicosPorServidor;
 }
 
@@ -319,7 +313,6 @@ async function numPicosPorServidor(idServidor){
   
   var contPicos = 0;
   
-  console.log(issues)
 
   // Processando as issues
   issues.forEach(issue => {
@@ -341,6 +334,5 @@ async function numPicosPorServidor(idServidor){
 
   });
 
-  //console.log("Tipos chamados ", tipoChamado)
   return contPicos;
 }
