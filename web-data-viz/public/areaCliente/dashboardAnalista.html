@@ -491,14 +491,14 @@ atualizarDesvioPadraoGlobal();
         // Atualizar o número de servidores em alerta a cada 10 segundos
         setInterval(async () => {
             try {
-                const response = await fetch(`/analistadados/1/kpi-servidores-alerta`);
-                if (response.ok) {
-                    const kpiData = await response.json();
-                    document.getElementById('kpi-servidores-alerta').innerText = `${kpiData.proporcao}`;
-                } else {
-                    console.error('Erro na requisição para o KPI:', response.statusText);
-                    document.getElementById('kpi-servidores-alerta').innerText = 'Dados Indisponíveis';
-                }
+        const response = await fetch(`/analistadados/1/kpi-servidores-alerta`);
+        if (response.ok) {
+            const kpiData = await response.json();
+            document.getElementById('kpi-servidores-alerta').innerText = kpiData.proporcao;
+        } else {
+            console.error('Erro na requisição para o KPI:', response.statusText);
+            document.getElementById('kpi-servidores-alerta').innerText = 'Dados Indisponíveis';
+        }
             } catch (error) {
                 console.error('Erro ao fazer requisição para o KPI:', error);
                 document.getElementById('kpi-servidores-alerta').innerText = 'Erro na conexão';

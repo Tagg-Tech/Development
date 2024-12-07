@@ -113,36 +113,36 @@ GROUP BY um.fkUsuario;
   }
 }
 
-async function listarServidoresEmAlerta(idUsuario) {
-  const query = `
-    SELECT DISTINCT m.idMaquina, m.sistemaOperacional
-    FROM usuarioResponsavelMaquina um
-    JOIN (
-      SELECT fkMaquina, MAX(dataHora) AS ultimoRegistro
-      FROM registros
-      GROUP BY fkMaquina
-    ) ultimosRegistros ON ultimosRegistros.fkMaquina = um.fkMaquina
-    JOIN registros r 
-      ON r.fkMaquina = um.fkMaquina 
-      AND r.dataHora = ultimosRegistros.ultimoRegistro
-    JOIN maquina m ON m.idMaquina = um.fkMaquina
-    WHERE um.fkUsuario = ?
-      AND (
-        r.percentualCPU > m.AlarmeCPU OR 
-        r.percentualMemoria > m.AlarmeRAM OR 
-        r.percentualDisco > m.AlarmeDisco
-      );
-  `;
+  async function listarServidoresEmAlerta(idUsuario) {
+    const query = `
+      SELECT DISTINCT m.idMaquina, m.sistemaOperacional
+      FROM usuarioResponsavelMaquina um
+      JOIN (
+        SELECT fkMaquina, MAX(dataHora) AS ultimoRegistro
+        FROM registros
+        GROUP BY fkMaquina
+      ) ultimosRegistros ON ultimosRegistros.fkMaquina = um.fkMaquina
+      JOIN registros r 
+        ON r.fkMaquina = um.fkMaquina 
+        AND r.dataHora = ultimosRegistros.ultimoRegistro
+      JOIN maquina m ON m.idMaquina = um.fkMaquina
+      WHERE um.fkUsuario = ?
+        AND (
+          r.percentualCPU > m.AlarmeCPU OR 
+          r.percentualMemoria > m.AlarmeRAM OR 
+          r.percentualDisco > m.AlarmeDisco
+        );
+    `;
 
-  try {
-    // Executa a consulta no banco de dados
-    const resultado = await database.executar(query, [idUsuario]);
-    return resultado;
-  } catch (error) {
-    console.error("Erro ao listar servidores em alerta:", error);
-    throw error;
+    try {
+      // Executa a consulta no banco de dados
+      const resultado = await database.executar(query, [idUsuario]);
+      return resultado;
+    } catch (error) {
+      console.error("Erro ao listar servidores em alerta:", error);
+      throw error;
+    }
   }
-}
 
 
 module.exports = {
