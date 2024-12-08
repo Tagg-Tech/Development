@@ -173,6 +173,16 @@
 
     <script>
        //let fk_maquina = sessionStorage.getItem('fkMaquina');
+
+       const fkMaquina = sessionStorage.getItem('fkMaquina');
+
+       if (!fkMaquina) {
+    alert("Erro: Nenhuma máquina foi selecionada!");
+    window.location.href = "dashboardAnalista.html"; // Redireciona de volta
+}
+
+// Use o fkMaquina nas requisições fetch
+console.log("FK da Máquina Selecionada:", fkMaquina);
        let id_usuario = sessionStorage.getItem('ID_USUARIO');
        //alert(id_usuario);
        let cargo = sessionStorage.getItem('CARGO');

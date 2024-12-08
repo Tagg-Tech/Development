@@ -67,9 +67,9 @@ async function calcularKpiServidoresAlerta(idUsuario) {
    SELECT 
   COUNT(DISTINCT um.fkMaquina) AS totalServidores,
   COUNT(DISTINCT CASE 
-    WHEN (r.percentualCPU > m.AlarmeCPU) OR 
-         (r.percentualMemoria > m.AlarmeRAM) OR 
-         (r.percentualDisco > m.AlarmeDisco) 
+    WHEN (r.percentualCPU > m. porcentagemAlarmeCPU) OR 
+         (r.percentualMemoria > m. porcentagemAlarmeRAM) OR 
+         (r.percentualDisco > m. porcentagemAlarmeDisco) 
     THEN um.fkMaquina 
     ELSE NULL 
   END) AS servidoresEmAlerta
@@ -128,9 +128,9 @@ GROUP BY um.fkUsuario;
       JOIN maquina m ON m.idMaquina = um.fkMaquina
       WHERE um.fkUsuario = ?
         AND (
-          r.percentualCPU > m.AlarmeCPU OR 
-          r.percentualMemoria > m.AlarmeRAM OR 
-          r.percentualDisco > m.AlarmeDisco
+          r.percentualCPU > m. porcentagemAlarmeCPU OR 
+          r.percentualMemoria > m. porcentagemAlarmeRAM OR 
+          r.percentualDisco > m. porcentagemAlarmeDisco
         );
     `;
 
