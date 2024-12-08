@@ -35,6 +35,19 @@
                 </div>
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
                 <ul class="navbar">
+                    
+                    <li>
+                    
+                            <label for="serverSelect" style="color: white;">Selecione um Servidor:</label>
+                            <select id="serverSelect">
+                                <option value="">Selecione um Servidor</option>
+                                <option value="1">Servidor 1</option>
+                                <option value="2" class="alert">Servidor 2 (Alerta)</option>
+                                <option value="3"class="alert">Servidor 3 (Alerta)</option>
+                            </select>
+                        
+                        
+                    </li>
                     <li><a href="gerenciar_servidor.html"><strong>Baixar relatório</strong></a></li>
                     <li><a href="gerenciar_servidor.html"><strong>Cadastro de Servidor</strong></a></li>
                     <li><a href="alerta.html"><strong>Alertas</strong></a></li>
@@ -93,7 +106,7 @@
                 </div>
             </div>
            
-         <div class="charts" style="width: 40%; height: 300px; padding: 10px; border: 4px solid #ddd; border-radius: 10px; background-color: white;margin-left: 5%; margin-top: 20px;">
+         <div class="charts" style="width: 40%; height: 300px; padding: 10px; border: 4px solid #ddd; border-radius: 10px; background-color: white;margin-left: 5%; margin-top: 20px; ">
             <h3>Uso dos componentes (por servidor)</h3>
             <label for="componente">Selecione o Componente:</label>
           <select id="componente">
@@ -107,7 +120,7 @@
             </div>
         </div>
 
-        <div class="charts" style="width: 40%; height: 300px; padding: 10px; border: 4px solid #ddd; border-radius: 10px; background-color: white;margin-right: 5%; margin-top: 20px;">
+        <div class="charts" style="width: 40%; height: 300px; padding: 10px; border: 4px solid #ddd; border-radius: 10px; background-color: white;margin-right: 5%; margin-top: 20px;box-shadow: 0 0 10px gray; ">
             <h3>Variância de cada componente (por servidor)</h3>
             <label for="componente-maxmin">Selecione o Componente:</label>
             <select id="componente-maxmin">
@@ -125,146 +138,185 @@
         let grafico;
         let graficoMaxMin; // Gráfico de máximo e mínimo
         let servidores = {}; // Armazenar os dados de cada servidor
+        
+        document.getElementById('serverSelect').addEventListener('change', function(event) {
+    const selectedValue = event.target.value;
+    const servidorId = selectedValue.split('-')[1]; // Extraindo o ID do servidor (ex: 'servidor1')
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const alertaSpan = document.getElementById("kpi-servidores-alerta");
-            const servidoresLista = document.getElementById("servidores-alerta-lista");
+    // Verificar se o servidor está em alerta no banco de dados
+    fetch(`../servidor/verificarAlertaServidor`, {
+        method: 'POST',
+        body: JSON.stringify({ fkMaquina: servidorId }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Supondo que a resposta tenha um campo 'emAlerta' que seja true ou false
+        if (data.emAlerta) {
+            document.getElementById('serverSelect').style.borderColor = 'red'; // Alterando a borda do select para vermelho
+        } else {
+            document.getElementById('serverSelect').style.borderColor = ''; // Removendo a borda vermelha se não estiver em alerta
+        }
 
-            // Exemplo de dados dos servidores (você deve obter isso do seu backend)
-            const servidoresEmAlerta = [
-                { nome: "Servidor 1", fk_maquina: 1 },
-                { nome: "Servidor 2", fk_maquina: 2 },
-                { nome: "Servidor 3", fk_maquina: 3 },
-            ];
+        // Armazenando o ID do servidor no sessionStorage
+        sessionStorage.setItem('fk_maquina', servidorId);
 
-            // Atualizar o número de servidores em alerta
-            alertaSpan.textContent = servidoresEmAlerta.length;
+        // Redirecionar para a dashboard do servidor
+        window.location.href = `dashboardAnalistaUmServidor.html?id=${servidorId}`;
+    })
+    .catch(error => {
+        console.error('Erro ao verificar alerta do servidor:', error);
+    });
+});
 
-            // Preencher a lista de servidores em alerta
-            servidoresEmAlerta.forEach((servidor) => {
-                const li = document.createElement("li");
-                li.textContent = servidor.nome;
+document.addEventListener("DOMContentLoaded", async function () {
+    const alertaSpan = document.getElementById("kpi-servidores-alerta");
+  const servidoresLista = document.getElementById("servidores-alerta-lista");
 
-                // Adicionar evento de clique para redirecionar
-                li.addEventListener("click", () => {
-                    // Armazenar a FK do servidor no sessionStorage
-                    sessionStorage.setItem("fk_maquina", servidor.fk_maquina);
+  try {
+    // Substitua pelo ID do usuário armazenado
+    const idUsuario = sessionStorage.getItem("idUsuario");
 
-                    // Redirecionar para a página do servidor
-                    window.location.href = "dashboardAnalistaUmServidor.html";
+    // Fazer requisição à API para obter os dados do KPI e servidores
+    const response = await fetch(`/analistadados/${idUsuario}/kpi-servidores-alerta`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Erro ao buscar dados");
+    }
+
+    // Atualizar o KPI
+    alertaSpan.textContent = data.servidoresEmAlerta;
+
+    // Preencher a lista dinamicamente
+    servidoresLista.innerHTML = ""; // Limpa a lista antes de adicionar itens
+    data.servidoresEmAlerta.forEach((servidor) => {
+      const li = document.createElement("li");
+      li.textContent = `Servidor ID: ${servidor.idMaquina} (${servidor.sistemaOperacional})`;
+
+      li.addEventListener("click", () => {
+        sessionStorage.setItem("fk_maquina", servidor.idMaquina);
+        window.location.href = "dashboardAnalistaUmServidor.html";
+      });
+
+      servidoresLista.appendChild(li);
+    });
+  } catch (error) {
+    console.error("Erro ao carregar KPI de servidores em alerta:", error);
+    alertaSpan.textContent = "Dados indisponíveis";
+    servidoresLista.innerHTML = "<li>Erro ao carregar servidores</li>";
+  }
+}); 
+
+                // Função para atualizar o ranking de downtime
+                async function rankingForaDoAr(filtro = 'dia') {
+                    const response = await fetch("/verChamados", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    });
+
+                    const data = await response.json();
+                    const issues = data.resultado.issues;
+
+                    const listaChamadosDown = [];
+                    const dataAtual = new Date();
+
+                    let dataMinima;
+                    switch(filtro) {
+                        case 'dia':
+                            dataMinima = new Date(dataAtual);
+                            dataMinima.setDate(dataAtual.getDate() - 1);
+                            break;
+                        case 'semana':
+                            dataMinima = new Date(dataAtual);
+                            dataMinima.setDate(dataAtual.getDate() - 7);
+                            break;
+                        case 'mes':
+                            dataMinima = new Date(dataAtual);
+                            dataMinima.setMonth(dataAtual.getMonth() - 1);
+                            break;
+                        default:
+                            dataMinima = new Date(dataAtual);
+                            dataMinima.setDate(dataAtual.getDate() - 1);
+                    }
+
+                    issues.forEach(issue => {
+                        const chamadoAtual = issue.fields;
+                        const tipoChamado = chamadoAtual.project.key;
+
+                        if (tipoChamado == "DOWN"){
+                            const chamado = chamadoAtual.description;
+
+                            let index = chamado.indexOf("''");
+                            let index2 = chamado.indexOf("ficou") - 1;
+                            let servidorAtual = null;
+                            if (index !== -1) {
+                                servidorAtual = chamado.substring(index + 2, index2);
+                            }
+
+                            index = chamado.indexOf("**");
+                            if (index !== -1) {
+                                var dataAtual = new Date(chamado.substring(index + 2, index + 19));
+                            }
+
+                            const fimDownTime = chamadoAtual.customfield_10046.completedCycles[0];
+                            const dataFechamento = fimDownTime ? new Date(fimDownTime.stopTime.iso8601) : new Date();
+
+                            if (dataAtual >= dataMinima) {
+                                const tempoDownTime = dataAtual - dataFechamento;
+                                let diferencaHoras = Math.floor(tempoDownTime / (1000 * 60));
+                                diferencaHoras = Math.round(diferencaHoras / 60, 2);
+                                diferencaHoras = Math.abs(diferencaHoras);
+
+                                const servidor = listaChamadosDown.find(item => item.nome === servidorAtual);
+                                if (servidor) {
+                                    servidor.downtime += diferencaHoras;
+                                } else {
+                                    listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
+                                }
+                            }
+                        }
+                    });
+
+                    listaChamadosDown.sort((a, b) => b.downtime - a.downtime);
+
+                    return listaChamadosDown;
+                }
+
+            // Função para atualizar o ranking na tabela
+            async function atualizarRanking() {
+                const filtro = document.getElementById('filtro-ranking').value;
+                const rankingDados = await rankingForaDoAr(filtro);
+
+                const tabelaBody = document.getElementById('ranking-dados');
+                tabelaBody.innerHTML = ''; // Limpa os dados atuais
+
+                rankingDados.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td style="border: 1px solid #ddd; padding: 8px;">${index + 1}°</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">${item.nome}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">${item.downtime.toFixed(2)} min</td>
+                    `;
+                    tabelaBody.appendChild(row);
                 });
-
-                servidoresLista.appendChild(li);
-            });
-        });
-
-        // Função para atualizar o ranking de downtime
-        async function rankingForaDoAr(filtro = 'dia') {
-            const response = await fetch("/verChamados", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-
-            const data = await response.json();
-            const issues = data.resultado.issues;
-
-            const listaChamadosDown = [];
-            const dataAtual = new Date();
-
-            let dataMinima;
-            switch(filtro) {
-                case 'dia':
-                    dataMinima = new Date(dataAtual);
-                    dataMinima.setDate(dataAtual.getDate() - 1);
-                    break;
-                case 'semana':
-                    dataMinima = new Date(dataAtual);
-                    dataMinima.setDate(dataAtual.getDate() - 7);
-                    break;
-                case 'mes':
-                    dataMinima = new Date(dataAtual);
-                    dataMinima.setMonth(dataAtual.getMonth() - 1);
-                    break;
-                default:
-                    dataMinima = new Date(dataAtual);
-                    dataMinima.setDate(dataAtual.getDate() - 1);
             }
 
-            issues.forEach(issue => {
-                const chamadoAtual = issue.fields;
-                const tipoChamado = chamadoAtual.project.key;
-
-                if (tipoChamado == "DOWN"){
-                    const chamado = chamadoAtual.description;
-
-                    let index = chamado.indexOf("''");
-                    let index2 = chamado.indexOf("ficou") - 1;
-                    let servidorAtual = null;
-                    if (index !== -1) {
-                        servidorAtual = chamado.substring(index + 2, index2);
-                    }
-
-                    index = chamado.indexOf("**");
-                    if (index !== -1) {
-                        var dataAtual = new Date(chamado.substring(index + 2, index + 19));
-                    }
-
-                    const fimDownTime = chamadoAtual.customfield_10046.completedCycles[0];
-                    const dataFechamento = fimDownTime ? new Date(fimDownTime.stopTime.iso8601) : new Date();
-
-                    if (dataAtual >= dataMinima) {
-                        const tempoDownTime = dataAtual - dataFechamento;
-                        let diferencaHoras = Math.floor(tempoDownTime / (1000 * 60));
-                        diferencaHoras = Math.round(diferencaHoras / 60, 2);
-                        diferencaHoras = Math.abs(diferencaHoras);
-
-                        const servidor = listaChamadosDown.find(item => item.nome === servidorAtual);
-                        if (servidor) {
-                            servidor.downtime += diferencaHoras;
-                        } else {
-                            listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
-                        }
-                    }
-                }
+            // Inicializar o ranking ao carregar a página
+            document.addEventListener('DOMContentLoaded', () => {
+                atualizarRanking();
             });
 
-            listaChamadosDown.sort((a, b) => b.downtime - a.downtime);
-
-            return listaChamadosDown;
-        }
-
-        // Função para atualizar o ranking na tabela
-        async function atualizarRanking() {
-            const filtro = document.getElementById('filtro-ranking').value;
-            const rankingDados = await rankingForaDoAr(filtro);
-
-            const tabelaBody = document.getElementById('ranking-dados');
-            tabelaBody.innerHTML = ''; // Limpa os dados atuais
-
-            rankingDados.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td style="border: 1px solid #ddd; padding: 8px;">${index + 1}°</td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${item.nome}</td>
-                    <td style="border: 1px solid #ddd; padding: 8px;">${item.downtime.toFixed(2)} min</td>
-                `;
-                tabelaBody.appendChild(row);
-            });
-        }
-
-        // Inicializar o ranking ao carregar a página
-        document.addEventListener('DOMContentLoaded', () => {
-            atualizarRanking();
-        });
-
-        // Adicionar evento de mudança no filtro
-        document.getElementById('filtro-ranking').addEventListener('change', atualizarRanking);
-        async function fetchData(componente) {
-            const response = await fetch(`http://localhost:3333/analistadados/${componente}`);
-            return response.json();
-        }
+            // Adicionar evento de mudança no filtro
+            document.getElementById('filtro-ranking').addEventListener('change', atualizarRanking);
+            async function fetchData(componente) {
+                const response = await fetch(`http://localhost:3333/analistadados/${componente}`);
+                return response.json();
+            }
 
         function atualizarGrafico(dados, componente) {
             // Atualiza os dados armazenados para cada servidor
@@ -439,14 +491,14 @@ atualizarDesvioPadraoGlobal();
         // Atualizar o número de servidores em alerta a cada 10 segundos
         setInterval(async () => {
             try {
-                const response = await fetch(`/analistadados/1/kpi-servidores-alerta`);
-                if (response.ok) {
-                    const kpiData = await response.json();
-                    document.getElementById('kpi-servidores-alerta').innerText = `${kpiData.proporcao}`;
-                } else {
-                    console.error('Erro na requisição para o KPI:', response.statusText);
-                    document.getElementById('kpi-servidores-alerta').innerText = 'Dados Indisponíveis';
-                }
+        const response = await fetch(`/analistadados/1/kpi-servidores-alerta`);
+        if (response.ok) {
+            const kpiData = await response.json();
+            document.getElementById('kpi-servidores-alerta').innerText = kpiData.proporcao;
+        } else {
+            console.error('Erro na requisição para o KPI:', response.statusText);
+            document.getElementById('kpi-servidores-alerta').innerText = 'Dados Indisponíveis';
+        }
             } catch (error) {
                 console.error('Erro ao fazer requisição para o KPI:', error);
                 document.getElementById('kpi-servidores-alerta').innerText = 'Erro na conexão';

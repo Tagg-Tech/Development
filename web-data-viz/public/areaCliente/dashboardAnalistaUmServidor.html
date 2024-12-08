@@ -172,16 +172,17 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>  -->
 
     <script>
-       //let fk_maquina = sessionStorage.getItem('fk_maquina');
-       //let id_usuario = sessionStorage.getItem('ID_USUARIO');
-       let cargo = sessionStorage.getItem('CARGO');
+       let fk_maquina = sessionStorage.getItem('fkMaquina');
+       let id_usuario = sessionStorage.getItem('idMaquina');
+       alert(id_usuario);
+       //let cargo = sessionStorage.getItem('CARGO');
 
        if(cargo == "Gerente"){
           link_caspa.style.display = "block";
        } 
 
-        let fk_maquina = 1;
-        let id_usuario = 1;
+        //let fk_maquina = 1;
+        //let id_usuario = 1;
         
         function verificarGerencia(){
             console.log('ENTREI GERENCIA')

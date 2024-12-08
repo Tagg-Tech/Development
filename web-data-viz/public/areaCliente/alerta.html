@@ -13,35 +13,39 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/areaCliente/notificacaoAlerta.css">
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/areaCliente/notificacaoAlerta.css" />
     <link rel="stylesheet" href="../css/areaCliente/alerta.css" />
-
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-            <!-- boxIcons -->
-            <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-            <!-- AOS -->
-            <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-            <!-- Swiper -->
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
-                integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
-                crossorigin="anonymous" referrerpolicy="no-referrer" />
-                <!-- Adicionando o estilo pointer ao botão "Sair" -->
-                <style>
-                  .navbar li a[onclick="limparSessao()"] {
-                      cursor: pointer;
-                  }
-              </style>
+    <!-- boxIcons -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- Swiper -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
+      integrity="sha512-s6khMl5GDS1HbQ5/SwL1wzMayPwHXPjKoBN5kHUTDqKEPkkGyEZWKyH2lQ3YO2q3dxueG3rE0NHjRawMHd2b6g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Adicionando o estilo pointer ao botão "Sair" -->
+    <style>
+      .navbar li a[onclick="limparSessao()"] {
+        cursor: pointer;
+      }
+    </style>
 
-            <link rel="icon" href="../assets/TagTech/img/logo1.png" />
+    <link rel="icon" href="../assets/TagTech/img/logo1.png" />
   </head>
   <body onload="direcionarDashboard(), getChamados(), atualizacaoPeriodica()">
     <div class="container">
-
       <header>
-        
         <nav>
           <div class="menu">
             <a href="#home"
@@ -50,11 +54,18 @@
                 alt="logo"
                 id="logo"
             /></a>
-            <div class="alertaChamado" id="alertaJira" onclick="irParaAlertas()">
-              <img src="../assets/TagTech/dashboard-alerta/alertNotification.gif" alt="Ícone de Alerta">
-              <p id="pAlerta"></p>
-          </div>
-            
+            <div
+              class="alertaChamado"
+              id="alertaJira"
+              onclick="irParaAlertas()"
+            >
+              <img
+                src="../assets/TagTech/dashboard-alerta/alertNotification.gif"
+                alt="Ícone de Alerta"
+              />
+              <p id="pAlerta"></p>  
+            </div>
+
             <button class="menu-button"><i class="bx bx-menu"></i></button>
 
             <ul class="navbar">
@@ -72,9 +83,7 @@
               </li>
               <li style="color: black"><strong>|</strong></li>
               <li>
-                <a 
-                  onclick="limparSessao()"
-                  style="background-color: #fff178"
+                <a onclick="limparSessao()" style="background-color: #fff178"
                   ><strong
                     >Sair <img src="../assets/icones/sair.svg" alt="" /></strong
                 ></a>
@@ -86,26 +95,86 @@
 
       <main>
         <section class="graficosAlerta">
-          <div class="containerAlertasTop">
-            <div class="graficoBarrasTipoAlerta grafAlerta">
-              <canvas
-                id="horizontalBarChart"
-                class="canvasBarra"
-              ></canvas>
-            </div>
-            <div class="graficoRoscaTipoAlerta grafAlerta">
-              <canvas
-                class="canvasRosca"
-                id="RoscaChart"
+          <div class="containerFiltro">
+            <div class="filtroAlerta">
+              <h1 class="poppins">Filtros de Alerta</h1>
+              <div class="divFiltro">
+                <h3 class="poppins">Intervalo de tempo</h3>
+                <div class="containerInput">
+                  <div class="output">
+                    <span id="minValue">1</span>
+                    <span id="maxValue">7</span>
+                  </div>
 
-              ></canvas>
+                  <div class="range-background"></div>
+                  <div class="range-fill" id="rangeFill"></div>
+
+                  <!-- Range esquerdo -->
+        
+                  <input
+                    class="inp1"
+                    type="range"
+                    min="1"
+                    max="7"
+                    value="1"
+                    id="rangeMin"
+                    oninput="updateRange()"
+                  />
+                  <!-- Range direito -->
+                  <input
+                    class="inp1 inp2"
+                    type="range"
+                    min="1"
+                    max="7"
+                    value="7"
+                    id="rangeMax"
+                    oninput="updateRange()"
+                  />
+
+                  <div class="tickmarks" id="divTick">
+                    <span>|</span>
+                    <span>|</span>
+                    <span>|</span>
+                    <span>|</span>
+                    <span>|</span>
+                    <span>|</span>
+                    <span>|</span>
+                  </div>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="toggleSwitch">
+                  <span class="slider round"></span>
+                </label>
+                <span id="toggleLabel">Semana</span>
+              </div>
+
+              <div class="divFiltro filtroServidor">
+                <h2 class="poppins">Filtrar por Servidor</h2>
+                <select name="" id="filtroServ">
+                  <option selected value="0">Todos</option>
+                </select>
+              </div>
+              <button class="botaoFiltro" onclick="atualizarGrafico()">Filtrar</button>
             </div>
           </div>
-          <div class="graficoAlertaPorTempo grafAlerta">
-            <canvas 
-              class="canvasLinha"
-              id="LineChart"
-            ></canvas>
+          <div class="divGraficos">
+            <div class="containerAlertasTop">
+              <div class="grafAlerta grafGrande">
+                <canvas id="horizontalBarChart" class="canvasBarra"></canvas>
+              </div>
+              <div class="grafAlerta">
+                <canvas class="canvasRosca" id="RoscaChart"></canvas>
+              </div>
+            </div>
+
+            <div class="containerAlertasBot">
+              <div class="grafAlerta">
+                <canvas class="canvasRosca2" id="RoscaChart2"></canvas>
+              </div>
+              <div class="grafAlerta grafGrande">
+                <canvas class="canvasLinha" id="LineChart"></canvas>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -128,9 +197,7 @@
                   <th>Horário</th>
                 </tr>
               </thead>
-              <tbody id="bodyTabela">
-                
-              </tbody>
+              <tbody id="bodyTabela"></tbody>
             </table>
           </div>
         </section>
@@ -142,27 +209,373 @@
 <script>
 
 
-  var listaDeChaves = []
+  
+  dias = [
+  "segunda",
+  "terça",
+  "quarta",
+  "quinta",
+  "sexta",
+  "sabado",
+  "domingo",
+  ]
+
+  meses = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
+
+  listaTempo = dias
+
+  const toggleSwitch = document.getElementById('toggleSwitch');
+  const toggleLabel = document.getElementById('toggleLabel');
+  const rangeMin = document.getElementById('rangeMin');
+  const rangeMax = document.getElementById('rangeMax');
+  
+  toggleSwitch.addEventListener('change', () => {
+    if (toggleSwitch.checked) {
+      // Quando for "Mês"
+      toggleLabel.textContent = 'Mês';
+      divTick.innerHTML = `
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+      `;
+      rangeMin.setAttribute('max', '12');
+      rangeMax.setAttribute('max', '12');
+      rangeMax.value = '12';
+  
+      listaTempo = meses;
+      grafMes();
+      updateRange()
+    } else {
+      // Quando for "Semana"
+      toggleLabel.textContent = 'Semana';
+      divTick.innerHTML = `
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+                      <span>|</span>
+      `;
+      rangeMin.setAttribute('max', '7');
+      rangeMax.setAttribute('max', '7');
+      rangeMax.value = '7';
+  
+      listaTempo = dias;
+      grafSemana();
+      updateRange()
+    }
+  });
 
 
+  
 
-  var listaChamadosPico = []
-  var listaPorcentagens = []
-  var listaComponentes = []
-  var listaDatas = []
-  var listaServidores = []
+  function updateRange() {
 
 
+    var minRange = document.getElementById("rangeMin");
+    var maxRange = document.getElementById("rangeMax");
+    const minValue = parseInt(minRange.value);
+    const maxValue = parseInt(maxRange.value);
+    const rangeFill = document.getElementById("rangeFill");
 
-  var listaChamadosDown = []
-  var listaDatasDown = []
-  var listaServidoresDown = []
+    if (minValue >= maxValue) {
+      minRange.value = maxValue - 1;
+    }
+    if (maxValue <= minValue) {
+      maxRange.value = minValue + 1;
+    }
 
-  async function getChamados(){
+    document.getElementById("minValue").textContent = listaTempo[minValue - 1];
+    document.getElementById("maxValue").textContent = listaTempo[maxValue - 1];
 
-  listaChamadosPico = []
-  listaChamadosDown = []
-  listaDeChaves = []
+    const minPercent = (minRange.value / minRange.max) * 100;
+    const maxPercent = (maxRange.value / maxRange.max) * 100;
+    rangeFill.style.left = minPercent - 3.5 + "%";
+    rangeFill.style.width = maxPercent - minPercent + "%";
+
+
+  }
+
+
+  updateRange();
+
+</script>
+
+<script>
+  var dadosFiltrados = false
+
+  var listaDeChaves = [];
+  var listaChamadosPico = [];
+  var listaPorcentagens = [];
+  var listaComponentes = [];
+  var listaDatas = [];
+  var listaServidores = [];
+  var listaChamadosDown = [];
+  var listaDatasDown = [];
+  var listaServidoresDown = [];
+  var listaServidoresUnicos = []
+
+  var rawlistaDeChaves = [];
+  var rawlistaChamadosPico = [];
+  var rawlistaPorcentagens = [];
+  var rawlistaComponentes = [];
+  var rawlistaDatas = [];
+  var rawlistaServidores = [];
+  var rawlistaChamadosDown = [];
+  var rawlistaDatasDown = [];
+  var rawlistaServidoresDown = [];
+
+  function atualizarGrafico() {
+    // Inicializar as listas filtradas
+    listaDeChaves = [];
+    listaChamadosPico = [];
+    listaPorcentagens = [];
+    listaComponentes = [];
+    listaDatas = [];
+    listaServidores = [];
+    listaChamadosDown = [];
+    listaDatasDown = [];
+    listaServidoresDown = [];
+  
+    const servEscolhido = filtroServ.value.trim(); // Normalizar valor do filtro
+    console.log(`Servidor Escolhido: ${servEscolhido}`);
+  
+    if (servEscolhido === "0") {
+      // Se "Todos" for selecionado
+      listaDeChaves = [...rawlistaDeChaves];
+      listaChamadosPico = [...rawlistaChamadosPico];
+      listaPorcentagens = [...rawlistaPorcentagens];
+      listaComponentes = [...rawlistaComponentes];
+      listaDatas = [...rawlistaDatas];
+      listaServidores = [...rawlistaServidores];
+      listaChamadosDown = [...rawlistaChamadosDown];
+      listaDatasDown = [...rawlistaDatasDown];
+      listaServidoresDown = [...rawlistaServidoresDown];
+    } else {
+      // Filtrar dados por servidor escolhido
+      for (let i = 0; i < rawlistaServidoresDown.length; i++) {
+        const servidorAtualDown = rawlistaServidoresDown[i].trim(); // Normalizar servidor atual
+        if (servidorAtualDown === servEscolhido) {
+          listaDeChaves.push(rawlistaDeChaves[i]);
+          listaChamadosDown.push(rawlistaChamadosDown[i]);
+          listaDatasDown.push(rawlistaDatasDown[i]);
+          listaServidoresDown.push(rawlistaServidoresDown[i]);
+        }
+      }
+  
+      for (let i = 0; i < rawlistaServidores.length; i++) {
+        const servidorAtualPico = rawlistaServidores[i].trim(); // Normalizar servidor atual
+        if (servidorAtualPico === servEscolhido) {
+          listaChamadosPico.push(rawlistaChamadosPico[i]);
+          listaPorcentagens.push(rawlistaPorcentagens[i]);
+          listaComponentes.push(rawlistaComponentes[i]);
+          listaDatas.push(rawlistaDatas[i]);
+          listaServidores.push(rawlistaServidores[i]);
+        }
+      }
+    }
+  
+    // Atualizar gráficos
+    plotarGraficos();
+  }
+  
+  function grafSemana() {
+    var minRange = parseInt(document.getElementById("rangeMin").value, 10);
+    var maxRange = parseInt(document.getElementById("rangeMax").value, 10);
+
+    // Dados completos reorganizados (segunda começa no índice 0)
+    const diasDaSemana = [
+        "Segunda",
+        "Terça",
+        "Quarta",
+        "Quinta",
+        "Sexta",
+        "Sábado",
+        "Domingo",
+    ];
+
+    const dataNivelCriticoCompleto = ajustarOrdem(contarPorDiaDaSemana(listaDatas));
+    const dataDownTimesCompleto = ajustarOrdem(contarPorDiaDaSemana(listaDatasDown));
+
+    // Filtrar dias dentro do intervalo
+    const diasFiltrados = diasDaSemana.slice(minRange - 1, maxRange);
+    const dataNivelCriticoFiltrado = dataNivelCriticoCompleto.slice(minRange - 1, maxRange);
+    const dataDownTimesFiltrado = dataDownTimesCompleto.slice(minRange - 1, maxRange);
+
+    const ctxLine = document.getElementById("LineChart").getContext("2d");
+
+    // Verifica se já existe um gráfico e o destrói
+    const existingChart = Chart.getChart("LineChart");
+    if (existingChart) {
+        existingChart.destroy();
+    }
+
+    const dataLine = {
+        labels: diasFiltrados, // Labels filtradas
+        datasets: [
+            {
+                label: "Nível Crítico",
+                data: dataNivelCriticoFiltrado, // Dados filtrados
+                borderColor: "rgb(255, 99, 132)",
+                backgroundColor: "rgb(255, 99, 132)",
+            },
+            {
+                label: "Down Times",
+                data: dataDownTimesFiltrado, // Dados filtrados
+                borderColor: "#ff914c",
+                backgroundColor: "#ff914c",
+            },
+        ],
+    };
+
+    const configLine = {
+        type: "line",
+        data: dataLine,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: "Dia da Semana",
+                    },
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "Quantidade",
+                    },
+                },
+            },
+            plugins: {
+                legend: {
+                    position: "top",
+                },
+                title: {
+                    display: true,
+                    text: "Alertas por dia da semana",
+                },
+            },
+        },
+    };
+
+    const LineChart = new Chart(ctxLine, configLine);
+}
+
+// Ajusta a ordem dos dados de domingo para segunda
+function ajustarOrdem(dados) {
+    return [...dados.slice(1), dados[0]];
+}
+
+function grafMes() {
+  var minRange = parseInt(document.getElementById("rangeMin").value, 10);
+  var maxRange = parseInt(document.getElementById("rangeMax").value, 10);
+
+
+  // Meses do ano
+  const meses = [
+      "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+      "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
+
+  // Dados completos para todos os meses
+  const dataNivelCriticoCompleto = contarPorMes(listaDatas);
+  const dataDownTimesCompleto = contarPorMes(listaDatasDown);
+
+  // Filtrar os meses dentro do intervalo
+  const mesesFiltrados = meses.slice(minRange - 1, maxRange);
+  const dataNivelCriticoFiltrado = dataNivelCriticoCompleto.slice(minRange - 1, maxRange);
+  const dataDownTimesFiltrado = dataDownTimesCompleto.slice(minRange - 1, maxRange);
+
+  const ctxLine = document.getElementById("LineChart").getContext("2d");
+
+  // Verifica se já existe um gráfico e o destrói
+  const existingChart = Chart.getChart("LineChart");
+  if (existingChart) {
+      existingChart.destroy();
+  }
+
+  const dataLine = {
+      labels: mesesFiltrados, // Labels filtradas
+      datasets: [
+          {
+              label: "Nível Crítico",
+              data: dataNivelCriticoFiltrado, // Dados filtrados
+              borderColor: "rgb(255, 99, 132)",
+              backgroundColor: "rgb(255, 99, 132)",
+          },
+          {
+              label: "Down Times",
+              data: dataDownTimesFiltrado, // Dados filtrados
+              borderColor: "#ff914c",
+              backgroundColor: "#ff914c",
+          },
+      ],
+  };
+
+  const configLine = {
+      type: "line",
+      data: dataLine,
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+              x: {
+                  title: {
+                      display: true,
+                      text: "Meses do Ano",
+                  },
+              },
+              y: {
+                  title: {
+                      display: true,
+                      text: "Quantidade",
+                  },
+              },
+          },
+          plugins: {
+              legend: {
+                  position: "top",
+              },
+              title: {
+                  display: true,
+                  text: "Alertas por mês",
+              },
+          },
+      },
+  };
+
+  const LineChart = new Chart(ctxLine, configLine);
+}
+
+  async function getChamados() {
+    rawlistaChamadosPico = [];
+    rawlistaChamadosDown = [];
+    rawlistaDeChaves = [];
     const response = await fetch("/verChamados", {
       method: "POST",
       headers: {
@@ -171,284 +584,295 @@
     });
 
     const data = await response.json();
-     // Exibe a resposta completa
-    
+
+    // Exibe a resposta completa
+
     // Acessando o array de issues
     const issues = data.resultado.issues; // Aqui estamos acessando o array de issues
-    
-    console.log(issues)
 
+   
     // Processando as issues
-    issues.forEach(issue => {
+    issues.forEach((issue) => {
       const chamadoAtual = issue.fields; // Acesse os campos do issue
       const descAtual = chamadoAtual.description; // Supondo que você tenha um campo 'description'
-      
+
       var tipoChamado = chamadoAtual.project.key;
 
-      listaDeChaves.push(issue.key)
+      rawlistaDeChaves.push(issue.key);
 
-      console.log(chamadoAtual)
-
-      console.log(tipoChamado)
-      console.log(descAtual);
-      if(tipoChamado == "TTCS"){
-        listaChamadosPico.push(descAtual)
-      }else if(tipoChamado == "DOWN"){
-        listaChamadosDown.push(descAtual)
+      if (tipoChamado == "TTCS") {
+        rawlistaChamadosPico.push(descAtual);
+      } else if (tipoChamado == "DOWN") {
+        rawlistaChamadosDown.push(descAtual);
       }
-
-      
     });
 
-    dadosChamados()
-
-
-
-
-
+    dadosChamados();
   }
 
-
-  function dadosChamados(){
-    listaChamadosPico.forEach(chamado => {
-
-
+  function dadosChamados() {
+    rawlistaChamadosPico.forEach((chamado) => {
       var index = chamado.indexOf("´´");
-      if (index !== -1) {  // Verifica se "´´" foi encontrado
-          var porcentAtual = chamado.substring(index + 2, index + 6);
-          listaPorcentagens.push(Number(porcentAtual))
+      if (index !== -1) {
+        // Verifica se "´´" foi encontrado
+        var porcentAtual = chamado.substring(index + 2, index + 6);
+        rawlistaPorcentagens.push(Number(porcentAtual));
       }
-
 
       index = chamado.indexOf("**");
-      if (index !== -1) { 
-          var dataAtual = chamado.substring(index + 2, index + 19);
+      if (index !== -1) {
+        var dataAtual = chamado.substring(index + 2, index + 19);
 
-          dataAtual = new Date(dataAtual) 
+        dataAtual = new Date(dataAtual);
 
-          listaDatas.push(dataAtual)
-
+        rawlistaDatas.push(dataAtual);
       }
 
-
       index = chamado.indexOf("teve");
-      if (index !== -1) {  
-          var componenteAtual = chamado.substring(13, index - 1);
-          listaComponentes.push(componenteAtual)
-
+      if (index !== -1) {
+        var componenteAtual = chamado.substring(13, index - 1);
+        rawlistaComponentes.push(componenteAtual);
       }
 
       index = chamado.indexOf("''");
-      if (index !== -1) {  
-          var servidorAtual = chamado.substring(index + 2);
-          listaServidores.push(servidorAtual)
-
+      if (index !== -1) {
+        var servidorAtual = chamado.substring(index + 2);
+        rawlistaServidores.push(servidorAtual);
       }
 
-      console.log(porcentAtual)
-      console.log(dataAtual)
-      console.log(componenteAtual)
-      console.log(servidorAtual)
+    });
 
-      
-
-  });
-
-  listaChamadosDown.forEach(chamado => {
-    index = chamado.indexOf("**");
-    if (index !== -1) { 
+    rawlistaChamadosDown.forEach((chamado) => {
+      index = chamado.indexOf("**");
+      if (index !== -1) {
         var dataAtual = chamado.substring(index + 2, index + 19);
 
-        dataAtual = new Date(dataAtual) 
-        listaDatasDown.push(dataAtual)
+        dataAtual = new Date(dataAtual);
+        rawlistaDatasDown.push(dataAtual);
+      }
 
-    }
+      index = chamado.indexOf("''");
 
-    index = chamado.indexOf("''");
-
-    index2 = chamado.indexOf("ficou")
-    if (index !== -1) {  
-        var servidorAtual = chamado.substring(index +2,  index2  );
-        listaServidoresDown.push(servidorAtual)
-
-    }
+      index2 = chamado.indexOf("ficou");
+      if (index !== -1) {
+        var servidorAtual = chamado.substring(index + 2, index2);
+        rawlistaServidoresDown.push(servidorAtual);
+      }
+    });
 
 
-  })
+listaDeChaves = rawlistaDeChaves
+listaChamadosPico = rawlistaChamadosPico
+listaPorcentagens = rawlistaPorcentagens
+listaComponentes = rawlistaComponentes
+listaDatas = rawlistaDatas
+listaServidores = rawlistaServidores
+listaChamadosDown = rawlistaChamadosDown
+listaDatasDown = rawlistaDatasDown
+listaServidoresDown = rawlistaServidoresDown
 
-  plotarGraficos()
 
+
+// Função para normalizar os nomes dos servidores
+const normalizarServidor = (servidor) => 
+    servidor.trim().replace(/\s+/g, " "); // Remove espaços extras e normaliza
+
+// Combinar listas com normalização
+const setServidores = new Set(
+    [...listaServidoresUnicos, ...listaServidoresDown, ...listaServidores]
+        .map(normalizarServidor) // Normaliza cada nome
+);
+
+// Converter de volta para uma lista
+listaServidoresUnicos.length = 0; // Limpa a lista original se necessário
+listaServidoresUnicos.push(...setServidores);
+
+console.log(listaServidoresUnicos);
+
+const filtroServ = document.getElementById("filtroServ");
+
+// Incrementar as opções
+listaServidoresUnicos.forEach((servidor) => {
+  filtroServ.innerHTML += `<option value="${servidor}">${servidor}</option>`;
+});
+
+    plotarGraficos();
   }
 
+  function plotarGraficos() {
+    var picoCPU = 0;
+    var picoDisco = 0;
+    var picoRAM = 0;
 
+    listaComponentes.forEach((componente) => {
+        if (componente == "CPU") picoCPU++;
+        if (componente == "disco") picoDisco++;
+        if (componente == "memória RAM") picoRAM++;
+    });
 
-  function plotarGraficos(){
+    if (!toggleSwitch.checked) {
+        grafSemana();
+    } else {
+        grafMes();
+    }
 
-    var picoCPU = 0
-    var picoDisco = 0
-    var picoRAM = 0
-
-    listaComponentes.forEach(componente =>{
-      console.log(componente)
-
-      if(componente == 'CPU') picoCPU ++;
-      if(componente == 'disco') picoDisco ++;
-      if(componente == 'memória RAM') picoRAM ++;
-      
-      
-      })
-
-
+    // Gráfico de barras horizontais
     const ctxBar = document.getElementById("horizontalBarChart").getContext("2d");
-    const dataBar = {
-      labels: ["CPU", "RAM", "DISCO"],
-      datasets: [
-        {
-          label: "DOWN TIME",
-          data: [listaChamadosDown.length, listaChamadosDown.length, listaChamadosDown.length],
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "#ff914c",
-        },
-        {
-          label: "SOBRECARGA",
-          data: [picoCPU, picoRAM, picoDisco],
-          backgroundColor: "#f64b00",
-        },
-      ],
-    };
-  
 
+    // Verifica se já existe um gráfico e o destrói
+    const existingBarChart = Chart.getChart("horizontalBarChart");
+    if (existingBarChart) {
+        existingBarChart.destroy();
+    }
+
+    const dataBar = {
+        labels: ["CPU", "RAM", "DISCO"],
+        datasets: [
+            {
+                label: "DOWN TIME",
+                data: [
+                    listaChamadosDown.length,
+                    listaChamadosDown.length,
+                    listaChamadosDown.length,
+                ],
+                borderColor: "rgb(255, 99, 132)",
+                backgroundColor: "#ff914c",
+            },
+            {
+                label: "SOBRECARGA",
+                data: [picoCPU, picoRAM, picoDisco],
+                backgroundColor: "#f64b00",
+            },
+        ],
+    };
 
     const configBar = {
-      type: "bar",
-      data: dataBar,
-      options: {
-        indexAxis: "x", // Configuração para barras horizontais
-        elements: {
-          bar: {
-            borderWidth: 2,
-          },
+        type: "bar",
+        data: dataBar,
+        options: {
+            indexAxis: "x",
+            elements: {
+                bar: {
+                    borderWidth: 2,
+                },
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "bottom",
+                },
+                title: {
+                    display: true,
+                    text: "Distribuição de alerta por componente",
+                },
+            },
         },
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: "bottom", // Muda a posição da legenda para baixo
-          },
-          title: {
-            display: true,
-            text: "Distribuição de alerta por componente",
-          },
-        },
-      },
     };
-  
+
     const horizontalBarChart = new Chart(ctxBar, configBar);
 
-    
-    const dataNivelCritico = contarPorDiaDaSemana(listaDatas);
-    const dataDownTimes = contarPorDiaDaSemana(listaDatasDown);
-
-  
-    const ctxLine = document.getElementById("LineChart").getContext("2d");
-  
-    const dataLine = {
-      labels: [
-        "Domingo",
-        "Segunda",
-        "Terça",
-        "Quarta",
-        "Quinta",
-        "Sexta",
-        "Sabado",
-      ],
-      datasets: [
-        {
-          label: "Nivel Critico",
-          data: dataNivelCritico,
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "#ff914c",
-        },
-        {
-          label: "Down Times",
-          data: dataDownTimes,
-          borderColor: "blue",
-          backgroundColor: 'blue"',
-        },
-      ],
-    };
-  
-    const configLine = {
-      type: "line",
-      data: dataLine,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: "top",
-          },
-          title: {
-            display: true,
-            text: "Alertas por dia de semana",
-          },
-        },
-      },
-    };
-    const LineChart = new Chart(ctxLine, configLine);
-  
+    // Gráfico Rosca 1
     const ctxRosca = document.getElementById("RoscaChart").getContext("2d");
-  
-    
+
+    const existingRoscaChart = Chart.getChart("RoscaChart");
+    if (existingRoscaChart) {
+        existingRoscaChart.destroy();
+    }
 
     const dataRosca = {
-      labels: ["Critico", "DownTime"],
-      datasets: [
-        {
-          label: "Dataset 1",
-          data: [listaChamadosPico.length, listaChamadosDown.length],
-          backgroundColor: ["red", "orange"],
-        },
-      ],
+        labels: ["Critico", "DownTime"],
+        datasets: [
+            {
+                data: [listaChamadosPico.length, listaChamadosDown.length],
+                backgroundColor: ["red", "orange"],
+            },
+        ],
     };
-  
+
     const configRosca = {
-      type: "doughnut",
-      data: dataRosca,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: "top",
-          },
-          title: {
-            display: true,
-            text: "Tipos de alerta",
-          },
+        type: "doughnut",
+        data: dataRosca,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "top",
+                },
+                title: {
+                    display: true,
+                    text: "Tipos de alerta",
+                },
+            },
         },
-      },
     };
-  
+
     const RoscaChart = new Chart(ctxRosca, configRosca);
 
-    incrementarTabela()
+    // Gráfico Rosca 2
+    const ctxRosca2 = document.getElementById("RoscaChart2").getContext("2d");
 
-  }
+    const existingRoscaChart2 = Chart.getChart("RoscaChart2");
+    if (existingRoscaChart2) {
+        existingRoscaChart2.destroy();
+    }
+
+    const dataRosca2 = {
+        labels: ["Abertos", "concluidos"],
+        datasets: [
+            {
+                data: [2, 7],
+                backgroundColor: ["red", "orange"],
+            },
+        ],
+    };
+
+    const configRosca2 = {
+        type: "doughnut",
+        data: dataRosca2,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: "top",
+                },
+                title: {
+                    display: true,
+                    text: "Status dos chamados",
+                },
+            },
+        },
+    };
+
+    const RoscaChart2 = new Chart(ctxRosca2, configRosca2);
+
+    incrementarTabela();
+}
 
   function contarPorDiaDaSemana(lista) {
-    const diasDaSemana = Array(7).fill(0); // Cria um array com 7 zeros, um para cada dia da semana
-  
+    const diasDaSemana = Array(7).fill(0);
+
     lista.forEach((data) => {
-      const diaSemana = data.getDay(); // getDay() retorna o dia da semana (0 = Domingo, 6 = Sábado)
+      const diaSemana = data.getDay();
       diasDaSemana[diaSemana] += 1;
     });
-  
+
     return diasDaSemana;
-
-
-
   }
+
+  function contarPorMes(lista) {
+    const mesesDoAno = Array(12).fill(0); // Inicializa um array com 12 elementos zerados
+
+    lista.forEach((data) => {
+        const mes = new Date(data).getMonth(); // Obtém o mês (0 para Janeiro, 1 para Fevereiro, etc.)
+        mesesDoAno[mes] += 1; // Incrementa o contador para o mês correspondente
+    });
+
+    return mesesDoAno;
+}
+
 
   function formatarData(data) {
     const opcoesData = {
@@ -457,32 +881,24 @@
       month: "long",
       year: "numeric",
     };
-  
+
     const dataFormatada = data.toLocaleDateString("pt-BR", opcoesData);
     const horaFormatada = data.toLocaleTimeString("pt-BR", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
     });
-  
+
     return `${dataFormatada} ${horaFormatada}`;
   }
-  
+
   const dataAtual = new Date();
-  console.log(formatarData(dataAtual));
 
+  function incrementarTabela() {
+    for (var i = 0; i < listaChamadosPico.length; i++) {
+      var dataFormatada = formatarData(listaDatas[i]);
 
-  function incrementarTabela(){
-
-   
-
-    for(var i = 0; i < listaChamadosPico.length; i++ ){
-
-      var dataFormatada = formatarData(listaDatas[i])
-
-      bodyTabela.innerHTML += 
-      
-      `
+      bodyTabela.innerHTML += `
                 <tr>
                   <td>${listaDeChaves[i]}</td>
                   <td>${listaServidores[i]}</td>
@@ -495,14 +911,10 @@
       `;
     }
 
+    for (var i = 0; i < listaChamadosDown.length; i++) {
+      var dataFormatada = formatarData(listaDatasDown[i]);
 
-    for(var i = 0; i < listaChamadosDown.length; i++ ){
-
-      var dataFormatada = formatarData(listaDatasDown[i])
-
-      bodyTabela.innerHTML += 
-      
-      `
+      bodyTabela.innerHTML += `
                 <tr>
                   <td>${listaDeChaves[i + listaChamadosPico.length]}</td>
                   <td>${listaServidoresDown[i]}</td>
@@ -514,21 +926,15 @@
                 </tr>
       `;
     }
-
-
   }
-  
-
 </script>
 
 <script>
   //menu hamburguer
-  const menuButton = document.querySelector('.menu-button');
-  const navbar = document.querySelector('.navbar');
+  const menuButton = document.querySelector(".menu-button");
+  const navbar = document.querySelector(".navbar");
 
-  menuButton.addEventListener('click',
-      () => {
-          navbar.classList.toggle('active');
-
-      });
+  menuButton.addEventListener("click", () => {
+    navbar.classList.toggle("active");
+  });
 </script>

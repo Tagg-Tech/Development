@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 :root {
     --color-default: #efefef;
     --color-primary: #ff914c;
@@ -12,34 +14,299 @@ body{
     background-color: var(--color-primary);
 }
 
-.containerAlertasTop{
-    width: 55%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 100%;
-    align-items: center;
-}
-
-
 
 .graficosAlerta{
     margin-top: 70px;
-    width: 99%;
-    height: 50vh;
+    width: 98%;
+    height: 94vh;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
 }
 
+.containerFiltro {
+    height: 90%;
+    width: 22vw;
+    font-family: 'Poppins';
+    font-weight: 900;
+}
 
-.grafAlerta{
-    width: 61.4%;
+
+
+.filtroAlerta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: space-around;
     background-color: #fff;
     height: 100%;
+    font-family: 'Poppins';
     border-radius: 5px;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.poppins{
+    font-family: 'Poppins';
+    font-weight: bold; 
+}
+
+.divFiltro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: black;
+    border-radius: 7px;
+    width: 97%;
+    height: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #fcb66b;
+}
+
+.inp1 {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+    position: relative;
+    z-index: 2;
+}
+
+.inp1::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: red;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 3;
+    margin-top: -10px;
+}
+
+
+
+.inp1::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: red;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    z-index: 3;
+
+}
+
+
+.inp2::-webkit-slider-thumb {
+    margin-top: -42px;
+    margin-left: -4.5px;
+}
+.containerInput {
+    top: 330px;
+    position: absolute;
+    width: 300px;
+}
+
+
+.output {
+    position: absolute;
+    color: black;
+    top: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.range-background {
+    position: absolute;
+    top: 4px;
+     width: 98%; /* width: 100%; */
+    height: 8px;
+    background: black;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.range-fill {
+    position: absolute;
+    top: 4px;
+    height: 8px;
+    background: red;
+    z-index: 1;
+
+  margin-left: -13px; /* Adicione essa linha */
+  margin-right: -13px; /* Adicione essa linha */
+}
+
+.tickmarks {
+    margin-top: -23px;
+    display: flex;
+    justify-content: space-around;
+    gap: 7px;
+    position: absolute;
+    
+    width: 100%;
+    font-size: 10px;
+    color: black;
+}
+
+.switch {
+    margin-top: 80px;
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: red;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px red;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+.filtroServidor{
+    height: 23%;
+}
+
+
+
+  /* Estilo do select */
+  #filtroServ {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    background-color: #5c453f; /* Laranja bem boladão */
+    color: white; /* Cor do texto */
+    border: none; /* Remove bordas padrão */
+    padding: 10px 15px; /* Espaçamento interno */
+    border-radius: 4px; /* Bordas arredondadas */
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+    appearance: none; /* Remove a aparência padrão */
+    outline: none; /* Remove contorno ao focar */
+    transition: all 0.3s ease;
+  }
+  
+  /* Sombra e hover */
+  #filtroServ:hover {
+    background-color: #f64b00; /* Laranja mais escuro no hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra */
+  }
+  
+  /* Estilo das opções */
+  #filtroServ option {
+    background-color: #5d4037; /* Marrom */
+    color: white; /* Texto branco */
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .botaoFiltro{
+    width: 80%;
+    height: 8%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    font-size:25px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #fff;
+    background-color: #483029;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+  
+.divGraficos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 90%;
+    width: 70vw;
+}
+
+
+
+.containerAlertasTop{
+    
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 48%;
+    align-items: center;
+}
+
+
+.containerAlertasBot{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 48%;
+    align-items: center;
+}
+
+
+
+
+.grafAlerta{
+    background-color: #fff;
+    height: 100%;
+    width: 35%;
+    border-radius: 9px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.grafGrande{
+    width: 60%;
 }
 
 .graficoRoscaTipoAlerta{
@@ -48,7 +315,7 @@ body{
 
 .graficoAlertaPorTempo{
     width: 43%;
-}
+}   
 
 
 

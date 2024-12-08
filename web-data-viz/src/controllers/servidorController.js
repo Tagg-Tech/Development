@@ -6,9 +6,9 @@ function cadastrar(req, res) {
     var sistemaoperacional = req.body.sistemaoperacionalServer;
     var cpu = req.body.cpuServer;
     var disco = req.body.discoServer;
-    var porcentagemAlarmeCPU = req.body.porcentagemAlarmeCPU;
-    var porcentagemAlarmeRAM = req.body.porcentagemAlarmeRAM;
-    var porcentagemAlarmeDisco = req.body.porcentagemAlarmeDisco;
+    var AlarmeCPU = req.body.AlarmeCPU;
+    var AlarmeRAM = req.body.AlarmeRAM;
+    var AlarmeDisco = req.body.AlarmeDisco;
 
     if (!placaderede) {
         res.status(400).json({ error: "Sua Placa de Rede está indefinida!" });
@@ -21,21 +21,21 @@ function cadastrar(req, res) {
     } else if (!disco) {
         res.status(400).json({ error: "Seu disco está indefinido!" });
     } else if (
-        !porcentagemAlarmeCPU ||
-        porcentagemAlarmeCPU < 1 ||
-        porcentagemAlarmeCPU > 100
+        !AlarmeCPU ||
+       AlarmeCPU < 1 ||
+        AlarmeCPU > 100
     ) {
         res.status(400).json({ error: "Porcentagem de alarme de CPU inválida!" });
     } else if (
-        !porcentagemAlarmeRAM ||
-        porcentagemAlarmeRAM < 1 ||
-        porcentagemAlarmeRAM > 100
+        !AlarmeRAM ||
+        AlarmeRAM < 1 ||
+        AlarmeRAM > 100
     ) {
         res.status(400).json({ error: "Porcentagem de alarme de RAM inválida!" });
     } else if (
-        !porcentagemAlarmeDisco ||
-        porcentagemAlarmeDisco < 1 ||
-        porcentagemAlarmeDisco > 100
+        !AlarmeDisco ||
+        AlarmeDisco < 1 ||
+        AlarmeDisco > 100
     ) {
         res.status(400).json({ error: "Porcentagem de alarme de disco inválida!" });
     } else {
@@ -46,9 +46,9 @@ function cadastrar(req, res) {
                 sistemaoperacional,
                 cpu,
                 disco,
-                porcentagemAlarmeCPU,
-                porcentagemAlarmeRAM,
-                porcentagemAlarmeDisco
+                AlarmeCPU,
+                AlarmeRAM,
+                AlarmeDisco
             )
             .then(function (resultado) {
                 res.status(200).json(resultado);

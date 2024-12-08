@@ -62,53 +62,94 @@ async function calcularDesvioPadraoGlobal() {
   }
 }
 
-
 async function calcularKpiServidoresAlerta(idUsuario) {
   const query = `
-    SELECT 
-      COUNT(DISTINCT um.fkMaquina) AS totalServidores,
-      SUM(
-        CASE 
-          WHEN (r.percentualCPU > m.porcentagemAlarmeCPU) OR 
-               (r.percentualMemoria > m.porcentagemAlarmeRAM) OR 
-               (r.percentualDisco > m.porcentagemAlarmeDisco) 
-          THEN 1 ELSE 0 
-        END
-      ) AS servidoresEmAlerta
-    FROM usuarioResponsavelMaquina um
-    JOIN registros r ON r.fkMaquina = um.fkMaquina
-    JOIN maquina m ON m.idMaquina = um.fkMaquina
-    WHERE um.fkUsuario = 1
-    GROUP BY um.fkUsuario;
+   SELECT 
+  COUNT(DISTINCT um.fkMaquina) AS totalServidores,
+  COUNT(DISTINCT CASE 
+    WHEN (r.percentualCPU > m.AlarmeCPU) OR 
+         (r.percentualMemoria > m.AlarmeRAM) OR 
+         (r.percentualDisco > m.AlarmeDisco) 
+    THEN um.fkMaquina 
+    ELSE NULL 
+  END) AS servidoresEmAlerta
+FROM usuarioResponsavelMaquina um
+JOIN (
+  SELECT fkMaquina, 
+         MAX(dataHora) AS ultimoRegistro
+  FROM registros
+  GROUP BY fkMaquina
+) ultimosRegistros ON ultimosRegistros.fkMaquina = um.fkMaquina
+JOIN registros r 
+  ON r.fkMaquina = um.fkMaquina 
+  AND r.dataHora = ultimosRegistros.ultimoRegistro
+JOIN maquina m ON m.idMaquina = um.fkMaquina
+WHERE um.fkUsuario = ${idUsuario}
+GROUP BY um.fkUsuario;
+
   `;
 
   try {
-    // Execute a consulta com o ID do usuário
+    // Execute a consulta parametrizada
     const resultado = await database.executar(query, [idUsuario]);
-    
+
+    // Caso não haja resultados
     if (resultado.length === 0) {
-      return { totalServidores: 0, servidoresEmAlerta: 0 };
+      return { totalServidores: 0, servidoresEmAlerta: 0, proporcao: "0/0" };
     }
 
-    // Desestruturar o resultado da consulta
+    // Desestruturar os resultados
     const { totalServidores, servidoresEmAlerta } = resultado[0];
 
-    // Retornar o KPI com a proporção
+    // Retornar KPI
     return {
       totalServidores,
       servidoresEmAlerta,
-      proporcao: totalServidores > 0 ? `${servidoresEmAlerta}/${totalServidores}` : "0/0"
+      proporcao: totalServidores > 0 ? `${servidoresEmAlerta}/${totalServidores}` : "0/0",
     };
   } catch (error) {
     console.error("Erro ao calcular KPI de servidores em alerta:", error);
-    throw error;
+    throw new Error("Erro interno ao calcular o KPI");
   }
 }
+
+  async function listarServidoresEmAlerta(idUsuario) {
+    const query = `
+      SELECT DISTINCT m.idMaquina, m.sistemaOperacional
+      FROM usuarioResponsavelMaquina um
+      JOIN (
+        SELECT fkMaquina, MAX(dataHora) AS ultimoRegistro
+        FROM registros
+        GROUP BY fkMaquina
+      ) ultimosRegistros ON ultimosRegistros.fkMaquina = um.fkMaquina
+      JOIN registros r 
+        ON r.fkMaquina = um.fkMaquina 
+        AND r.dataHora = ultimosRegistros.ultimoRegistro
+      JOIN maquina m ON m.idMaquina = um.fkMaquina
+      WHERE um.fkUsuario = ?
+        AND (
+          r.percentualCPU > m.AlarmeCPU OR 
+          r.percentualMemoria > m.AlarmeRAM OR 
+          r.percentualDisco > m.AlarmeDisco
+        );
+    `;
+
+    try {
+      // Executa a consulta no banco de dados
+      const resultado = await database.executar(query, [idUsuario]);
+      return resultado;
+    } catch (error) {
+      console.error("Erro ao listar servidores em alerta:", error);
+      throw error;
+    }
+  }
+
 
 module.exports = {
   buscarDadosGrafico,
   buscarMaxMinGrafico,
   calcularDesvioPadraoGlobal,
-  calcularKpiServidoresAlerta, // Nova função adicionada
+  calcularKpiServidoresAlerta,
+  listarServidoresEmAlerta, // Nova função adicionada
 };
 

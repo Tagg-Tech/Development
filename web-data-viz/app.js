@@ -1,5 +1,5 @@
-//var ambiente_processo = 'producao';
-var ambiente_processo = 'desenvolvimento';
+var ambiente_processo = 'producao';
+//var ambiente_processo = 'desenvolvimento';
 
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 // Acima, temos o uso do operador ternário para definir o caminho do arquivo .env
@@ -64,8 +64,7 @@ const getIssuesFunc = async () => {
     // Exibir todos os dados retornados, incluindo 'fields'
 
     try{    
-        
-        console.log(" \n Chamados: ")    
+         
         // Caso deseje visualizar apenas os campos 'fields' de cada chamado
         issues.issues.forEach(issue => {
         
@@ -74,7 +73,6 @@ const getIssuesFunc = async () => {
 
         descAtual = chamadoAtual.description
 
-        console.log(descAtual)
         });
         return issues;
     }catch(error){
