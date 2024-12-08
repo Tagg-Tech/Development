@@ -1,15 +1,16 @@
 // Script dashboard 1
-window.addEventListener('DOMContentLoaded', ()=>{
+window.addEventListener('DOMContentLoaded', () => {
     var cond = sessionStorage.getItem("condition") === "true";
-    tomtomData(cond);    
-    sessionStorage.setItem("condition", "false")
+    if (cond) sessionStorage.setItem("condition", "false")
+    tomtomData(cond);
 });
 
 // Vetor com objetos de resposta em escopo global
 let dataDif;
 
 // Atualização de dados da API
-function upData(cond){
+function upData(cond) {
+    if (cond) sessionStorage.setItem("travaData", "false")
     sessionStorage.setItem("condition", cond.toString());
     window.location.reload();
 }
@@ -35,7 +36,7 @@ async function tomtomData(condition) {
         gif.style.display = 'none';
 
         let data = respJson.data;
-        
+
         // Criando novo vetor com a diferença de velocidade das rodovias
         dataDif = data.map(item => {
             var traf;
@@ -62,7 +63,8 @@ async function tomtomData(condition) {
         orgData(dataDif.slice(0, 10));
         // Exibindo data de geração de dados
         firstData(dataDif[0].dataHora);
-
+        // Plotando dados disponíveis da API
+        listDatas(respJson.dateAPI)
     } catch (error) {
         console.error("Erro no servidor!");
     }
@@ -84,7 +86,7 @@ function orgData(vetor) {
 }
 
 // Construção de tabela
-function plotTable(vetor, type){
+function plotTable(vetor, type) {
     // alert("plot")
     // Conteúdo tabela principal
     let line = "";
@@ -93,7 +95,7 @@ function plotTable(vetor, type){
     let cont = 0; // Limitador de conteúdo de tabela
 
     // Geração de contéudo das tabelas
-    vetor.forEach(element =>{
+    vetor.forEach(element => {
         line += `
             <tr onclick="infoPed(${cont}); closeCard(false)">
                 <th>${element.uf}</th>
@@ -103,9 +105,9 @@ function plotTable(vetor, type){
                 <th>${element.nivelTransito}</th>
             </tr>
         `;
-        
+
         // Tabela de conteúdo parcial
-        if(cont < 5){
+        if (cont < 5) {
             lineParse += `
                 <tr onclick="infoPed(${cont}); closeCard(false)">
                     <th>${element.concessionaria}</th>
@@ -117,8 +119,8 @@ function plotTable(vetor, type){
         cont++;
     });
 
-        // Configuração de tabela (header e estrutura)
-        let confTable = `
+    // Configuração de tabela (header e estrutura)
+    let confTable = `
             <table>
                 <caption>Uso estimado dos pedágios</caption>
                 <thead>
@@ -136,7 +138,7 @@ function plotTable(vetor, type){
             </table>
         `;
 
-        let confTableParse = `
+    let confTableParse = `
             <table>
                 <caption>Uso estimado dos pedágios</caption>
                 <thead>
@@ -153,16 +155,16 @@ function plotTable(vetor, type){
             <button onclick="closeTable(false)">Expandir tabela</button>
         `;
 
-    if(type) document.querySelector('.tableDash1').innerHTML = confTableParse;
+    if (type) document.querySelector('.tableDash1').innerHTML = confTableParse;
     document.querySelector('#conteudoTabela').innerHTML = confTable;
 }
 
 // Filtro para conteúdo de tabela
-function filtTable(cont){
+function filtTable(cont) {
     cont = cont.toLowerCase();
-    if(cont.length == 0){
+    if (cont.length == 0) {
         plotTable(dataDif);
-    } else{
+    } else {
         let v = dataDif.filter(item => {
             return (
                 item.uf.toLowerCase().includes(cont) ||
@@ -191,7 +193,7 @@ function plotChart(object) {
         },
         dataLabels: {
             enabled: true,
-            formatter: function (val) { 
+            formatter: function (val) {
                 return val + "%";
             },
             style: {
@@ -265,10 +267,10 @@ function plotChart(object) {
 }
 
 // Exibindo data em que os dados foram capturados
-function firstData(dataRaw){
+function firstData(dataRaw) {
     const data = new Date(dataRaw);
-    const day = data.toLocaleDateString("pt-BR", { day : "2-digit", month : "2-digit", year : "2-digit" });
-    const time = data.toLocaleTimeString("pt-BR", { hour : "2-digit", minute : "2-digit" });
+    const day = data.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" });
+    const time = data.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
     console.log(dataRaw);
     let template = document.querySelector(".labelDataDay");
 
@@ -276,7 +278,7 @@ function firstData(dataRaw){
 }
 
 // Criando card com as informações do pedágio conrespondente
-function infoPed(i){
+function infoPed(i) {
     console.log(`Índice do card: ${i}`);
     let card = document.querySelector(".cardPed");
 
@@ -297,65 +299,102 @@ function infoPed(i){
 }
 
 // Função para fechar ou abrir tabela completa
-function closeTable(valid){
+function closeTable(valid) {
     let element = document.querySelector('.tableDash1Comp');
-    if(valid){
+    if (valid) {
         element.style.display = "none";
-    } else{
+    } else {
         element.style.display = "block";
     }
 }
 
 // Função para fechar ou abrir card de pedágio
-function closeCard(valid){
+function closeCard(valid) {
     let element = document.querySelector('.cardPed');
-    if(valid){
+    if (valid) {
         element.style.display = "none";
-    } else{
+    } else {
+        element.style.display = "flex";
+    }
+}
+
+// Função para fechar ou abrir menu de histórico
+function closeHist(valid) {
+    let element = document.querySelector('.datasAPI');
+    if (valid) {
+        element.style.display = "none"
+    } else {
         element.style.display = "flex";
     }
 }
 
 // Enviando dados de API para escrita em histórico no servidor
 async function sendDataAPI() {
-    // Montando objeto a ser enviado
-    let objForServer = {
-        date: dataDif[0].dataHora,
-        dataAPI: dataDif
-    }
-
-    let resposta;
-
-    try {
-        resposta = await fetch('/tomtom/insertData', 
-            {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(objForServer)
-            });
-        
-        if(!resposta.ok){
-            console.log(`Erro ao fazer resquisição: ${resposta.statusText}.`)
-        } else{
-            console.log("Requisição bem sucedida!")
+    if (sessionStorage.getItem("travaData") == "true") {
+        alert("Você ja está visualizando um dado histórico!");
+        return;
+    } else {
+        sessionStorage.setItem("travaData", "true")
+        // Montando objeto a ser enviado
+        let objForServer = {
+            date: dataDif[0].dataHora,
+            dataAPI: dataDif
         }
-    } catch (error) {
-        console.error("Erro ao enviar dados:", error)
+
+        let resposta;
+
+        try {
+            resposta = await fetch('/tomtom/insertData',
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(objForServer)
+                });
+
+            if (!resposta.ok) {
+                console.log(`Erro ao fazer resquisição: ${resposta.statusText}.`)
+            } else {
+                console.log("Requisição bem sucedida!")
+            }
+
+            alert("Dados registrados!")
+            upData(false);
+        } catch (error) {
+            console.error("Erro ao enviar dados:", error)
+        }
     }
+
+
 }
 
-async function getDataAPI(){
-    let resposta;
-    try {
-        resposta = await fetch(`/tomtom/getData/${"2024-12-08T17:34:59.522Z"}`);
-        if(!resposta.ok){
-            console.error(`Erro de requisição: ${resposta.statusText}`)
+async function getDataAPI(dataQuery) {
+        sessionStorage.setItem("travaData", "true")
+        let resposta;
+        try {
+            resposta = await fetch(`/tomtom/getData/${dataQuery}`);
+            if (!resposta.ok) {
+                console.error(`Erro de requisição: ${resposta.statusText}`)
+            }
+
+            upData(false);
+
+            console.log()
+        } catch (error) {
+            console.error('Problema em requisição: ', error)
         }
+}
 
-        upData(false);
+// Listando datas disponíveis no histórico
+function listDatas(data) {
+    let element = document.querySelector('.contHist');
 
-        console.log()
-    } catch (error) {
-        console.error('Problema em requisição: ', error)
-    }
+    console.log("Dados de datas: " + data.datas[0])
+
+    data.datas.forEach(item => {
+        const dateItem = new Date(item);
+
+        const day = dateItem.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" });
+        const time = dateItem.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+        element.innerHTML += `<span onclick="getDataAPI('${item}')">${day} : ${time}</span>`;
+    });
 }

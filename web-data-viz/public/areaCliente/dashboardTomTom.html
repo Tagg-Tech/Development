@@ -98,7 +98,16 @@
         <!-- card para visualização de informações de pedágio -->
         <div class="cardPed"></div>
 
+        
         <section class="container_gerenteV1">
+            <!-- Visuzalização de dados API disponíveis -->
+             <div class="datasAPI">
+                <i class="bi bi-x-circle" onclick="closeHist(true)"></i>
+                <div class="contHist">
+                    <h3>Histórico de dados</h3>
+                </div>
+             </div>
+
             <!-- Primeria dashboard, fluxo de pedágios -->
             <section class="container_dash_gerenteV1">
                 <div class="dash1">
@@ -106,6 +115,8 @@
                     <div class="dataContainer">
                         <h2 class="labelDataDay">Dados de: </h2>
                         <button class="btnUpdata" onclick="upData(true)">Atualizar dados</button>
+                        <button class="btnUpdata" onclick="sendDataAPI()">Salvar dados</button>
+                        <button class="btnUpdata" onclick="closeHist(false)">Histórico</button>
                     </div>
                     <div class="insights">
                         <div class="maisUti">
@@ -137,24 +148,6 @@
                     </div> -->
                 </div>
             </section>
-
-            <!-- 2º dashboard -->
-            <!-- <section class="container_dash_gerenteV1"><br>
-                <h2>Tempo médio até crash</h2>
-                Gráfico de regressão linear
-                 <div class="dashPed">
-                     <div id="chart2"></div>
-                     indicadores para dashboard
-                     <div class="indicadoresDashCrash">
-                        <div style="display: flex; margin-top: 50px;">
-                            <span class="indMaqDashCrash">Máquina 1: <i class="bi bi-pc-display"></i></span>
-                        </div>
-                        <span>Tempo aproximado até crash: 12 minutos</span>
-                        <span>Pico de uso de CPU: 76%</span>
-                        <button>Alterar máquina</button>
-                    </div>
-                 </div>
-            </section> -->
         </section>
     </section>
 </body>

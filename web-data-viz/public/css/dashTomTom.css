@@ -223,3 +223,29 @@ caption {
     position: relative;
     top: 20px;
 }
+
+/* Estilização de container com dados de API */
+.datasAPI{
+    position: fixed;
+    display: none;
+    left: 0;
+    z-index: 3;
+    width: 300px;
+    height: 100%;
+    background-color: #1b1b1b;
+    color: white;
+    justify-content: center;
+}
+
+.contHist{
+    position: relative;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contHist span{
+    font-size: 20px;
+    cursor: pointer;
+}
