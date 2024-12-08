@@ -228,10 +228,44 @@ async function writeFile(req, res){
 
 // Pegando dados de API salvos no arquivo JSON
 async function getDataAPI(req, res) {
-    
+    let query = req.params.data;
+    let contJson = [];
+    const filePath = path.join(__dirname, '..', '..', 'dataAPI.json');
+
+    try {
+        if(fs.existsSync(filePath)){
+            let fileContent = fs.readFileSync(filePath);
+            contJson = fileContent ? JSON.parse(fileContent) : null;
+
+            if (contJson.lenght === 0) {
+                res.status(404).send({
+                    msg: "Dado inexistente!"
+                });
+            }
+
+            let dataForSend = contJson.filter(item => {
+                return item.Data == query;
+            });
+
+            console.log(Object.keys(dataForSend));
+
+            cache.set("dadosApi", dataForSend[0].Conteudo, 0);
+
+            res.status(200).send({
+                msg: "Requisição bem sucedida!"
+            });
+        }
+    } catch (error) {
+        console.error(`Erro na leitura de arquivo: ${error.message}`);
+        res.status(500).send({
+            msg: "Erro no processamento",
+            error: error.message
+        });
+    }
 }
 
 module.exports = {
     consultarDadosTrafego,
-    writeFile
+    writeFile,
+    getDataAPI
 }
