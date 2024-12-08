@@ -2011,6 +2011,13 @@
   position: relative;
   display: inline-block;
   height: 5vh;
+  margin-left: 5%;
+  border: 1px solid black;
+  width: 4vh;
+  border-radius: 100%;
+  background-color: black;
+  color: white;
+  cursor: pointer;
 }
 
 .tooltip .tooltiptext {
@@ -2019,7 +2026,7 @@
   background-color:#ff914c;
   color: #000;
   text-align: center;
-  border-radius: 6px;
+  border-radius: 15px;
   border: 2px solid black;
   padding: 5px 0;
   position: absolute;
@@ -2090,6 +2097,7 @@
   font-size: larger;
   padding: 1% 1% 1% 1%;
   box-shadow: 0 4px 8px rgba(0.8, 0.8, 0.8, 0.5);
+  border: 2px solid black;
 }
 
 .valor-pico-1{
@@ -2100,7 +2108,7 @@
 
 .valor-pico-2{
   text-align: center;
-  width: 10vw;
+  width: 7vw;
   padding: 10% 1% 1% 1%;
   font-size: 22px;
   font-weight: bold;
@@ -2121,6 +2129,7 @@
   padding: 10% 10% 10% 10%;
   border-radius: 10px black;
   box-shadow: 0 4px 8px rgba(0.8, 0.8, 0.8, 0.5);
+  border: 2px solid black;
 }
 
 .div-picos-3{
@@ -2131,6 +2140,7 @@
   font-size: larger;
   padding: 1% 3% 1% 3%;
   box-shadow: 0 4px 8px rgba(0.8, 0.8, 0.8, 0.5);
+  border: 2px solid black;
 }
 
 
