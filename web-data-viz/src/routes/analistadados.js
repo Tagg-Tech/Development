@@ -16,5 +16,8 @@ router.get("/desviopadrao", analistaDadosController.buscarDesvioPadraoGlobal);
 // Rota para KPI de servidores em alerta
 router.get("/:idUsuario/kpi-servidores-alerta", analistaDadosController.kpiServidoresAlerta);
 
+router.get("/:idUsuario/servidores-em-alerta", analistaDadosController.listarServidoresEmAlerta);
+
+
 
 module.exports = router;

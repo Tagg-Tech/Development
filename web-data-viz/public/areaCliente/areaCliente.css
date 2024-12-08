@@ -312,3 +312,8 @@ canvas {
 #servidores-alerta-lista li:hover {
   background-color: #f0f0f0;
 }
+
+select option.alert {
+  background-color: red;
+  color: white;
+}
