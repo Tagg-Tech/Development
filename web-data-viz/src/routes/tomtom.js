@@ -8,4 +8,8 @@ router.get('/:condition', (req, res)=>{
     controller.consultarDadosTrafego(req, res);
 })
 
+router.post('/insertData', (req, res)=>{
+    controller.writeFile(req, res);
+})
+
 module.exports = router;
