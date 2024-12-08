@@ -91,7 +91,7 @@ async function consultarDadosTrafego(req, res) {
         const caminhoCsv = __dirname + '/pracasTeste.csv';
 
         //Monta as requisições iterando a partir da listaLocalizacoes
-        for (const localizacao of listaLoc10) {
+        for (const localizacao of listaLocCompleta) {
             const params = new URLSearchParams({
                 key: apiKey,
                 point: localizacao,
