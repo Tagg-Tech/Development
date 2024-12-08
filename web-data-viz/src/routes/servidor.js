@@ -24,8 +24,8 @@ router.post("/isInstable", function (req, res){
     servidorController.isInstable(req, res);
 })
 
-router.post("/qtdAlertas", function (req, res){
-    servidorController.qtdAlertas(req, res);
+router.post("/qtdAlertasUmServidor", function (req, res){
+    servidorController.qtdAlertasUmServidor(req, res);
 })
 
 module.exports = router;

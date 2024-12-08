@@ -34,7 +34,7 @@ function pegarUsoDisco(fk_maquina){
 
 function pegarRAM(fk_maquina){
     var instrucaoSql = `
-        SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria, m.alertaRAM FROM registros AS r
+        SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria, m.porcentagemAlarmeRAM FROM registros AS r
         	JOIN maquina AS m ON m.idMaquina = r.fkMaquina
             WHERE fkMaquina = '${fk_maquina}';
     `;
@@ -44,7 +44,7 @@ function pegarRAM(fk_maquina){
 
 function isInstable(id_usuario, fk_maquina){
     var instrucaoSql = `
-        SELECT percentualCPU, alertaCPU FROM registros AS r 
+        SELECT percentualCPU, porcentagemAlarmeCPU FROM registros AS r 
         	JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = '${fk_maquina}'
             JOIN maquina AS m ON m.idMaquina = r.fkMaquina
             WHERE u.fkUsuario = '${id_usuario}';
@@ -53,10 +53,34 @@ function isInstable(id_usuario, fk_maquina){
     return database.executar(instrucaoSql);
 }
 
+function qtdAlertasUmServidor(id_usuario, fk_maquina){
+    var instrucaoSql = `
+        SELECT
+            COUNT(*) AS quantidade_alertas
+        FROM
+            registros AS r
+        JOIN
+            maquina AS m ON r.fkMaquina = m.idMaquina
+        JOIN
+            usuarioResponsavelMaquina urm ON m.idMaquina = urm.fkMaquina
+        WHERE
+            urm.fkUsuario = '${id_usuario}'
+            AND m.idMaquina = '${fk_maquina}'
+            AND (
+                r.percentualCPU > m.porcentagemAlarmeCPU
+                OR r.percentualMemoria > m.porcentagemAlarmeRAM
+                OR r.percentualDisco > m.porcentagemAlarmeDisco
+            );
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     cadastrar,
     pegarCpuRamPorcentagem,
     pegarUsoDisco,
     pegarRAM,
-    isInstable
+    isInstable,
+    qtdAlertasUmServidor
 };

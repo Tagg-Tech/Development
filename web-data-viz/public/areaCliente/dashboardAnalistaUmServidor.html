@@ -434,7 +434,7 @@
                     const atualRAM = dados.map(dado => dado.gigaBytesMemoria);
                     const maxRAM = dados.map(dado => dado.qtdTotalRAM);
                     const AtualRamPorcentagem = dados.map(dado => dado.percentualMemoria)
-                    const porcentagem_ram_limite = dados.map(dado => dado.alertaRAM)
+                    const porcentagem_ram_limite = dados.map(dado => dado.porcentagemAlarmeRAM)
 
                     //pegando o ultimo valor da coluna de RAM
                     u_v_porcentagem_ram_limite = porcentagem_ram_limite[porcentagem_ram_limite.length - 1]
@@ -447,8 +447,8 @@
 
                     //Cálculo de alteração de cor 
                     // let limite = (ultimoValorAtualRAM / ramEmGB) * 100;
-                    // alert(ultimoValorAtualRAM)
-                    // alert(ramEmGB)
+                    //alert(ultimoValorAtualRAM)
+                    //alert(ramEmGB)
                     // alert(limite)
 
                     //Mostrando no html
@@ -457,6 +457,10 @@
                     const showFrase = document.getElementById('pLimite');
                     
                     console.log("limite de ram deste servidor: ", u_v_porcentagem_ram_limite)
+
+                    //alert(ultimoValorAtualRamPercentagem)
+                    //alert(u_v_porcentagem_ram_limite)
+                    //alert(ultimoValorAtualRAM)
 
                     if(ultimoValorAtualRamPercentagem >= u_v_porcentagem_ram_limite){
                         showRAMAtual.innerHTML = ultimoValorAtualRAM; 
@@ -539,15 +543,15 @@
 
 
 
-
+            qtdAlertasDesteServidor()
             //------------------------KPI QTD PICOS--------------FIM-------------------//
         
             // Schedule next update
             setTimeout(graficoDinamico, 3000);
         }
 
-        async function qtdAlertasDesteServidor(){
-            fetch(`../servidor/qtdAlertas`, {
+        function qtdAlertasDesteServidor(){
+            fetch(`../servidor/qtdAlertasUmServidor`, {
                 method: 'POST',
                 body: JSON.stringify({
                     idUsuarioServer: id_usuario,
@@ -562,6 +566,13 @@
                     throw new Error("rede n ok")
                 }
                 response.json().then(dados => {
+                     let pegarNumero = document.getElementById('batata');
+                     console.log("QTD MAQUINA ZOADA ", dados)
+                     const quantidade = dados.map(dado => dado.quantidade_alertas)
+
+                     //pegando o ultimo valor 
+                     u_v_alertas = quantidade[quantidade.length - 1]
+                     pegarNumero.innerHTML = u_v_alertas;
 
                 });
             })
@@ -569,11 +580,7 @@
                 console.error('Erro ao enviar os dados:', error);
             });              
 
-           //let pegarNumero = document.getElementById('batata');
-           //var qtdD = await numPicosCadaServidorAnalista();
-           //alert(qtdD)
-           //console.log("qtd: ", qtdD)
-           //pegarNumero.innerHTML = qtdD;
+
         }
 
         // async function qtdAlertasDia(){

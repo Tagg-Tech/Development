@@ -161,18 +161,18 @@ function isInstable(req, res){
     }
 }
 
-function qtdAlertas(req, res){
+function qtdAlertasUmServidor(req, res){
     var id_usuario = req.body.idUsuarioServer;
     var fk_maquina = req.body.fkMaquinaServer;
 
     console.log('controler')
     if(!id_usuario | !fk_maquina){
-        return res.status(400).send({message: 'id usuario ou fk máquina não foram encontrados ou não foram passados, verificar controller servidor function qtdAlertas'})
+        return res.status(400).send({message: 'id usuario ou fk máquina não foram encontrados ou não foram passados, verificar controller servidor function qtdAlertasUmServidor'})
     }
     else{
-        servidorModel.qtdAlertas(id_usuario, fk_maquina)
+        servidorModel.qtdAlertasUmServidor(id_usuario, fk_maquina)
         .then(dados => {
-            //console.log("SQL aceitou! Retornando dados com a resposta")
+            console.log("SQL aceitou! Retornando dados com a resposta")
             res.status(200).send(dados);  
         })
         .catch(error => {
@@ -192,5 +192,5 @@ module.exports = {
     pegarUsoDisco,
     pegarRAM,
     isInstable,
-    qtdAlertas
+    qtdAlertasUmServidor
 };

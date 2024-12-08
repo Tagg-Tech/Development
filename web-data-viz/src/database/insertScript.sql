@@ -27,6 +27,9 @@ VALUES (
   1  -- ID da empresa na tabela empresa
 );
 
+INSERT INTO maquina VALUES (1, 'DESKTOP-001', 'Linux', 16384, 1.6, 512324, 85, 80, 60, 1);
+UPDATE maquina SET qtdTotalRAM = 16384 WHERE idMaquina = 1;
+
 
 
 -- INSERT INTO usuarioresponsavelmaquina VALUES (1,1),(1,2),(1,3);
@@ -110,7 +113,9 @@ VALUES
 (59.60, 6.80, 150, 48.70, 34.10, 2.2, NOW(), 1),
 (70.00, 8.40, 210, 53.90, 48.30, 2.7, NOW(), 1),
 (70.00, 8.40, 210, 91.90, 91.30, 2.7, NOW(), 1),
-(91.00, 15.10, 210, 91.90, 91.30, 2.7, NOW(), 1);
+(91.00, 15.10, 210, 91.90, 91.30, 2.7, NOW(), 1),
+(91.00, 15.10, 210, 91.90, 84.30, 2.7, NOW(), 1),
+(91.00, 15.10, 210, 91.90, 84.30, 2.7, NOW(), 1);
 
 INSERT INTO usuarioResponsavelMaquina VALUES
 (1,1);
@@ -136,7 +141,7 @@ SELECT percentualCPU, percentualMemoria FROM registros AS r
     WHERE u.fkUsuario = 1;
 
 -- Métrica de RAM 
-SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria FROM registros AS r
+SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria, m.porcentagemAlarmeRAM FROM registros AS r
 	JOIN maquina AS m ON m.idMaquina = r.fkMaquina
     WHERE fkMaquina = 1;
 
@@ -150,9 +155,28 @@ SELECT percentualDisco FROM registros AS r
     WHERE u.fkMaquina = 1;  
     
 -- Métrica isInstable
-SELECT percentualCPU FROM registros AS r 
+SELECT percentualCPU, porcentagemAlarmeCPU FROM registros AS r 
 	JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = 1
+    JOIN maquina AS m ON m.idMaquina = r.fkMaquina
     WHERE u.fkUsuario = 1;
+    
+-- qtdErros
+SELECT
+    COUNT(*) AS quantidade_alertas
+FROM
+    registros r
+JOIN
+    maquina m ON r.fkMaquina = m.idMaquina
+JOIN
+    usuarioResponsavelMaquina urm ON m.idMaquina = urm.fkMaquina
+WHERE
+    urm.fkUsuario = 1  -- ID do usuário específico
+    AND m.idMaquina = 1 -- ID da máquina específica
+    AND (
+        r.percentualCPU > m.porcentagemAlarmeCPU
+        OR r.percentualMemoria > m.porcentagemAlarmeRAM
+        OR r.percentualDisco > m.porcentagemAlarmeDisco
+    );
 
 
 
