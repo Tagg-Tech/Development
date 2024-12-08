@@ -172,16 +172,16 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>  -->
 
     <script>
-       let fk_maquina = sessionStorage.getItem('fkMaquina');
-       let id_usuario = sessionStorage.getItem('idMaquina');
-       alert(id_usuario);
-       //let cargo = sessionStorage.getItem('CARGO');
+       //let fk_maquina = sessionStorage.getItem('fkMaquina');
+       let id_usuario = sessionStorage.getItem('ID_USUARIO');
+       //alert(id_usuario);
+       let cargo = sessionStorage.getItem('CARGO');
 
        if(cargo == "Gerente"){
           link_caspa.style.display = "block";
        } 
 
-        //let fk_maquina = 1;
+        let fk_maquina = 1;
         //let id_usuario = 1;
         
         function verificarGerencia(){
@@ -326,8 +326,8 @@
             fetch(`../servidor/pegarCpuRamPorcentagem`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    idUsuarioServer: id_usuario,
-                    fkMaquinaServer: fk_maquina
+                    idUsuarioServer: id_usuario
+                    // fkMaquinaServer: fk_maquina
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -381,7 +381,8 @@
             fetch(`../servidor/pegarUsoDisco`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    fkMaquinaServer: fk_maquina
+                    idUsuarioServer: id_usuario
+                    //fkMaquinaServer: fk_maquina
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -420,7 +421,8 @@
             fetch(`../servidor/pegarRAM`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    fkMaquinaServer: fk_maquina
+                    idUsuarioServer: id_usuario
+                    //fkMaquinaServer: fk_maquina
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -493,8 +495,8 @@
             fetch(`../servidor/isInstable`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    idUsuarioServer: id_usuario,
-                    fkMaquinaServer: fk_maquina
+                    idUsuarioServer: id_usuario
+                  //  fkMaquinaServer: fk_maquina
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -507,7 +509,7 @@
                 response.json().then(dados => {
                     //mapeando a primeira coluna
                     const colunaCPU = dados.map(dado => dado.percentualCPU);
-                    const limite_cpu = dados.map(dado => dado.alertaCPU);
+                    const limite_cpu = dados.map(dado => dado.porcentagemAlarmeCPU);
 
 
                     //pegando o ultimo valor da coluna CPU
@@ -555,8 +557,8 @@
             fetch(`../servidor/qtdAlertasUmServidor`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    idUsuarioServer: id_usuario,
-                    fkMaquinaServer: fk_maquina
+                    idUsuarioServer: id_usuario
+                    //fkMaquinaServer: fk_maquina
                 }),
                 headers: {
                     'Content-Type': 'application/json'

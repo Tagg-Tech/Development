@@ -12,48 +12,74 @@ function cadastrar(placaderede, memoria, sistemaOperacional, cpu, disco, porcent
     return database.executar(instrucaoSql);
 }
 
-function pegarCpuRamPorcentagem(id_usuario, fk_maquina){
+function pegarCpuRamPorcentagem(id_usuario){
     var instrucaoSql = `
         SELECT percentualCPU, percentualMemoria FROM registros AS r 
-	        JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = '${fk_maquina}'
+	        JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = u.fkMaquina
             WHERE u.fkUsuario = '${id_usuario}';
     `;
+
+
+    // var instrucaoSql = `
+        // SELECT percentualCPU, percentualMemoria FROM registros AS r 
+	        // JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = '${fk_maquina}'
+            // WHERE u.fkUsuario = '${id_usuario}';
+    // `;
     //console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function pegarUsoDisco(fk_maquina){
+function pegarUsoDisco(id_usuario){
     var instrucaoSql = `
         SELECT percentualDisco FROM registros AS r
-        	JOIN usuarioResponsavelMaquina AS u ON r.fkMaquina = u.fkMaquina
-            WHERE u.fkMaquina = '${fk_maquina}'; 
-    `;
-    //console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
-
-function pegarRAM(fk_maquina){
-    var instrucaoSql = `
-        SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria, m.porcentagemAlarmeRAM FROM registros AS r
-        	JOIN maquina AS m ON m.idMaquina = r.fkMaquina
-            WHERE fkMaquina = '${fk_maquina}';
-    `;
-    //console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
-
-function isInstable(id_usuario, fk_maquina){
-    var instrucaoSql = `
-        SELECT percentualCPU, porcentagemAlarmeCPU FROM registros AS r 
-        	JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = '${fk_maquina}'
-            JOIN maquina AS m ON m.idMaquina = r.fkMaquina
+	        JOIN usuarioResponsavelMaquina AS u ON r.fkMaquina = u.fkMaquina
             WHERE u.fkUsuario = '${id_usuario}';
     `;
+
+    // var instrucaoSql = `
+    //     SELECT percentualDisco FROM registros AS r
+    //     	JOIN usuarioResponsavelMaquina AS u ON r.fkMaquina = u.fkMaquina
+    //         WHERE u.fkMaquina = '${fk_maquina}'; 
+    // `;
     //console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function qtdAlertasUmServidor(id_usuario, fk_maquina){
+function pegarRAM(id_usuario){
+    var instrucaoSql = `
+        SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria, m.porcentagemAlarmeRAM FROM registros AS r
+	        JOIN maquina AS m ON m.idMaquina = r.fkMaquina
+            JOIN usuarioresponsavelmaquina AS u ON u.fkMaquina = m.idMaquina
+            WHERE u.fkUsuario = '${id_usuario}';
+    `
+    // var instrucaoSql = `
+    //     SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria, m.porcentagemAlarmeRAM FROM registros AS r
+    //     	JOIN maquina AS m ON m.idMaquina = r.fkMaquina
+    //         WHERE fkMaquina = '${fk_maquina}';
+    // `;
+    //console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function isInstable(id_usuario){
+    var instrucaoSql = `
+        SELECT percentualCPU, porcentagemAlarmeCPU FROM registros AS r 
+	        JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = u.fkMaquina
+            JOIN maquina AS m ON m.idMaquina = r.fkMaquina
+            WHERE u.fkUsuario = '${id_usuario}';
+    `
+
+    // var instrucaoSql = `
+    //     SELECT percentualCPU, porcentagemAlarmeCPU FROM registros AS r 
+    //     	JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = '${fk_maquina}'
+    //         JOIN maquina AS m ON m.idMaquina = r.fkMaquina
+    //         WHERE u.fkUsuario = '${id_usuario}';
+    // `;
+    //console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function qtdAlertasUmServidor(id_usuario){
     var instrucaoSql = `
         SELECT
             COUNT(*) AS quantidade_alertas
@@ -65,7 +91,7 @@ function qtdAlertasUmServidor(id_usuario, fk_maquina){
             usuarioResponsavelMaquina urm ON m.idMaquina = urm.fkMaquina
         WHERE
             urm.fkUsuario = '${id_usuario}'
-            AND m.idMaquina = '${fk_maquina}'
+            AND m.idMaquina = r.fkMaquina
             AND (
                 r.percentualCPU > m.porcentagemAlarmeCPU
                 OR r.percentualMemoria > m.porcentagemAlarmeRAM

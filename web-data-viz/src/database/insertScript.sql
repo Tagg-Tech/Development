@@ -143,7 +143,8 @@ SELECT percentualCPU, percentualMemoria FROM registros AS r
 -- Métrica de RAM 
 SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria, m.porcentagemAlarmeRAM FROM registros AS r
 	JOIN maquina AS m ON m.idMaquina = r.fkMaquina
-    WHERE fkMaquina = 1;
+    JOIN usuarioresponsavelmaquina AS u ON u.fkMaquina = m.idMaquina
+    WHERE u.fkUsuario = 1;
 
 -- Métrica grafico de pizza
 -- SELECT qtdTotalDisco, percentualDisco FROM maquina AS m 
@@ -152,11 +153,11 @@ SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria, m.porcentagemAlar
 -- Métrica grafico de pizza
 SELECT percentualDisco FROM registros AS r
 	JOIN usuarioResponsavelMaquina AS u ON r.fkMaquina = u.fkMaquina
-    WHERE u.fkMaquina = 1;  
+    WHERE u.fkUsuario = 1;  
     
 -- Métrica isInstable
 SELECT percentualCPU, porcentagemAlarmeCPU FROM registros AS r 
-	JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = 1
+	JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = u.fkMaquina
     JOIN maquina AS m ON m.idMaquina = r.fkMaquina
     WHERE u.fkUsuario = 1;
     
@@ -171,7 +172,7 @@ JOIN
     usuarioResponsavelMaquina urm ON m.idMaquina = urm.fkMaquina
 WHERE
     urm.fkUsuario = 1  -- ID do usuário específico
-    AND m.idMaquina = 1 -- ID da máquina específica
+    AND m.idMaquina = r.fkMaquina -- ID da máquina específica
     AND (
         r.percentualCPU > m.porcentagemAlarmeCPU
         OR r.percentualMemoria > m.porcentagemAlarmeRAM
