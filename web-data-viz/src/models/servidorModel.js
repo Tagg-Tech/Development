@@ -98,7 +98,7 @@ function qtdAlertasUmServidor(id_usuario){
                 OR r.percentualDisco > m.porcentagemAlarmeDisco
             );
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    //console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
