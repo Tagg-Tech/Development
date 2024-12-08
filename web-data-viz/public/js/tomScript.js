@@ -316,6 +316,7 @@ function closeCard(valid){
     }
 }
 
+// Enviando dados de API para escrita em histórico no servidor
 async function sendDataAPI() {
     // Montando objeto a ser enviado
     let objForServer = {
@@ -344,5 +345,17 @@ async function sendDataAPI() {
 }
 
 async function getDataAPI(){
-    
+    let resposta;
+    try {
+        resposta = await fetch(`/tomtom/getData/${"2024-12-08T17:34:59.522Z"}`);
+        if(!resposta.ok){
+            console.error(`Erro de requisição: ${resposta.statusText}`)
+        }
+
+        upData(false);
+
+        console.log()
+    } catch (error) {
+        console.error('Problema em requisição: ', error)
+    }
 }
