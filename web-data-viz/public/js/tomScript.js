@@ -315,3 +315,34 @@ function closeCard(valid){
         element.style.display = "flex";
     }
 }
+
+async function sendDataAPI() {
+    // Montando objeto a ser enviado
+    let objForServer = {
+        date: dataDif[0].dataHora,
+        dataAPI: dataDif
+    }
+
+    let resposta;
+
+    try {
+        resposta = await fetch('/tomtom/insertData', 
+            {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(objForServer)
+            });
+        
+        if(!resposta.ok){
+            console.log(`Erro ao fazer resquisição: ${resposta.statusText}.`)
+        } else{
+            console.log("Requisição bem sucedida!")
+        }
+    } catch (error) {
+        console.error("Erro ao enviar dados:", error)
+    }
+}
+
+async function getDataAPI(){
+    
+}
