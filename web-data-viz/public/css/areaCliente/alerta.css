@@ -39,10 +39,17 @@ body{
     flex-direction: column;
     align-items: center;
     text-align: center;
+    justify-content: space-around;
     background-color: #fff;
     height: 100%;
+    font-family: 'Poppins';
     border-radius: 5px;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.poppins{
+    font-family: 'Poppins';
+    font-weight: bold; 
 }
 
 .divFiltro {
@@ -52,7 +59,7 @@ body{
     text-align: center;
     color: black;
     border-radius: 7px;
-    width: 100%;
+    width: 97%;
     height: 30%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background-color: #fcb66b;
@@ -97,7 +104,7 @@ body{
     margin-left: -4.5px;
 }
 .containerInput {
-    top: 260px;
+    top: 330px;
     position: absolute;
     width: 300px;
 }
@@ -205,6 +212,57 @@ body{
     border-radius: 50%;
   }
 
+.filtroServidor{
+    height: 23%;
+}
+
+
+
+  /* Estilo do select */
+  #filtroServ {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    background-color: #5c453f; /* Laranja bem boladão */
+    color: white; /* Cor do texto */
+    border: none; /* Remove bordas padrão */
+    padding: 10px 15px; /* Espaçamento interno */
+    border-radius: 4px; /* Bordas arredondadas */
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+    appearance: none; /* Remove a aparência padrão */
+    outline: none; /* Remove contorno ao focar */
+    transition: all 0.3s ease;
+  }
+  
+  /* Sombra e hover */
+  #filtroServ:hover {
+    background-color: #f64b00; /* Laranja mais escuro no hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra */
+  }
+  
+  /* Estilo das opções */
+  #filtroServ option {
+    background-color: #5d4037; /* Marrom */
+    color: white; /* Texto branco */
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .botaoFiltro{
+    width: 80%;
+    height: 8%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    font-size:25px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #fff;
+    background-color: #483029;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+  
 .divGraficos{
     display: flex;
     flex-direction: column;

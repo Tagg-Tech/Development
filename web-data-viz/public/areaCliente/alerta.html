@@ -97,9 +97,9 @@
         <section class="graficosAlerta">
           <div class="containerFiltro">
             <div class="filtroAlerta">
-              <h1>Filtros de Alerta</h1>
+              <h1 class="poppins">Filtros de Alerta</h1>
               <div class="divFiltro">
-                <h3>Intervalo de tempo</h3>
+                <h3 class="poppins">Intervalo de tempo</h3>
                 <div class="containerInput">
                   <div class="output">
                     <span id="minValue">1</span>
@@ -148,16 +148,13 @@
                 <span id="toggleLabel">Semana</span>
               </div>
 
-              <div class="filtroServidor">
-                <h2>Filtrar por Servidor</h2>
+              <div class="divFiltro filtroServidor">
+                <h2 class="poppins">Filtrar por Servidor</h2>
                 <select name="" id="filtroServ">
                   <option selected value="0">Todos</option>
                 </select>
               </div>
-              <div class="checkboxs">
-                dados continuos <input type="CheckBox">
-              </div>
-              <button class="padding" onclick="atualizarGrafico()">Filtrar</button>
+              <button class="botaoFiltro" onclick="atualizarGrafico()">Filtrar</button>
             </div>
           </div>
           <div class="divGraficos">
@@ -443,13 +440,13 @@
                 label: "Nível Crítico",
                 data: dataNivelCriticoFiltrado, // Dados filtrados
                 borderColor: "rgb(255, 99, 132)",
-                backgroundColor: "#ff914c",
+                backgroundColor: "rgb(255, 99, 132)",
             },
             {
                 label: "Down Times",
                 data: dataDownTimesFiltrado, // Dados filtrados
-                borderColor: "blue",
-                backgroundColor: "blue",
+                borderColor: "#ff914c",
+                backgroundColor: "#ff914c",
             },
         ],
     };
@@ -529,13 +526,13 @@ function grafMes() {
               label: "Nível Crítico",
               data: dataNivelCriticoFiltrado, // Dados filtrados
               borderColor: "rgb(255, 99, 132)",
-              backgroundColor: "#ff914c",
+              backgroundColor: "rgb(255, 99, 132)",
           },
           {
               label: "Down Times",
               data: dataDownTimesFiltrado, // Dados filtrados
-              borderColor: "blue",
-              backgroundColor: "blue",
+              borderColor: "#ff914c",
+              backgroundColor: "#ff914c",
           },
       ],
   };
@@ -787,7 +784,6 @@ listaServidoresUnicos.forEach((servidor) => {
         labels: ["Critico", "DownTime"],
         datasets: [
             {
-                label: "Dataset 1",
                 data: [listaChamadosPico.length, listaChamadosDown.length],
                 backgroundColor: ["red", "orange"],
             },
@@ -823,10 +819,9 @@ listaServidoresUnicos.forEach((servidor) => {
     }
 
     const dataRosca2 = {
-        labels: ["Critico", "DownTime"],
+        labels: ["Abertos", "concluidos"],
         datasets: [
             {
-                label: "Dataset 1",
                 data: [2, 7],
                 backgroundColor: ["red", "orange"],
             },
@@ -845,7 +840,7 @@ listaServidoresUnicos.forEach((servidor) => {
                 },
                 title: {
                     display: true,
-                    text: "Tipos de alerta",
+                    text: "Status dos chamados",
                 },
             },
         },
