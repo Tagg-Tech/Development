@@ -37,16 +37,13 @@
                 <ul class="navbar">
                     
                     <li>
-                    
-                            <label for="serverSelect" style="color: white;">Selecione um Servidor:</label>
-                            <select id="serverSelect">
-                                <option value="">Selecione um Servidor</option>
-                                <option value="1">Servidor 1</option>
-                                <option value="2" class="alert">Servidor 2 (Alerta)</option>
-                                <option value="3"class="alert">Servidor 3 (Alerta)</option>
-                            </select>
-                        
-                        
+                        <label for="serverSelect" style="color: white;">Selecione um Servidor:</label>
+                        <select id="selectMaquina" onchange="navegarParaDetalhes()">
+                            <option value="">Selecione uma máquina</option>
+                            <option value="1">Máquina 1</option>
+                            <option value="2">Máquina 2</option>
+                            <option value="3">Máquina 3</option>
+                        </select>
                     </li>
                     <li><a href="gerenciar_servidor.html"><strong>Baixar relatório</strong></a></li>
                     <li><a href="gerenciar_servidor.html"><strong>Cadastro de Servidor</strong></a></li>
@@ -67,7 +64,7 @@
     <!-- Main Content -->
     <div class="main-content" style="height: 90vh;">
         <div class="chart-container" style="display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; height: 100%;">
-            <div class="kpis" style="display: flex; flex-direction: row; gap: 20px;border: 4px solid #ddd; background-color: white;">
+            <div class="kpis" style="display: flex; flex-direction: row; gap: 20px;border: 4px solid #ddd; background-color: white; box-shadow: 0 0 10px gray;">
                 <div class="card-alertas">
                     <h2>Servidores em Alerta</h2>
                    <span id="kpi-servidores-alerta" style="color: red; font-size: 24px; font-weight: bold;"></span>
@@ -82,7 +79,7 @@
                 </div>
             </div>
 
-            <div class="ranking" style="width: 40%; height: 300px; padding: 10px; border: 4px solid #ddd; border-radius: 10px; background-color: white;margin-right: 5%;">
+            <div class="ranking" style="width: 40%; height: 300px; padding: 10px; border: 4px solid #ddd; border-radius: 10px; background-color: white;margin-right: 5%; box-shadow: 0 0 10px gray;">
                 <h2>Ranking de Servidores - Tempo Fora do Ar</h2>
                 <label for="filtro-ranking">Filtrar por:</label>
                 <select id="filtro-ranking">
@@ -106,7 +103,7 @@
                 </div>
             </div>
            
-         <div class="charts" style="width: 40%; height: 300px; padding: 10px; border: 4px solid #ddd; border-radius: 10px; background-color: white;margin-left: 5%; margin-top: 20px; ">
+         <div class="charts" style="width: 40%; height: 300px; padding: 10px; border: 4px solid #ddd; border-radius: 10px; background-color: white;margin-left: 5%; margin-top: 20px;box-shadow: 0 0 10px gray; ">
             <h3>Uso dos componentes (por servidor)</h3>
             <label for="componente">Selecione o Componente:</label>
           <select id="componente">
@@ -133,379 +130,369 @@
 
     </div>
 </div> 
-<script>
-    window.onload = function() {
-        let grafico;
-        let graficoMaxMin; // Gráfico de máximo e mínimo
-        let servidores = {}; // Armazenar os dados de cada servidor
-        
-        document.getElementById('serverSelect').addEventListener('change', function(event) {
-    const selectedValue = event.target.value;
-    const servidorId = selectedValue.split('-')[1]; // Extraindo o ID do servidor (ex: 'servidor1')
+    <script>
 
-    // Verificar se o servidor está em alerta no banco de dados
-    fetch(`../servidor/verificarAlertaServidor`, {
-        method: 'POST',
-        body: JSON.stringify({ fkMaquina: servidorId }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Supondo que a resposta tenha um campo 'emAlerta' que seja true ou false
-        if (data.emAlerta) {
-            document.getElementById('serverSelect').style.borderColor = 'red'; // Alterando a borda do select para vermelho
-        } else {
-            document.getElementById('serverSelect').style.borderColor = ''; // Removendo a borda vermelha se não estiver em alerta
-        }
+document.addEventListener("DOMContentLoaded", () => {
+    const select = document.getElementById("selectMaquina");
 
-        // Armazenando o ID do servidor no sessionStorage
-        sessionStorage.setItem('fk_maquina', servidorId);
+    if (select) {
+        select.addEventListener("change", () => {
+            const fkMaquina = select.value;
 
-        // Redirecionar para a dashboard do servidor
-        window.location.href = `dashboardAnalistaUmServidor.html?id=${servidorId}`;
-    })
-    .catch(error => {
-        console.error('Erro ao verificar alerta do servidor:', error);
-    });
+            if (fkMaquina) {
+                sessionStorage.setItem('fkMaquina', fkMaquina);
+                console.log("Máquina selecionada:", fkMaquina);
+                // Redireciona para a próxima página (dashboardAnalistaUmServidor)
+        window.location.href = "dashboardAnalistaUmServidor.html";
+                // Você pode fazer outras ações aqui
+            }
+        });
+    } else {
+        alert("Por favor, selecione uma máquina!");
+    }
 });
 
-document.addEventListener("DOMContentLoaded", async function () {
-    const alertaSpan = document.getElementById("kpi-servidores-alerta");
-  const servidoresLista = document.getElementById("servidores-alerta-lista");
+        window.onload = function() {
+            let grafico;
+            let graficoMaxMin; // Gráfico de máximo e mínimo
+            let servidores = {}; // Armazenar os dados de cada servidor
+            
 
-  try {
-    // Substitua pelo ID do usuário armazenado
-    const idUsuario = sessionStorage.getItem("idUsuario");
+    document.addEventListener("DOMContentLoaded", async function () {
+        const alertaSpan = document.getElementById("kpi-servidores-alerta");
+    const servidoresLista = document.getElementById("servidores-alerta-lista");
 
-    // Fazer requisição à API para obter os dados do KPI e servidores
-    const response = await fetch(`/analistadados/${idUsuario}/kpi-servidores-alerta`);
-    const data = await response.json();
+    try {
+        // Substitua pelo ID do usuário armazenado
+        const idUsuario = sessionStorage.getItem("idUsuario");
 
-    if (!response.ok) {
-      throw new Error(data.error || "Erro ao buscar dados");
+        // Fazer requisição à API para obter os dados do KPI e servidores
+        const response = await fetch(`/analistadados/${idUsuario}/kpi-servidores-alerta`);
+        const data = await response.json();
+
+        if (!response.ok) {
+        throw new Error(data.error || "Erro ao buscar dados");
+        }
+
+        // Atualizar o KPI
+        alertaSpan.textContent = data.servidoresEmAlerta;
+
+        // Preencher a lista dinamicamente
+        servidoresLista.innerHTML = ""; // Limpa a lista antes de adicionar itens
+        data.servidoresEmAlerta.forEach((servidor) => {
+        const li = document.createElement("li");
+        li.textContent = `Servidor ID: ${servidor.idMaquina} (${servidor.sistemaOperacional})`;
+
+        li.addEventListener("click", () => {
+            sessionStorage.setItem("fk_maquina", servidor.idMaquina);
+            window.location.href = "dashboardAnalistaUmServidor.html";
+        });
+
+        servidoresLista.appendChild(li);
+        });
+    } catch (error) {
+        console.error("Erro ao carregar KPI de servidores em alerta:", error);
+        alertaSpan.textContent = "Dados indisponíveis";
+        servidoresLista.innerHTML = "<li>Erro ao carregar servidores</li>";
     }
+    }); 
 
-    // Atualizar o KPI
-    alertaSpan.textContent = data.servidoresEmAlerta;
+                    // Função para atualizar o ranking de downtime
+                    async function rankingForaDoAr(filtro = 'dia') {
+                        const response = await fetch("/verChamados", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        });
 
-    // Preencher a lista dinamicamente
-    servidoresLista.innerHTML = ""; // Limpa a lista antes de adicionar itens
-    data.servidoresEmAlerta.forEach((servidor) => {
-      const li = document.createElement("li");
-      li.textContent = `Servidor ID: ${servidor.idMaquina} (${servidor.sistemaOperacional})`;
+                        const data = await response.json();
+                        const issues = data.resultado.issues;
 
-      li.addEventListener("click", () => {
-        sessionStorage.setItem("fk_maquina", servidor.idMaquina);
-        window.location.href = "dashboardAnalistaUmServidor.html";
-      });
+                        const listaChamadosDown = [];
+                        const dataAtual = new Date();
 
-      servidoresLista.appendChild(li);
-    });
-  } catch (error) {
-    console.error("Erro ao carregar KPI de servidores em alerta:", error);
-    alertaSpan.textContent = "Dados indisponíveis";
-    servidoresLista.innerHTML = "<li>Erro ao carregar servidores</li>";
-  }
-}); 
+                        let dataMinima;
+                        switch(filtro) {
+                            case 'dia':
+                                dataMinima = new Date(dataAtual);
+                                dataMinima.setDate(dataAtual.getDate() - 1);
+                                break;
+                            case 'semana':
+                                dataMinima = new Date(dataAtual);
+                                dataMinima.setDate(dataAtual.getDate() - 7);
+                                break;
+                            case 'mes':
+                                dataMinima = new Date(dataAtual);
+                                dataMinima.setMonth(dataAtual.getMonth() - 1);
+                                break;
+                            default:
+                                dataMinima = new Date(dataAtual);
+                                dataMinima.setDate(dataAtual.getDate() - 1);
+                        }
 
-                // Função para atualizar o ranking de downtime
-                async function rankingForaDoAr(filtro = 'dia') {
-                    const response = await fetch("/verChamados", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    });
+                        issues.forEach(issue => {
+                            const chamadoAtual = issue.fields;
+                            const tipoChamado = chamadoAtual.project.key;
 
-                    const data = await response.json();
-                    const issues = data.resultado.issues;
+                            if (tipoChamado == "DOWN"){
+                                const chamado = chamadoAtual.description;
 
-                    const listaChamadosDown = [];
-                    const dataAtual = new Date();
+                                let index = chamado.indexOf("''");
+                                let index2 = chamado.indexOf("ficou") - 1;
+                                let servidorAtual = null;
+                                if (index !== -1) {
+                                    servidorAtual = chamado.substring(index + 2, index2);
+                                }
 
-                    let dataMinima;
-                    switch(filtro) {
-                        case 'dia':
-                            dataMinima = new Date(dataAtual);
-                            dataMinima.setDate(dataAtual.getDate() - 1);
-                            break;
-                        case 'semana':
-                            dataMinima = new Date(dataAtual);
-                            dataMinima.setDate(dataAtual.getDate() - 7);
-                            break;
-                        case 'mes':
-                            dataMinima = new Date(dataAtual);
-                            dataMinima.setMonth(dataAtual.getMonth() - 1);
-                            break;
-                        default:
-                            dataMinima = new Date(dataAtual);
-                            dataMinima.setDate(dataAtual.getDate() - 1);
-                    }
+                                index = chamado.indexOf("**");
+                                if (index !== -1) {
+                                    var dataAtual = new Date(chamado.substring(index + 2, index + 19));
+                                }
 
-                    issues.forEach(issue => {
-                        const chamadoAtual = issue.fields;
-                        const tipoChamado = chamadoAtual.project.key;
+                                const fimDownTime = chamadoAtual.customfield_10046.completedCycles[0];
+                                const dataFechamento = fimDownTime ? new Date(fimDownTime.stopTime.iso8601) : new Date();
 
-                        if (tipoChamado == "DOWN"){
-                            const chamado = chamadoAtual.description;
+                                if (dataAtual >= dataMinima) {
+                                    const tempoDownTime = dataAtual - dataFechamento;
+                                    let diferencaHoras = Math.floor(tempoDownTime / (1000 * 60));
+                                    diferencaHoras = Math.round(diferencaHoras / 60, 2);
+                                    diferencaHoras = Math.abs(diferencaHoras);
 
-                            let index = chamado.indexOf("''");
-                            let index2 = chamado.indexOf("ficou") - 1;
-                            let servidorAtual = null;
-                            if (index !== -1) {
-                                servidorAtual = chamado.substring(index + 2, index2);
-                            }
-
-                            index = chamado.indexOf("**");
-                            if (index !== -1) {
-                                var dataAtual = new Date(chamado.substring(index + 2, index + 19));
-                            }
-
-                            const fimDownTime = chamadoAtual.customfield_10046.completedCycles[0];
-                            const dataFechamento = fimDownTime ? new Date(fimDownTime.stopTime.iso8601) : new Date();
-
-                            if (dataAtual >= dataMinima) {
-                                const tempoDownTime = dataAtual - dataFechamento;
-                                let diferencaHoras = Math.floor(tempoDownTime / (1000 * 60));
-                                diferencaHoras = Math.round(diferencaHoras / 60, 2);
-                                diferencaHoras = Math.abs(diferencaHoras);
-
-                                const servidor = listaChamadosDown.find(item => item.nome === servidorAtual);
-                                if (servidor) {
-                                    servidor.downtime += diferencaHoras;
-                                } else {
-                                    listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
+                                    const servidor = listaChamadosDown.find(item => item.nome === servidorAtual);
+                                    if (servidor) {
+                                        servidor.downtime += diferencaHoras;
+                                    } else {
+                                        listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
+                                    }
                                 }
                             }
-                        }
+                        });
+
+                        listaChamadosDown.sort((a, b) => b.downtime - a.downtime);
+
+                        return listaChamadosDown;
+                    }
+
+                // Função para atualizar o ranking na tabela
+                async function atualizarRanking() {
+                    const filtro = document.getElementById('filtro-ranking').value;
+                    const rankingDados = await rankingForaDoAr(filtro);
+
+                    const tabelaBody = document.getElementById('ranking-dados');
+                    tabelaBody.innerHTML = ''; // Limpa os dados atuais
+
+                    rankingDados.forEach((item, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td style="border: 1px solid #ddd; padding: 8px;">${index + 1}°</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${item.nome}</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">${item.downtime.toFixed(2)} min</td>
+                        `;
+                        tabelaBody.appendChild(row);
                     });
-
-                    listaChamadosDown.sort((a, b) => b.downtime - a.downtime);
-
-                    return listaChamadosDown;
                 }
 
-            // Função para atualizar o ranking na tabela
-            async function atualizarRanking() {
-                const filtro = document.getElementById('filtro-ranking').value;
-                const rankingDados = await rankingForaDoAr(filtro);
-
-                const tabelaBody = document.getElementById('ranking-dados');
-                tabelaBody.innerHTML = ''; // Limpa os dados atuais
-
-                rankingDados.forEach((item, index) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td style="border: 1px solid #ddd; padding: 8px;">${index + 1}°</td>
-                        <td style="border: 1px solid #ddd; padding: 8px;">${item.nome}</td>
-                        <td style="border: 1px solid #ddd; padding: 8px;">${item.downtime.toFixed(2)} min</td>
-                    `;
-                    tabelaBody.appendChild(row);
+                // Inicializar o ranking ao carregar a página
+                document.addEventListener('DOMContentLoaded', () => {
+                    atualizarRanking();
                 });
+
+                // Adicionar evento de mudança no filtro
+                document.getElementById('filtro-ranking').addEventListener('change', atualizarRanking);
+                async function fetchData(componente) {
+                    const response = await fetch(`http://localhost:3333/analistadados/${componente}`);
+                    return response.json();
+                }
+
+            function atualizarGrafico(dados, componente) {
+                // Atualiza os dados armazenados para cada servidor
+                dados.forEach(d => {
+                    servidores[d.idMaquina] = d.valor;
+                });
+
+                // Preparando as novas séries para o gráfico
+                const labels = Object.keys(servidores).map(id => `Servidor ${id}`);
+                const valores = Object.values(servidores);
+
+                const options = {
+                    chart: {
+                        type: 'bar',
+                        height: 230, // Ajustando o tamanho do gráfico
+                    },
+                    series: [{
+                        name: `Uso de ${componente}`,
+                        data: valores
+                    }],
+                    xaxis: {
+                        categories: labels, // Servidores no eixo X
+                    },
+                    yaxis: {
+                        title: {
+                            text: `${componente} (%)`
+                        },
+                        min: 0,
+                        max: 100,
+                    }
+                    
+                };
+
+                if (grafico) {
+                    grafico.updateOptions(options); // Atualiza o gráfico existente
+                } else {
+                    grafico = new ApexCharts(document.querySelector("#grafico"), options);
+                    grafico.render();
+                }
             }
 
-            // Inicializar o ranking ao carregar a página
-            document.addEventListener('DOMContentLoaded', () => {
-                atualizarRanking();
+            document.getElementById('componente').addEventListener('change', async (e) => {
+                const componente = e.target.value;
+                const dados = await fetchData(componente);
+                atualizarGrafico(dados, componente);
             });
 
-            // Adicionar evento de mudança no filtro
-            document.getElementById('filtro-ranking').addEventListener('change', atualizarRanking);
-            async function fetchData(componente) {
-                const response = await fetch(`http://localhost:3333/analistadados/${componente}`);
+            // Atualizar gráfico a cada 10 segundos
+            setInterval(async () => {
+                const componente = document.getElementById('componente').value;
+                const dados = await fetchData(componente);
+                atualizarGrafico(dados, componente);
+            }, 2000); // Ajuste no intervalo
+
+            // Função para buscar os dados de máximo e mínimo
+            async function fetchMaxMinData(componente) {
+                const response = await fetch(`http://localhost:3333/analistadados/${componente}/maxmin`);
                 return response.json();
             }
 
-        function atualizarGrafico(dados, componente) {
-            // Atualiza os dados armazenados para cada servidor
-            dados.forEach(d => {
-                servidores[d.idMaquina] = d.valor;
+            // Função para criar ou atualizar o gráfico de máximos e mínimos
+            function criarGraficoMaxMin(dados, componente) {
+                const labels = dados.map(d => `Servidor ${d.idMaquina}`); // Eixo Y
+                const maxValores = dados.map(d => parseFloat(d.maxValor) || 0); // Valores Máximos
+                const minValores = dados.map(d => parseFloat(d.minValor) || 0); // Valores Mínimos
+
+                const options = {
+                    chart: {
+                        type: 'bar',
+                        height: 225,
+                    },
+                    series: [
+                        { name: `Máximo de ${componente}`, data: maxValores },
+                        { name: `Mínimo de ${componente}`, data: minValores },
+                    ],
+                    plotOptions: {
+                        bar: {
+                            horizontal: true, // Barras horizontais
+                            barHeight: '50%',
+                        },
+                    },
+                    xaxis: {
+                        title: {
+                            text: `${componente} (%)`,
+                        },
+                        min: 0,
+                        max: 100, // Ajusta o eixo X entre 0 e 100%
+                    },
+                    yaxis: {
+                        categories: labels, 
+                    },
+                    dataLabels: {
+                        enabled: false, // Desativado para melhorar a performance
+                    },
+                    colors: ['#FF4560', '#00E396'], // Cores para Máximo e Mínimo
+                };
+
+                if (graficoMaxMin) {
+                    graficoMaxMin.updateOptions(options); // Atualiza o gráfico existente
+                } else {
+                    graficoMaxMin = new ApexCharts(document.querySelector("#grafico-maxmin"), options);
+                    graficoMaxMin.render();
+                }
+            }
+
+            // Atualizar o gráfico de máximos e mínimos ao selecionar um componente
+            document.getElementById('componente-maxmin').addEventListener('change', async (e) => {
+                const componente = e.target.value;
+                const dados = await fetchMaxMinData(componente);
+                criarGraficoMaxMin(dados, componente);
             });
 
-            // Preparando as novas séries para o gráfico
-            const labels = Object.keys(servidores).map(id => `Servidor ${id}`);
-            const valores = Object.values(servidores);
-
-            const options = {
-                chart: {
-                    type: 'bar',
-                    height: 230, // Ajustando o tamanho do gráfico
-                },
-                series: [{
-                    name: `Uso de ${componente}`,
-                    data: valores
-                }],
-                xaxis: {
-                    categories: labels, // Servidores no eixo X
-                },
-                yaxis: {
-                    title: {
-                        text: `${componente} (%)`
-                    },
-                    min: 0,
-                    max: 100,
+            // Atualização periódica do gráfico de máximos e mínimos
+            setInterval(async () => {
+                const componenteMaxMin = document.getElementById('componente-maxmin').value;
+                if (componenteMaxMin) {
+                    const maxMinDados = await fetchMaxMinData(componenteMaxMin);
+                    criarGraficoMaxMin(maxMinDados, componenteMaxMin);
                 }
-                
-            };
-
-            if (grafico) {
-                grafico.updateOptions(options); // Atualiza o gráfico existente
-            } else {
-                grafico = new ApexCharts(document.querySelector("#grafico"), options);
-                grafico.render();
-            }
-        }
-
-        document.getElementById('componente').addEventListener('change', async (e) => {
-            const componente = e.target.value;
-            const dados = await fetchData(componente);
-            atualizarGrafico(dados, componente);
-        });
-
-        // Atualizar gráfico a cada 10 segundos
-        setInterval(async () => {
-            const componente = document.getElementById('componente').value;
-            const dados = await fetchData(componente);
-            atualizarGrafico(dados, componente);
-        }, 2000); // Ajuste no intervalo
-
-        // Função para buscar os dados de máximo e mínimo
-        async function fetchMaxMinData(componente) {
-            const response = await fetch(`http://localhost:3333/analistadados/${componente}/maxmin`);
-            return response.json();
-        }
-
-        // Função para criar ou atualizar o gráfico de máximos e mínimos
-        function criarGraficoMaxMin(dados, componente) {
-            const labels = dados.map(d => `Servidor ${d.idMaquina}`); // Eixo Y
-            const maxValores = dados.map(d => parseFloat(d.maxValor) || 0); // Valores Máximos
-            const minValores = dados.map(d => parseFloat(d.minValor) || 0); // Valores Mínimos
-
-            const options = {
-                chart: {
-                    type: 'bar',
-                    height: 225,
-                },
-                series: [
-                    { name: `Máximo de ${componente}`, data: maxValores },
-                    { name: `Mínimo de ${componente}`, data: minValores },
-                ],
-                plotOptions: {
-                    bar: {
-                        horizontal: true, // Barras horizontais
-                        barHeight: '50%',
-                    },
-                },
-                xaxis: {
-                    title: {
-                        text: `${componente} (%)`,
-                    },
-                    min: 0,
-                    max: 100, // Ajusta o eixo X entre 0 e 100%
-                },
-                yaxis: {
-                    categories: labels, 
-                },
-                dataLabels: {
-                    enabled: false, // Desativado para melhorar a performance
-                },
-                colors: ['#FF4560', '#00E396'], // Cores para Máximo e Mínimo
-            };
-
-            if (graficoMaxMin) {
-                graficoMaxMin.updateOptions(options); // Atualiza o gráfico existente
-            } else {
-                graficoMaxMin = new ApexCharts(document.querySelector("#grafico-maxmin"), options);
-                graficoMaxMin.render();
-            }
-        }
-
-        // Atualizar o gráfico de máximos e mínimos ao selecionar um componente
-        document.getElementById('componente-maxmin').addEventListener('change', async (e) => {
-            const componente = e.target.value;
-            const dados = await fetchMaxMinData(componente);
-            criarGraficoMaxMin(dados, componente);
-        });
-
-        // Atualização periódica do gráfico de máximos e mínimos
-        setInterval(async () => {
-            const componenteMaxMin = document.getElementById('componente-maxmin').value;
-            if (componenteMaxMin) {
-                const maxMinDados = await fetchMaxMinData(componenteMaxMin);
-                criarGraficoMaxMin(maxMinDados, componenteMaxMin);
-            }
-        }, 2000); // Ajuste no intervalo
-       
-        async function fetchDesvioPadraoGlobal() {
-    const response = await fetch("http://localhost:3333/analistadados/desviopadrao");
-    return response.json();
-}
-
-async function atualizarDesvioPadraoGlobal() {
-    try {
-        const response = await fetch("/analistadados/desviopadrao");
-        if (!response.ok) throw new Error("Erro ao buscar desvio padrão global");
-
-        const dados = await response.json();
-
-        // Extraindo os valores numéricos
-        const valores = dados.map(item => parseFloat(item.valor));
-
-        // Verificando se há valores válidos
-        if (valores.length > 0) {
-            // Calculando o desvio padrão (se necessário, no frontend)
-            const media = valores.reduce((acc, val) => acc + val, 0) / valores.length;
-            const variancia = valores.reduce((acc, val) => acc + Math.pow(val - media, 2), 0) / valores.length;
-            const desvioPadrao = Math.sqrt(variancia);
-
-            // Atualizando o elemento na tela
-            const elementoDesvioPadrao = document.getElementById("desvio-padrao");
-            elementoDesvioPadrao.textContent = desvioPadrao.toFixed(2);
-
-            // Alterando a cor com base no valor do desvio padrão
-            if (desvioPadrao < 10) {
-                elementoDesvioPadrao.style.color = "green"; // Verde
-            } else if (desvioPadrao >= 10 && desvioPadrao <= 25) {
-                elementoDesvioPadrao.style.color = "yellow"; // Amarelo
-            } else {
-                elementoDesvioPadrao.style.color = "red"; // Vermelho
-            }
-        } else {
-            document.getElementById("desvio-padrao").textContent = "N/A";
-        }
-    } catch (error) {
-        console.error("Erro ao atualizar desvio padrão global:", error);
-        document.getElementById("desvio-padrao").textContent = "Erro ao carregar";
+            }, 2000); // Ajuste no intervalo
+        
+            async function fetchDesvioPadraoGlobal() {
+        const response = await fetch("http://localhost:3333/analistadados/desviopadrao");
+        return response.json();
     }
-}
 
-// Atualiza a cada 2 segundos
-setInterval(atualizarDesvioPadraoGlobal, 2000);
+    async function atualizarDesvioPadraoGlobal() {
+        try {
+            const response = await fetch("/analistadados/desviopadrao");
+            if (!response.ok) throw new Error("Erro ao buscar desvio padrão global");
 
-// Atualizar ao carregar a página
-atualizarDesvioPadraoGlobal();
+            const dados = await response.json();
 
+            // Extraindo os valores numéricos
+            const valores = dados.map(item => parseFloat(item.valor));
 
-        // Atualizar o número de servidores em alerta a cada 10 segundos
-        setInterval(async () => {
-            try {
-        const response = await fetch(`/analistadados/1/kpi-servidores-alerta`);
-        if (response.ok) {
-            const kpiData = await response.json();
-            document.getElementById('kpi-servidores-alerta').innerText = kpiData.proporcao;
-        } else {
-            console.error('Erro na requisição para o KPI:', response.statusText);
-            document.getElementById('kpi-servidores-alerta').innerText = 'Dados Indisponíveis';
-        }
-            } catch (error) {
-                console.error('Erro ao fazer requisição para o KPI:', error);
-                document.getElementById('kpi-servidores-alerta').innerText = 'Erro na conexão';
+            // Verificando se há valores válidos
+            if (valores.length > 0) {
+                // Calculando o desvio padrão (se necessário, no frontend)
+                const media = valores.reduce((acc, val) => acc + val, 0) / valores.length;
+                const variancia = valores.reduce((acc, val) => acc + Math.pow(val - media, 2), 0) / valores.length;
+                const desvioPadrao = Math.sqrt(variancia);
+
+                // Atualizando o elemento na tela
+                const elementoDesvioPadrao = document.getElementById("desvio-padrao");
+                elementoDesvioPadrao.textContent = desvioPadrao.toFixed(2);
+
+                // Alterando a cor com base no valor do desvio padrão
+                if (desvioPadrao < 10) {
+                    elementoDesvioPadrao.style.color = "green"; // Verde
+                } else if (desvioPadrao >= 10 && desvioPadrao <= 25) {
+                    elementoDesvioPadrao.style.color = "yellow"; // Amarelo
+                } else {
+                    elementoDesvioPadrao.style.color = "red"; // Vermelho
+                }
+            } else {
+                document.getElementById("desvio-padrao").textContent = "N/A";
             }
-        }, 2000);  // Atualiza a cada 10 segundos
-    };
-</script>
+        } catch (error) {
+            console.error("Erro ao atualizar desvio padrão global:", error);
+            document.getElementById("desvio-padrao").textContent = "Erro ao carregar";
+        }
+    }
+
+    // Atualiza a cada 2 segundos
+    setInterval(atualizarDesvioPadraoGlobal, 2000);
+
+    // Atualizar ao carregar a página
+    atualizarDesvioPadraoGlobal();
+
+
+            // Atualizar o número de servidores em alerta a cada 10 segundos
+            setInterval(async () => {
+                try {
+            const response = await fetch(`/analistadados/1/kpi-servidores-alerta`);
+            if (response.ok) {
+                const kpiData = await response.json();
+                document.getElementById('kpi-servidores-alerta').innerText = kpiData.proporcao;
+            } else {
+                console.error('Erro na requisição para o KPI:', response.statusText);
+                document.getElementById('kpi-servidores-alerta').innerText = 'Dados Indisponíveis';
+            }
+                } catch (error) {
+                    console.error('Erro ao fazer requisição para o KPI:', error);
+                    document.getElementById('kpi-servidores-alerta').innerText = 'Erro na conexão';
+                }
+            }, 2000);  // Atualiza a cada 10 segundos
+        };
+    </script>
 
 </body>
 </html>
