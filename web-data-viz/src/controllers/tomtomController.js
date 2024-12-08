@@ -68,14 +68,19 @@ const listaLocCompleta = [
 ];
 
 
+
+
+// FUNÇÕES RELACIONADAS AO TRATAMENTO E ENVIO DE DADOS DE API
+
 async function consultarDadosTrafego(req, res) {
     // Verificando se o cliente deseja ou não atualizar os dados de API
     const reqType = req.params.condition == "true";
     // Requisitando dados da API armazenados em cache
     const dataApi = cache.get("dadosApi");
+    let datasAPI = await listaDataAPI();
 
-    console.log(dataApi == undefined)
-    console.log(reqType)
+    // console.log(dataApi == undefined)
+    // console.log(reqType)
 
     // Verificando se há dados de API ou se o usuário deseja uma atualização
     if (dataApi == undefined || reqType) {
@@ -84,7 +89,6 @@ async function consultarDadosTrafego(req, res) {
         const resultados = [];
         // Constante de localizações de arquivo de praças de pedágios
         const caminhoCsv = __dirname + '/pracasTeste.csv';
-        console.log(`Chave da API : ${apiKey}`);
 
         //Monta as requisições iterando a partir da listaLocalizacoes
         for (const localizacao of listaLoc10) {
@@ -134,22 +138,23 @@ async function consultarDadosTrafego(req, res) {
             }
         }
 
-        resultados.forEach(result => console.log("Notação: " + result.municipio));
-
         // Armazenando dados da API no cache do servidor
         cache.set("dadosApi", resultados, 0); // O tempo foi setado como zero, ou seja, não expira
+
 
         // Enviando resultados ao termino do for
         res.status(200).send({
             msg: "Requisição bem sucedida!",
-            data: resultados
+            data: resultados,
+            dateAPI: datasAPI
         });
     } else {
         // Enviando dados armazenados em cache
         console.log("Enviando dados de cache!");
         res.status(200).send({
             msg: "Requisição bem sucedida!",
-            data: dataApi
+            data: dataApi,
+            dateAPI: datasAPI
         });
     }
 };
@@ -191,6 +196,11 @@ async function getInfoDeRodovia(coordinates, caminhoCsv) {
 
     return null; // Caso nenhuma correspondência seja encontrada
 }
+
+
+
+
+// FUNÇÕES RELACIONADAS A ESCRITA E CONSULTA DE DADOS EM ARQUIVO JSON
 
 // Escrevendo dados da API TomTom em arquivo JSON
 async function writeFile(req, res){
@@ -261,6 +271,31 @@ async function getDataAPI(req, res) {
             msg: "Erro no processamento",
             error: error.message
         });
+    }
+}
+
+// Pegando datas dos dados escritos no arquivo
+async function listaDataAPI(){
+    let contJson = [];
+    let listaData = [];
+    const filePath = path.join(__dirname, '..', '..', 'dataAPI.json');
+
+    try {
+        let fileContent;
+        // Tenta ler o arquivo e verifica sua existência
+        if(fs.existsSync(filePath)){
+            fileContent = fs.readFileSync(filePath);
+            contJson = fileContent ? JSON.parse(fileContent) : null;
+        }
+
+        contJson.forEach(item =>{
+            listaData.push(item.Data);
+        });
+        return {datas: listaData};
+
+    } catch (error) {
+        console.error(`Erro na leitura de arquivo: ${error.message}`);
+        return undefined;
     }
 }
 

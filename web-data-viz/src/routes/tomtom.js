@@ -14,8 +14,8 @@ router.post('/insertData', (req, res)=>{
     controller.writeFile(req, res);
 })
 
+// Rota para buscar dados por histórico
 router.get('/getData/:data', (req, res)=>{
-    console.log("Dados recebidos: " + req.params.data)
     controller.getDataAPI(req, res);
 })
 
