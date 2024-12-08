@@ -85,7 +85,13 @@
     <section class="visual">
         <!-- Tabela de fluxo de pedágios completa -->
         <div class="tableDash1Comp">
-            <!-- Elementos gerados por javascript -->
+            <i class="bi bi-x-circle" onclick="closeTable(true)"></i>
+            <div class="pesqTable">
+                <input type="text" id="searchInput" placeholder="  Pesquise na tabela..." oninput="filtTable(this.value)">
+            </div>
+            <div id="conteudoTabela" class="tableComp">
+                <!-- Elementos gerados por javascript -->
+            </div>
         </div>
 
 

@@ -57,7 +57,7 @@ async function tomtomData(condition) {
         console.log(dataDif);
 
         // Plot de tabela com pedágios mais utilizados
-        plotTable(dataDif);
+        plotTable(dataDif, true);
         // Pegando range do vetor: de 0 a 9, não inclui índice 10
         orgData(dataDif.slice(0, 10));
         // Exibindo data de geração de dados
@@ -84,7 +84,8 @@ function orgData(vetor) {
 }
 
 // Construção de tabela
-function plotTable(vetor){
+function plotTable(vetor, type){
+    // alert("plot")
     // Conteúdo tabela principal
     let line = "";
     // Conteúdo tabela parcial
@@ -118,7 +119,6 @@ function plotTable(vetor){
 
         // Configuração de tabela (header e estrutura)
         let confTable = `
-            <i class="bi bi-x-circle" onclick="closeTable(true)"></i>
             <table>
                 <caption>Uso estimado dos pedágios</caption>
                 <thead>
@@ -153,8 +153,28 @@ function plotTable(vetor){
             <button onclick="closeTable(false)">Expandir tabela</button>
         `;
 
-    document.querySelector('.tableDash1').innerHTML = confTableParse;
-    document.querySelector('.tableDash1Comp').innerHTML = confTable;
+    if(type) document.querySelector('.tableDash1').innerHTML = confTableParse;
+    document.querySelector('#conteudoTabela').innerHTML = confTable;
+}
+
+// Filtro para conteúdo de tabela
+function filtTable(cont){
+    cont = cont.toLowerCase();
+    if(cont.length == 0){
+        plotTable(dataDif);
+    } else{
+        let v = dataDif.filter(item => {
+            return (
+                item.uf.toLowerCase().includes(cont) ||
+                item.municipio.toLowerCase().includes(cont) ||
+                item.concessionaria.toLowerCase().includes(cont) ||
+                item.rodovia.toLowerCase().includes(cont) ||
+                item.praca.toLowerCase().includes(cont)
+            );
+        });
+
+        plotTable(v, false);
+    }
 }
 
 // Construção de gráfico
@@ -286,6 +306,7 @@ function closeTable(valid){
     }
 }
 
+// Função para fechar ou abrir card de pedágio
 function closeCard(valid){
     let element = document.querySelector('.cardPed');
     if(valid){
@@ -294,74 +315,3 @@ function closeCard(valid){
         element.style.display = "flex";
     }
 }
-
-function showMaisUti() {
-    if (!indMped.innerHTML.includes(maisUti)) {
-        indMped.innerHTML += maisUti;
-    } else {
-        indMped.innerHTML = "<span>Mais utilizado</span>";
-    }
-}
-
-
-// <!-- script gráfico 2 -->
-// Dados de exemplo
-/*const scatterData = [
-//     { x: 1, y: 2 },
-//     { x: 2, y: 3 },
-//     { x: 3, y: 5 },
-//     { x: 4, y: 7 },
-//     { x: 5, y: 8 },
-];
-
-// Cálculo da regressão linear (simples, para fins de demonstração)
-const xValues = scatterData.map(point => point.x);
-const yValues = scatterData.map(point => point.y);
-const n = xValues.length;
-
-const sumX = xValues.reduce((a, b) => a + b, 0);
-const sumY = yValues.reduce((a, b) => a + b, 0);
-const sumXY = xValues.reduce((sum, x, i) => sum + x * yValues[i], 0);
-const sumX2 = xValues.reduce((sum, x) => sum + x * x, 0);
-
-const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-const intercept = (sumY - slope * sumX) / n;
-
-// Dados da linha de regressão
-const regressionLine = xValues.map(x => ({ x, y: slope * x + intercept }));
-
-// Configuração do gráfico
-const options = {
-    chart: {
-        type: 'line',
-        height: 300,
-        width: 500
-    },
-    series: [
-        {
-            name: 'Data Points',
-            type: 'line',
-            data: scatterData,
-        },
-        {
-            name: 'Regression Line',
-            type: 'line',
-            data: regressionLine,
-        },
-    ],
-    xaxis: {
-        title: {
-            text: 'X-Axis',
-        },
-    },
-    yaxis: {
-        title: {
-            text: 'Y-Axis',
-        },
-    },
-};
-
-// Renderizar o gráfico
-const chart = new ApexCharts(document.querySelector("#chart2"), options);
-chart.render();
-*/

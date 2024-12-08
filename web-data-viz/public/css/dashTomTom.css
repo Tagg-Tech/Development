@@ -134,6 +134,7 @@ caption {
     top: 2px;
     font-size: 30px;
     cursor: pointer;
+    z-index: 2;
 }
 
 /* Container gráfico pedágios */
@@ -207,4 +208,18 @@ caption {
     transform: translate(-50%, -50%);
     display: none;
     z-index: 3;
+}
+
+/* Estilização de barra de pesquisa em tabela */
+.pesqTable{
+    position: relative;
+    top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.tableComp{
+    position: relative;
+    top: 20px;
 }
