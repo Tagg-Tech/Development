@@ -7,3 +7,4 @@ env
 .env.dev
 env.dev
 package.json
+dataAPI.json

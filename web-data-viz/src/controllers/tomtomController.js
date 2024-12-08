@@ -1,9 +1,9 @@
 const dotenv = require('dotenv');
 const csv = require('csv-parser');
 const fs = require('fs');
-const iconv = require('iconv-lite');
 const NodeCache = require('node-cache');
 const cache = new NodeCache();
+const path = require('path');
 
 // Carregar variáveis de ambiente
 dotenv.config({ path: ".env" });
@@ -87,7 +87,7 @@ async function consultarDadosTrafego(req, res) {
         console.log(`Chave da API : ${apiKey}`);
 
         //Monta as requisições iterando a partir da listaLocalizacoes
-        for (const localizacao of listaLocCompleta) {
+        for (const localizacao of listaLoc10) {
             const params = new URLSearchParams({
                 key: apiKey,
                 point: localizacao,
@@ -192,6 +192,46 @@ async function getInfoDeRodovia(coordinates, caminhoCsv) {
     return null; // Caso nenhuma correspondência seja encontrada
 }
 
+// Escrevendo dados da API TomTom em arquivo JSON
+async function writeFile(req, res){
+    // Variável para armazenar dados do arquivo JSON
+    let contJson = [];
+
+    // Montando objeto para salvar dados de API
+    const dataForJson = {
+        "Data": req.body.date,
+        "Conteudo": req.body.dataAPI
+    };
+
+    const filePath = path.join(__dirname, '..', '..', 'dataAPI.json');
+
+    try {
+        let fileContent;
+        // Tenta ler o arquivo e verifica sua existência
+        if(fs.existsSync){
+            fileContent = fs.readFileSync(filePath);
+            contJson = fileContent ? JSON.parse(fileContent) : null;
+        }
+
+        contJson.push(dataForJson);
+        fs.writeFileSync('./dataAPI.json', JSON.stringify(contJson, null, 2));
+        
+        console.log("Escrita de arquivo bem sucedida!");
+
+        res.status(200).send({
+            msg: "Requisição bem sucedida!"
+        });
+    } catch (error) {
+        console.error(`Erro na leitura ou escrita de arquivo: ${error.message}`);
+    }
+}
+
+// Pegando dados de API salvos no arquivo JSON
+async function getDataAPI(req, res) {
+    
+}
+
 module.exports = {
-    consultarDadosTrafego
+    consultarDadosTrafego,
+    writeFile
 }
