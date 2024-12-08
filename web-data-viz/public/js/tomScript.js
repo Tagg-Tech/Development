@@ -123,11 +123,11 @@ function plotTable(vetor, type){
                 <caption>Uso estimado dos pedágios</caption>
                 <thead>
                     <tr>
-                        <th>Estado</th>
-                        <th>Município</th>
-                        <th>Concessionária</th>
-                        <th>Rodovia</th>
-                        <th>Trânsito Estimado (%)</th>
+                        <th style="color: white;">Estado</th>
+                        <th style="color: white;">Município</th>
+                        <th style="color: white;">Concessionária</th>
+                        <th style="color: white;">Rodovia</th>
+                        <th style="color: white;">Trânsito Estimado (%)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -141,9 +141,9 @@ function plotTable(vetor, type){
                 <caption>Uso estimado dos pedágios</caption>
                 <thead>
                     <tr>
-                        <th>Concessionária</th>
-                        <th>Rodovia</th>
-                        <th>Trânsito Estimado (%)</th>
+                        <th style="color: white;">Concessionária</th>
+                        <th style="color: white;">Rodovia</th>
+                        <th style="color: white;">Trânsito Estimado (%)</th>
                     </tr>
                 </thead>
                 <tbody>
