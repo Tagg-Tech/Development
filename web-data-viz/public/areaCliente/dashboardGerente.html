@@ -609,7 +609,7 @@ setInterval(constructJiraChart, 50000)
 
     }
 
-    kpi.innerHTML = uptime_percentual + '%'
+    kpi.innerHTML = uptime_percentual.toFixed(2) + '%'
 
   }
   setInterval(selecionarDados, 50000);
