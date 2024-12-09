@@ -23,7 +23,7 @@
     <script src="../js/alerta.js"></script>
 </head>
 
-<body onload="iniciarDashboard()">
+<body onload="iniciarDashboard(), atualizarRanking()">
     <div class="header">
  <nav>
             <div class="menu">
@@ -75,6 +75,7 @@
                 <h2>Ranking de Servidores - Tempo Fora do Ar</h2>
                 <label for="filtro-ranking">Filtrar por:</label>
                 <select id="filtro-ranking">
+                    <option value="" disabled selected>Selecione uma opção</option>
                     <option value="dia">Dia</option>
                     <option value="semana">Semana</option>
                     <option value="mes">Mês</option>
@@ -171,84 +172,7 @@
     }
     }); 
 
-                    // Função para atualizar o ranking de downtime
-                    async function rankingForaDoAr(filtro = 'dia') {
-                        const response = await fetch("/verChamados", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                        });
-
-                        const data = await response.json();
-                        const issues = data.resultado.issues;
-
-                        const listaChamadosDown = [];
-                        const dataAtual = new Date();
-
-                        let dataMinima;
-                        switch(filtro) {
-                            case 'dia':
-                                dataMinima = new Date(dataAtual);
-                                dataMinima.setDate(dataAtual.getDate() - 1);
-                                break;
-                            case 'semana':
-                                dataMinima = new Date(dataAtual);
-                                dataMinima.setDate(dataAtual.getDate() - 7);
-                                break;
-                            case 'mes':
-                                dataMinima = new Date(dataAtual);
-                                dataMinima.setMonth(dataAtual.getMonth() - 1);
-                                break;
-                            default:
-                                dataMinima = new Date(dataAtual);
-                                dataMinima.setDate(dataAtual.getDate() - 1);
-                        }
-
-                        issues.forEach(issue => {
-                            const chamadoAtual = issue.fields;
-                            const tipoChamado = chamadoAtual.project.key;
-
-                            if (tipoChamado == "DOWN"){
-                                const chamado = chamadoAtual.description;
-
-                                let index = chamado.indexOf("''");
-                                let index2 = chamado.indexOf("ficou") - 1;
-                                let servidorAtual = null;
-                                if (index !== -1) {
-                                    servidorAtual = chamado.substring(index + 2, index2);
-                                }
-
-                                index = chamado.indexOf("**");
-                                if (index !== -1) {
-                                    var dataAtual = new Date(chamado.substring(index + 2, index + 19));
-                                }
-
-                                const fimDownTime = chamadoAtual.customfield_10046.completedCycles[0];
-                                const dataFechamento = fimDownTime ? new Date(fimDownTime.stopTime.iso8601) : new Date();
-
-                                if (dataAtual >= dataMinima) {
-                                    const tempoDownTime = dataAtual - dataFechamento;
-                                    let diferencaHoras = Math.floor(tempoDownTime / (1000 * 60));
-                                    diferencaHoras = Math.round(diferencaHoras / 60, 2);
-                                    diferencaHoras = Math.abs(diferencaHoras);
-
-                                    const servidor = listaChamadosDown.find(item => item.nome === servidorAtual);
-                                    if (servidor) {
-                                        servidor.downtime += diferencaHoras;
-                                    } else {
-                                        listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
-                                    }
-                                }
-                            }
-                        });
-
-                        listaChamadosDown.sort((a, b) => b.downtime - a.downtime);
-
-                        return listaChamadosDown;
-                    }
-
-                // Função para atualizar o ranking na tabela
+       
                 async function atualizarRanking() {
                     const filtro = document.getElementById('filtro-ranking').value;
                     const rankingDados = await rankingForaDoAr(filtro);
@@ -459,6 +383,7 @@
                 }
             }, 2000);  // Atualiza a cada 10 segundos
         };
+        
     </script>
 
 </body>

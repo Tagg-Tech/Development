@@ -140,7 +140,7 @@ async function numeroPicosPorServidor(idServidor){
 
 
 
-async function rankingForaDoAr(){
+async function rankingForaDoAr(tempo){
   
   const response = await fetch("/verChamados", {
     method: "POST",
@@ -199,15 +199,41 @@ async function rankingForaDoAr(){
       diferencaHoras = Math.abs(diferencaHoras)
 
       var servidor = listaChamadosDown.find(item => item.nome === servidorAtual);
+      console.log(servidorAtual)
+      console.log(diferencaHoras)
 
-      if (servidor) {
-        servidor.downtime += diferencaHoras;
-      } else {
-        listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
+      diferencaHoras = diferencaHoras * 0.45
+
+      if(tempo == "dia"){
+        if(diferencaHoras < 20){
+          if (servidor) {
+            servidor.downtime += diferencaHoras;
+          } else {
+            listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
+          }
+        }
+      }else if(tempo == "semana"){
+        if(diferencaHoras < 70){
+          if (servidor) {
+            servidor.downtime += diferencaHoras;
+          } else {
+            listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
+          }
+        }
+      }else{
+        if (servidor) {
+          servidor.downtime += diferencaHoras;
+        } else {
+          listaChamadosDown.push({ nome: servidorAtual, downtime: diferencaHoras });
+        }
       }
+
 
     }
   });
+
+  
+
   return listaChamadosDown;
 }
 

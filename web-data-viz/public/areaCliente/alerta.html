@@ -19,14 +19,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- boxIcons -->
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <!-- Swiper -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.2.0/swiper-bundle.min.css"
@@ -34,7 +31,6 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <!-- Adicionando o estilo pointer ao botão "Sair" -->
     <style>
       .navbar li a[onclick="limparSessao()"] {
         cursor: pointer;
@@ -112,8 +108,6 @@
                   <div class="range-background"></div>
                   <div class="range-fill" id="rangeFill"></div>
 
-                  <!-- Range esquerdo -->
-        
                   <input
                     class="inp1"
                     type="range"
@@ -123,7 +117,6 @@
                     id="rangeMin"
                     oninput="updateRange()"
                   />
-                  <!-- Range direito -->
                   <input
                     class="inp1 inp2"
                     type="range"
@@ -158,6 +151,7 @@
                 </select>
               </div>
               <button class="botaoFiltro" onclick="atualizarGrafico()">Filtrar</button>
+              <button class="botaoFiltro" onclick="baixarCSV()">Baixar CSV</button>
             </div>
           </div>
           <div class="divGraficos">
@@ -185,7 +179,7 @@
           <div class="divAlertas">
             <div class="headerAlertas">
               <h2>Histórico de Alertas</h2>
-              <h4>Chamados (5 resultados) (Ultimas 24 horas)</h4>
+              <h4>Chamados (35 resultados)</h4>
             </div>
 
             <table id="tabelaDeAlertas">
@@ -351,65 +345,111 @@
   var rawlistaDatasDown = [];
   var rawlistaServidoresDown = [];
 
+  
   function atualizarGrafico() {
-    // Inicializar as listas filtradas
-    listaDeChaves = [];
-    listaChamadosPico = [];
-    listaPorcentagens = [];
-    listaComponentes = [];
-    listaDatas = [];
-    listaServidores = [];
-    listaChamadosDown = [];
-    listaDatasDown = [];
-    listaServidoresDown = [];
-  
-    const servEscolhido = filtroServ.value.trim(); // Normalizar valor do filtro
-    console.log(`Servidor Escolhido: ${servEscolhido}`);
-  
-    if (servEscolhido === "0") {
-      // Se "Todos" for selecionado
-      listaDeChaves = [...rawlistaDeChaves];
-      listaChamadosPico = [...rawlistaChamadosPico];
-      listaPorcentagens = [...rawlistaPorcentagens];
-      listaComponentes = [...rawlistaComponentes];
-      listaDatas = [...rawlistaDatas];
-      listaServidores = [...rawlistaServidores];
-      listaChamadosDown = [...rawlistaChamadosDown];
-      listaDatasDown = [...rawlistaDatasDown];
-      listaServidoresDown = [...rawlistaServidoresDown];
-    } else {
-      // Filtrar dados por servidor escolhido
-      for (let i = 0; i < rawlistaServidoresDown.length; i++) {
-        const servidorAtualDown = rawlistaServidoresDown[i].trim(); // Normalizar servidor atual
-        if (servidorAtualDown === servEscolhido) {
-          listaDeChaves.push(rawlistaDeChaves[i]);
-          listaChamadosDown.push(rawlistaChamadosDown[i]);
-          listaDatasDown.push(rawlistaDatasDown[i]);
-          listaServidoresDown.push(rawlistaServidoresDown[i]);
-        }
-      }
-  
-      for (let i = 0; i < rawlistaServidores.length; i++) {
-        const servidorAtualPico = rawlistaServidores[i].trim(); // Normalizar servidor atual
-        if (servidorAtualPico === servEscolhido) {
-          listaChamadosPico.push(rawlistaChamadosPico[i]);
-          listaPorcentagens.push(rawlistaPorcentagens[i]);
-          listaComponentes.push(rawlistaComponentes[i]);
-          listaDatas.push(rawlistaDatas[i]);
-          listaServidores.push(rawlistaServidores[i]);
-        }
-      }
-    }
-  
-    // Atualizar gráficos
-    plotarGraficos();
-  }
-  
-  function grafSemana() {
     var minRange = parseInt(document.getElementById("rangeMin").value, 10);
     var maxRange = parseInt(document.getElementById("rangeMax").value, 10);
 
-    // Dados completos reorganizados (segunda começa no índice 0)
+    // Criar cópias profundas dos arrays originais
+    listaDeChaves = [...rawlistaDeChaves];
+    listaChamadosPico = [...rawlistaChamadosPico];
+    listaPorcentagens = [...rawlistaPorcentagens];
+    listaComponentes = [...rawlistaComponentes];
+    listaDatas = [...rawlistaDatas];
+    listaServidores = [...rawlistaServidores];
+    listaChamadosDown = [...rawlistaChamadosDown];
+    listaDatasDown = [...rawlistaDatasDown];
+    listaServidoresDown = [...rawlistaServidoresDown];
+
+    const servEscolhido = filtroServ.value.trim(); 
+    console.log(`Servidor Escolhido: ${servEscolhido}`);
+
+    // Filtro por Servidor
+    if (servEscolhido !== "0") {
+        // Filtro para listas Down
+        for (let i = listaServidoresDown.length - 1; i >= 0; i--) {
+            if (listaServidoresDown[i].trim() !== servEscolhido) {
+                listaDeChaves.splice(i, 1);
+                listaChamadosDown.splice(i, 1);
+                listaDatasDown.splice(i, 1);
+                listaServidoresDown.splice(i, 1);
+            }
+        }
+
+        // Filtro para listas Pico
+        for (let i = listaServidores.length - 1; i >= 0; i--) {
+            if (listaServidores[i].trim() !== servEscolhido) {
+                listaChamadosPico.splice(i, 1);
+                listaPorcentagens.splice(i, 1);
+                listaComponentes.splice(i, 1);
+                listaDatas.splice(i, 1);
+                listaServidores.splice(i, 1);
+            }
+        }
+    }
+
+    // Filtro por Mês (se minRange > 1 e toggle estiver ativo)
+    if (minRange > 1 && toggleSwitch.checked) {
+        // Filtro para listas Down
+        for (let i = listaDatasDown.length - 1; i >= 0; i--) {
+            const dataAtualDown = new Date(listaDatasDown[i]);
+            const mesAtualDown = dataAtualDown.getMonth() + 1;
+            if (mesAtualDown < minRange) {
+                listaDeChaves.splice(i, 1);
+                listaChamadosDown.splice(i, 1);
+                listaDatasDown.splice(i, 1);
+                listaServidoresDown.splice(i, 1);
+            }
+        }
+
+        // Filtro para listas Pico
+        for (let i = listaDatas.length - 1; i >= 0; i--) {
+            const dataAtualDown = new Date(listaDatas[i]);
+            const mesAtualDown = dataAtualDown.getMonth() + 1;
+            if (mesAtualDown < minRange) {
+                listaChamadosPico.splice(i, 1);
+                listaPorcentagens.splice(i, 1);
+                listaComponentes.splice(i, 1);
+                listaDatas.splice(i, 1);
+                listaServidores.splice(i, 1);
+            }
+        }
+    }
+
+    if (minRange > 0 && minRange <= 7 && toggleSwitch.checked) {
+    // Filtro para listas Down
+    for (let i = listaDatasDown.length - 1; i >= 0; i--) {
+        const dataAtualDown = new Date(listaDatasDown[i]);
+        const diaSemanaDown = dataAtualDown.getDay() + 1; // getDay() retorna 0-6, então soma-se 1
+        if (diaSemanaDown !== minRange) {
+            listaDeChaves.splice(i, 1);
+            listaChamadosDown.splice(i, 1);
+            listaDatasDown.splice(i, 1);
+            listaServidoresDown.splice(i, 1);
+        }
+    }
+
+    // Filtro para listas Pico
+    for (let i = listaDatas.length - 1; i >= 0; i--) {
+        const dataAtualDown = new Date(listaDatas[i]);
+        const diaSemanaDown = dataAtualDown.getDay() + 1; // getDay() retorna 0-6, então soma-se 1
+        if (diaSemanaDown !== minRange) {
+            listaChamadosPico.splice(i, 1);
+            listaPorcentagens.splice(i, 1);
+            listaComponentes.splice(i, 1);
+            listaDatas.splice(i, 1);
+            listaServidores.splice(i, 1);
+        }
+    }
+}
+
+    plotarGraficos();
+}
+
+function grafSemana() {
+    var minRange = parseInt(document.getElementById("rangeMin").value, 10);
+    var maxRange = parseInt(document.getElementById("rangeMax").value, 10);
+
     const diasDaSemana = [
         "Segunda",
         "Terça",
@@ -423,31 +463,29 @@
     const dataNivelCriticoCompleto = ajustarOrdem(contarPorDiaDaSemana(listaDatas));
     const dataDownTimesCompleto = ajustarOrdem(contarPorDiaDaSemana(listaDatasDown));
 
-    // Filtrar dias dentro do intervalo
     const diasFiltrados = diasDaSemana.slice(minRange - 1, maxRange);
     const dataNivelCriticoFiltrado = dataNivelCriticoCompleto.slice(minRange - 1, maxRange);
     const dataDownTimesFiltrado = dataDownTimesCompleto.slice(minRange - 1, maxRange);
 
     const ctxLine = document.getElementById("LineChart").getContext("2d");
 
-    // Verifica se já existe um gráfico e o destrói
     const existingChart = Chart.getChart("LineChart");
     if (existingChart) {
         existingChart.destroy();
     }
 
     const dataLine = {
-        labels: diasFiltrados, // Labels filtradas
+        labels: diasFiltrados,
         datasets: [
             {
                 label: "Nível Crítico",
-                data: dataNivelCriticoFiltrado, // Dados filtrados
+                data: dataNivelCriticoFiltrado,
                 borderColor: "rgb(255, 99, 132)",
                 backgroundColor: "rgb(255, 99, 132)",
             },
             {
                 label: "Down Times",
-                data: dataDownTimesFiltrado, // Dados filtrados
+                data: dataDownTimesFiltrado,
                 borderColor: "#ff914c",
                 backgroundColor: "#ff914c",
             },
@@ -489,7 +527,6 @@
     const LineChart = new Chart(ctxLine, configLine);
 }
 
-// Ajusta a ordem dos dados de domingo para segunda
 function ajustarOrdem(dados) {
     return [...dados.slice(1), dados[0]];
 }
@@ -499,17 +536,14 @@ function grafMes() {
   var maxRange = parseInt(document.getElementById("rangeMax").value, 10);
 
 
-  // Meses do ano
   const meses = [
       "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
       "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
   ];
 
-  // Dados completos para todos os meses
   const dataNivelCriticoCompleto = contarPorMes(listaDatas);
   const dataDownTimesCompleto = contarPorMes(listaDatasDown);
 
-  // Filtrar os meses dentro do intervalo
   const mesesFiltrados = meses.slice(minRange - 1, maxRange);
   const dataNivelCriticoFiltrado = dataNivelCriticoCompleto.slice(minRange - 1, maxRange);
   const dataDownTimesFiltrado = dataDownTimesCompleto.slice(minRange - 1, maxRange);
@@ -822,7 +856,7 @@ listaServidoresUnicos.forEach((servidor) => {
     }
 
     const dataRosca2 = {
-        labels: ["Abertos", "concluidos"],
+        labels: ["Abertos", "Concluidos"],
         datasets: [
             {
                 data: [2, 7],
@@ -843,7 +877,7 @@ listaServidoresUnicos.forEach((servidor) => {
                 },
                 title: {
                     display: true,
-                    text: "Status dos chamados",
+                    text: "Status dos Chamados",
                 },
             },
         },
@@ -930,6 +964,35 @@ listaServidoresUnicos.forEach((servidor) => {
       `;
     }
   }
+
+
+  function baixarCSV() {
+    let csvContent = "\uFEFF"; 
+  
+    csvContent += "Chave,Servidor,Status,Componente,Nível,Porcentagem,Data\n";
+  
+    for (var i = 0; i < listaChamadosPico.length; i++) {
+      const dataFormatada = formatarData(listaDatas[i]);
+      csvContent += `${listaDeChaves[i]},${listaServidores[i]},Esperando Suporte,${listaComponentes[i]},Nível Crítico,${listaPorcentagens[i]}%,${dataFormatada}\n`;
+    }
+  
+    for (var i = 0; i < listaChamadosDown.length; i++) {
+      const dataFormatada = formatarData(listaDatasDown[i]);
+      csvContent += `${listaDeChaves[i + listaChamadosPico.length]},${listaServidoresDown[i]},Esperando Suporte,Todos,Down Time,0%,${dataFormatada}\n`;
+    }
+  
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "dados_chamado.csv");
+    document.body.appendChild(link);
+  
+    link.click();
+    document.body.removeChild(link);
+  }
+  
 </script>
 
 <script>
