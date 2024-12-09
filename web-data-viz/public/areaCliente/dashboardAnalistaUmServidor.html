@@ -171,18 +171,16 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>  -->
 
-    <script>
-
-       const fkMaquina = sessionStorage.getItem('fkMaquina');
+<script>
        let id_usuario = sessionStorage.getItem('ID_USUARIO');
 
-       if (!fkMaquina) {
-    alert("Erro: Nenhuma máquina foi selecionada!");
-    window.location.href = "dashboardAnalista.html"; // Redireciona de volta
-}
+       //if (!fkMaquina) {
+       // alert("Erro: Nenhuma máquina foi selecionada!");
+       // window.location.href = "dashboardAnalista.html"; // Redireciona de volta
+       // }
 
-// Use o fkMaquina nas requisições fetch
-console.log("FK da Máquina Selecionada:", fkMaquina);
+        // Use o fkMaquina nas requisições fetch
+        //console.log("FK da Máquina Selecionada:", fkMaquina);
        //let id_usuario = sessionStorage.getItem('ID_USUARIO');
        //const fkMaquina = sessionStorage.getItem('fkMaquina');
        //alert(id_usuario);
