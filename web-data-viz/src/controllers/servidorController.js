@@ -66,15 +66,15 @@ function cadastrar(req, res) {
 
 function pegarCpuRamPorcentagem(req, res){
     var id_usuario = req.body.idUsuarioServer;
-    //var fk_maquina = req.body.fkMaquinaServer;
+    var fk_maquina = req.body.fkMaquinaServer;
 
     console.log('controler')
-    if(!id_usuario){
+    if(!id_usuario || !fk_maquina){
         return res.status(400).send({message: 'id usuario ou fk maquina não foram encontrados ou não foram passados, verificar controller servidor function pegarCpuRamPorcentagem'})
     }
     else{
         console.log('model')
-        servidorModel.pegarCpuRamPorcentagem(id_usuario)
+        servidorModel.pegarCpuRamPorcentagem(id_usuario, fk_maquina)
         .then(dados => {
             //console.log("SQL aceitou! Retornando dados com a resposta")
             res.status(200).send(dados);  
@@ -115,14 +115,15 @@ function pegarUsoDisco(req, res){
 
 function pegarRAM(req, res){
     var id_usuario = req.body.idUsuarioServer;
+    var fk_maquina = req.body.fkMaquinaServer;
 
     console.log('controler')
-    if(!id_usuario){
+    if(!id_usuario || !fk_maquina){
         return res.status(400).send({message: 'fk máquina não foram encontrados ou não foram passados, verificar controller servidor function pegarRAM'})
     }
     else{
         console.log('model')
-        servidorModel.pegarRAM(id_usuario)
+        servidorModel.pegarRAM(id_usuario, fk_maquina)
         .then(dados => {
             //console.log("SQL aceitou! Retornando dados com a resposta")
             res.status(200).send(dados);  
@@ -139,14 +140,14 @@ function pegarRAM(req, res){
 
 function isInstable(req, res){
     var id_usuario = req.body.idUsuarioServer;
-    //var fk_maquina = req.body.fkMaquinaServer;
+    var fk_maquina = req.body.fkMaquinaServer;
 
     console.log('controler')
-    if(!id_usuario){
+    if(!id_usuario || !fk_maquina){
         return res.status(400).send({message: 'id usuario ou fk máquina não foram encontrados ou não foram passados, verificar controller servidor function isInstable'})
     }
     else{
-        servidorModel.isInstable(id_usuario)
+        servidorModel.isInstable(id_usuario, fk_maquina)
         .then(dados => {
             //console.log("SQL aceitou! Retornando dados com a resposta")
             res.status(200).send(dados);  
@@ -163,14 +164,14 @@ function isInstable(req, res){
 
 function qtdAlertasUmServidor(req, res){
     var id_usuario = req.body.idUsuarioServer;
-    //var fk_maquina = req.body.fkMaquinaServer;
+    var fk_maquina = req.body.fkMaquinaServer;
 
     //console.log('controler')
-    if(!id_usuario){
+    if(!id_usuario || !fk_maquina){
         return res.status(400).send({message: 'id usuario ou fk máquina não foram encontrados ou não foram passados, verificar controller servidor function qtdAlertasUmServidor'})
     }
     else{
-        servidorModel.qtdAlertasUmServidor(id_usuario)
+        servidorModel.qtdAlertasUmServidor(id_usuario, fk_maquina)
         .then(dados => {
             console.log("SQL aceitou! Retornando dados com a resposta")
             res.status(200).send(dados);  

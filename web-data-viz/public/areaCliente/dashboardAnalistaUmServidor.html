@@ -106,7 +106,7 @@
                     <div class = "metrica-dois" >
                         <div tooltip = "Seu limite é 80% de uso" class = "div-picos-2" >RAM(GB)</div>
                         <div class = "valor-pico-2" >
-                            <span title="Atenção! A memória RAM está em mais de 80% de sua capacidade" id="atual_ram" ></span>
+                            <span title="Atenção! A memória RAM está em nível crítico!" id="atual_ram" ></span>
                             <span>/</span>
                             <span id="maximo_ram"></span>
                         </div>
@@ -171,19 +171,19 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>  -->
 
-    <script>
-       //let fk_maquina = sessionStorage.getItem('fkMaquina');
-
-       const fkMaquina = sessionStorage.getItem('fkMaquina');
-
-       if (!fkMaquina) {
-    alert("Erro: Nenhuma máquina foi selecionada!");
-    window.location.href = "dashboardAnalista.html"; // Redireciona de volta
-}
-
-// Use o fkMaquina nas requisições fetch
-console.log("FK da Máquina Selecionada:", fkMaquina);
+<script>
+       let fkMaquina = 1;
        let id_usuario = sessionStorage.getItem('ID_USUARIO');
+
+       //if (!fkMaquina) {
+       // alert("Erro: Nenhuma máquina foi selecionada!");
+       // window.location.href = "dashboardAnalista.html"; // Redireciona de volta
+       // }
+
+        // Use o fkMaquina nas requisições fetch
+        //console.log("FK da Máquina Selecionada:", fkMaquina);
+       //let id_usuario = sessionStorage.getItem('ID_USUARIO');
+       //const fkMaquina = sessionStorage.getItem('fkMaquina');
        //alert(id_usuario);
        let cargo = sessionStorage.getItem('CARGO');
 
@@ -191,7 +191,7 @@ console.log("FK da Máquina Selecionada:", fkMaquina);
           link_caspa.style.display = "block";
        } 
 
-        let fk_maquina = 1;
+        //let fk_maquina = 1;
         //let id_usuario = 1;
         
         function verificarGerencia(){
@@ -336,8 +336,8 @@ console.log("FK da Máquina Selecionada:", fkMaquina);
             fetch(`../servidor/pegarCpuRamPorcentagem`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    idUsuarioServer: id_usuario
-                    // fkMaquinaServer: fk_maquina
+                    idUsuarioServer: id_usuario,
+                    fkMaquinaServer: fkMaquina
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -391,8 +391,8 @@ console.log("FK da Máquina Selecionada:", fkMaquina);
             fetch(`../servidor/pegarUsoDisco`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    idUsuarioServer: id_usuario
-                    //fkMaquinaServer: fk_maquina
+                    idUsuarioServer: id_usuario,
+                    //fkMaquinaServer: fkMaquina
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -431,8 +431,8 @@ console.log("FK da Máquina Selecionada:", fkMaquina);
             fetch(`../servidor/pegarRAM`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    idUsuarioServer: id_usuario
-                    //fkMaquinaServer: fk_maquina
+                    idUsuarioServer: id_usuario,
+                    fkMaquinaServer: fkMaquina
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -480,7 +480,7 @@ console.log("FK da Máquina Selecionada:", fkMaquina);
                         showRAMAtual.style.color = 'red';
                         showAlerta.style.display = 'block';
                         showAlerta.style.display = 'flex';
-                        showFrase.textContent = "Alerta! A memória RAM está acima de 80% de sua capacidade";
+                        showFrase.textContent = "Alerta! A memória RAM está em nível crítico!";
                         
                     } else {
                         showRAMAtual.innerHTML = ultimoValorAtualRAM;
@@ -505,8 +505,8 @@ console.log("FK da Máquina Selecionada:", fkMaquina);
             fetch(`../servidor/isInstable`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    idUsuarioServer: id_usuario
-                  //  fkMaquinaServer: fk_maquina
+                    idUsuarioServer: id_usuario,
+                    fkMaquinaServer: fkMaquina
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -530,13 +530,15 @@ console.log("FK da Máquina Selecionada:", fkMaquina);
                     let showAlertaInst = document.getElementById('alertaInstavel');
                     const showFraseInst = document.getElementById('pInst');
 
+                    //alert(last_value_cpu)
+                    //alert(last_valuue_limite_cpu)
                     console.log("limite cpu", last_valuue_limite_cpu)
                     if(last_value_cpu > last_valuue_limite_cpu){
                         showInstabilidade.innerHTML = 'Instável';
                         showInstabilidade.style.color = 'red';
                         showAlertaInst.style.display = 'block';
                         showAlertaInst.style.display = 'flex';
-                        showFraseInst.textContent = 'Alerta! A CPU está acima de 80% de sua capacidade'
+                        showFraseInst.textContent = 'Alerta! O servidor está em nível crítico!'
                     } else {
                         showInstabilidade.innerHTML = 'Estável';
                         showInstabilidade.style.color = 'black';
@@ -567,8 +569,8 @@ console.log("FK da Máquina Selecionada:", fkMaquina);
             fetch(`../servidor/qtdAlertasUmServidor`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    idUsuarioServer: id_usuario
-                    //fkMaquinaServer: fk_maquina
+                    idUsuarioServer: id_usuario,
+                    fkMaquinaServer: fkMaquina
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -619,6 +621,8 @@ console.log("FK da Máquina Selecionada:", fkMaquina);
         //     //alert(qtdM)
         //     pegarNumero.innerHTML = qtdM;
         // }
+
+        
 
     </script>
 </body>
