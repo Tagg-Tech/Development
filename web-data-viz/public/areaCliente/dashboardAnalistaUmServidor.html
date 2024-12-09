@@ -173,9 +173,9 @@
 
     <script>
 
-       const fkMaquina = sessionStorage.getItem('fkMaquina');
+       const fkMaquina = 15;
        let id_usuario = sessionStorage.getItem('ID_USUARIO');
-
+         
        if (!fkMaquina) {
     alert("Erro: Nenhuma máquina foi selecionada!");
     window.location.href = "dashboardAnalista.html"; // Redireciona de volta
@@ -622,6 +622,8 @@ console.log("FK da Máquina Selecionada:", fkMaquina);
         //     //alert(qtdM)
         //     pegarNumero.innerHTML = qtdM;
         // }
+
+        
 
     </script>
 </body>
