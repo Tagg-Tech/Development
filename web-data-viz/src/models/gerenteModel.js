@@ -20,7 +20,7 @@ function reqDadosRam(idUsuario){
 function reqLimites(idUsuario){
 
     var instrucaoSql = `
-       SELECT maq.idMaquina, maq.PlacaDeRede , maq.alertaCPU, maq.alertaRAM FROM usuarioResponsavelMaquina JOIN maquina AS maq ON fkMaquina = idMaquina WHERE fkUsuario = ${idUsuario};
+       SELECT maq.idMaquina, maq.PlacaDeRede , maq.porcentagemAlarmeCPU, maq.porcentagemAlarmeRAM FROM usuarioResponsavelMaquina JOIN maquina AS maq ON fkMaquina = idMaquina WHERE fkUsuario = ${idUsuario};
     `;
     console.log("Executando a instrução SQL(ram): \n" + instrucaoSql);
     return database.executar(instrucaoSql);

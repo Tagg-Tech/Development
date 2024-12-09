@@ -36,15 +36,7 @@
                 <button class="menu-button"><i class='bx bx-menu'></i></button>
                 <ul class="navbar">
                     
-                    <li>
-                        <label for="serverSelect" style="color: white;">Selecione um Servidor:</label>
-                        <select id="selectMaquina" onchange="navegarParaDetalhes()">
-                            <option value="">Selecione uma máquina</option>
-                            <option value="1">Máquina 1</option>
-                            <option value="2">Máquina 2</option>
-                            <option value="3">Máquina 3</option>
-                        </select>
-                    </li>
+                    <li><a href="dashboardAnalistaUmServidor.html"><strong>Acessar Servidor</strong></a></li>
                     <li><a href="gerenciar_servidor.html"><strong>Baixar relatório</strong></a></li>
                     <li><a href="gerenciar_servidor.html"><strong>Cadastro de Servidor</strong></a></li>
                     <li><a href="alerta.html"><strong>Alertas</strong></a></li>
@@ -132,25 +124,7 @@
 </div> 
     <script>
 
-document.addEventListener("DOMContentLoaded", () => {
-    const select = document.getElementById("selectMaquina");
 
-    if (select) {
-        select.addEventListener("change", () => {
-            const fkMaquina = select.value;
-
-            if (fkMaquina) {
-                sessionStorage.setItem('fkMaquina', fkMaquina);
-                console.log("Máquina selecionada:", fkMaquina);
-                // Redireciona para a próxima página (dashboardAnalistaUmServidor)
-        window.location.href = "dashboardAnalistaUmServidor.html";
-                // Você pode fazer outras ações aqui
-            }
-        });
-    } else {
-        alert("Por favor, selecione uma máquina!");
-    }
-});
 
         window.onload = function() {
             let grafico;
@@ -366,7 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Função para criar ou atualizar o gráfico de máximos e mínimos
             function criarGraficoMaxMin(dados, componente) {
-                const labels = dados.map(d => `Servidor ${d.idMaquina}`); // Eixo Y
+                const labels = Object.keys(servidores).map(id => `Servidor ${id}`);
                 const maxValores = dados.map(d => parseFloat(d.maxValor) || 0); // Valores Máximos
                 const minValores = dados.map(d => parseFloat(d.minValor) || 0); // Valores Mínimos
 
@@ -386,18 +360,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         },
                     },
                     xaxis: {
-                        title: {
-                            text: `${componente} (%)`,
-                        },
-                        min: 0,
-                        max: 100, // Ajusta o eixo X entre 0 e 100%
+                        categories: labels,
                     },
-                    yaxis: {
-                        categories: labels, 
-                    },
-                    dataLabels: {
-                        enabled: false, // Desativado para melhorar a performance
-                    },
+                    
+                        
+                
                     colors: ['#FF4560', '#00E396'], // Cores para Máximo e Mínimo
                 };
 

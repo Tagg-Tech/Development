@@ -46,7 +46,7 @@
   <title>Tag Tech</title>
 </head>
 
-<body onload="atualizacaoPeriodica(), selecionarDados(), buscarLimites(),atualizarUptime(),alertarSemDados(),constructJiraChart()">
+<body onload="atualizacaoPeriodica(), selecionarDados(), buscarLimites(),atualizarUptime(),/*alertarSemDados()*/constructJiraChart()">
 
   <div class="header">
     <nav>
@@ -450,7 +450,7 @@ setInterval(constructJiraChart, 50000)
 
 
   async function selecionarDados() {
-    const idUsuario = sessionStorage.getItem('ID_USUARIO');
+    const idUsuario = 2;
 
     const responseGerente = await fetch(`/gerente?idUsuario=${idUsuario}`, {
       method: 'GET',
@@ -511,7 +511,7 @@ setInterval(constructJiraChart, 50000)
     //   .catch(error => {
     //     console.error('Erro ao buscar dados ou limites:', error);
     //   });
-    const limites = await fetch(`/gerente/selectLimite?idUsuario=${idUsuario}`).then(response => response.json())
+    const limites = await fetch(`/gerente/selectLimite?idUsuario=1`).then(response => response.json())
     const dadosServidores = await fetch(`/gerente/buscarSemMedia?idUsuario=${idUsuario}`).then(response => response.json())
     // console.log('Limites recebidos:', limites);
     // console.log('Dados dos servidores recebidos:', dadosServidores);

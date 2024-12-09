@@ -173,7 +173,7 @@
 
 <script>
        let fkMaquina = 1;
-       let id_usuario = sessionStorage.getItem('ID_USUARIO');
+       let id_usuario = 1;
 
        //if (!fkMaquina) {
        // alert("Erro: Nenhuma máquina foi selecionada!");
@@ -369,6 +369,7 @@
                     }
 
                     //Compondo o corpo do gráfico com os valores puxados do banco
+                    console.log(ultimoValorAtualRamPercentagem, percentuaisCPU)
                     graficoLinha.data.labels = listaDadosHora;
                     graficoLinha.data.datasets[0].data = percentuaisCPU;
                     graficoLinha.data.datasets[1].data = percentuaisRAM;
