@@ -28,7 +28,11 @@ VALUES (
 );
 
 INSERT INTO maquina VALUES (1, 'DESKTOP-001', 'Linux', 16384, 1.6, 512324, 85, 80, 60, 1);
+INSERT INTO maquina VALUES (DEFAULT, 'DESKTOP-002', 'Windows', 14218, 1.2, 435324, 75, 80, 70, 1);
+INSERT INTO maquina VALUES (DEFAULT, 'DESKTOP-003', 'Linux', 16384, 1.6, 300454, 85, 80, 60, 1);
+
 UPDATE maquina SET qtdTotalRAM = 16384 WHERE idMaquina = 1;
+UPDATE maquina SET idMaquina = 3 WHERE idMaquina = 4; 
 
 
 
@@ -88,7 +92,17 @@ INSERT INTO registros (percentualMemoria, gigaBytesMemoria, qtdUtilizadaDisco, p
 (69.40, 15.95, 130000, 65.17, 43.13, 3.13, '2024-11-22 10:55:13', 1),
 (69.40, 15.95, 130000, 65.17, 90.13, 3.13, '2024-11-22 10:55:13', 1),
 (74.15, 14.84, 130340, 69.25, 58.70, 3.79, '2024-11-19 08:02:50', 1),
-(84.15, 14.84, 130340, 69.25, 58.70, 3.79, '2024-11-19 08:02:50', 1);
+(90.15, 14.84, 130340, 69.25, 99.70, 3.79, '2024-11-19 08:02:50', 1);
+
+INSERT INTO registros (percentualMemoria, gigaBytesMemoria, qtdUtilizadaDisco, percentualDisco, percentualCPU, frequenciaCPU, dataHora, fkMaquina) VALUES
+(81.50, 14.50, 130000, 70.40, 55.20, 3.45, '2024-11-19 08:00:00', 2),
+(80.55, 14.51, 130010, 72.42, 55.30, 3.46, '2024-11-19 08:00:05', 2),
+(82.64, 12.17, 100456, 74.87, 99.55, 2.87, '2024-11-19 08:00:10', 2);
+
+INSERT INTO registros (percentualMemoria, gigaBytesMemoria, qtdUtilizadaDisco, percentualDisco, percentualCPU, frequenciaCPU, dataHora, fkMaquina) VALUES
+(72.50, 14.50, 130000, 68.40, 76.17, 3.45, '2024-11-19 08:00:00', 3),
+(72.55, 14.51, 130010, 68.42, 79.55, 3.46, '2024-11-19 08:00:05', 3),
+(99.12, 13.76, 201435, 54.76, 81.18, 1.79, '2024-11-19 08:00:10', 3);
 
 INSERT INTO registros (percentualMemoria, gigaBytesMemoria, qtdUtilizadaDisco, percentualDisco, percentualCPU, frequenciaCPU, dataHora, fkMaquina) 
 VALUES 
@@ -115,10 +129,14 @@ VALUES
 (70.00, 8.40, 210, 91.90, 91.30, 2.7, NOW(), 1),
 (91.00, 15.10, 210, 91.90, 91.30, 2.7, NOW(), 1),
 (91.00, 15.10, 210, 91.90, 84.30, 2.7, NOW(), 1),
-(91.00, 15.10, 210, 91.90, 84.30, 2.7, NOW(), 1);
+(62.51, 13.78, 210, 91.90, 84.30, 2.7, NOW(), 1);
 
 INSERT INTO usuarioResponsavelMaquina VALUES
 (1,1);
+INSERT INTO usuarioResponsavelMaquina VALUES
+(1,2);
+INSERT INTO usuarioResponsavelMaquina VALUES
+(1,3);
 
 -- adicionar
 UPDATE usuarioresponsavelmaquina SET fkUsuario = 2 WHERE fkMaquina = 3;
@@ -172,7 +190,7 @@ JOIN
     usuarioResponsavelMaquina urm ON m.idMaquina = urm.fkMaquina
 WHERE
     urm.fkUsuario = 1  -- ID do usuário específico
-    AND m.idMaquina = r.fkMaquina -- ID da máquina específica
+    AND m.idMaquina = 3 -- ID da máquina específica
     AND (
         r.percentualCPU > m.porcentagemAlarmeCPU
         OR r.percentualMemoria > m.porcentagemAlarmeRAM
