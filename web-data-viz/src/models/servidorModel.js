@@ -21,7 +21,7 @@ function pegarCpuRamPorcentagem(id_usuario, fk_maquina){
 
     var instrucaoSql = `
         SELECT percentualCPU, percentualMemoria FROM registros AS r 
-	        JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = '${fk_maquina}'
+	        JOIN usuarioResponsavelMaquina AS u ON r.fkMaquina = '${fk_maquina}'
             WHERE u.fkUsuario = '${id_usuario}';
     `;
     //console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -48,7 +48,7 @@ function pegarRAM(id_usuario, fk_maquina){
     var instrucaoSql = `
         SELECT r.gigaBytesMemoria, m.qtdTotalRAM, r.percentualMemoria, m.porcentagemAlarmeRAM FROM registros AS r
 	        JOIN maquina AS m ON m.idMaquina = r.fkMaquina
-            JOIN usuarioresponsavelmaquina AS u ON u.fkMaquina = '${fk_maquina}'
+            JOIN usuarioResponsavelMaquina AS u ON u.fkMaquina = '${fk_maquina}'
             WHERE u.fkUsuario = '${id_usuario}';
     `
     // var instrucaoSql = `
@@ -63,7 +63,7 @@ function pegarRAM(id_usuario, fk_maquina){
 function isInstable(id_usuario, fk_maquina){
     var instrucaoSql = `
         SELECT percentualCPU, porcentagemAlarmeCPU FROM registros AS r 
-	        JOIN usuarioresponsavelmaquina AS u ON r.fkMaquina = u.fkMaquina
+	        JOIN usuarioResponsavelMaquina AS u ON r.fkMaquina = u.fkMaquina
             JOIN maquina AS m ON m.idMaquina = '${fk_maquina}'
             WHERE u.fkUsuario = '${id_usuario}';
     `
