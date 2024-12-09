@@ -21,14 +21,16 @@
 .cardPed{
     display: none;
     position: absolute;
-    width: 20%;
-    height: 50%;
+    width: 22%;
+    height: 53%;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     flex-direction: column;
     justify-content: center;
-    background-color: #494949;
+    background-color: #1b1b1b;
+    border-radius: 10px;
+    font-size: 18px;
     color: white;
     z-index: 3;
 }
@@ -80,7 +82,7 @@ table {
 }
 
 thead{
-    background-color: #6b6a6a;
+    background-color: #383838;
     color: #ddd;
 }
 
@@ -90,19 +92,6 @@ th, td {
     text-align: left;
     color: black;
 }
-
-/* th {
-    background-color: #6b6a6a;
-    color: #fff;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tr:hover {
-    background-color: #f1f1f1;
-} */
 
 caption {
     caption-side: top;
@@ -217,6 +206,12 @@ caption {
     width: 100%;
     display: flex;
     justify-content: center;
+    outline: none;
+}
+
+.pesqTable input{
+    outline: none;
+    font-size: 18px;
 }
 
 .tableComp{
@@ -242,10 +237,13 @@ caption {
     top: 20px;
     display: flex;
     flex-direction: column;
+    text-align: center;
     gap: 15px;
 }
 
 .contHist span{
     font-size: 20px;
     cursor: pointer;
+    background-color: #383838;
+    border-radius: 5px;
 }

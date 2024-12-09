@@ -122,7 +122,7 @@ function plotTable(vetor, type) {
     // Configuração de tabela (header e estrutura)
     let confTable = `
             <table>
-                <caption>Uso estimado dos pedágios</caption>
+                <caption>Trânsito estimado dos pedágios</caption>
                 <thead>
                     <tr>
                         <th style="color: white;">Estado</th>
@@ -140,7 +140,7 @@ function plotTable(vetor, type) {
 
     let confTableParse = `
             <table>
-                <caption>Uso estimado dos pedágios</caption>
+                <caption>Trânsito estimado dos pedágios</caption>
                 <thead>
                     <tr>
                         <th style="color: white;">Concessionária</th>
@@ -395,6 +395,6 @@ function listDatas(data) {
 
         const day = dateItem.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" });
         const time = dateItem.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-        element.innerHTML += `<span onclick="getDataAPI('${item}')">${day} : ${time}</span>`;
+        element.innerHTML += `<span onclick="getDataAPI('${item}')">${day} - ${time}</span>`;
     });
 }
